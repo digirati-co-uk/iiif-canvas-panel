@@ -1,0 +1,33 @@
+
+use cases
+
+https://docs.google.com/document/d/1wWozmLxUsN7QRWzekiIMjjuShhDIsJw0P0lIaiARSa8/edit
+
+Mirador as is
+UV as is
+IDA
+Quilt
+Bethlem
+Recipes
+http://www.britainfromabove.org.uk/
+Transcription
+  line
+  page - ben
+OCR correction
+Tagging to controlled vocab
+
+Rather than the UV or iiifManifestLayouts giving tileSources to OSD, it gives canvases from the manifest to the canvasPanel. Layout of canvases is the responsibility of the controlling application, e.g. masonry-style, whatever. But layout WITHIN the canvas is completely determined by the spec, everything is fixed - external code can turn image choices, annotation layers on and off, but their layout is always going to be the same. This then encapsulates the quite complex parts of the spec about partial regions of images, partial annotation of the canvas with images, cropping in the manifest and things like that into a user interface component that you can build other things with on its own.
+
+understands a sc:Canvas object and knows how to render it
+
+A canvas that is annotated with lots of images (scraps of paper), or image choice in different regions, or annotations - you'd have to bring a whole viewer, whereas you could just use canvasPanel + manifesto + your custom script
+
+instead of OSD viewer.addTileSource(...info.json), I do canvasPanel.addCanvas( { json blob straight from manifest })
+
+canvasPanel is an interface. You can make an OSD version, a leaflet version, whatever. But the abstraction level of its interface is at the canvas level, not the tilesource level. This is what makes it powerful for quick IIIF-powered user interfaces
+
+
+iiifmanifestLayouts
+
+canvaslayout? Is this stub what I'm after?
+
