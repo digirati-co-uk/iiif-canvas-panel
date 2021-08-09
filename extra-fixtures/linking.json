@@ -1,0 +1,133 @@
+{
+    "@context": "http://iiif.io/api/presentation/3/context.json",
+    "id": "https://digirati-co-uk.github.io/iiif-canvas-panel/extra-fixtures/linking.json",
+    "type": "Manifest",
+    "label": {
+        "en": [
+            "Picture of Göttingen taken during the 2019 IIIF Conference"
+        ]
+    },
+    "items": [
+        {
+            "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1",
+            "type": "Canvas",
+            "label": {
+                "en": [
+                    "Canvas with a single IIIF image and a link to a web page"
+                ]
+            },
+            "height": 3024,
+            "width": 4032,
+            "items": [
+                {
+                    "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/page/p1/1",
+                    "type": "AnnotationPage",
+                    "items": [
+                        {
+                            "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/annotation/p0001-image",
+                            "type": "Annotation",
+                            "motivation": "painting",
+                            "body": {
+                                "id": "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen/full/max/0/default.jpg",
+                                "type": "Image",
+                                "format": "image/jpeg",
+                                "height": 3024,
+                                "width": 4032,
+                                "service": [
+                                    {
+                                        "id": "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen",
+                                        "profile": "level1",
+                                        "type": "ImageService3"
+                                    }
+                                ]
+                            },
+                            "target": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1"
+                        }
+                    ]
+                }
+            ],
+            "annotations": [
+                {
+                    "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/page/linking/1",
+                    "type": "AnnotationPage",
+                    "items": [
+                        {
+                            "id": "http://example.org/linking-anno-page",
+                            "type": "Annotation",
+                            "motivation": "linking",
+                            "label": "Wikipedia page about Göttingen",
+                            "body": {
+                                "id": "https://en.wikipedia.org/wiki/G%C3%B6ttingen",
+                                "type": "Text",
+                                "format": "text/html"
+                            },
+                            "target": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1#xywh=1000,1000,400,50"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p2",
+            "type": "Canvas",
+            "label": {
+                "en": [
+                    "Canvas with a single IIIF image and a link to a canvas in another manifest"
+                ]
+            },
+            "height": 3024,
+            "width": 4032,
+            "items": [
+                {
+                    "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/page/p2/1",
+                    "type": "AnnotationPage",
+                    "items": [
+                        {
+                            "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/annotation/p0001-image",
+                            "type": "Annotation",
+                            "motivation": "painting",
+                            "body": {
+                                "id": "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen/full/max/0/default.jpg",
+                                "type": "Image",
+                                "format": "image/jpeg",
+                                "height": 3024,
+                                "width": 4032,
+                                "service": [
+                                    {
+                                        "id": "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen",
+                                        "profile": "level1",
+                                        "type": "ImageService3"
+                                    }
+                                ]
+                            },
+                            "target": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p2"
+                        }
+                    ]
+                }
+            ],
+            "annotations": [
+                {
+                    "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/page/linking/2",
+                    "type": "AnnotationPage",
+                    "items": [
+                        {
+                            "id": "http://example.org/linking-anno-canvas",
+                            "type": "Annotation",
+                            "motivation": "linking",
+                            "label": "Canvas in another IIIF Manifest page about Göttingen",
+                            "body": {
+                                "id": "https://iiif.wellcomecollection.org/presentation/b30502895/canvases/b30502895_0006.jp2#xywh=200,2000,1000,1000",
+                                "type": "Canvas",
+                                "partOf": {
+                                    "id": "https://iiif.wellcomecollection.org/presentation/b30502895",
+                                    "type": "Manifest"
+                                }
+                            },
+                            "target": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1#xywh=1000,1000,400,50"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
