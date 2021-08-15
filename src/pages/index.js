@@ -17,7 +17,7 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            <code>&lt;canvas-panel iiif-content=".."&gt;&lt;/canvas-panel&gt;</code>
           </Link>
         </div>
       </div>

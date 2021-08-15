@@ -2,5 +2,6 @@
 sidebar_position: 1
 ---
 
-# Very quick start
+# Canvas Panel
 
+Here
