@@ -14,6 +14,22 @@ Canvas Panel is a _web component_ abstraction built to hit a sweet spot of funct
 
 Canvas Panel is to a IIIF Canvas as OpenSeadragon or Leaflet are to the IIIF Image API.
 
+## Why not just use OpenSeadragon?
+
+Most canvases have just one image, that fills the canvas, and usually that image has an associated IIIF Image service. To show this using OpenSeadragon is easy - inspect the canvas, find the one image, find its image service, and pass that to OpenSeadragon. This is not many lines of code.
+
+But as soon as you find a Canvas that has something different, you are on your own.
+
+What if it has a choice of images - for example, a painting photographed ast different wavelengths?
+
+What if the canvas is composed of multiple images - placed in different regions of the coordinate space?
+
+And what about the annotations on the Canvas? What kind of annotations are they? Is text available for the canvas - whether audio or video - that could be used for transcripts and captions?
+
+If you are building an application that might encounter anyone's IIIF content, you don't know up front what content scenarios you might be dealing with. 
+
+Canvas Panel aims to render any Canvas, and give you hooks to code against where that rendering involves user interaction (such as selecting from a choice of images, or handling events on annotations).
+
 ## Where did it come from?
 
 (history)
@@ -24,10 +40,4 @@ You can use Canvas Panel a declarative way, just as HTML tags, for simply showin
 
 It works with Vault, a library for loading and managing IIIF resources that normalises everything to IIIF Presentation 3.
 
-Using Canvas Panel from code
-The role of Vault: let it manage your resources
-getting a reference to Vault; imports, vanilla JS use, typescript use etc
-Driving Canvas Panel
-responding to events in Canvas Panel
-Building applications with Canvas Panel - patterns
-Introduce the Hyperion library that sits behind everything and that you can dip into when you need
+It has some helper components that might come in useful for application development.
