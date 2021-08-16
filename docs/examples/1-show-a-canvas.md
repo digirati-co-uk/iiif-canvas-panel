@@ -69,4 +69,23 @@ See [Handling Text](./handling-text) for more on how to expose text from the can
 (Explain how you'd use server side rendering)
 
 
+## Complex scenes
+
+Most IIIF canvases have one image with one image service. We'll call anything that isn't this a "complex scene".
+
+For example:
+
+ - one image, but doesn't target the whole canvas.
+ - more than one image on the canvas (e.g., a digitally reconstituted manuscript)
+
+:::warn
+
+TODO - a complex scene example
+
+first with non overlapping images
+Then show the Chateauroux example
+
+:::
+
+
 
