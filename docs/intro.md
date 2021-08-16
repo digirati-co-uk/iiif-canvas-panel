@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Very quick start
+# Quick start
 
 The most common scenario is simply rendering a Canvas. Most canvases live in Manifests rather than on their own on the web, so being able to say "show _this_ canvas in _that_ manifest" is a common pattern:
 
@@ -16,9 +16,9 @@ The most common scenario is simply rendering a Canvas. Most canvases live in Man
 
 > Show It!
 
-This will render the canvas as a static image - like an image tag - _even if the canvas is a complex scene composed of several source images!_ Other render modes are introduced below.
+This will render the canvas as a static image - like an image tag - _even if the canvas is a complex scene composed of several source images!_ Other render modes are introduced below. You can get default zooming behaviour by removing the `render` attribute.
 
-The `iiif-content` attribute is here set to a Canvas `id`, and `partof` is the Manifest can be found in (it could be omitted if the Canvas was de-referenceable).
+The `iiif-content` attribute is here set to a Canvas `id`, and `partof` is the Manifest that the Canvas is found in (it could be omitted if the Canvas was de-referenceable).
 
 `iiif-content` can take a Canvas id - but it can also take any value that is a valid IIIF Content State. So it could be a content state Annotation that points at a particular part of a Canvas, with a `partof` reference included in the Annotation (meaning that only the single `iiif-content` attribute is needed). This includes content states in encoded form, e.g., a stored bookmark or a search result linking to 
 

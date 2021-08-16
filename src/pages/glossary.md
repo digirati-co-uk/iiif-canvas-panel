@@ -1,0 +1,7 @@
+# Glossary
+
+### Canvas
+
+### Manifest
+
+### Annotation

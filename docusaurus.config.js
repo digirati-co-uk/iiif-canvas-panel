@@ -27,6 +27,7 @@ module.exports = {
           label: 'How do I...?',
         },
         {to: '/about', label: 'About', position: 'left'},
+        {to: '/glossary', label: 'Glossary', position: 'left'},
         {
           href: 'https://github.com/digirati-co-uk/iiif-canvas-panel',
           label: 'GitHub',
