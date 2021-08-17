@@ -98,3 +98,5 @@ cp.goToTarget(tgt, { transition: "transform 500ms ease-out" });
 // https://developer.mozilla.org/en-US/docs/Web/CSS/transition
 
 ``` 
+
+For more on developing Annotation functionality, displaying annotations, and working with bodies and targets, see [Annotations](./annotations).

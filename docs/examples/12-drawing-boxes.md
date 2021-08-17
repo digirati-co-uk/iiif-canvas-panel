@@ -64,7 +64,7 @@ And using different styles:
 
 The CSS classes are not part of Canvas Panel, they are in your styles under your control.
 
-In the above examples, the `region` and `highlight` attributes both take string values that can be transformed to [Target](../../docs/components/annotations#target) objects. `highlight` is a convenience attribute, with a convenience css assistant; in code you are doing something more general - you are adding an annotation to the canvas that appears as a highlight. This is such a common scenario that it still has a helper:
+In the above examples, the `region` and `highlight` attributes both take string values that can be transformed to [Target](./annotations#target) objects. `highlight` is a convenience attribute, with a convenience css assistant; in code you are doing something more general - you are adding an annotation to the canvas that appears as a highlight. This is such a common scenario that it still has a helper:
 
 ```html
 <canvas-panel id="cp"></canvas-panel>
