@@ -6,7 +6,7 @@ sidebar_position: 2
 
 Instead of loading IIIF resources yourself, use Vault to load objects, then address them on the canvas via their IDs in Vault.
 
-This allows Vault (rather than you as developer) to keep track of everything, to handle resource loading, normalisation etc.
+This allows Vault (rather than you as developer) to keep track of everything, to handle resource loading over HTTP, and normalise loaded IIIF to the Presentation 3.0 specification.
 
 So not:
 
@@ -23,6 +23,8 @@ cp.canvas = {..}; // an actual canvas I might have pulled out of a manifest I fe
 but
 
 ```js
+const vault = HyperionVault.globalVault();
+
 vault.loadManifest("...");
 // or
 vault.load("..something that has a canvas *id* in it")
@@ -30,9 +32,11 @@ vault.load("..something that has a canvas *id* in it")
 cp.setCanvas(id)
 ```
 
-The reasoning for this is to avoid loading states. When you render an image, there is a cascade of time where we are loading, manifest, annotation lists, image service, time tiles etc. This gives a way for an end user to handle the loading, and then render the thing - or just pass an ID and wait, with default loading UI.
+:::info
 
-This doesn't mean you can't pass in memory objects to Canvas Panel - but you should pass them via the vault. That ensures they are normalised and tracked.
+The reasoning for pattern is to avoid loading states. When you render an image, there can be a cascade of loading: manifest, annotation lists, image service, tiles etc. 
+
+This doesn't mean you can't pass in=memory objects to Canvas Panel - but you should pass them via the Vault. That ensures they are normalised and _tracked_.
 
 ```js
 vault.load('id', { ..json });

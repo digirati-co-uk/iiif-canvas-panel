@@ -4,88 +4,71 @@ sidebar_position: 1
 
 # Render a canvas
 
-:::note
+The [quick start](../intro) showed the basics of rendering a canvas. The power of Canvas Panel kicks in when you render a canvas that isn't the 99% use case - when the canvas:
 
-This page might just be reproducing the quick start... do we move the quick start here?
+ - has one image, but doesn't target the whole canvas.
+ - more than one image on the canvas (e.g., a digitally reconstituted manuscript)
+ - has time-based media, text or other resources.
 
-:::
+The developer experience is the same - it has to be, because you probably don't know what's on the Canvas. That's the point of using Canvas Panel, to avoid having to _evaluate the scene_ and make complex rendering decisions yourself. 
 
-Show a IIIF Canvas as a deep-zoom panel:
+Instead, Canvas Panel does the hard work. You can still _respond_ to the scene composition and what the user does with it.
+
+Here the Canvas has several different image sources on it:
 
 ```html
 <canvas-panel
-   iiif-content="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2"
-   partof="https://iiif.wellcomecollection.org/presentation/b18035723">
+   iiif-content="..multiple-content-canvas..."
+   partof="..manifest..">
 </canvas-panel>
 ```
 
-or as a static image:
+This can still be rendered as a static image!
 
 
 ```html
 <canvas-panel
    render="static"
-   iiif-content="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2"
-   partof="https://iiif.wellcomecollection.org/presentation/b18035723">
+   iiif-content="..multiple-content-canvas..."
+   partof="..manifest..">
 </canvas-panel>
 ```
 
 ## Accessibility considerations
 
-:::info
-Canvas Panel should make use of the [Accessibility Object Model](https://wicg.github.io/aom/explainer.html), but be accessible _today_ in browsers that don't support that spec (no browsers support it fully, and those that support parts of it still require that it is manually enabled).
-:::
+By default, Canvas Panel will render HTML5 that uses as much information from the IIIF resource as available to provide accessibility information, using the browser's current language settings to pick from alternate languages if available.
 
-By default canvas panel will render HTML5 that uses as much information from the IIIF resource as available to provide accessibility information, including the browser's current language settings. 
+The HTML5 `alt`, `aria-label`, `aria-labelledby`, `role` and `title` attributes are available on `<canvas-panel>` and will be carried through to the DOM and from the DOM to the accessibility tree seen by assistive technologies. These attributes can be used for manual control over resulting attributes, to override the defaults that Canvas Panel decides from the IIIF content.
 
-The HTML5 `alt`, `aria-label`, `aria-labelledby`, `role` and `title` attributes are available on `<canvas-panel>` and will be carried through to the DOM and from the DOM to the accessibility tree seen by assistive technologies. These attributes can be used for manual control over resulting attributes.
+For a standard 2D canvas, the canvas panel on the page will assign itself `role="img"`. If the canvas carries text content could be exposed to a screen reader, Canvas Panel provides ways of doing this - see [Handling Text](./handling-text) for more on how to expose text from the canvas (e.g., transcriptions, OCR, captions) to assisitve technologies.
 
-For a standard 2D canvas, the canvas panel on the page will assign itself `role="img"`.
-
-:::caution
-
+:::question
 Should Canvas Panel, _by default_, render as a static image and only become a zoomable element on interaction? Mousewheel, click, etc. Mousewheel and pan events need to be carefully handled to avoid trapping the user in the element, especially on narrow touch devices like a phone.
-
 :::
 
-See [Handling Text](./handling-text) for more on how to expose text from the canvas (e.g., transcriptions, OCR, captions) to assisitve technologies.
+:::info
+Canvas Panel could, in future, make use of the [Accessibility Object Model](https://wicg.github.io/aom/explainer.html). It needs to be accessible _today_ in browsers that don't support that spec (no browsers support it fully, and those that support parts of it still require that it is manually enabled).
+:::
+
 
 ```html title="Telling assistive technologies that the canvas is a decorative element"
 <canvas-panel id="cp"></canvas-panel>
 <script>
    const cp = document.getElementById("cp");
+   const vault = HyperionVault.globalVault();
    cp.setAttribute("render", "static");
    cp.setAttribute("role", "presentation");
    cp.setAttribute("alt", "");
-   const vault = cp.vault;
-   await vault.loadManifest("https://iiif.wellcomecollection.org/presentation/b18035723");
-   cp.setCanvas("https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2");
+   await vault.loadManifest("..manifest containing canvas..");
+   cp.setCanvas("..id of canvas with nice pattern on ..it");
 </script>  
 ```
 
+> Show it!
 
 ## Server-side Canvas Panel
 
-(Explain how you'd use server side rendering)
+Canvas Panel and its underlying libraries can also be used on the server, to render simple HTML representations of IIIF resources.
 
-
-## Complex scenes
-
-Most IIIF canvases have one image with one image service. We'll call anything that isn't this a "complex scene".
-
-For example:
-
- - one image, but doesn't target the whole canvas.
- - more than one image on the canvas (e.g., a digitally reconstituted manuscript)
-
-:::warn
-
-TODO - a complex scene example
-
-first with non overlapping images
-Then show the Chateauroux example
-
-:::
-
-
+This is covered in [Server-side rendering](../../docs/applications/server-side).
 
