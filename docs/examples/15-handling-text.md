@@ -92,16 +92,27 @@ Canvas panel treats `supplementing` annotations differently from other textual a
              toggler.innerText = cp.textSelectionEnabled ? "On" : "Off";
          });
          textState.addEventListener("click", () => {
-             console.log(cp.supplementingAnnotations); // all the supplementing annotations on the canvas
-             console.log(cp.textSelection.text);
-             console.log(cp.textSelection.html);
-             console.log(cp.textSelection.supplementingAnnotations); // just those in the current selection
+            console.log(cp.text); // { .. } an object giving access to various properties of the text
+            
+            // all the supplementing annotations that were used to generate the /text object.
+            console.log(cp.text.supplementingAnnotations); 
+            console.log(cp.text.text);  // as text/plain
+            console.log(cp.text.html);  // with some mild markup - (maybe only <br/>?)
+            console.log(cp.text.selection.text);  // same but the current user selection
+            console.log(cp.text.selection.html);
+            console.log(cp.text.selection.supplementingAnnotations); // just those in the current selection
          });
       }
   ​});
 
 </script>
 ```
+
+By default (as with the Mirador plugin) Canvas Panel will favour OCR formats over W3C Annotations, if it finds links to both. This is because in practice the W3C annotations are very likely to have been generated from the OCR formats in the first place.
+
+This behaviour can be overridden. (samples).
+
+
 
 
 
