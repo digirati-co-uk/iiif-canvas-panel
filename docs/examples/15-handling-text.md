@@ -47,7 +47,7 @@ This is a common scenario and the interactions between text in annotations have 
 </text-lines>
 ```
 
-See [Text-lines](../../components/text-lines) for a description of how this is implemented.
+See [Text-lines](../../docs/components/text-lines) for a description of how this is implemented.
 
 This component produces outputs for video and audio with captions as annotations, video and audio with captions as WebVTT, images of text with line transcription `supplementing` annotations (it looks for and favours the `line` text granularity).
 

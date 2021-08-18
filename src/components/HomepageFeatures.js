@@ -14,17 +14,17 @@ const FeatureList = [
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Accessible, lightweight, simple',
     Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
         Components for working with annotations and text help you focus on 
-        what your app does rather than on composition and drawing
+        what your app does rather than on composition and drawing.
       </>
     ),
   },
   {
-    title: 'Use anywhere',
+    title: 'Works with any framework',
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>

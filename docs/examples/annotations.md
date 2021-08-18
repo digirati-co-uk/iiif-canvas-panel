@@ -4,9 +4,9 @@ sidebar_position: 14
 
 # Working with Annotations
 
-The underlying Hyperion framework is opinionated about IIIF - it doesn't have its own abstractions of IIIF concepts like Canvas and Manifest, it expects you to code against these directly. It _does_ provide helpers and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Hyperion+Vault goves you access to a managed, normalised IIIF 3 world of resources.
+The underlying Hyperion framework is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Hyperion+Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 
-In IIIF, content is associated with canvases through Annotations, using the W3C model. The W3C model has a very wide scope, beyond IIIF use cases; it can offer different ways of expressing the same relationship; and is not JSON-LD 1.1. This can make it hard to continue with the same programming style when working with annotations on IIIF resources.
+In IIIF, content is associated with canvases through Annotations, using the W3C Web Annotaton Data Model. This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same idea to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further spec to normalise the data to, and using annotations directly reintroduces the overly defensive, always-checking style Hyperion aims to  ; it can offer different ways of expressing the same relationship; and is not JSON-LD 1.1. This can make it hard to continue with the same programming style when working with annotations on IIIF resources.
 
 For this reason, Hyperion _does_ expose annotations through its own type system, and Canvas Panel has a special Type that represents a _displayed_ annotation - that is, an annotation drawn on the canvas surface in some way, and potentially _interactive_.
 
@@ -97,7 +97,7 @@ It's common for IIIF canvases to link to non-IIIF formats containing text.
 
 Hyperion allows you to load these _as if they were annotations_ and program against them through the Annotation/Target/Body classes for consistency. Canvas Panel will expose WebVTT to `<video>` and `<audio>` tags, but you might want to do additional things with the text, without parsing WebVTT yourself.
 
-See [Text Handling](./text-handling) for further information.
+See [Text Handling](./handling-text) for further information.
 
 
 ## DisplayAnnotation
