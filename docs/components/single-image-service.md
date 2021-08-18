@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 1
 ---
 
 # Single Image Service
@@ -12,5 +12,8 @@ But we do provide a component to render it, that has the same `static`, `respons
 
 ```html
 <!-- This behaves like an image tag -->
-<img-service src="http://..." render="static" />
+<img-service src="hhttps://iiif.wellcomecollection.org/thumbs/B28560450.JP2" render="static" />
 ```
+
+However, you can't draw on this, or do anything else with annotations. If you only have an image service but need to do more with it, then you can create a canvas programmatically, place the image service on it, and use Canvas Panel to render it.
+

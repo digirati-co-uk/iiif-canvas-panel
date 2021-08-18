@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Canvas Panel',
-  tagline: 'Visual IIIF Components',
+  tagline: 'A Visual IIIF Component',
   url: 'https://canvas-panel.digirati.com/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -17,7 +17,7 @@ module.exports = {
       title: 'Canvas Panel',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/frame.png',
       },
       items: [
         {
@@ -48,7 +48,7 @@ module.exports = {
           ],
         },
         {
-          title: 'Community',
+          title: 'Links',
           items: [
             {
               label: 'IIIF',
@@ -68,17 +68,17 @@ module.exports = {
           title: 'More',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
+              label: 'An Introduction to IIIF',
+              to: 'https://resources.digirati.com/iiif/an-introduction-to-iiif/',
             },
             {
-              label: 'GitHub',
+              label: 'Canvas Panel on GitHub',
               href: 'https://github.com/digirati-co-uk/iiif-canvas-panel',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Digirati. Built with Docusaurus.`,
+      copyright: `Built by Digirati and funded by J. Paul Getty Trust`,
     },
     prism: {
       theme: lightCodeTheme,
