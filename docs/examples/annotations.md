@@ -105,9 +105,9 @@ It will also attempt to coerce string values into a language map compatible with
 For example, re-using the above annotation:
 
 ```js
-log(anno.body.type); // "TextualBody"
-log(anno.body.format); // "text/plain" - as no format has been given
-log(anno.body.valueMap["none"]); // "As I stated in the conclusion of my \"Refutation of Certain Calumnies\""
+log(anno.bodies[0].type); // "TextualBody"
+log(anno.bodies[0].format); // "text/plain" - as no format has been given
+log(anno.bodies[0].valueMap["none"]); // "As I stated in the conclusion of my \"Refutation of Certain Calumnies\""
 ```
 
 In the last example, the language has been mapped to the special value "none" because no language was specified. However, you will often know the likely language of textual annotations that Vault is loading and can provide an alternative default. In this case, you would provide "en":
