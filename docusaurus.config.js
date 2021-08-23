@@ -24,7 +24,7 @@ module.exports = {
           type: 'doc',
           docId: 'intro',
           position: 'left',
-          label: 'How do I...?',
+          label: 'Documentation',
         },
         {to: '/about', label: 'About', position: 'left'},
         {to: '/glossary', label: 'Glossary', position: 'left'},
@@ -42,7 +42,7 @@ module.exports = {
           title: 'Documentation',
           items: [
             {
-              label: 'How do I...?',
+              label: 'Documentation',
               to: '/docs/intro',
             },
           ],
