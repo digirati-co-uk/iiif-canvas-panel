@@ -2,6 +2,8 @@
 sidebar_position: 3
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Other image options
 
 If there are version 3 image services, and if they supply a `preferredFormats` property, Canvas Panel (and `<img-service/>`) will use the preferred format(s).
@@ -16,3 +18,5 @@ The user can also set a preferred format manually, which works for version 2 ima
 > Show it!
 
 If this format is not available the tag will fall back to the default jpg.
+
+<GitHubDiscussion ghid="3" />

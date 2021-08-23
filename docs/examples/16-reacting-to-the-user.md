@@ -2,6 +2,8 @@
 sidebar_position: 16
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Reacting to the user
 
 Types of interaction:
@@ -24,3 +26,6 @@ Types of interaction:
 Write up:
 
 https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/45#discussioncomment-1164643
+
+
+<GitHubDiscussion ghid="16" />

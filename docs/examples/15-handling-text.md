@@ -2,6 +2,8 @@
 sidebar_position: 15
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Handling Text
 
 How do I get the text from the canvas so I can do things with it in other parts of my application?
@@ -114,6 +116,7 @@ This behaviour can be overridden. (samples).
 
 
 
+<GitHubDiscussion ghid="15" />
 
 
 

@@ -2,6 +2,8 @@
 sidebar_position: 1
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Single Image Service
 
 Sometimes you really do have an image service, rather than anything from the Presentation API.

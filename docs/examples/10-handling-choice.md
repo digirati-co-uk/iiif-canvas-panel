@@ -2,6 +2,8 @@
 sidebar_position: 10
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Handling Choice
 
 A Canvas have have multiple images. Sometimes, they are all a part of the scene to be rendered and the developer doesn't have to do anything extra - Canvas Panel will just render the scene.
@@ -90,3 +92,6 @@ Since the `choice-id` attribute also drives this, I could do the following to ma
 ```js
 element.setAttribute('choice-id', 'http://example.org/choice-1')
 ```
+
+
+<GitHubDiscussion ghid="10" />

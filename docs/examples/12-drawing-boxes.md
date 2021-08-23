@@ -2,6 +2,8 @@
 sidebar_position: 12
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Drawing boxes - and drawing attention
 
 :::caution
@@ -110,3 +112,6 @@ In the above examples, the `region` and `highlight` attributes both take string 
 
 
 The highlight region might also be defined by SVG.
+
+
+<GitHubDiscussion ghid="12" />

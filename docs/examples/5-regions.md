@@ -2,6 +2,8 @@
 sidebar_position: 5
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Showing a region of the Canvas
 
 I want to render just a _part_ of an image (an `xywh` region).
@@ -100,3 +102,6 @@ cp.goToTarget(tgt, { transition: "transform 500ms ease-out" });
 ``` 
 
 For more on developing Annotation functionality, displaying annotations, and working with bodies and targets, see [Annotations](./annotations).
+
+
+<GitHubDiscussion ghid="5" />

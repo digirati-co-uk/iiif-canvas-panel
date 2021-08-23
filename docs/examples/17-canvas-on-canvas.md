@@ -2,6 +2,8 @@
 sidebar_position: 17
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Canvas-on-canvas annotations
 
 From the developer point of view this is the same as the quick start. You won't necessarily know that canvas A has canvas B painted onto it (almost certainly amongst other content directly painted).
@@ -60,3 +62,6 @@ Sequence them together so that one follows the other directly on the new canvas.
 
 </script>  
 ```
+
+
+<GitHubDiscussion ghid="17" />

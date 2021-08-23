@@ -2,6 +2,8 @@
 sidebar_position: 13
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Rendering links
 
 In any canvas rendering scenario, if the canvas has linking annotations available, render them as hyperlinks on the image surface.
@@ -133,3 +135,5 @@ All other annotations could just be each wrapped with DisplayAnnotation instance
 />
 ```
 
+
+<GitHubDiscussion ghid="13" />

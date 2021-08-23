@@ -2,6 +2,8 @@
 sidebar_position: 5
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Vault
 
 Instead of loading IIIF resources yourself, use Vault to load objects, then address them on the canvas via their IDs in Vault.

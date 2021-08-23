@@ -2,6 +2,8 @@
 sidebar_position: 14
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Working with Annotations
 
 The underlying Hyperion framework is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Hyperion+Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
@@ -297,3 +299,6 @@ A DisplayAnnotation has an annotation, and the annotation has Body and Target pr
 Body and Target are probable subclasses of some other resource.
 
 in [linking example](rendering-links) there's an example of `body.getContentState()` but a Target could have that too; there's some base class. A body might be a plain string, or a plain hyperlink.
+
+
+<GitHubDiscussion ghid="33" />

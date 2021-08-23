@@ -2,6 +2,8 @@
 sidebar_position: 1
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # Render a canvas
 
 The [quick start](../intro) showed the basics of rendering a canvas. The power of Canvas Panel kicks in when you render a canvas that isn't the 99% use case - when the canvas:
@@ -72,14 +74,4 @@ Canvas Panel and its underlying libraries can also be used on the server, to ren
 
 This is covered in [Server-side rendering](../../docs/applications/server-side).
 
-
-```mdx-code-block
-export const GitHubDiscussion = ({ghid}) => (
-  <a 
-    className="button button--secondary button--lg"
-    href={`https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/${ghid}`}>Discuss on GitHub loc
-  </a>
-);
-
-<GitHubDiscussion ghid="21" />
-```
+<GitHubDiscussion ghid="1" />

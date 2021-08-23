@@ -2,6 +2,8 @@
 sidebar_position: 7
 ---
 
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 # More with regions
 
 ![Excerpt from exhibition catalogue](../../static/img/examples/riley.png)
@@ -87,3 +89,6 @@ An alternative would be where the developer has the region and IIIF information 
    region="50,990,2100,1755">
 </canvas-panel>
 ```
+
+
+<GitHubDiscussion ghid="7" />
