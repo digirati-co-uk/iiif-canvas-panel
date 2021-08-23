@@ -117,4 +117,7 @@ module.exports = {
       },
     ],
   ],
+  clientModules: [
+    require.resolve('./GitHubDiscussion.js')
+  ]
 };

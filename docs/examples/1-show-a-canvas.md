@@ -72,3 +72,14 @@ Canvas Panel and its underlying libraries can also be used on the server, to ren
 
 This is covered in [Server-side rendering](../../docs/applications/server-side).
 
+
+```mdx-code-block
+export const GitHubDiscussion = ({ghid}) => (
+  <a 
+    className="button button--secondary button--lg"
+    href={`https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/${ghid}`}>Discuss on GitHub loc
+  </a>
+);
+
+<GitHubDiscussion ghid="21" />
+```
