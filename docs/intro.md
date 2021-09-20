@@ -119,5 +119,5 @@ Vault is part of the Hyperion Framework, a library for working with IIIF. Both V
 
 ## Getting started with making a Viewer
 
-One of the most common tasks is building _viewers_ - where we load a IIIF Manifest and allow the user to navigate around the different Canvases (views) within it. You can explore Canvas Panel's features in the docs, or go straight to [Building a Simple Viewer](../applications/simple-viewer) to follow along.
+One of the most common tasks is building _viewers_ - where we load a IIIF Manifest and allow the user to navigate around the different Canvases (views) within it. You can explore Canvas Panel's features in the docs, or go straight to [Building a Simple Viewer](../docs/applications/simple-viewer) to follow along.
 
