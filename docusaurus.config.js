@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Canvas Panel',
-  tagline: 'A Visual IIIF Component',
+  tagline: 'A Web Component that renders a IIIF Canvas',
   url: 'https://canvas-panel.digirati.com/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -16,8 +16,8 @@ module.exports = {
     navbar: {
       title: 'Canvas Panel',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/frame.png',
+        alt: 'Logo of a canvas frame',
+        src: 'img/canvas-panel-box.png',
       },
       items: [
         {

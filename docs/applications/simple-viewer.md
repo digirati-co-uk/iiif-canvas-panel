@@ -4,7 +4,7 @@ sidebar_position: 1
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Simple Viewer
+# Building a Simple Viewer
 
 This is a very minimal IIIF viewer that can load a manifest, display thumbnails, and load canvases in response to user navigation through the thumbnails.
 
