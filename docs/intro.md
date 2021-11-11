@@ -42,7 +42,10 @@ The most common scenario is simply rendering a Canvas. Most canvases live in Man
 </canvas-panel>
 ```
 
-> Show It!
+<canvas-panel
+    canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2"
+    manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723">
+</canvas-panel>
 
 This shows Canvas Panel loading a manifest, finding a particular Canvas, and rendering that Canvas with the familiar pan-and-zoom behaviour expected for IIIF image content. It will do this _even if the canvas is a complex scene composed of several source images!_ In this respect Canvas Panel is different from OpenSeadragon and Leaflet. In those libraries, your code would need to evaluate the canvas content and render it all manually. Canvas Panel understands IIIF Canvases natively, so you just give it a Canvas.
 
