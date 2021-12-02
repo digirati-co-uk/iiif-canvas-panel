@@ -1,0 +1,42 @@
+{
+  "name": "@digirati/canvas-panel-web-components",
+  "version": "1.0.4",
+  "typings": "./dist/types/index.d.ts",
+  "main": "./dist/bundle.js",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "node ./esbuild.mjs && yarn run build-types",
+    "watch": "node ./esbuild.mjs --watch",
+    "build-types": "tsc -p ./ --emitDeclarationOnly"
+  },
+  "resolutions": {
+    "@atlas-viewer/iiif-image-api": "^1.2.6",
+    "nanoid": "3.1.25"
+  },
+  "dependencies": {
+    "@preact/compat": "17.0.2",
+    "@atlas-viewer/atlas": "^1.6.10",
+    "@hyperion-framework/react-vault": "^1.0.3",
+    "preact": "^10.5.15",
+    "@atlas-viewer/iiif-image-api": "^1.2.6"
+  },
+  "devDependencies": {
+    "preact-custom-element": "../preact-custom-element",
+    "@types/preact-custom-element": "^4.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "esbuild": "^0.13.13",
+    "eslint": "^8.2.0",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

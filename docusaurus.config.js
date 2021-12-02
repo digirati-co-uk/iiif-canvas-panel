@@ -8,6 +8,9 @@ module.exports = {
   url: 'https://canvas-panel.digirati.com/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
+  scripts: [
+      'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.4/dist/bundle.js'
+  ],
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'digirati-co-uk', // Usually your GitHub org/user name.
