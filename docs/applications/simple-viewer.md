@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+title: Simple Viewer
 ---
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
