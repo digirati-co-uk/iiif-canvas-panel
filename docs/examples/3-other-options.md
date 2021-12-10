@@ -2,9 +2,10 @@
 sidebar_position: 3
 ---
 
+# Other image options
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Other image options
 
 If there are version 3 image services, and if they supply a `preferredFormats` property, Canvas Panel (and `<img-service/>`) will use the preferred format(s).
 

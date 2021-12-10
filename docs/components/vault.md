@@ -3,7 +3,10 @@ sidebar_position: 5
 title: Vault
 ---
 
+# Vault
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+
 
 Vault is the library used by Canvas Panel to load, normalise and track IIIF resources. If using Canvas Panel solely as a tag, controlling its behaviour by setting attributes, you don't need to interact with Vault. But if you are bringing IIIF to Canvas Panel via script, you use Vault.
 

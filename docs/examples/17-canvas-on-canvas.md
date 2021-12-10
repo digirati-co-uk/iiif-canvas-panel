@@ -2,9 +2,10 @@
 sidebar_position: 17
 ---
 
+# Canvas-on-canvas annotations
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Canvas-on-canvas annotations
 
 From the developer point of view this is the same as the quick start. You won't necessarily know that canvas A has canvas B painted onto it (almost certainly amongst other content directly painted).
 

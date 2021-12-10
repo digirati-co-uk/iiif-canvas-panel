@@ -2,9 +2,9 @@
 sidebar_position: 1
 ---
 
-import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-
 # Render a canvas
+
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 The [quick start](../intro) showed the basics of rendering a canvas. The power of Canvas Panel kicks in when you render a canvas that isn't the 99% use case - when the canvas:
 

@@ -2,9 +2,10 @@
 sidebar_position: 5
 ---
 
+# Showing a region of the Canvas
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Showing a region of the Canvas
 
 I want to render just a _part_ of an image (an `xywh` region).
 

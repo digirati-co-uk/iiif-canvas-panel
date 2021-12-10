@@ -2,9 +2,10 @@
 sidebar_position: 2
 ---
 
+# Responsive Images
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Responsive Images
 
 Using IIIF for responsive images is a natural fit. Canvas Panel makes this easy, and can populate the HTML5 `srcset` attributes that you need to do when using the HTML5 [picture element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture). The tag knows about available sizes because it has the image service (or the canvas). There is typically a media query involved, too:
 

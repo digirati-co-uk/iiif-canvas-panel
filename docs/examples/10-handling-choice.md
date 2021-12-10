@@ -2,9 +2,10 @@
 sidebar_position: 10
 ---
 
+# Handling Choice
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Handling Choice
 
 A Canvas have have multiple images. Sometimes, they are all a part of the scene to be rendered and the developer doesn't have to do anything extra - Canvas Panel will just render the scene.
 
