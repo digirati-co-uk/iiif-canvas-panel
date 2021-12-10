@@ -56,7 +56,7 @@ If you have Canvas Panel available on your page, you already have Vault, too. Se
 
 ## Working with IIIF
 
-The first thing to do is load some IIIF. Throughout this demo we will use [this manifest](https://iiif.wellcomecollection.org/presentation/b1932795x):
+The first thing to do is load some IIIF. At the start of this walkthrough we will use [this manifest](https://iiif.wellcomecollection.org/presentation/b1932795x):
 
 ```js
 const exampleManifestUri = "https://iiif.wellcomecollection.org/presentation/b1932795x";
@@ -79,7 +79,7 @@ show(manifest);
 
 At first glance this appears to have just printed out the manifest. But looking closer, the JSON isn't the same.
 
-* All the properties in the Presentation 3.0 API have been filled out, with default `null` or `[]` values, even if the manifest didn't provide them.
+* All the properties in the Presentation 3.0 API have been filled out, with default `null` or `[]` values, even if the manifest didn't provide them. Normalisation to IIIF Presentation 3.0 means that, even when we load Presentation 2.x resources, we don't have to worry about whether they are objects or arrays. Vault's further normalisation means the we don't have to test array properties for null, they will always be there, but may have no members.
 * Child resources in the graph, such as the canvases in manifest.items, only have `id` and `type` properties: they are _references_.
 
 ```json
@@ -115,7 +115,7 @@ console.log(canvas0 === canvas0a); // true ... they are the same object from the
 And there is a shorter form to simplify this:
 
 ```js
-// TODO (should this be fromId ?)
+// TODO this overload doesn't work yet - and might be called .fromId(..)
 const canvas0b = vault.fromRef("https://iiif.wellcomecollection.org/presentation/b1932795x/canvases/b1932795x_ms_7974_0001.JP2");
 showJSON(canvas0b);
 console.log(canvas0 === canvas0b); // true ... they are all the same object from the vault.
@@ -153,7 +153,7 @@ for (const canvas of manifest.items) {
 }
 ```
 
-Vault's `getThumbnail` is a helper function that will attempt to find the best thumbnail for a resource. See the [Vault Documentation](https://hyperion.stephen.wf/the-vault/vault-api/) for more details.
+Vault's `getThumbnail` is a helper function that will attempt to find the best thumbnail for a resource. In this example, we want to constrain our thumbnails to 200 by 200. Vault will pick the most efficient thumbnail to use. See the [Vault Documentation](https://hyperion.stephen.wf/the-vault/vault-api/) for more details. (TODO - link to thumbnail documenation specifically).
 
 
 ## Following links to further resources
@@ -162,71 +162,72 @@ For this section we'll introduce a new manifest, that contains links to annotati
 
 ```js
 const manifestWithAnnotations = await vault.loadManifest("https://iiif.wellcomecollection.org/presentation/b18106158");
-const canvas7 = vault.fromRef(manifestWithAnnotations.items[7]);
-showJSON(canvas7);
+const canvas10 = vault.fromRef(manifestWithAnnotations.items[10]);
+showJSON(canvas10);
 ```
 
-In vault's view of this canvas, `items` is a reference, but `annotations` is not.
-
-(explore how to tell and how to load and follow)
+In vault's view of this canvas, `items` is a reference, but `annotations` is not. It's not a reference to something we can get in full from the Vault.
 
 ```json
   "items": [
     {
-      "id": "https://iiif.wellcomecollection.org/presentation/b18106158/canvases/B18106158_0008.jp2/painting",
+      "id": "https://iiif.wellcomecollection.org/presentation/b18106158/canvases/B18106158_0011.jp2/painting",
       "type": "AnnotationPage"
     }
   ],
   "annotations": [
     {
-      "id": "https://iiif.wellcomecollection.org/annotations/v3/b18106158/B18106158_0008.jp2/line",
+      "id": "https://iiif.wellcomecollection.org/annotations/v3/b18106158/B18106158_0011.jp2/line",
       "type": "AnnotationPage",
       "label": {
         "en": [
-          "Text of page 8"
+          "Text of page 11"
         ]
       }
     }
   ],
 ```
 
+> How can we tell this? If it didn't have a label it would look the same as a ref. 
 
-
-
-
-Instead of loading IIIF resources yourself, use Vault to load objects, then address them on the canvas via their IDs in Vault.
-
-This allows Vault (rather than you as developer) to keep track of everything, to handle resource loading over HTTP, and normalise loaded IIIF to the Presentation 3.0 specification.
-
-So not:
-
-```html
-<canvas-panel iiif-content="{..}"></canvas-panel>  <!-- don't assign an object -->
-```
-
-or 
+A user interface might display the labels of any annotation lists here, and offer the user the ability to load them.
 
 ```js
-cp.canvas = {..}; // an actual canvas I might have pulled out of a manifest I fetched myself
+// we can safely do things like this without checking to see if canvas10.annotations is null,
+// because Vault normalises array properties to empty arrays.
+for(const annolist of canvas10.annotations)
+{
+    console.log(annolist.label.en[0]); // come back to this, we're making an assumption here
+    console.log(vault.getSingleLabel(annolist, "en", "\n")); // possible alternative
+}
 ```
 
-but
+As a resource external to the manifest, we load annotations specifically:
 
 ```js
-const vault = HyperionVault.globalVault();
-
-vault.loadManifest("...");
-// or
-vault.load("..something that has a canvas *id* in it")
-// then
-cp.setCanvas(id)
+const annoList = await vault.load(canvas10.annotations[0].id);
+showJSON(annoList);
 ```
+
+These particular annotations are lines of text, so we are more likely to want access to them all directly:
+
+```js
+const lines = vault.allFromRef(annoList.items);
+let pageText = "";
+for(const line of lines){
+    const lineBody = vault.fromRef(line.body[0]);
+    pageText += lineBody.value;
+    pageText += "\n";
+}
+document.getElementById("data").innerHTML = pageText;
+```
+
+When using Canvas Panel, you will more likely make use of Canvas Panel's API to [work with annotations](../../docs/examples/annotations) on the Canvas. And for annotation scenarios that involve multiple text fragments, such as the lines of text here or captions on a video, Canvas Panel has a companion component called [text-lines](../docs/examples/handling-text), that will bind to these annotations and render them.
+
 
 :::info
 
-The reasoning for pattern is to avoid loading states. When you render an image, there can be a cascade of loading: manifest, annotation lists, image service, tiles etc. 
-
-This doesn't mean you can't pass in=memory objects to Canvas Panel - but you should pass them via the Vault. That ensures they are normalised and _tracked_.
+You can add your own data to Vault. You could even load IIIF by other means, and then pass it into Vault. This ensures they are normalised and _tracked_.
 
 ```js
 vault.load('id', { ..json });
@@ -234,7 +235,7 @@ vault.load('id', { ..json });
 
 > What if my json has a conflicting id?
 
-Vault merges, so if you had a canvas with:
+Vault merges the object graph, so if you had a canvas with:
 
 ```json
 {"id": "http://example.org/annotation-page-1", "type": "AnnotationPage"}
@@ -248,3 +249,6 @@ vault.load('http://example.org/annotation-page-1', { full json });
 
 It would merge in the fully resolved - and the graph can continue from the canvas.
 
+:::
+
+> TODO - how far to go with documenting Vault? More of [Vault 101](https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/101)? Or link to separate Vault docs?
