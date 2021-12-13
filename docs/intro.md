@@ -14,13 +14,12 @@ You can see how to use Canvas Panel to build a [Manifest Viewer](../../docs/appl
 
 ## How do I get Canvas Panel?
 
-
 An easy way to try things out is to simply include a reference to Canvas Panel on (CDN).
 
 ```html
 <html>
 <head>
-    <script src="https://cdn.js/....(example).../canvas-panel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest/dist/bundle.js"></script>
 </head>
 <body>
     <h1>Canvas Panel</h1>
@@ -52,6 +51,7 @@ This shows Canvas Panel loading a manifest, finding a particular Canvas, and ren
 
 You can also render canvases as static images, without the pan and zoom behaviour:
 
+<!-- TODO: GH-56 -->
 ```html
 <canvas-panel
    render="static"

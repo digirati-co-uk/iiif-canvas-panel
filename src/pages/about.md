@@ -55,3 +55,7 @@ You can use Canvas Panel a declarative way, just as HTML tags, for simply showin
 It works with [Vault](../docs/components/vault), a library for loading and managing IIIF resources that normalises everything to IIIF Presentation 3.
 
 This site shows Canvas Panel, Vault and helper components being used to solve a wide range of typical use cases for presenting and interacting with digital objects.
+
+## More about IIIF
+
+The iiif.io web site has some great resources for [getting started](https://iiif.io/get-started/).
