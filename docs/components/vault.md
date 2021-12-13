@@ -8,15 +8,15 @@ title: Vault
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 
-Vault is the library used by Canvas Panel to load, normalise and track IIIF resources. If using Canvas Panel solely as a tag, controlling its behaviour by setting attributes, you don't need to interact with Vault. But if you are bringing IIIF to Canvas Panel via script, you use Vault.
+Vault is the library used by Canvas Panel to load, normalise and track IIIF resources. If using Canvas Panel solely as a tag, controlling its behaviour by setting attributes, you don't need to interact with Vault. But if you are bringing IIIF to Canvas Panel via script, you use Vault to manage IIIF resources.
 
-Any IIIF resource loaded into Vault is then available _through_ Vault as _normalised_, 100% compliant IIIF Presentation API 3.0, even if it started out as IIIF Presentation 2.0. This process of normalisation gives you a consistent programming interface, without having to worry about the various forms that the JSON-LD can take in Presentation 2.0. It also allows you to develop event driven applications, because you can associate event listeners directly with IIIF resources managed and tracked in Vault. You can also _subscribe_ to changes in the data, simplifying the programming model 
+Any IIIF resource loaded into Vault is then available _through_ Vault as _normalised_, 100% compliant IIIF Presentation API 3.0, even if it started out as IIIF Presentation 2.0. This process of normalisation gives you a consistent programming interface, without having to worry about the various forms that the JSON-LD can take in IIIF Presentation 2.0. It also allows you to develop event-driven applications, because you can associate event listeners directly with the IIIF resources managed and tracked in Vault. You can also _subscribe_ to changes in the data.
 
 This documentation site is full of examples showing Vault usage alongside Canvas Panel. But it helps to begin by showing how Vault is used for general IIIF purposes, before introducing its use with Canvas Panel.
 
 ## Installation
 
-If you have Canvas Panel available on your page, you already have Vault, too. See the installation instructions for the full details - they also tell you how to use Vault on its own, as in the following example of loading it from a CDN. For the discussion that follows we will use this HTML page, which won't need any building or file serving.
+If you have Canvas Panel available on your page, you already have Vault, too. But you can use it on its own, without Canvas Panel. See the [installation instructions](https://hyperion.stephen.wf/the-vault/) for the full details. In the following example, Vault is loaded from a CDN, avoiding any need to build or run a server.
 
 ```html
 <!DOCTYPE html>
