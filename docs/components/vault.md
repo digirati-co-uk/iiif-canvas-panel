@@ -225,7 +225,7 @@ for(const line of lines){
 document.getElementById("data").innerHTML = pageText;
 ```
 
-When using Canvas Panel, you will more likely make use of Canvas Panel's API to [work with annotations](../../docs/examples/annotations) on the Canvas. And for annotation scenarios that involve multiple text fragments, such as the lines of text here or captions on a video, Canvas Panel has a companion component called [text-lines](../docs/examples/handling-text), that will bind to these annotations and render them.
+When using Canvas Panel, you will more likely make use of Canvas Panel's API to [work with annotations](../../docs/examples/annotations) on the Canvas. And for annotation scenarios that involve multiple text fragments, such as the lines of text here or captions on a video, Canvas Panel has a companion component called [text-lines](../../docs/examples/handling-text), that will bind to these annotations and render them.
 
 
 :::info

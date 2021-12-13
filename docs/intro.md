@@ -10,7 +10,7 @@ Canvas Panel is a [Web Component](https://developer.mozilla.org/en-US/docs/Web/W
 
 Canvas Panel is not a IIIF Viewer, like Mirador or Universal Viewer. It's not a full application - it's a component of _your_ application. On its own, Canvas Panel doesn't render a IIIF Manifest - but it can be used as the _rendering surface_ in any kind of IIIF application you want to build. You can see Canvas Panel used this way in some of the [demo applications](../docs/applications/simple-viewer). It also provides a powerful API for drawing annotations on the canvas and responding to user interaction with the canvas.
 
-You can see how to use Canvas Panel to build a [Manifest Viewer](../docs/applications/bookreader-viewer) in some of the later application examples.
+You can see how to use Canvas Panel to build a [Manifest Viewer](../../docs/applications/bookreader-viewer) in some of the later application examples.
 
 ## How do I get Canvas Panel?
 
