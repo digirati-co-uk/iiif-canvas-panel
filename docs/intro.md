@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## What is Canvas Panel?
 
-Canvas Panel is a [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) that renders a IIIF Canvas and the annotations on it. If you already know what Canvases and Annotations are you are ready to get started. If not, [here's a brief introduction](../about) with links to more learning resources.
+Canvas Panel is a [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) that renders a [IIIF Canvas](https://iiif.io/api/presentation/3.0/#53-canvas) and the annotations on it. If you already know what Canvases and Annotations are you are ready to get started. If not, [here's a brief introduction](../about) with links to more learning resources.
 
 Canvas Panel is not a IIIF Viewer, like Mirador or Universal Viewer. It's not a full application - it's a component of _your_ application. On its own, Canvas Panel doesn't render a IIIF Manifest - but it can be used as the _rendering surface_ in any kind of IIIF application you want to build. You can see Canvas Panel used this way in some of the [demo applications](../docs/applications/simple-viewer). It also provides a powerful API for drawing annotations on the canvas and responding to user interaction with the canvas.
 
