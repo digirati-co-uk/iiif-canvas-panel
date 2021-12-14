@@ -31,7 +31,7 @@ Sometimes you want to provide specific sizes for particular media queries. This 
 </img-service>
 ```
 
-The media queries just pass through to the rendered HTML 5 <picture> element.
+The media queries just pass through to the rendered HTML 5 `picture` element.
 
 You can also specify _regions_, again using IIIF Image API syntax. This attribute defaults to "full":
 
