@@ -2,9 +2,10 @@
 sidebar_position: 14
 ---
 
+# Working with Annotations
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Working with Annotations
 
 The underlying Hyperion framework is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Hyperion+Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 

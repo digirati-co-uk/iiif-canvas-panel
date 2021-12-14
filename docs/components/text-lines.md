@@ -2,9 +2,10 @@
 sidebar_position: 7
 ---
 
+# Text-lines
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Text-lines
 
 
 <GitHubDiscussion ghid="20" />

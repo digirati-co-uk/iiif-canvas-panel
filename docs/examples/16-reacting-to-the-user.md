@@ -2,9 +2,10 @@
 sidebar_position: 16
 ---
 
+# Reacting to the user
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Reacting to the user
 
 Types of interaction:
 

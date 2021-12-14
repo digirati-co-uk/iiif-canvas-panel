@@ -2,9 +2,10 @@
 sidebar_position: 12
 ---
 
+# Drawing boxes - and drawing attention
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Drawing boxes - and drawing attention
 
 :::caution
 

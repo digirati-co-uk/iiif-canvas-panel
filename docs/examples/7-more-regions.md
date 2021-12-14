@@ -2,9 +2,10 @@
 sidebar_position: 7
 ---
 
+# More with regions
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# More with regions
 
 ![Excerpt from exhibition catalogue](../../static/img/examples/riley.png)
 

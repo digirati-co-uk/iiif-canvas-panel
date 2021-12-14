@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+title: Content State Selector
 ---
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
