@@ -9,10 +9,12 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 The underlying Hyperion framework is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Hyperion+Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 
-In IIIF, content is associated with canvases through Annotations, using the W3C Web Annotaton Data Model. This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same idea to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further spec to normalise the data to, and using annotations directly reintroduces the overly defensive, always-checking style Hyperion aims to avoid.
+In IIIF, content is associated with canvases through [Annotations](https://iiif.io/api/presentation/3.0/#56-annotation), using the [W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/). This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same intention to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further specification to normalise the data to, and using annotations directly reintroduces the overly defensive, always-checking style Hyperion aims to avoid.
 
-For this reason, Hyperion _does_ expose annotations through its own type system. It can't hope to coerce every _possible_ annotation into its own types, but it does attempt to do this for annotation styles commonly encountered in IIIF development scenarios, especially (but not exclusively) annotations on canvases. Hyperion also gives you access to the original annotation fields if you really need them, but generally you shouldn't.
+For this reason, Hyperion **exposes annotations through its own type system**. It can't hope to coerce every _possible_ annotation into its own types, but it does attempt to do this for annotation styles commonly encountered in IIIF development scenarios, especially (but not exclusively) annotations on Canvases. Hyperion also gives you access to the original annotation fields if you really need them, but generally you shouldn't need to do this.
 
+<!-- TODO: GH-94 -->
+<!-- this whole section depends on the way we approach annotations and helper classes -->
 ## Annotation Data
 
 Hyperion will attempt to wrap any annotations it finds with its own Annotation class - or rather, an instance of a motivation-specific class:
@@ -32,6 +34,7 @@ The Annotation class makes use of two further helper classes:
 
 These reflect the W3C Annotation Model's `body` and `target` properties, but are accessed via the properties `bodies` and `targets` (both _arrays_) on Hyperion's `Annotation` class.  Usually there is one of each, but there can be more than one _target_, more than one _body_, and also, no _body_. The original `body` and `target` properties are available as their original JSON-LD representations. 
 
+<!-- TODO: GH-94 -->
 Hyperion attempts to coerce the found annotation bodies and targets into normalised representations common in IIIF development. If it can't do this it leaves the W3C body or target as-is and doesn't add to the `bodies` or `targets` array.
 
 ## Annotation Display
@@ -40,12 +43,17 @@ As well as Hyperion providing types to help with annotation _data_, Canvas Panel
 
   - `DisplayAnnotation`
 
-The Hyperion classes represent the data - the annotation content, the canvas or part of canvas it targets. `DisplayAnnotation` represents the Annotation _rendered in the user interface_ - the element rendered on the canvas surface, that might have styles, behaviours and user interaction events. `DisplayAnnotation` is where the W3C Model meets the DOM in the browser. A W3C Hyperion `Annotation` can't have a CSS Class, but the Canvas Panel `DisplayAnnotation` that wraps it can.
+The Hyperion classes represent the data - the annotation content, the canvas or part of canvas it targets. `DisplayAnnotation` represents the Annotation _rendered in the user interface_ - the element rendered on the canvas surface, that might have styles, behaviours and user interaction events. 
+
+> `DisplayAnnotation` is where the W3C Model meets the DOM in the browser
+
+A W3C Hyperion `Annotation` can't have a CSS Class, but the Canvas Panel `DisplayAnnotation` that wraps it can.
 
 Canvas Panel also defines `TransitionOptions` - a class used to define how the canvas navigates from one Annotation or state to another, e.g., for guided viewing.
 
 ## Target
 
+<!-- TODO: GH-108 -->
 **Target** is a standardised object representing a spatial and/or temporal target on a canvas, from the various forms that could take in Annotation JSON. Hyperion will parse these from W3C and Open Annotation content.
 
 ```json
@@ -54,9 +62,9 @@ Canvas Panel also defines `TransitionOptions` - a class used to define how the c
 
 or
 
-```
+```json
 "target": { 
-  "id": http://example.org/canvas-1.json", 
+  "id": "http://example.org/canvas-1.json", 
   "refinedBy": "#xywh=1,2,3,4" 
 }
 ```
@@ -301,5 +309,8 @@ Body and Target are probable subclasses of some other resource.
 
 in [linking example](rendering-links) there's an example of `body.getContentState()` but a Target could have that too; there's some base class. A body might be a plain string, or a plain hyperlink.
 
+## Intermediate annotations
+
+Need an example for https://github.com/digirati-co-uk/iiif-canvas-panel/issues/94#issuecomment-996670694
 
 <GitHubDiscussion ghid="33" />

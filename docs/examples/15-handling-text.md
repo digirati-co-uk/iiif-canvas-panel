@@ -2,6 +2,7 @@
 sidebar_position: 15
 ---
 
+<!-- TODO: GH-81 -->
 # Handling Text
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
@@ -15,6 +16,7 @@ For spatial content, the OCR formats METS-ALTO and hOCR should also be supported
 For temporal content, WebVTT should be supported.
 In both cases the content in these formats can be translated into something that targets the canvas the same way W3C annos do.
 
+<!-- TODO: GH-109 -->
 ## Text rendering _outside_ the canvas
 
 See https://canvas-panel.digirati.com/developer-stories/viewer1.html
@@ -58,6 +60,7 @@ If more than one source of supplementing annos is available, or pseudo-annotatio
 
 The annotation listing component doesn't behave differently for hover, select, scroll; any of these events has a corresponding annotation as data (the annotation clicked on or scrolled to); the glue code navigates to and/or highlights the corresponding annotation target. This might be a navigation in _time_.
 
+<!-- TODO: GH-81 -->
 ## Text rendering _on_ the canvas
 
 This is described in https://canvas-panel.digirati.com/developer-stories/collaboration.html, but there is a real implementation of this now - https://github.com/dbmdz/mirador-textoverlay - which works very well and solves many subtle interaction issues.
