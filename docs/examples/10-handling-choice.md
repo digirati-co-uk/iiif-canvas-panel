@@ -6,7 +6,6 @@ sidebar_position: 10
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-
 A Canvas have have multiple images. Sometimes, they are all a part of the scene to be rendered and the developer doesn't have to do anything extra - Canvas Panel will just render the scene.
 
 But sometimes, the multiple images form a set of choices, for the user to pick from. Multispectral images are an example of this.
@@ -25,6 +24,7 @@ Usually, if Choice is present at all, it's only one set of choices, for the whol
 
 ## Simple scenario - known choice
 
+<!-- TODO: GH-106 -->
 ```html
 <canvas-panel iiif-content="http://example.org/canvas-1.json" choice-id="http://example.org/choice-1" />
 ```
@@ -70,6 +70,7 @@ In most cases, you won't want to handle a choice until you come across one:
 <script>
   const viewer = document.getElementById('viewer');
 
+  // TODO - this API is not confirmed
   viewer.addEventListener('canvas-choice', (helper) => {
     helper.choices // the choices in the IIIF form.
 

@@ -37,6 +37,9 @@ This can still be rendered as a static image!
 </canvas-panel>
 ```
 
+<!-- TODO GH-55 (task) -->
+> The default value of `render` is "zoom" - this can be set explicitly but is not usually required.
+
 ## Accessibility considerations
 
 By default, Canvas Panel will render HTML5 that uses as much information from the IIIF resource as available to provide accessibility information, using the browser's current language settings to pick from alternate languages if available.

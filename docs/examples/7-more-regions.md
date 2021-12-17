@@ -6,7 +6,6 @@ sidebar_position: 7
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-
 ![Excerpt from exhibition catalogue](../../static/img/examples/riley.png)
 
 This image shows the sort of widget that might be used in a content management system, where the editor can select either a whole image (the top one) or a detail of a larger image (the bottom one), and accompany that image with some additional HTML.
@@ -15,7 +14,7 @@ This is an example of using Canvas Panel as a component of some other piece of s
 
 ## Using content state
 
-In this one, https://quire.getty.edu/iiif-snippets/boy-with-straw-hat.json is a content state at a URL. This will have been made by an editor at content-creation time, using #18. Loading it will load a full JSON content state that looks like this:
+In the following, `https://quire.getty.edu/iiif-snippets/boy-with-straw-hat.json` is a content state at a URL. This will have been made by an editor at content-creation time, using a [Content State Selector](../../docs/applications/content-state-selector). It's a full JSON content state that looks like this:
 
 ```json
 {
@@ -73,7 +72,7 @@ asnieres-detail-boy-with-straw-hat.json">
           iiif-content="https://quire.getty.edu/iiif-snippets/
 asnieres-detail-boy-with-straw-hat.json"
            />
-</a>  ​
+</a>
 ```
 
 (Both canvas panel and the anchor tag need accessibility attributes here, omitted for brevity)
