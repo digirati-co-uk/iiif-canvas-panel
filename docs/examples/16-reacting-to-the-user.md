@@ -2,6 +2,7 @@
 sidebar_position: 16
 ---
 
+<!-- TODO: GH-110 -->
 # Reacting to the user
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
