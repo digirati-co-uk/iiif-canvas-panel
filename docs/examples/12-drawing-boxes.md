@@ -13,7 +13,9 @@ TODO: need to get a valid source for The Ambassadors or use a different image
 
 :::
 
-You want to highlight a region of the Canvas, and style it. You might have already initially constrained the viewport to a particular part of the canvas (as in [Regions](./regions)).
+## Scenario
+
+You want to highlight a region of the Canvas, and style the way you highlight it. You might have already initially constrained the viewport to a particular part of the canvas (as in [Regions](./regions)).
 
 Consider Canvas Panel showing a painting:
 
@@ -25,7 +27,7 @@ Consider Canvas Panel showing a painting:
 ```
 ![The Ambassadors - full](../../static/img/examples/ambassadors-1.png)
 
-Then showing a detail:
+Then showing a detail via the addition of a `region` attribute:
 
 ```html
 <canvas-panel
@@ -37,8 +39,9 @@ Then showing a detail:
 
 ![The Ambassadors - detail](../../static/img/examples/ambassadors-2.png)
 
-Then highlighting something within that detail:
+Then **highlighting something** within that detail:
 
+<!-- TODO: GH-70, GH-93, GH-94 -->
 ```html
 <canvas-panel
    iiif-content=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
@@ -69,6 +72,7 @@ The CSS classes are not part of Canvas Panel, they are in your styles under your
 
 In the above examples, the `region` and `highlight` attributes both take string values that can be transformed to [Target](./annotations#target) objects. `highlight` is a convenience attribute, with a convenience css assistant; in code you are doing something more general - you are adding an annotation to the canvas that appears as a highlight. This is such a common scenario that it still has a helper:
 
+<!-- TODO: GH-70, GH-93, GH-94 -->
 ```html
 <canvas-panel id="cp"></canvas-panel>
 <script>
@@ -94,22 +98,15 @@ In the above examples, the `region` and `highlight` attributes both take string 
   
   // here I could ask for anno.toW3CAnno() and get a pure W3C JSON
   
-
    // create anno in vault
    vault.load("my-anno", anno);
-
 
    const displayAnno = new DisplayAnnotation(vault.FromRef("my-anno"));
    displayAnno.cssClass = "red-box";
        
-   cp.DisplayAnnotations.add(displayAnno);
-   
-   // could go-native here with 
-   // cp.worldObject.appendChild( ... );
-
+   cp.DisplayAnnotations.add(displayAnno); // TBC, see Issue #94
 </script> 
 ```
-
 
 
 The highlight region might also be defined by SVG.

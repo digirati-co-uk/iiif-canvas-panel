@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## What is Canvas Panel?
 
-Canvas Panel is a [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) that renders a IIIF Canvas and the annotations on it. If you already know what Canvases and Annotations are you are ready to get started. If not, [here's a brief introduction](../about) with links to more learning resources.
+Canvas Panel is a [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) that renders a [IIIF Canvas](https://iiif.io/api/presentation/3.0/#53-canvas) and the annotations on it. If you already know what Canvases and Annotations are you are ready to get started. If not, [here's a brief introduction](../about) with links to more learning resources.
 
 Canvas Panel is not a IIIF Viewer, like Mirador or Universal Viewer. It's not a full application - it's a component of _your_ application. On its own, Canvas Panel doesn't render a IIIF Manifest - but it can be used as the _rendering surface_ in any kind of IIIF application you want to build. You can see Canvas Panel used this way in some of the [demo applications](../docs/applications/simple-viewer). It also provides a powerful API for drawing annotations on the canvas and responding to user interaction with the canvas.
 
@@ -14,13 +14,12 @@ You can see how to use Canvas Panel to build a [Manifest Viewer](../../docs/appl
 
 ## How do I get Canvas Panel?
 
-
 An easy way to try things out is to simply include a reference to Canvas Panel on (CDN).
 
 ```html
 <html>
 <head>
-    <script src="https://cdn.js/....(example).../canvas-panel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest/dist/bundle.js"></script>
 </head>
 <body>
     <h1>Canvas Panel</h1>
@@ -52,6 +51,7 @@ This shows Canvas Panel loading a manifest, finding a particular Canvas, and ren
 
 You can also render canvases as static images, without the pan and zoom behaviour:
 
+<!-- TODO: GH-56 -->
 ```html
 <canvas-panel
    render="static"
@@ -68,6 +68,7 @@ The addition of `render="static"` changes the behaviour of the component on the 
 
 The `canvas-id` and `manifest-id` attributes are helper aliases for two more general purpose mechanisms for loading a Canvas into Canvas Panel:
 
+<!-- TODO: GH-55 - tasks -->
 ```html
 <canvas-panel
    iiif-content="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2"
@@ -82,29 +83,37 @@ The `iiif-content` attribute is here set to a Canvas `id`, and `partof` is the M
 
 `iiif-content` can take a Canvas id - but it can also take any value that is a valid [IIIF Content State](https://iiif.io/api/content-state/). So it could be a content state Annotation that points at a particular part of a Canvas, with a `partof` reference included in the Annotation (meaning that only the single `iiif-content` attribute is needed). This includes content states in encoded form, e.g., a stored bookmark or a search result linking into a viewer:
 
+
+<!-- TODO: GH-72 -->
 ```html
 <canvas-panel iiif-content="JTdCJTI.....EJTdE"></canvas-panel>
 ```
 
 > Show It!
 
-> Inspect this content state in a content state decoder (TBC)
+<!-- TODO: GH-82 (task) -->
+> Inspect this content state in a [content state decoder](https://base64url.herokuapp.com/?iiif-content=SGVsbG8lMkMlMjBXb3JsZA)
+
 
 ### Programming Canvas Panel
 
 You can also work with the Canvas from script. This is more typical in client-side applications. The attribute-based approach is more useful in rendering IIIF content server-side. You can tell Canvas Panel to do the same thing as the attributes above like this:
 
+<!-- TODO: GH-58, GH-59, GH-66 -->
 ```html
 <canvas-panel id="cp"></canvas-panel>
 <script>   
-   //....
-   const cp = document.getElementById("cp");
-   cp.setAttribute("render", "responsive"); // we've seen default (zoom) and static, here's another mode
-   const vault = HyperionVault.globalVault(); // Vault simplifies access to IIIF resources
-   await vault.loadManifest("https://iiif.wellcomecollection.org/presentation/b18035723");
-   cp.setCanvas("https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2");
-   //...
-</script>  
+    const cp = document.getElementById("cp");
+    cp.setAttribute("render", "responsive"); // we've seen default (zoom) and static, here's another mode
+    const vault = HyperionVault.globalVault(); // Vault simplifies access to IIIF resources
+    
+    async function main(){
+        await vault.loadManifest("https://iiif.wellcomecollection.org/presentation/b18035723");
+        cp.setCanvas("https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2");
+    }
+
+    main();
+</script>   
 ```
 
 > Show it!

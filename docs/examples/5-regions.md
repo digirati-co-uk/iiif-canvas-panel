@@ -6,47 +6,76 @@ sidebar_position: 5
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
+Sometimes you want to render just a _part_ of an image (an `xywh` region).
 
-I want to render just a _part_ of an image (an `xywh` region).
+This might be part of a Canvas, or a region of an image service. This can be specified with the `region` parameter, available on both `img-service` and `canvas-panel`:
 
-This might be part of a Canvas, or a region of an image service (see #1 (comment)).
+If you just have an image service:
 
-The provision of the target is the same as in the comment linked above: if it's a content state it handles it itself. If it's a canvas or image service, we need to specify a region to constrain to.
-
-If rendering as a simple static or responsive image, we don't need additional behaviour (?).
-But if rendering as deep zoom, that implies you can zoom within the viewport provided; but we might want to prevent you panning outside the initial region (or might allow it, as required).
-Similarly what happens if a full-screen mode is available and you activate it? What fills the screen and what are the constraints on panning?
-
-
+<!-- TODO: GH-69 -->
 ```html
-// best-fit this region of the source image service into whatever the current viewport size is
+<!-- best-fit this region of the source image service into whatever the current viewport size is -->
 <img-service src="http://..." region="900,900,1000,1000" />
 <img-service src="http://..." region="pct:25,25,50,50" />
+```
 
-// template developer has a canvas id within a manifest
+
+If you have a canvas ID, within a manifest:
+
+```html
 <canvas-panel
    iiif-content="https://..canvas_id.."
    partof="https://..manifest_id.."
    region="pct:25,25,50,50">
 </canvas-panel>
+```
 
-// The canvas-in-a-manifest might be wholly supplied by a content state:
+Another variation is a content state that supplies the canvas, but doesn't supply a region:
+
+```html
 <canvas-panel
    iiif-content="https://..content_state.."
    region="pct:25,25,50,50">
 </canvas-panel>
+```
 
-// And if that content state is a region of the canvas, then it's all you would need:
+And if that content state does supply the region itself, then it's all you would need:
+
+```html
 <canvas-panel
    iiif-content="https://..content_state..">
 </canvas-panel>
 ```
 
-For all render modes, if the `target` of that content state was a region of canvas (e.g., `..#xywh=900,900,1000,1000`), then it will initialise with that as a best-fit.
+In the example immediately above, that content state might expand to something like:
+
+```json
+{
+  "@context": "http://iiif.io/api/presentation/0/context.json",
+  "id": "https://example.org/import/1",
+  "type": "Annotation",
+  "motivation": ["contentState"],
+  "target": {
+     "id": "https://example.org/object1/canvas7#xywh=1000,2000,1000,2000",
+     "type": "Canvas",
+     "partOf": [{
+        "id": "https://example.org/object1/manifest",
+        "type": "Manifest"
+     }]
+   }
+}
+```
+
+That is, region `1000,2000,1000,2000`, on the canvas `https://example.org/object1/canvas7`, which is in the manifest `https://example.org/object1/manifest`. (This example taken from [Content State specification](https://iiif.io/api/content-state/1.0/#41-a-region-of-a-canvas-in-a-manifest)).
+
+If the `render` behaviour of canvas panel is set to `static` or `responsive`, you don't need any additional attributes. But if rendering as deep zoom (the default `render`), that implies you can zoom within the _viewport_ provided; but we might want to prevent you panning outside the initial _region_ (or might allow it, as required).
+
+Similarly if a full-screen mode is available and the user activates it: what fills the screen and what are the constraints on panning? For all render modes, if the `target` of that content state was a region of canvas (e.g., `..#xywh=900,900,1000,1000`), then it will initialise with that as a best-fit, which might show areas outside the region.
+
+## Setting regions programmatically
 
 ```html
-// programmatically (applies to img-service too)
-
+<!-- This applies to img-service too -->
 <canvas-panel id="cp"></canvas-panel>
 <script>
    const vault = new Vault();
@@ -57,49 +86,42 @@ For all render modes, if the `target` of that content state was a region of canv
 
    // you can also move the viewport later, e.g., in a narrative view:
    // ...time passes, handle a user action:   
-   cp.setAttribute("region", "2000,1200,456,987");
-
-  // remember that CP is always one canvas.
-  // It might be a synthetic canvas that the developer made and composited 
-  // other canvases and content onto, but it's always one canvas. That canvas is 
-  // accessible via the vault.
-
-  // although a shortcut?
-  // let cv = cp.canvas; // equivalent of obtaining it from the vault?
-
-  // Your app might be using a wrapping layout component, e.g., to layout a 
-  // manifest as a strip (with zones) so you don't have to explicitly do the
-  // compositing, but that tag is probably not called canvas-panel even if it really
-  // is canvas panel with an extra synthetic canvas compositing wrapper.
-
-  
+   cp.setAttribute("region", "2000,1200,456,987");  
 </script>   
 ```
 
-As well as setting region via an attribute, you can also set it in code. The `region` attribute is a 2D-specific simplification of a more general `Target` helper class (see https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/33#discussion-3509526). Here we are creating a Target instance ourselves to specify a part of the canvas.
+> Canvas Panel always shows _one_ canvas. That canvas is accessible via the Vault. However, that canvas might be a _synthetic_ canvas that the developer  dynamically and composited other canvases and content onto. Your app might be using a wrapping layout component around Canvas Panel, e.g., to layout a manifest as a strip (with zones) so you don't have to explicitly do the compositing.
+
+## Introducing Targets
+
+As well as setting region via an attribute, you can also set it in code. The `region` attribute is a 2D-specific simplification of a more general `Target` helper class (see [Target](../../docs/components/cp) in the Canvas Panel Type documentation). Here we are creating a Target instance ourselves to specify a part of the canvas.
 
 ```js
-
 const tgt = new Target();
 tgt.spatial.x = 2000;
 tgt.spatial.y = 1200;
 tgt.spatial.w = 456;
 tgt.spatial.h = 987;
+```
 
-// also a useful helper constructor, when you have it in this form:
+You can also construct a target from the `xywh` string format commonly found in annotations:
 
-const tgt = new Target("xywh=2000,1200,456,987"); // same thing
+```js
+const tgt = new Target("xywh=2000,1200,456,987"); // same thing as above
+```
 
+Then make Canvas Panel focus on this target:
+
+<!-- TODO: GH-70 -->
+```js
 cp.goToTarget(tgt);
 
 // In this code approach, we can also specify the behaviour of the transition via options:
-
 cp.goToTarget(tgt, { highlight: true, padding: 40 });
 cp.goToTarget(tgt, { transition: "transform 500ms ease-out" });
 
 // In the latter, the syntax of transition is the same as CSS transition
 // https://developer.mozilla.org/en-US/docs/Web/CSS/transition
-
 ``` 
 
 For more on developing Annotation functionality, displaying annotations, and working with bodies and targets, see [Annotations](./annotations).
