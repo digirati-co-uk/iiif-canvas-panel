@@ -2,9 +2,9 @@
 sidebar_position: 4
 ---
 
-import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-
 # Server-side rendering
+
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 Canvas Panel rendering mostly requires a DOM to exist and is not tailored to rendering on the server. However a server-side renderer could be made and used quickly to render out static HTML img tags or similar without the need for Javascript. This would be useful for SEO and also for showing something to the user before the whole page has loaded.
 
