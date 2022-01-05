@@ -16,7 +16,7 @@ This documentation site is full of examples showing Vault usage alongside Canvas
 
 ## Installation
 
-If you have Canvas Panel available on your page, you already have Vault, too. But you can use it on its own, without Canvas Panel. See the [installation instructions](https://hyperion.stephen.wf/the-vault/) for the full details. In the following example, Vault is loaded from a CDN, avoiding any need to build or run a server.
+If you have Canvas Panel available on your page, you already have Vault, too. But you can use it on its own, without Canvas Panel. See the [installation instructions](../../docs/components/installation) for the full details. In the following example, Vault is loaded from a CDN, avoiding any need to build or run a server.
 
 ```html
 <!DOCTYPE html>
@@ -253,5 +253,34 @@ vault.load('http://example.org/annotation-page-1', { full json });
 It would merge in the fully resolved - and the graph can continue from the canvas.
 
 :::
+
+## Subscribing to changes in Vault data
+
+https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/83
+https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/99
+https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/101
+
+
+vault.addEventListener(manifest, 'onClick', (e) => {
+  // Respond to click event.
+})
+
+
+6:27
+vault.subscribe(
+    state => state.hyperion.meta[manifest.id],
+    meta => {
+       if (meta && meta.eventManager) {
+          meta.eventManager.onClick // this is an array of event handlers that I can attach to my DOM elements.
+       }
+    }
+)
+
+
+
+## Using Vault meta for application functionality
+
+(introduce in general, then have another page for CP-specific usage?)
+
 
 > TODO - how far to go with documenting Vault? More of [Vault 101](https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/101)? Or link to separate Vault docs?
