@@ -2,9 +2,9 @@
 sidebar_position: 15
 ---
 
-<!-- TODO: GH-81 -->
 # Handling Text
 
+<!-- TODO: GH-81 -->
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 

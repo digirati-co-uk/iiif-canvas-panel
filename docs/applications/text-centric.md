@@ -2,9 +2,9 @@
 sidebar_position: 3
 ---
 
-import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-
 # Text-centric viewer
+
+import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 This viewer extends [Simple Viewer](./simple-viewer) to add support for:
 

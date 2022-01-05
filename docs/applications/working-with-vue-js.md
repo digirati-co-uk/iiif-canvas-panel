@@ -2,8 +2,9 @@
 sidebar_position: 10
 ---
 
+# Working with Vue.js
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-# Working with Vue.js
 
 Intro and examples
