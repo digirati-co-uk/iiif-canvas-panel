@@ -313,4 +313,45 @@ in [linking example](rendering-links) there's an example of `body.getContentStat
 
 Need an example for https://github.com/digirati-co-uk/iiif-canvas-panel/issues/94#issuecomment-996670694
 
+## More on annotation style and CSS
+
+In previous examples, a CSS class has been applied to a DisplayAnnotation like this:
+
+```js
+const displayAnno = new DisplayAnnotation(vault.FromRef("my-anno"));
+displayAnno.cssClass = "red-box";
+```
+
+...where your CSS has a selector for `.red-box` that perhaps sets border and background styles.
+
+This works as you might expect it to - the DisplayAnnotation is an HTML Element in the DOM within Canvas Panel, and the styles are applied directly by the browser.
+
+This works simply and well for a small number of annotations, but is inefficient for scenarios involving bulk display of a very large number of annotations.
+
+For example, you can load and display an entire annotation page at once that may contain many thousands of boxes round individual words, or highlights on a biological specimen. In these cases it is more efficient for the boxes to be drawn directly by Canvas Panel, rather than as HTML elements that can pick up styles from your own stylesheets.
+
+These annotations can still be styled, but not by picking up your CSS directly (they are not HTML elements).
+
+Instead, they can use a subset of styling information set in a CSS-like syntax:
+
+
+```js
+// TODO - example of loading a whole anno page (also needed for previous section)
+// Also wire up some mouse over and click handlers here.
+```
+
+This approach is explained in more detail in [Working with Annotation Pages](./annotations-in-bulk).
+
+It is possible to create DisplayAnnotations as before, but style them using the optimised, non-HTML technique. This way they do not become HTML elements:
+
+```js
+const displayAnno = new DisplayAnnotation(vault.FromRef("my-anno"));
+displayAnno.applyStyle({
+  backgroundColor: 'red',
+  border: '1px solid blue',
+});
+```
+
+It's the application of direct, CSS styles that makes a display annotation an HTML element; without CSS styles it can still be drawn on the Canvas, and styled with a reduced set of options.
+
 <GitHubDiscussion ghid="33" />
