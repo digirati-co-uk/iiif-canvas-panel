@@ -3,12 +3,12 @@
     <title>Canvas Panel - simple</title>
     <style>
         #manifest { width: 50vw; }
-        #th { width:220px; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
-        #main { margin-top:30px; margin-left:10px; float:left; height:90%;} 
+        #th { width:12vw; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
+        #main { width:84vw; margin-top:30px; margin-left:10px; float:left; height:90%;} 
         .tc { display: inline-block; padding:5px; cursor: pointer; }
-        #cp { height:95%; }
+        #cp { height:100% }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.18"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.22"></script>
 </head>
 <body>
     <h1>A simple viewer using Canvas Panel</h1>
@@ -20,7 +20,7 @@
     <div>    
         <div id="th"></div>
         <div id="main">
-            <canvas-panel id="cp" height="800" width="800"></canvas-panel> <!--height="95%" -->
+            <canvas-panel id="cp" height="600"></canvas-panel> <!--height="95%" -->
             <p id="cvLabel"></p>
         </div>
     </div>
