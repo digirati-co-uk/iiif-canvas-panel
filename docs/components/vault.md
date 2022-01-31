@@ -35,7 +35,7 @@ The next few examples use this HTML page to help make the demonstration visible.
         <div id="app"></div>
         <pre id="data"></pre>  
     </div>    
-    <script src="https://cdn.jsdelivr.net/npm/@hyperion-framework/vault@1.1.0/dist/index.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@hyperion-framework/vault@2.0.0-alpha.0/dist/index.umd.js"></script>
     <script>
 
         let manifestUri = "https://iiif.wellcomecollection.org/presentation/b1932795x";
