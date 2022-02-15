@@ -8,6 +8,11 @@ export default function register(Component, tagName, propNames, options) {
 		inst._root = inst._shadowEnabled
 			? inst.attachShadow({ mode: 'open' })
 			: inst;
+
+		if (options.onConstruct) {
+			options.onConstruct(inst);
+		}
+
 		return inst;
 	}
 
@@ -57,6 +62,10 @@ export default function register(Component, tagName, propNames, options) {
 			},
 		});
 	});
+
+	if (options.beforeCreate) {
+		options.beforeCreate(PreactElement);
+	}
 
 	return customElements.define(
 		tagName || Component.tagName || Component.displayName || Component.name,

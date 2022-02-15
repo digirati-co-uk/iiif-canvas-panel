@@ -1,5 +1,5 @@
 import { FC } from 'preact/compat';
-import { ManifestContext, useExternalManifest } from '@hyperion-framework/react-vault';
+import { ManifestContext, useExternalManifest } from 'react-iiif-vault';
 import { Spinner } from './spinner';
 import { h } from 'preact';
 

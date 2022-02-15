@@ -30,7 +30,7 @@ esbuild.build({
   outfile: "dist/bundle.js",
   plugins: [preactCompatPlugin],
   bundle: true,
-  minify: true,
+  minify: process.argv.indexOf('--dev') === -1,
   sourcemap: true,
   target: ["chrome58"],
   external: [],
