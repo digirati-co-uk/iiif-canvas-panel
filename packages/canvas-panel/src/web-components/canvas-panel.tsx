@@ -38,6 +38,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     virtualSizes,
     viewport,
     debug,
+    target,
     className,
     inlineStyles,
     inlineStyleSheet,
@@ -114,7 +115,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
             contentState.target[0].selector &&
             contentState.target[0].selector.type === 'BoxSelector'
           ) {
-            runtime.current.world.gotoRegion(contentState.target[0].selector);
+            runtime.current.world.gotoRegion(contentState.target[0].selector.spatial);
           }
         } else {
           setParsedContentState(contentState);

@@ -52,19 +52,30 @@ export function ImageService(props: ImageServiceProps) {
   const statusOf = status[src];
   const image = useMemo(() => {
     const service = loadImageService({ id: src } as any, {} as any);
-
-    if (service && service.height && service.width && statusOf === 'done') {
+    if (service && service.height && service.width && statusOf !== 'loading') {
       return {
         id: src,
         width: service.width,
         height: service.height,
         service,
         type: 'Image',
+        selector: {
+          type: 'BoxSelector',
+          spatial: {
+            x: 0,
+            y: 0,
+            width: service.width,
+            height: service.height,
+          },
+        },
         target: {
-          x: 0,
-          y: 0,
-          width: service.width,
-          height: service.height,
+          type: 'BoxSelector',
+          spatial: {
+            x: 0,
+            y: 0,
+            width: service.width,
+            height: service.height,
+          },
         },
       } as ImageWithOptionalService;
     }

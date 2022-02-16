@@ -126,7 +126,7 @@ export const AtlasCanvas: FC<{
         : null}
       {annoMode ? (
         <DrawBox
-          onCreate={(e) => {
+          onCreate={(e: any) => {
             if (onCreated) {
               onCreated(e);
             }
@@ -143,7 +143,7 @@ export const AtlasCanvas: FC<{
           onSave={() => {
             // no-op
           }}
-          region={highlight.selector as any}
+          region={highlight.selector.spatial as any}
           style={highlightCssClass ? undefined : { border: '3px solid red' }}
           className={highlightCssClass}
         />
