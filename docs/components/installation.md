@@ -13,14 +13,14 @@ title: Installation
 
 ## Script tag bundle
     
-With just the canvas panel component:
+The web components (canvas-panel and image-service) are bundled in one script: 
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
 
 <canvas-panel
-  canvas-id="https://iiif.wellcomecollection.org/presentation/b29161514/canvases/b29161514_0001.jp2"
-  manifest-id="https://iiif.wellcomecollection.org/presentation/b29161514">
+  manifest-id="https://digirati-co-uk.github.io/wunder.json"
+  canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0">
 </canvas-panel>
 ```
 
@@ -32,7 +32,7 @@ This also gives you access to [Vault](vault), for doing things programmatically:
 <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
 <script>  
     const cp = document.getElementById("cp");
-    const manifestUrl = "https://iiif.wellcomecollection.org/presentation/b18035723";
+    const manifestUrl = "https://digirati-co-uk.github.io/wunder.json";
     cp.vault.load(manifestUrl).then((manifest) => console.log(manifest.items.length));
 </script>  
 ```
@@ -44,7 +44,7 @@ You can use Vault independently of the Canvas Panel web component:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
 <script>  
-    const manifestUrl = "https://iiif.wellcomecollection.org/presentation/b18035723";
+    const manifestUrl = "https://digirati-co-uk.github.io/wunder.json";
     const vault = new IIIFVault.Vault();
     vault.load(manifestUrl).then((manifest) => console.log(manifest.items.length));
 </script>  
@@ -69,8 +69,8 @@ The additional vault-helpers library adds some useful utilities:
     const helper = IIIFVaultHelpers.createThumbnailHelper(cp.vault);
 
     async function main(){
-        const manifestId = "https://iiif.wellcomecollection.org/presentation/b18035723";
-        const canvasId = "https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2";
+        const manifestId = "https://digirati-co-uk.github.io/wunder.json";
+        const canvasId = "https://digirati-co-uk.github.io/wunder/canvases/1";
         let manifest = await cp.vault.loadManifest(manifestId);
         $("manifestLabel").innerText = IIIFVaultHelpers.getValue(manifest.label);
         cp.setCanvas(canvasId);
