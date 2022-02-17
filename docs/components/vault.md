@@ -281,13 +281,12 @@ These particular annotations are lines of text, so we are more likely to want ac
 
 ```js
 const lines = vault.get(loadedAnnoPage.items);
-let pageText = "";
+let pageText = [];
 for(const line of lines){
     const lineBody = vault.get(line.body[0]);
-    pageText += lineBody.value;
-    pageText += "\n";
+    pageText.push(lineBody.value);
 }
-show({ pageText: pageText }, "The full text of the page");
+show(pageText, "The full text of the page");
 ```
 
 When using Canvas Panel, you will more likely make use of Canvas Panel's API to [work with annotations](../../docs/examples/annotations) on the Canvas. And for annotation scenarios that involve multiple text fragments, such as the lines of text here or captions on a video, Canvas Panel has a companion component called [text-lines](../../docs/examples/handling-text), that will bind to these annotations and render them.
@@ -311,7 +310,7 @@ and then called this:
 vault.load('http://example.org/annotation-page-1', myInMemoryAnnotations);
 ```
 
-...Vault would _merge_ the annotations in myInMemoryAnnotations into the existing `AnnotationPage` object with that `id`.
+...Vault would _merge_ the annotations in `myInMemoryAnnotations` into the existing `AnnotationPage` object with that `id`.
 
 :::
 
@@ -325,7 +324,7 @@ async function demo(){
     // the script snippets in the following examples should be added here
     // ##################################################################
 
-    let manifestUri = "https://iiif.wellcomecollection.org/presentation/b18106158";
+    let manifestUri = "https://digirati-co-uk.github.io/finsbury.json";
     const manifest = await vault.loadManifest(manifestUri);
 }
 ```
@@ -350,7 +349,7 @@ so you can handle this callback without an existing reference to vault (e.g., in
 
 ```js
 const unsubscribe1 = await vault.subscribe(
-    state => state.hyperion.meta[manifest.id], // define the selection 
+    state => state.iiif.meta[manifest.id], // define the selection 
     selection => show(selection, "selection callback") // handle a change to that selection
 );
 ```
@@ -378,7 +377,7 @@ Now set up a _scoped_ subscription:
 
 ```js
 await vault.subscribe(
-    state => state.hyperion.meta[manifest.id]['MyCustomStorage'], // Now listen to just this scope
+    state => state.iiif.meta[manifest.id]['MyCustomStorage'], // Now listen to just this scope
     selection => show(selection, "specific selection callback") // handle a change to that selection
 );
 
@@ -393,20 +392,20 @@ await vault.setMetaValue([manifest.id, 'MyCustomStorage2', 'myKey2'], 'myValue4'
 The above shows subscriptions on arbitrary data, but we're more likely to be interested in changes to known IIIF entities in vault. Consider this loading of an annotation page:
 
 ```js
-const canvas10 = vault.fromRef(manifest.items[10]);
+const canvas10 = vault.get(manifest.items[10]);
 const annotationPageId = canvas10.annotations[0].id;
 
 // we can subscribe to changes on this Annotation Page:            
 await vault.subscribe(
     state => {
         // When this slice of the store changes...
-        const annotationPage = state.hyperion.entities.AnnotationPage[annotationPageId];
+        const annotationPage = state.iiif.entities.AnnotationPage[annotationPageId];
         console.log("Vault is obtaining state (anno page has " + annotationPage.items.length + " items).");
         return annotationPage;
     },
     annotationPage => {
         console.log("(callback on change) " + annotationPage.items.length + " items");
-        show([getLabel(annotationPage), annotationPage.items.length + " items"], "Annotation Page");
+        show([IIIFVaultHelpers.getValue(annotationPage.label), annotationPage.items.length + " items"], "Annotation Page");
     }
 );
 ```
@@ -417,13 +416,17 @@ Vault only has the _reference_ to the annotation page at the moment. This is why
 console.log("Now going to load the anno page");
 const annoPage = await vault.load(annotationPageId); // This will trigger it straight away, before the data is loaded
 
+console.log("Now going to load the anno page");
+const annoPage = await vault.load(annotationPageId); // This will trigger it straight away, before the data is loaded
+// (The event fires and shows that there are now 38 items.)
+
 // now make some changes
 annoPage.label = [{ "en": ["I have changed the label"] }];
 // Making a direct change like this is allowed, and updates the data in Vault, but won't notify subscribers.
+// (no event fires, no additional subscriber notification appears)
 
 // This is how you notify subscribers:
 vault.modifyEntityField(annoPage, "label", {  en: ["I have changed the label again"] });
-
 // Now we see the change appear.
 ```
 
@@ -437,8 +440,11 @@ The set of metadata that Vault can track for any resource includes an _event man
 show(vault.getResourceMeta(manifest.id).eventManager, "Event manager for " + manifest.id);
 // undefined 
 
+// Introducing another helper
+const events = IIIFVaultHelpers.createEventsHelper(vault);
+
 // There is no event manager for this entity, yet. But if we start adding event listeners, one wil be created:
-vault.addEventListener(manifest, 'onClick', (e) => {
+events.addEventListener(manifest, 'onClick', (e) => {
     console.log("clicked", this);
 })
 
@@ -446,7 +452,7 @@ vault.addEventListener(manifest, 'onClick', (e) => {
 show(vault.getResourceMeta(manifest.id).eventManager, "Event manager for " + manifest.id);
 ```
 
-Vault's `addEventListener` is very simply a means of storing event handlers for identified resources - that's all it is, it's not raising these events itself. In an application you might have multiple DOM elements that correspond to IIIF resources (e.g., thumbnail images corresponding to canvases). This mechanism gives you the option of storing event handlers alongside other metadata. In practice this low-level API is unlikely to be convenient for direct use, but it is the basis of Canvas Panel's higher level API functions.
+Vault's eventsHelper is very simply a means of storing event handlers for identified resources - that's all it is, it's not raising these events itself. In an application you might have multiple DOM elements that correspond to IIIF resources (e.g., thumbnail images corresponding to canvases). This mechanism gives you the option of storing event handlers alongside other metadata. In practice this low-level API is unlikely to be convenient for direct use, but it is the basis of Canvas Panel's higher level API functions.
 
 If we add a button to our "app", we can give it an event listener that Vault is storing for us.
 
@@ -456,7 +462,7 @@ manifestButton.innerText = "Click the manifest";
 append(manifestButton);
 
 await vault.subscribe(
-    state => state.hyperion.meta[manifest.id],
+    state => state.iiif.meta[manifest.id],
     selection => {
         if (selection && selection.eventManager) {      
             // selection.eventManager.onClick is an array of event handlers that you can attach to your DOM elements.                 
@@ -473,7 +479,7 @@ Here we use Vault's metadata subscription to state for a viewer application. If 
 ```js
 vault.setMetaValue(["ViewerState", "LoadedResources", "CurrentManifest"], manifest.id);
 await vault.subscribe(
-    state => state.hyperion.meta["ViewerState"],
+    state => state.iiif.meta["ViewerState"],
     selection => {
         if (selection && selection.LoadedResources) {      
             LoadManifest(selection.LoadedResources.CurrentManifest);
@@ -488,14 +494,16 @@ For clarity, add this `LoadManifest` function to the script after the demo() fun
 async function LoadManifest(manifestId){
     
     const manifest = await vault.loadManifest(manifestId); 
+    const events = IIIFVaultHelpers.createEventsHelper(vault);
+    const thumbHelper = IIIFVaultHelpers.createThumbnailHelper(vault); 
 
     for(const canvas of manifest.items){
         // give these handlers a scope, we may wish to have other click handlers for the same canvases elsewhere
-        vault.addEventListener(canvas, 'onClick', () => show(vault.fromRef(canvas)), ["Thumbs"]); 
+        events.addEventListener(canvas, 'onClick', () => show(vault.get(canvas)), ["Thumbs"]); 
     }
 
     await vault.subscribe(
-        state => state.hyperion.entities.Manifest[manifestId], // (can't subscribe to [manifest.id].items)
+        state => state.iiif.entities.Manifest[manifestId], // (can't subscribe to [manifest.id].items)
         (selection, vault) => {
             // selection is the manifest. When the manifest changes...
             document.getElementById("app").innerHTML = "";                                   
@@ -506,7 +514,7 @@ async function LoadManifest(manifestId){
                 // ...add the event listener we previously stored in Vault
                 thumb.addEventListener("click", canvasManager.onClick[0].callback);
                 // ...set the src of the image to a vault-picked thumbnail
-                vault.getThumbnail(canvas, { maxWidth:100 }).then(cvThumb => thumb.src = cvThumb.best.id); // needs changing if this moves outside Vault
+                thumbHelper.getBestThumbnailAtSize(canvas, { maxWidth:100 }).then(cvThumb => thumb.src = cvThumb.best.id);
                 append(thumb);
             }
         }
