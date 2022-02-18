@@ -9,7 +9,7 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 This is a very minimal IIIF viewer that can load a manifest, display thumbnails, and load canvases in response to user navigation through the thumbnails.
 
-You can see it running at [Simple Viewer](../../demos/simplest-viewer.html)
+You can see it running at <a href="../../demos/simplest-viewer.html" target="_blank">Simplest Viewer</a>.
 
 _The code below shows how CP plus a few other UI components, combined with vault, can load manifests, render thumbnails, and show the canvases. The code is simple against a vault-normalised Presentation 3 representation._
 
