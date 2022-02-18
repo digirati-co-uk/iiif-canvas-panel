@@ -19,7 +19,7 @@ An easy way to try things out is to simply include a reference to Canvas Panel o
 ```html
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest/dist/bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
 </head>
 <body>
     <h1>Canvas Panel</h1>
@@ -37,14 +37,14 @@ The most common scenario is simply rendering a Canvas. Most canvases live in Man
 
 ```html
 <canvas-panel
-   canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2"
-   manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723">
+    canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+    manifest-id="https://digirati-co-uk.github.io/wunder.json">
 </canvas-panel>
 ```
 
 <canvas-panel
-    canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2"
-    manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723">
+    canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+    manifest-id="https://digirati-co-uk.github.io/wunder.json">
 </canvas-panel>
 
 This shows Canvas Panel loading a manifest, finding a particular Canvas, and rendering that Canvas with the familiar pan-and-zoom behaviour expected for IIIF image content. It will do this _even if the canvas is a complex scene composed of several source images!_ In this respect Canvas Panel is different from OpenSeadragon and Leaflet. In those libraries, your code would need to evaluate the canvas content and render it all manually. Canvas Panel understands IIIF Canvases natively, so you just give it a Canvas.
@@ -54,84 +54,67 @@ You can also render canvases as static images, without the pan and zoom behaviou
 <!-- TODO: GH-56 -->
 ```html
 <canvas-panel
-   render="static"
-   canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2"
-   manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723">
+    preset="static"
+    canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+    manifest-id="https://digirati-co-uk.github.io/wunder.json">
 </canvas-panel>
 ```
 
-> Show It!
+<canvas-panel
+    preset="static"
+    canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+    manifest-id="https://digirati-co-uk.github.io/wunder.json">
+</canvas-panel>
 
-The addition of `render="static"` changes the behaviour of the component on the web page; now you can't zoom in. This becomes more useful when combined with other behaviours later.
+The addition of `preset="static"` changes the behaviour of the component on the web page; now you can't zoom in. This becomes more useful when combined with other behaviours later.
 
 ### Getting content in
 
-The `canvas-id` and `manifest-id` attributes are helper aliases for two more general purpose mechanisms for loading a Canvas into Canvas Panel:
+The `canvas-id` and `manifest-id` attributes are helpers for a very common scenario for loading a canvas into Canvas Panel: when you know the manifest URL, and you know the ID of the canvas within it, but the canvas is not dereferenceable on its own.
 
-<!-- TODO: GH-55 - tasks -->
+More generally, you can use the `iiif-content` attribute, which accepts a _Content State_ - this allows any [IIIF Content State](https://iiif.io/api/content-state/) that references a Canvas, or part of a Canvas, to be used to initialise Canvas Panel.
+
 ```html
 <canvas-panel
-   iiif-content="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2"
-   partof="https://iiif.wellcomecollection.org/presentation/b18035723">
+    iiif-content="JTdCJTB...[omitted for brevity]...MEElN0Q">
 </canvas-panel>
 ```
 
-The `iiif-content` attribute is here set to a Canvas `id`, and `partof` is the Manifest that the Canvas is found in (it could be omitted if the Canvas was de-referenceable). More generally:
+<canvas-panel
+    iiif-content="JTdCJTBEJTBBJTIwJTIwJTIyaWQlMjIlM0ElMjAlMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMSUyMiUyQyUwRCUwQSUyMCUyMCUyMnR5cGUlMjIlM0ElMjAlMjJDYW52YXMlMjIlMkMlMEQlMEElMjAlMjAlMjJwYXJ0T2YlMjIlM0ElMjAlNUIlN0IlMEQlMEElMjAlMjAlMjAlMjAlMjJpZCUyMiUzQSUyMCUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjJ0eXBlJTIyJTNBJTIwJTIyTWFuaWZlc3QlMjIlMEQlMEElMjAlMjAlN0QlNUQlMEQlMEElN0Q">
+</canvas-panel>
 
-* `iiif-content`: anything that identifies a canvas, or points at a canvas
-* `partof`: anything that needs to be loaded in addition to locate that canvas.
-
-`iiif-content` can take a Canvas id - but it can also take any value that is a valid [IIIF Content State](https://iiif.io/api/content-state/). So it could be a content state Annotation that points at a particular part of a Canvas, with a `partof` reference included in the Annotation (meaning that only the single `iiif-content` attribute is needed). This includes content states in encoded form, e.g., a stored bookmark or a search result linking into a viewer:
-
-
-<!-- TODO: GH-72 -->
-```html
-<canvas-panel iiif-content="JTdCJTI.....EJTdE"></canvas-panel>
-```
-
-> Show It!
-
-<!-- TODO: GH-82 (task) -->
-> Inspect this content state in a [content state decoder](https://base64url.herokuapp.com/?iiif-content=SGVsbG8lMkMlMjBXb3JsZA)
+Examples of content states are bookmarks and search results. You can see what the content state used in the above example looks like in a [content state decoder](https://base64url.herokuapp.com/?iiif-content=JTdCJTBEJTBBJTIwJTIwJTIyaWQlMjIlM0ElMjAlMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMSUyMiUyQyUwRCUwQSUyMCUyMCUyMnR5cGUlMjIlM0ElMjAlMjJDYW52YXMlMjIlMkMlMEQlMEElMjAlMjAlMjJwYXJ0T2YlMjIlM0ElMjAlNUIlN0IlMEQlMEElMjAlMjAlMjAlMjAlMjJpZCUyMiUzQSUyMCUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjJ0eXBlJTIyJTNBJTIwJTIyTWFuaWZlc3QlMjIlMEQlMEElMjAlMjAlN0QlNUQlMEQlMEElN0Q).
 
 
 ### Programming Canvas Panel
 
 You can also work with the Canvas from script. This is more typical in client-side applications. The attribute-based approach is more useful in rendering IIIF content server-side. You can tell Canvas Panel to do the same thing as the attributes above like this:
 
-<!-- TODO: GH-58, GH-59, GH-66 -->
 ```html
 <canvas-panel id="cp"></canvas-panel>
-<script>   
-    const cp = document.getElementById("cp");
-    cp.setAttribute("render", "responsive"); // we've seen default (zoom) and static, here's another mode
-    const vault = HyperionVault.globalVault(); // Vault simplifies access to IIIF resources
-    
-    async function main(){
-        await vault.loadManifest("https://iiif.wellcomecollection.org/presentation/b18035723");
-        cp.setCanvas("https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2");
-    }
-
-    main();
-</script>   
+<script>       
+    const cp = document.getElementById("cp"); 
+    cp.vault.loadManifest("https://digirati-co-uk.github.io/wunder.json")
+            .then(manifest => cp.setCanvas("https://digirati-co-uk.github.io/wunder/canvases/2"));
+</script> 
 ```
 
-> Show it!
+<canvas-panel id="cp"></canvas-panel>
+<script>       
+    const cp = document.getElementById("cp"); 
+    cp.vault.loadManifest("https://digirati-co-uk.github.io/wunder.json")
+            .then(manifest => cp.setCanvas("https://digirati-co-uk.github.io/wunder/canvases/2"));
+</script> 
+
 
 ## What is Vault?
 
-By default, all `canvas-panel` elements on the page share a common instance of a [Vault](../../docs/components/vault). The Vault library is used to load and manage IIIF resources, rather than passing them directly to Canvas Panel as JSON blobs. In the example above, we load a IIIF Manifest into the _global_ vault, which our canvas panel component also has access to. Then we tell Canvas Panel to display a canvas from this manifest. This is simpler and safer than loading the manifest yourself, as JSON via `fetch()`, determining its version and traversing it. 
+By default, all `canvas-panel` elements on the page share a common instance of a [Vault](../../docs/components/vault). The Vault library is used to load and manage IIIF resources, rather than passing them directly to Canvas Panel as JSON blobs. In the example above, we load a IIIF Manifest into the same vault, which we can obtain from Canvas Panel. Then we tell Canvas Panel to display a canvas from this manifest. This is simpler and safer than loading the manifest yourself, as JSON via `fetch()`, determining its version and traversing it. 
 
 Under the hood, Vault manages the HTTP fetch operations and optimises internal storage of all the IIIF resources in use on a page. Vault normalises all IIIF to the Presentation 3 specification, allowing you to take advantage of a consistent programming interface regardless of the source IIIF. Vault also has the advantage of making your IIIF strongly-typed when used via TypeScript.
 
-[Read more about Vault here](../../docs/components/vault).
-
-In the code sample above, we rendered a [responsive image](../../docs/examples/responsive-image), using Canvas Panel defaults.
-
-
-## What is Hyperion?
-
-[Vault](../../docs/components/vault) is part of the Hyperion Framework, a library for working with IIIF. Both Vault and Canvas Panel are built on top of Hyperion. For most applications you can use the API of Canvas Panel directly, without having to use the wider Hyperion libraries.  But they are there if you need them.
+[Read more about Vault here](../../docs/components/vault). Vault is part of [IIIF Commons](https://github.com/IIIF-Commons/vault).
 
 
 ## Getting started with making a Viewer
