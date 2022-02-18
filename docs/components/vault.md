@@ -506,15 +506,22 @@ async function LoadManifest(manifestId){
         state => state.iiif.entities.Manifest[manifestId], // (can't subscribe to [manifest.id].items)
         (selection, vault) => {
             // selection is the manifest. When the manifest changes...
-            document.getElementById("app").innerHTML = "";                                   
-            for(const canvas of selection.items){                 
+            document.getElementById("app").innerHTML = "";
+            for (const canvas of selection.items) {
                 // ...create an image element for each canvas         
                 const thumb = document.createElement("img");
-                const canvasManager = vault.getResourceMeta(canvas.id).eventManager;
-                // ...add the event listener we previously stored in Vault
-                thumb.addEventListener("click", canvasManager.onClick[0].callback);
-                // ...set the src of the image to a vault-picked thumbnail
-                thumbHelper.getBestThumbnailAtSize(canvas, { maxWidth:100 }).then(cvThumb => thumb.src = cvThumb.best.id);
+
+                // You can interact with an eventManager for a resource:
+                // const canvasManager = vault.getResourceMeta(canvas.id).eventManager;
+                // thumb.addEventListener("click", canvasManager.onClick[0].callback);
+                
+                // Or use this more convenient API - note we have retrieved the event listeners for our Thumbs scope.
+                const props = events.getListenersAsProps(canvas, "Thumbs");
+                thumb.addEventListener("click", props.onClick);
+
+                // Now set the src of the image to a thumbnail using vault-helpers:
+                thumbHelper.getBestThumbnailAtSize(canvas, { maxWidth: 100 })
+                            .then(cvThumb => thumb.src = cvThumb.best.id);
                 append(thumb);
             }
         }
