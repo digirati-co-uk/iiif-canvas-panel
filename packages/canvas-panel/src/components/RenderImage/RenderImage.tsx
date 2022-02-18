@@ -26,7 +26,7 @@ export function RenderImage({
         <SingleImage
           style={style}
           uri={image.id}
-          target={image.target}
+          target={image.target.spatial}
           display={
             image.width && image.height
               ? {
@@ -46,10 +46,10 @@ export function RenderImage({
             imageService: image.service as any,
             thumbnail: thumbnail && thumbnail.type === 'fixed' ? thumbnail : undefined,
           }}
-          x={image.target?.x}
-          y={image.target?.y}
-          width={image.target?.width}
-          height={image.target?.height}
+          x={image.target?.spatial.x}
+          y={image.target?.spatial.y}
+          width={image.target?.spatial.width}
+          height={image.target?.spatial.height}
           style={style}
         >
           {image.service &&
@@ -67,7 +67,7 @@ export function RenderImage({
                     style={style}
                     key={url}
                     uri={url}
-                    target={image.target}
+                    target={image.target.spatial}
                     display={{ height, width }}
                   />
                 );

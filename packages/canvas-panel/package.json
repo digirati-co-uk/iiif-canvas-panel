@@ -18,7 +18,7 @@
     "nanoid": "3.1.25"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "^1.6.10",
+    "@atlas-viewer/atlas": "^2.0.0-alpha.1",
     "@atlas-viewer/iiif-image-api": "2.0.1",
     "@iiif/presentation-2": "^1.0.1",
     "@iiif/presentation-3": "^1.0.4",
@@ -32,6 +32,8 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
     "@types/preact-custom-element": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",

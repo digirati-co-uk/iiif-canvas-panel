@@ -1,0 +1,52 @@
+import { Story, Meta } from '@storybook/addon-docs';
+
+<Meta title="Web components/Image service"  />
+
+# Image service
+
+Given an image service, like `https://iiif.wellcomecollection.org/image/b18035723_0001.JP2` we can render the
+image represented by the service in a variety of ways.
+
+By default, the image service will expand to fill the container it is in, with a height of 512px.
+
+<Story name="rendering simple image service">
+  <image-service src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2" />
+</Story>
+
+```html
+<image-service src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2" />
+```
+
+You can set a custom height and width too.
+
+<Story name="custom height">
+  <image-service
+    width={512}
+    height={256}
+    src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2" />
+</Story>
+
+```html
+<image-service
+  width={512}
+  height={256}
+  src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2" />
+```
+
+Your image service will be deep-zoomable by default also, but you can switch out to a static preset.
+
+<Story name="static preset">
+  <image-service
+    preset="static"
+    width="512"
+    height="256"
+    src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2" />
+</Story>
+
+```html
+<image-service
+  preset="static"
+  width="512"
+  height="256"
+  src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2" />
+```

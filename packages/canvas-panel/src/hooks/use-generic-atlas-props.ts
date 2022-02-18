@@ -186,12 +186,14 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     };
   });
 
-  useLayoutEffect(() => {
-    if (target && isReady && runtime.current && target.selector && target.selector.type === 'BoxSelector') {
-      runtime.current.transitionManager.goToRegion(target.selector, { transition: { duration: 0 } });
-      runtime.current.transitionManager.runTransition(runtime.current.target, 5);
-    }
-  }, [isReady, target]);
+  // @todo this appears not to be needed.. but maybe worth adding back in.
+  // useLayoutEffect(() => {
+  //   if (target && isReady && runtime.current && target.selector && target.selector.type === 'BoxSelector') {
+  //     // console.log('isReady...');
+  //     // runtime.current.transitionManager.goToRegion(target.selector.spatial, { transition: { duration: 0 } });
+  //     // runtime.current.transitionManager.runTransition(runtime.current.target, 5);
+  //   }
+  // }, [isReady, target]);
 
   useLayoutEffect(() => {
     if (styleId) {
@@ -208,10 +210,12 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       viewport,
       // Defaults for now.
       onCreated: (rt: { runtime: Runtime }) => {
+        // @todo this means ready, but does not mean first item is in the world.
         setIsReady(true);
         runtime.current = rt.runtime;
       },
-      homePosition: target && target.selector && target.selector.type === 'BoxSelector' ? target.selector : undefined,
+      homePosition:
+        target && target.selector && target.selector.type === 'BoxSelector' ? target.selector.spatial : undefined,
       mode,
       renderPreset:
         render === 'static'
