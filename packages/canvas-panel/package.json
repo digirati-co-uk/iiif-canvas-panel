@@ -1,6 +1,6 @@
 {
   "name": "@digirati/canvas-panel-web-components",
-  "version": "1.0.31",
+  "version": "1.0.33",
   "typings": "./dist/types/index.d.ts",
   "main": "./dist/bundle.js",
   "files": [
@@ -18,7 +18,7 @@
     "nanoid": "3.1.25"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "^2.0.0-alpha.1",
+    "@atlas-viewer/atlas": "2.0.0-alpha.4",
     "@atlas-viewer/iiif-image-api": "2.0.1",
     "@iiif/presentation-2": "^1.0.1",
     "@iiif/presentation-3": "^1.0.4",
@@ -32,9 +32,9 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
+    "@types/preact-custom-element": "^4.0.1",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
-    "@types/preact-custom-element": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "esbuild": "^0.13.13",

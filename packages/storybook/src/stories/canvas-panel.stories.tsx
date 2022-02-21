@@ -18,3 +18,9 @@ export const ChangingCanvases = () => {
     <canvas-panel manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" canvas-id={cv} />
   </>
 }
+
+export const CanvasWithNavigator = () => {
+  {/* @ts-ignore */}
+  return <canvas-panel manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" canvas-id={canvases[0]} enable-navigator="true" />;
+
+}
