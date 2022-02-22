@@ -6,6 +6,51 @@ sidebar_position: 2
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
+
+TODO
+
+-------------------
+
+> I think I've implemented the preset and its dependencies - I played around with responsive images a bit. I've added 3 presets, like the original docs. static which is still a viewport but not interactive and static images. responsive which is not a viewport, not interactive and static images and zoom or default - which is normal.
+
+
+For the <script id="my-preset">{"height": 600}</script>  I've changed the syntax slightly:
+<canvas-panel preset="#my-preset" />
+<canvas-panel preset="https://example.org/other/preset.json" />
+<canvas-panel preset="responsive" />
+
+Related updates:
+Compatible with media queries - once bug is fixed (HOW)
+Resizes very similar to an image. If you set a viewport of 512x100% it will "fit" inside responsively
+There is an extra <div /> to facilitate the sizings. There is an Atlas hook for styling, but not a canvas panel one. Possibly a CSS API. This allows for centring the fix-aspect ratio image.
+Viewport works with region/target too, so if you "crop" an image, the aspect ratio will match and the home position will be the crop. If it's not interactive, this will act almost like a cropped <img/>  tag
+
+{
+  "styleId": "css",
+  "height": 300,
+  "canvasId": "https://iiif.wellcomecollection.org/presentation/b28929780/canvases/b28929780_0006.jp2",
+  "media": {
+    "(min-width: 800px)": {
+      "canvasId": "https://iiif.wellcomecollection.org/presentation/b28929780/canvases/b28929780_0004.jp2", 
+      "height": 500
+    },
+    "(min-width: 1200px)": {
+      "height": 700
+    }
+  }
+}
+
+cp.media.add('min-width: 800px', { ... config ... });
+
+(can we do that)?
+
+------------------------
+
+
+
+
+
+
 <!-- TODO: GH-79 -->
 Using IIIF for responsive images is a natural fit. Canvas Panel makes this easy, and can populate the HTML5 `srcset` attributes that you need to do when using the HTML5 [picture element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture). The tag knows about available sizes because it has the image service (or the canvas). There is typically a media query involved, too:
 

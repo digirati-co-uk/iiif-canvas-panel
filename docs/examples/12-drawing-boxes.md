@@ -11,6 +11,10 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 TODO: need to get a valid source for The Ambassadors or use a different image
 
+
+TODO:
+Work in https://codesandbox.io/s/frosty-bush-48h9t?file=/index.html
+
 :::
 
 ## Scenario

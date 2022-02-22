@@ -6,6 +6,10 @@ sidebar_position: 5
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
+TODO:
+Work in https://codesandbox.io/s/frosty-bush-48h9t?file=/index.html
+
+
 Sometimes you want to render just a _part_ of an image (an `xywh` region).
 
 This might be part of a Canvas, or a region of an image service. This can be specified with the `region` parameter, available on both `img-service` and `canvas-panel`:
