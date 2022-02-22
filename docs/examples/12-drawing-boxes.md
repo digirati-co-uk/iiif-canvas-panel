@@ -111,5 +111,23 @@ In the above examples, the `region` and `highlight` attributes both take string 
 
 The highlight region might also be defined by SVG.
 
+## TODO
+
+Need work this demo in:
+
+https://codesandbox.io/s/canvas-panel-web-component-demo-forked-nj46y?file=/index.html
+
+```html
+<canvas-panel
+  preset="zoom"
+  iiif-content='{"id": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116#1000,1500,1500,1000", "type": "Canvas", "partOf": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"}'
+  highlight="1250,1780,400,400"
+  highlight-css-class="example-annotation"
+  style-id="my-style"
+/>
+```
+
+
+
 
 <GitHubDiscussion ghid="12" />

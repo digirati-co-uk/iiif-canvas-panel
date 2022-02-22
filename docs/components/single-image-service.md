@@ -42,3 +42,24 @@ By default this image is zoomable, but you can change that behaviour with a `pre
 ```
 
 <image-service width="512" height="256" preset="static" src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2" />
+
+
+You can also ask for a specific region of the image:
+
+```html
+<image-service
+   preset="responsive"
+   width="400"
+   height="400"
+   target="1000,1000,1000,1000"
+   src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2"
+/>
+```
+
+<image-service
+   preset="responsive"
+   width="400"
+   height="400"
+   target="1000,1000,1000,1000"
+   src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2"
+/>
