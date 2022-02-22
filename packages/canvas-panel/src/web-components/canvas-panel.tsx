@@ -167,7 +167,6 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       textSelectionEnabled,
       textEnabled,
       preferredFormats,
-      highlight,
     });
   }, []);
 
