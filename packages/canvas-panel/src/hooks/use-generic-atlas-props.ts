@@ -53,6 +53,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     defaultValue: true,
   });
   const [debug] = useSyncedState(props.debug || internalConfig.debug, { parse: parseBool });
+  const [enableNavigator] = useSyncedState(props.enableNavigator || internalConfig.enableNavigator, {
+    parse: parseBool,
+  });
 
   const [target, setTarget, setParsedTarget, targetRef] = useSyncedState(
     props.target || props.region || internalConfig.target || internalConfig.region,
@@ -208,6 +211,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return {
       responsive,
       viewport,
+      enableNavigator,
       // Defaults for now.
       onCreated: (rt: { runtime: Runtime }) => {
         // @todo this means ready, but does not mean first item is in the world.
@@ -235,7 +239,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       width: width ? width : undefined,
       height: height ? height : 512,
     } as AtlasProps;
-  }, [responsive, viewport, target, mode, render, internalConfig]);
+  }, [responsive, viewport, target, mode, render, enableNavigator, internalConfig]);
 
   return {
     atlasProps,
@@ -256,6 +260,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     responsive,
     viewport,
     debug,
+    enableNavigator,
     height,
     width,
     className,
