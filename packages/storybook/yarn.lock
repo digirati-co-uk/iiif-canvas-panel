@@ -1158,8 +1158,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@digirati/canvas-panel-web-components@../canvas-panel":
-  version "1.0.33"
+"@digirati/canvas-panel-web-components@^1.0.34":
+  version "1.0.34"
+  resolved "https://registry.yarnpkg.com/@digirati/canvas-panel-web-components/-/canvas-panel-web-components-1.0.34.tgz#e4ad87a1474533b537dfd4e06bac16ba4489a788"
+  integrity sha512-pLIRhHeCq4Xedgg6LSFB7M22IPrXGybhdlA0FIUWWZ/7OMPBek4fnxeInravZ8vI4xQcZVEnIk4Gm7rmNW884w==
   dependencies:
     "@atlas-viewer/atlas" "2.0.0-alpha.4"
     "@atlas-viewer/iiif-image-api" "2.0.1"
