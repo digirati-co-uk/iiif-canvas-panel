@@ -18,7 +18,6 @@ Instead, Canvas Panel does the hard work. You can still _respond_ to the scene c
 
 Here the Canvas has two different image sources on it:
 
-<!-- TODO: GH-71 -->
 ```html
 <canvas-panel
    canvas-id="..multiple-content-canvas..."
@@ -33,7 +32,6 @@ Here the Canvas has two different image sources on it:
 
 This can still be rendered as a static image!
 
-<!-- TODO: GH-71, GH-56 -->
 ```html
 <canvas-panel
    preset="static"
@@ -49,7 +47,6 @@ This can still be rendered as a static image!
 </canvas-panel>
 
 
-<!-- TODO GH-55 (task) -->
 > The default value of `preset` is "zoom" - this can be set explicitly but is not usually required. See [Responsive Images and rendering modes](responsive-image).
 
 ## Server-side Canvas Panel

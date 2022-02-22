@@ -68,6 +68,20 @@ You can also render canvases as static images, without the pan and zoom behaviou
 
 The addition of `preset="static"` changes the behaviour of the component on the web page; now you can't zoom in. This becomes more useful when combined with other behaviours later.
 
+TODO - explain diff between static and responsive and how responsive gives you an "image" but static still gives you a viewport
+
+Explain more in 2-responsive
+
+<canvas-panel
+    preset="responsive"
+    canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+    manifest-id="https://digirati-co-uk.github.io/wunder.json">
+</canvas-panel>
+
+
+Also explain that `zoom` is the default preset.
+
+
 ### Getting content in
 
 The `canvas-id` and `manifest-id` attributes are helpers for a very common scenario for loading a canvas into Canvas Panel: when you know the manifest URL, and you know the ID of the canvas within it, but the canvas is not dereferenceable on its own.
@@ -87,6 +101,8 @@ More generally, you can use the `iiif-content` attribute, which accepts a _Conte
 Examples of content states are bookmarks and search results. You can see what the content state used in the above example looks like in a [content state decoder](https://base64url.herokuapp.com/?iiif-content=JTdCJTBEJTBBJTIwJTIwJTIyaWQlMjIlM0ElMjAlMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMSUyMiUyQyUwRCUwQSUyMCUyMCUyMnR5cGUlMjIlM0ElMjAlMjJDYW52YXMlMjIlMkMlMEQlMEElMjAlMjAlMjJwYXJ0T2YlMjIlM0ElMjAlNUIlN0IlMEQlMEElMjAlMjAlMjAlMjAlMjJpZCUyMiUzQSUyMCUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjJ0eXBlJTIyJTNBJTIwJTIyTWFuaWZlc3QlMjIlMEQlMEElMjAlMjAlN0QlNUQlMEQlMEElN0Q).
 
 
+TODO: Maybe add unescaped content state here as well for example?
+
 ### Programming Canvas Panel
 
 You can also work with the Canvas from script. This is more typical in client-side applications. The attribute-based approach is more useful in rendering IIIF content server-side. You can tell Canvas Panel to do the same thing as the attributes above like this:
@@ -100,6 +116,7 @@ You can also work with the Canvas from script. This is more typical in client-si
 </script> 
 ```
 
+TODO - get script working in docusaurus
 <canvas-panel id="cp"></canvas-panel>
 <script>       
     const cp = document.getElementById("cp"); 

@@ -8,7 +8,7 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 ## Preferred Formats
 
-:::caution
+:::danger
 
 This feature is still in development and not yet in the release version.
 
@@ -29,5 +29,12 @@ Canvas Panel (and `<img-service/>`) will use the preferred format(s) automatical
 > Show it!
 
 If the format is not available, the tag will fall back to the default jpg.
+
+
+TODO - also you can change the `quality` param
+
+```html
+<canvas-panel iiif-content=".." preferred-formats="png" preferred-quality="psychedelic,bitonal,gray"></canvas-panel>
+```
 
 <GitHubDiscussion ghid="45" />

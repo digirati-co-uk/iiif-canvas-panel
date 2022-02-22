@@ -7,6 +7,8 @@ sidebar_position: 2
  - list the available attrs
  - show how to use them as attrs and via the "JSON API":
 
+ TODO - discuss how to set CP from JSON blocks
+
 
 ## Canvas Panel Attributes
 
@@ -33,7 +35,14 @@ sidebar_position: 2
  - choice-id
     
 
-## Setting canvas panel via JSOn
+## Setting canvas panel via JSON
+
+This is a preset
+
+Also image service tag example
+
+TODO - need a working preset example
+
 
 ```json
 {

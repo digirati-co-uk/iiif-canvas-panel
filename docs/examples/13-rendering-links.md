@@ -6,6 +6,12 @@ sidebar_position: 13
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
+:::danger
+
+Handling and rendering linking annotations is a work in progress.
+
+:::
+
 In any canvas rendering scenario, if the canvas has `linking` annotations available, we need to render them as hyperlinks on the image surface.
 
 ```js title="An example linking annotation"

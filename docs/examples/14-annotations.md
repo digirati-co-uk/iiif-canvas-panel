@@ -6,6 +6,8 @@ sidebar_position: 14
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
+TODO: work this in - https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
+
 
 The underlying Hyperion framework is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Hyperion+Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 
@@ -52,6 +54,9 @@ A W3C Hyperion `Annotation` can't have a CSS Class, but the Canvas Panel `Displa
 Canvas Panel also defines `TransitionOptions` - a class used to define how the canvas navigates from one Annotation or state to another, e.g., for guided viewing.
 
 ## Target
+
+TODO - re-focus on creating W3C annos and letting Vault parse them rather than using custom target class.
+
 
 <!-- TODO: GH-108 -->
 **Target** is a standardised object representing a spatial and/or temporal target on a canvas, from the various forms that could take in Annotation JSON. Hyperion will parse these from W3C and Open Annotation content.
@@ -109,6 +114,8 @@ log(canvas); // { .. } (see below - assumes vault was already tracking the canva
 
 ## Body
 
+TODO - similar to above, just construct the W3C anno and let Vault parse the body
+
 A **Body** could be very similar to a target (e.g., a canvas in a manifest could be the body of a link annotation). But a body could be a URL, a textual body, and other kinds of resource. Hyperion doesn't have wrapper classes for every possible type of Target, but it will try to coerce the found Annotation body into one of its known types.
 
 It will also attempt to coerce string values into a language map compatible with IIIF language maps.
@@ -138,9 +145,15 @@ These should align with the cookbook, if present there.
 
 ## Annotation
 
+TODO -  not _just_ a W3C Web Annotation .... yes it is
+
 As discussed above, **Annotation** is not _just_ a W3C Web Annotation, although you can create an instance from a W3C Anno in a constructor, and you can call `.toW3CAnnotation()` on an Annotation to get the W3C JSON representation.
 
 `Annotation` is loaded and managed by the Vault. However it does not automatically follow and load all annotations linked from the manifest. For a printed book this could trigger potentially thousands of HTTP requests. Instead, you can listen for events that notify you that annotations are present, and then follow them on demand as necessary.
+
+TODO update - load anno pages as in the Vault walkthrough docs/components/vault.md
+TODO - with vault.requestStatus
+
 
 ```html
 <canvas-panel id="cp"><canvas-panel>
@@ -176,6 +189,8 @@ Need more examples of anno loading here.
 
 ### Honorary annotations - METS-ALTO, hOCR and WebVTT
 
+TODO - candidates for Vault helpers   danger admonition
+
 It's common for IIIF canvases to link to non-IIIF formats containing text. 
 
 Hyperion allows you to load these _as if they were annotations_ and program against them through the Annotation/Target/Body classes for consistency. If it finds it linked from the Canvas, Canvas Panel will expose WebVTT to `<video>` and `<audio>` tags, but you might want to do additional things with the text, without parsing WebVTT yourself, instead parsing as W3C annotations for consistency.
@@ -185,7 +200,13 @@ See [Text Handling](./handling-text) for further information.
 
 ## DisplayAnnotation
 
-For displaying an Annotation on the Canvas, you wrap it in a `DisplayAnnotation`.
+TODO - update from Slack https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
+
+TODO - cp.annotations page
+
+
+
+For displaying an Annotation on the Canvas, you wrap it in a `DisplayAnnotation`.  (no!!)
 
 The Vault doesn't know anything about this class. It belongs to Canvas Panel. `DisplayAnnotation` provides properties that help you style annotations, react to events on them, manage their visibility on the canvas, and other utility / extensions.
 
@@ -224,8 +245,12 @@ Continuing the example above:
 </script>
 ```
 
+TODO: need to work out how Manifest Editor would do this - what does it need?
+(Leave with Stephen!!)
+
 A common pattern is drawing lots of annotations on the canvas at once, and wiring up event listeners for activity on those annotations. To do this, Canvas Panel supports a query API:
 
+TODO - update this using the Vault walkthrough mechanism
 ```js
 cp.query({
   type: "Annotation", // `DisplayAnnotation` here?

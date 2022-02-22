@@ -29,6 +29,12 @@ Usually, if Choice is present at all, it's only one set of choices, for the whol
 <canvas-panel iiif-content="http://example.org/canvas-1.json" choice-id="http://example.org/choice-1" />
 ```
 
+<canvas-panel 
+    manifest-id="https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/manifest.json"
+    canvas-id="https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/canvas/p1"
+    choice-id="https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-xray/full/max/0/default.jpg" />
+
+
 Here the value of `choice-id` is the `id` of the content resource within a set of choices. You don't need to specify which set of choices, in the rare event that there is more than one - although you can specify more than one value:
 
 ```html
@@ -39,6 +45,18 @@ Here the value of `choice-id` is the `id` of the content resource within a set o
 ## Before loading
 
 Before you put the `<canvas-panel />` web component on a page, you can first load the manifest into the vault, find out if there is a choice and render a UI.
+
+TODO: update this to reflect current API
+React example: https://codesandbox.io/s/sweet-zhukovsky-cz4p3?file=/src/App.js 
+
+Make non-react version of this ^^
+Also show React version
+
+
+cp.setDefaultChoiceIds(ids);
+cp.makeChoice(id, options)
+
+
 
 ```js
 vault.loadManifest('http://example.org/manifest.json').then(manifestRef => {
