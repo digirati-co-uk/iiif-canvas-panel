@@ -67,10 +67,15 @@ export default function register(Component, tagName, propNames, options) {
 		options.beforeCreate(PreactElement);
 	}
 
-	return customElements.define(
-		tagName || Component.tagName || Component.displayName || Component.name,
-		PreactElement
-	);
+	const name =
+		tagName || Component.tagName || Component.displayName || Component.name;
+
+	if (!customElements.get(name)) {
+		return customElements.define(
+			tagName || Component.tagName || Component.displayName || Component.name,
+			PreactElement
+		);
+	}
 }
 
 function ContextProvider(props) {

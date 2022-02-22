@@ -14,7 +14,7 @@
   },
   "resolutions": {
     "@atlas-viewer/iiif-image-api": "^2.0.0",
-    "@iiif/vault": "^0.9.10",
+    "@iiif/vault": "^0.9.12",
     "nanoid": "3.1.25"
   },
   "dependencies": {
@@ -22,7 +22,7 @@
     "@atlas-viewer/iiif-image-api": "2.0.1",
     "@iiif/presentation-2": "^1.0.1",
     "@iiif/presentation-3": "^1.0.4",
-    "@iiif/vault": "^0.9.10",
+    "@iiif/vault": "^0.9.12",
     "@iiif/vault-helpers": "^0.9.4",
     "@preact/compat": "17.0.2",
     "@react-hook/media-query": "^1.1.1",

@@ -1,0 +1,17 @@
+{
+  // This file is not used in compilation. It is here just for a nice editor experience.
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "lib": ["DOM"],
+    "noEmit": true,
+    "noImplicitAny": false,
+    "types": ["node", "@docusaurus/module-type-aliases", "@docusaurus/theme-classic", "@types/webpack-env"],
+    "baseUrl": ".",
+    "paths": {
+      "@site/*": ["./*"],
+      "@csb/*": ["./sandboxes"]
+    }
+  }
+}
