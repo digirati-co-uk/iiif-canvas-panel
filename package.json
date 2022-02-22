@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@atlas-viewer/atlas": "1.6.6",
+    "@codesandbox/sandpack-react": "^0.14.2",
     "@docusaurus/core": "2.0.0-beta.4",
     "@docusaurus/preset-classic": "2.0.0-beta.4",
     "@mdx-js/react": "^1.6.21",
@@ -41,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "raw-loader": "^4.0.2"
   }
 }
