@@ -12,9 +12,13 @@ module.exports = {
     'https://cdn.jsdelivr.net/npm/@codesandbox/sandpack-react/dist/index.css'
   ],
   scripts: [
-    'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest',
+    // 'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest',
+    'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.37',
     'https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js'
   ],
+  // clientModules: [
+  //   require.resolve('./packages/canvas-panel/dist/bundle.js'),
+  // ],
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'digirati-co-uk', // Usually your GitHub org/user name.
