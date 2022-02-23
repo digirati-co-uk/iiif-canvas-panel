@@ -72,11 +72,36 @@ TODO - explain diff between static and responsive and how responsive gives you a
 
 Explain more in 2-responsive
 
-<canvas-panel
-    preset="responsive"
-    canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
-    manifest-id="https://digirati-co-uk.github.io/wunder.json">
-</canvas-panel>
+<div style={{ maxWidth: 600 }}>
+    <div style={{ marginBottom: '10px' }}>
+      <canvas-panel
+        preset="responsive"
+        canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+        manifest-id="https://digirati-co-uk.github.io/wunder.json">
+      </canvas-panel>
+    </div>
+    
+    <div style={{ marginBottom: '10px' }}>
+      <canvas-panel
+        preset="responsive"
+        iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMCUyM3h5d2glM0Q3NDQlMkMxMTM2JTJDMTAyNCUyQzEwMTAlMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlci5qc29uJTIyJTJDJTIydHlwZSUyMiUzQSUyMk1hbmlmZXN0JTIyJTdEJTVEJTdE"
+      />
+    </div>
+    
+    <div style={{ marginBottom: '10px' }}>
+      <canvas-panel
+        preset="responsive"
+        iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMCUyM3h5d2glM0Q0NjYlMkMyMjIxJTJDMTYxMiUyQzQ1MCUyMiUyQyUyMnR5cGUlMjIlM0ElMjJDYW52YXMlMjIlMkMlMjJwYXJ0T2YlMjIlM0ElNUIlN0IlMjJpZCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMjJ0eXBlJTIyJTNBJTIyTWFuaWZlc3QlMjIlN0QlNUQlN0Q"
+      />
+    </div>
+    
+    <div style={{ marginBottom: '10px' }}>
+      <canvas-panel
+        preset="responsive"
+        iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMCUyM3h5d2glM0Q4NzElMkMxMTcwJTJDNzg4JTJDMTQ4MSUyMiUyQyUyMnR5cGUlMjIlM0ElMjJDYW52YXMlMjIlMkMlMjJwYXJ0T2YlMjIlM0ElNUIlN0IlMjJpZCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMjJ0eXBlJTIyJTNBJTIyTWFuaWZlc3QlMjIlN0QlNUQlN0Q"
+      />
+    </div>
+</div>
 
 
 Also explain that `zoom` is the default preset.
@@ -95,8 +120,8 @@ More generally, you can use the `iiif-content` attribute, which accepts a _Conte
 ```
 
 <canvas-panel
-    iiif-content="JTdCJTBEJTBBJTIwJTIwJTIyaWQlMjIlM0ElMjAlMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMSUyMiUyQyUwRCUwQSUyMCUyMCUyMnR5cGUlMjIlM0ElMjAlMjJDYW52YXMlMjIlMkMlMEQlMEElMjAlMjAlMjJwYXJ0T2YlMjIlM0ElMjAlNUIlN0IlMEQlMEElMjAlMjAlMjAlMjAlMjJpZCUyMiUzQSUyMCUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjJ0eXBlJTIyJTNBJTIwJTIyTWFuaWZlc3QlMjIlMEQlMEElMjAlMjAlN0QlNUQlMEQlMEElN0Q">
-</canvas-panel>
+  iiif-content="JTdCJTBEJTBBJTIwJTIwJTIyaWQlMjIlM0ElMjAlMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMSUyMiUyQyUwRCUwQSUyMCUyMCUyMnR5cGUlMjIlM0ElMjAlMjJDYW52YXMlMjIlMkMlMEQlMEElMjAlMjAlMjJwYXJ0T2YlMjIlM0ElMjAlNUIlN0IlMEQlMEElMjAlMjAlMjAlMjAlMjJpZCUyMiUzQSUyMCUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjJ0eXBlJTIyJTNBJTIwJTIyTWFuaWZlc3QlMjIlMEQlMEElMjAlMjAlN0QlNUQlMEQlMEElN0Q"
+/>
 
 Examples of content states are bookmarks and search results. You can see what the content state used in the above example looks like in a [content state decoder](https://base64url.herokuapp.com/?iiif-content=JTdCJTBEJTBBJTIwJTIwJTIyaWQlMjIlM0ElMjAlMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMSUyMiUyQyUwRCUwQSUyMCUyMCUyMnR5cGUlMjIlM0ElMjAlMjJDYW52YXMlMjIlMkMlMEQlMEElMjAlMjAlMjJwYXJ0T2YlMjIlM0ElMjAlNUIlN0IlMEQlMEElMjAlMjAlMjAlMjAlMjJpZCUyMiUzQSUyMCUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjJ0eXBlJTIyJTNBJTIwJTIyTWFuaWZlc3QlMjIlMEQlMEElMjAlMjAlN0QlNUQlMEQlMEElN0Q).
 

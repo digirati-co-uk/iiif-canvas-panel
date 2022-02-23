@@ -47,6 +47,11 @@ This can still be rendered as a static image, even though it's a composite scene
 
 > The default value of `preset` is "zoom" - this can be set explicitly but is not usually required. See [Responsive Images and rendering modes](responsive-image).
 
+<canvas-panel
+  preset="responsive"
+  iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRnByZXZpZXcuaWlpZi5pbyUyRmNvb2tib29rJTJGMzMzMy1jaG9pY2UlMkZyZWNpcGUlMkYwMDM2LWNvbXBvc2l0aW9uLWZyb20tbXVsdGlwbGUtaW1hZ2VzJTJGY2FudmFzJTJGcDElMjN4eXdoJTNEMzU2OSUyQzc2MSUyQzE4NTElMkMyMDU5JTIyJTJDJTIydHlwZSUyMiUzQSUyMkNhbnZhcyUyMiUyQyUyMnBhcnRPZiUyMiUzQSU1QiU3QiUyMmlkJTIyJTNBJTIyaHR0cHMlM0ElMkYlMkZnaXN0LmdpdGh1YnVzZXJjb250ZW50LmNvbSUyRnN0ZXBoZW53ZiUyRjE5ZTYxZGFjNWMzMjljNzdkYjhjZjIyZmUwMzY2ZGFkJTJGcmF3JTJGYTgxYzM3Mzk3MTFkMTQwYmQwNGJlNGYwYjQ4MDBlNDIxY2M2MTc2MSUyRm1hbmlmZXN0Lmpzb24lMjIlMkMlMjJ0eXBlJTIyJTNBJTIyTWFuaWZlc3QlMjIlN0QlNUQlN0Q"
+/>
+
 ## Server-side Canvas Panel
 
 Canvas Panel and its underlying libraries can also be used on the server, to render simple HTML representations of IIIF resources.

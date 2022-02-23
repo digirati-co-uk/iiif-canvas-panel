@@ -2,6 +2,9 @@
 sidebar_position: 2
 ---
 
+import presetSandbox from '@site/sandboxes/custom-preset.csb/_load';
+import { Sandbox } from '@site/Sandbox';
+
 # Canvas Panel and Image Service attributes
 
  - list the available attrs
@@ -64,3 +67,4 @@ TODO - need a working preset example
 }
 ```
 
+<Sandbox project={presetSandbox} />
