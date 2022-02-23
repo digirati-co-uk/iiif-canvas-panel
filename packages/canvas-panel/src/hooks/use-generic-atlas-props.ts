@@ -1,8 +1,7 @@
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
-import { useExistingVaultOrGlobal } from './use-existing-vault';
 import { usePresetConfig } from './use-preset-config';
 import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
-import { useImageServiceLoader } from 'react-iiif-vault';
+import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
 import { BoxStyle, Runtime, AtlasProps } from '@atlas-viewer/atlas';
 import { useSyncedState } from './use-synced-state';
 import {
@@ -19,7 +18,7 @@ import { createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
-  const vault = useExistingVaultOrGlobal();
+  const vault = useExistingVault();
   const loader = useImageServiceLoader();
   const { isReady, isConfigBlocking, setIsReady, internalConfig } = usePresetConfig<GenericAtlasComponent<T>>(
     props.preset
@@ -27,7 +26,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   const styles = useMemo(() => createStylesHelper(vault), [vault]);
   const thumbs = useMemo(() => createThumbnailHelper(vault, { imageServiceLoader: loader }), [vault, loader]);
   const runtime = useRef<Runtime>();
-  const [render] = useSyncedState<'canvas' | 'webgl' | 'static' | undefined>(props.render, {
+  const [render] = useSyncedState<'canvas' | 'webgl' | 'static' | undefined>(props.render || internalConfig.render, {
     defaultValue: 'canvas',
   });
   const [className] = useSyncedState(props['class']);
@@ -237,7 +236,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
               },
             ],
       width: width ? width : undefined,
-      height: height ? height : 512,
+      height: height ? height : responsive ? undefined : 512,
     } as AtlasProps;
   }, [responsive, viewport, target, mode, render, enableNavigator, internalConfig]);
 

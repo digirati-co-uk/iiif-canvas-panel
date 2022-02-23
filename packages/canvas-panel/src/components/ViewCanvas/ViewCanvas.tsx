@@ -10,7 +10,7 @@ import {
   useAnnotationPageManager,
   useManifest,
   useVault,
-  StrategyActions,
+  StrategyActions, useResourceEvents,
 } from 'react-iiif-vault';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';

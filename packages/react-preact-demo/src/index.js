@@ -4,12 +4,14 @@ import "./index.css";
 import { ImageService } from "./ImageService";
 import '@digirati/canvas-panel-web-components';
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { PresetTesting } from "./PresetTesting";
 
 function Home() {
   return <div>
     <ul>
       <li><Link to={"image-service"}>Image Service</Link></li>
       <li><Link to={"region"}>Region</Link></li>
+      <li><Link to={"presets"}>Preset testing</Link></li>
     </ul>
 
   </div>;
@@ -22,6 +24,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/image-service" element={<ImageService />} />
+        <Route path="/presets" element={<PresetTesting />} />
         <Route path="/region" element={
           <>
           <canvas-panel

@@ -13,22 +13,23 @@
     "build-types": "tsc -p ./ --emitDeclarationOnly"
   },
   "resolutions": {
-    "@atlas-viewer/iiif-image-api": "^2.0.0",
-    "@iiif/vault": "^0.9.12",
+    "@atlas-viewer/iiif-image-api": "^2.0.1",
+    "@iiif/vault": "^0.9.14",
+    "@iiif/parser": "^1.0.5",
     "nanoid": "3.1.25"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "2.0.0-alpha.4",
-    "@atlas-viewer/iiif-image-api": "2.0.1",
+    "@atlas-viewer/atlas": "^2.0.0-alpha.5",
+    "@atlas-viewer/iiif-image-api": "^2.0.1",
     "@iiif/presentation-2": "^1.0.1",
     "@iiif/presentation-3": "^1.0.4",
-    "@iiif/vault": "^0.9.12",
+    "@iiif/vault": "^0.9.14",
     "@iiif/vault-helpers": "^0.9.4",
     "@preact/compat": "17.0.2",
     "@react-hook/media-query": "^1.1.1",
     "preact": "^10.5.15",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "^0.9.0"
+    "react-iiif-vault": "^0.9.3"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
