@@ -16,6 +16,12 @@
   --ifm-color-primary-lightest: #E7ACB0;
   --ifm-code-font-size: 95%;
   --ifm-z-index-fixed: 20;
+
+  --ifm-container-width-xl: 1800px;
+}
+
+.container p {
+  max-width: 55em;
 }
 
 .docusaurus-highlight-code-line {

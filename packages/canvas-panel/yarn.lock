@@ -463,10 +463,10 @@
     "@iiif/vault" "^0.9.8"
     tiny-invariant "^1.2.0"
 
-"@iiif/vault@^0.9.10", "@iiif/vault@^0.9.8", "@iiif/vault@^0.9.9":
-  version "0.9.10"
-  resolved "https://registry.yarnpkg.com/@iiif/vault/-/vault-0.9.10.tgz#f620813d664511895529e59e2e124a9971352fce"
-  integrity sha512-f+wKltOjIDbTNcELocBjo8c1svTe6BjQ9LQFSXXObYE6VYtc3bLYGBzS08huGUN39duVBi6vNtUsmlsl6H1KYQ==
+"@iiif/vault@^0.9.12", "@iiif/vault@^0.9.8", "@iiif/vault@^0.9.9":
+  version "0.9.12"
+  resolved "https://registry.yarnpkg.com/@iiif/vault/-/vault-0.9.12.tgz#36cbeafc5ed41069fb727e26ca7aff3c00fcfdb7"
+  integrity sha512-7o051s6breFOiDZqKHXz7H+O75JGoqSmlsJjXd0e6GTe5USZVIH72CFXmQtW3/tn5r/mMcHT8UbrdS9IDAFX9Q==
   dependencies:
     "@iiif/parser" "^1.0.2"
     "@iiif/presentation-2" "^1.0.1"

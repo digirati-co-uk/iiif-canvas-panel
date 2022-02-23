@@ -8,6 +8,9 @@ module.exports = {
   url: 'https://canvas-panel.digirati.com/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
+  stylesheets: [
+    'https://cdn.jsdelivr.net/npm/@codesandbox/sandpack-react/dist/index.css'
+  ],
   scripts: [
     'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest',
     'https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js'
