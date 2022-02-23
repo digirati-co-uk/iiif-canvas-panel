@@ -29,7 +29,7 @@ Here the Canvas has two different image sources on it:
 
 <Sandbox project={exampleSandbox} />
 
-This can still be rendered as a static image!
+This can still be rendered as a static image, even though it's a composite scene!
 
 ```html
 <canvas-panel
