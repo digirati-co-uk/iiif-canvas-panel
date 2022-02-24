@@ -1,4 +1,3 @@
-
 <template>
   <div class="container">
     <h3>Manifest thumbs</h3>

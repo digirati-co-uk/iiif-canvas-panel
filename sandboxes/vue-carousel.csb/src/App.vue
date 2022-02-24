@@ -17,7 +17,6 @@ import { createThumbnailHelper } from "@iiif/vault-helpers";
 export default {
   name: "App",
   components: {
-    // HelloWorld: HelloWorldVue,
     Manifest,
     ManifestThumbnailList,
   },
