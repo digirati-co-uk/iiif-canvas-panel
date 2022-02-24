@@ -2,6 +2,9 @@
 sidebar_position: 20
 ---
 
+import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
+import { Sandbox } from '@site/Sandbox';
+
 # Styling inside Canvas Panel
 
 There are 3 types of object you can type in 
@@ -137,6 +140,7 @@ styles.
 <canvas-panel stylesheet="https://example.org/styles.css"></canvas-panel>
 ```
 
+<Sandbox project={externalStylesheet} />
 
 ### EXTRA
 
