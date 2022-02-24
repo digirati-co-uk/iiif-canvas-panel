@@ -60,8 +60,6 @@ The above example encodes the region of the canvas, and the manifest that canvas
 
 <Sandbox project={renderCanvasAttributes} />
 
-3569,761,1851,2059
-
 
 ## Server-side Canvas Panel
 
