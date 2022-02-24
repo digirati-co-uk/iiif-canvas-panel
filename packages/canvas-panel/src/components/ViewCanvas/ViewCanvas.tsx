@@ -10,7 +10,7 @@ import {
   useAnnotationPageManager,
   useManifest,
   useVault,
-  StrategyActions, useResourceEvents,
+  StrategyActions,
 } from 'react-iiif-vault';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
@@ -116,6 +116,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
       >
         {canvas ? (
           <AtlasCanvas
+            isStatic={!props.interactive}
             debug={props.debug}
             virtualSizes={props.virtualSizes}
             highlight={props.highlight}

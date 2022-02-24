@@ -39,6 +39,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     viewport,
     debug,
     target,
+    interactive,
     className,
     inlineStyles,
     inlineStyleSheet,
@@ -180,6 +181,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       <ViewCanvas
         // Escape hatch for bugs - to be improved.
         key={`${viewport ? 'v1' : 'v0'}`}
+        interactive={interactive}
         defaultChoices={defaultChoices}
         followAnnotations={followAnnotations}
         onChoiceChange={onChoiceChange}

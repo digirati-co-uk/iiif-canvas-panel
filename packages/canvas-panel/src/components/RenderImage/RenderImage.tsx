@@ -10,11 +10,13 @@ export function RenderImage({
   id,
   image,
   thumbnail,
+  isStatic,
   virtualSizes = [],
 }: {
   id: string;
   image: ImageWithOptionalService;
   thumbnail?: ImageCandidate;
+  isStatic?: boolean;
   virtualSizes?: SizeParameter[];
 }) {
   // For image resources, we may not support everything.. but we do support opacity.
@@ -39,6 +41,7 @@ export function RenderImage({
       ) : (
         <TileSet
           key={image.service.id}
+          viewport={isStatic}
           tiles={{
             id: image.service.id,
             height: image.height as number,
