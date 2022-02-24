@@ -5,6 +5,8 @@ sidebar_position: 10
 # Handling Choice
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+import choicesReactSandbox from '@site/sandboxes/choices-react.csb/_load';
+import { Sandbox } from '@site/Sandbox';
 
 A Canvas have have multiple images. Sometimes, they are all a part of the scene to be rendered and the developer doesn't have to do anything extra - Canvas Panel will just render the scene.
 
@@ -55,6 +57,9 @@ Also show React version
 
 cp.setDefaultChoiceIds(ids);
 cp.makeChoice(id, options)
+
+
+<Sandbox project={choicesReactSandbox} />
 
 
 
