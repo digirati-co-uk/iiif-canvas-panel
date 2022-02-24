@@ -91,10 +91,11 @@ export function createAtlasWrapper<T = any, C = any>({
           }
         };
       }
+
       return () => {
         // no-op;
       };
-    }, [instance]);
+    }, [instance, atlas?.runtime]);
 
     useEffect(() => {
       if (instance && atlas && atlas.runtime) {

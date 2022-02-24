@@ -25,6 +25,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   );
   const styles = useMemo(() => createStylesHelper(vault), [vault]);
   const thumbs = useMemo(() => createThumbnailHelper(vault, { imageServiceLoader: loader }), [vault, loader]);
+  const [nested] = useSyncedState(props.nested || internalConfig.nested, { parse: parseBool, defaultValue: false });
+  const [x] = useSyncedState(props.x || internalConfig.x, { parse: parseNumber, defaultValue: 0 });
+  const [y] = useSyncedState(props.y || internalConfig.y, { parse: parseNumber, defaultValue: 0 });
   const runtime = useRef<Runtime>();
   const [render] = useSyncedState<'canvas' | 'webgl' | 'static' | undefined>(props.render || internalConfig.render, {
     defaultValue: 'canvas',
@@ -212,6 +215,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
   const atlasProps = useMemo(() => {
     return {
+      nested,
       responsive,
       viewport,
       enableNavigator,
@@ -241,7 +245,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             ],
       width: width ? width : undefined,
       height: height ? height : responsive ? undefined : 512,
-    } as AtlasProps;
+    } as AtlasProps & { nested?: boolean };
   }, [responsive, viewport, target, mode, render, enableNavigator, internalConfig]);
 
   return {
@@ -270,6 +274,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     inlineStyles,
     inlineStyleSheet,
     vault,
+    nested,
+    x,
+    y,
     useProp,
     useRegisterWebComponentApi,
     runtime,

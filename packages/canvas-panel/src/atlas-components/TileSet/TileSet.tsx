@@ -5,6 +5,7 @@ import { imageServiceRequestToString, parseImageServiceUrl } from '@atlas-viewer
 import { WorldObject, CompositeResource, SingleImage, TiledImage } from '..';
 
 export const TileSet: FC<{
+  viewport?: boolean;
   tiles: GetTile;
   x: number;
   y: number;
@@ -44,6 +45,11 @@ export const TileSet: FC<{
             ? {
                 renderLayers: 1,
                 renderSmallestFallback: false,
+              }
+            : props.viewport
+            ? {
+                renderLayers: 1,
+                renderSmallestFallback: true,
               }
             : {
                 renderLayers: 2,

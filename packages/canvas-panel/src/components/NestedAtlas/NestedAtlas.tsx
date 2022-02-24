@@ -12,7 +12,7 @@ function OnCreated(props: { onCreated: any }) {
     if (atlas) {
       props.onCreated(atlas);
     }
-  }, []);
+  }, [atlas]);
 
   return null;
 }
@@ -22,12 +22,13 @@ export function NestedAtlas({
   onCreated,
   responsive,
   viewport,
+  nested,
   ...props
-}: AtlasDisplayOptions & { children: any }) {
+}: AtlasDisplayOptions & { children: any; nested?: boolean }) {
   const [isCreated, setIsCreated] = useState(false);
   const inAtlas = useContext(InAtlasContext);
 
-  if (inAtlas) {
+  if (inAtlas || nested) {
     return (
       <Fragment>
         {onCreated ? <OnCreated onCreated={onCreated} /> : null}
