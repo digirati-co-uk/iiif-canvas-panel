@@ -40,6 +40,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     debug,
     target,
     interactive,
+    x,
+    y,
     className,
     inlineStyles,
     inlineStyleSheet,
@@ -192,6 +194,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         highlightCssClass={highlightCssClass}
         canvasId={canvasId}
         displayOptions={atlasProps}
+        x={x}
+        y={y}
       >
         <slot name="atlas" />
       </ViewCanvas>

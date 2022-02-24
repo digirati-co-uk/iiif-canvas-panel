@@ -12,15 +12,19 @@ export function RenderImage({
   thumbnail,
   isStatic,
   virtualSizes = [],
+  x = 0,
+  y = 0
 }: {
   id: string;
   image: ImageWithOptionalService;
   thumbnail?: ImageCandidate;
   isStatic?: boolean;
   virtualSizes?: SizeParameter[];
+  x?: number;
+  y?: number;
 }) {
   // For image resources, we may not support everything.. but we do support opacity.
-  const style = useStyles({ id, type: 'ContentResource' }, 'atlas');
+  const style = useStyles({ id, type: 'ContentResource' }, 'html');
 
   return (
     <React.Fragment>
@@ -49,8 +53,8 @@ export function RenderImage({
             imageService: image.service as any,
             thumbnail: thumbnail && thumbnail.type === 'fixed' ? thumbnail : undefined,
           }}
-          x={image.target?.spatial.x}
-          y={image.target?.spatial.y}
+          x={image.target?.spatial.x + x}
+          y={image.target?.spatial.y + y}
           width={image.target?.spatial.width}
           height={image.target?.spatial.height}
           style={style}

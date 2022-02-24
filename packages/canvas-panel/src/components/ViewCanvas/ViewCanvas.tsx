@@ -139,6 +139,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
               }
               setAnnoMode(false);
             }}
+            x={props.x}
+            y={props.y}
           />
         ) : null}
         {props.children}

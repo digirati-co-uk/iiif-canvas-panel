@@ -21,6 +21,9 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   height?: number | string;
   width?: number | string;
   class?: string;
+  x?: number | string;
+  y?: number | string;
+  nested?: boolean | string;
   enableNavigator?: boolean;
   __registerPublicApi?: (api: (host: HTMLElement) => Partial<Props>) => void;
 };
