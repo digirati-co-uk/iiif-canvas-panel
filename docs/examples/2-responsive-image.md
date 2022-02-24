@@ -11,6 +11,33 @@ TODO
 
 -------------------
 
+```
+switch (preset) {
+    case 'static': {
+      return {
+        render: 'static',
+        interactive: false,
+        viewport: true,
+      };
+    }
+    case 'responsive': {
+      return {
+        render: 'static',
+        interactive: false,
+        viewport: false,
+      };
+    }
+    case 'zoom': {
+      return {
+        render: 'canvas',
+        interactive: true,
+        viewport: true,
+      };
+    }
+  }
+
+```
+
 > I think I've implemented the preset and its dependencies - I played around with responsive images a bit. I've added 3 presets, like the original docs. static which is still a viewport but not interactive and static images. responsive which is not a viewport, not interactive and static images and zoom or default - which is normal.
 
 

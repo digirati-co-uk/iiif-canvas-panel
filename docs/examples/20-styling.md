@@ -8,6 +8,8 @@ TODO
 
 Although other pages show how things get styled in passing, this page summarises the approach and brings some examples together in one place.
 
+This page also gives advice on how to make CP work with your layouts - how to make it flex, fill available space, and so on.
+
 
 ```javascript
 cp.applyStyles(
