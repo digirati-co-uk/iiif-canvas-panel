@@ -56,7 +56,7 @@ interface BoxStyles {
 }
 ```
 
-#### States
+### States
 You can set hover and active states, that support all the above properties. This can be used to create some basic 
 interactivity for your annotations. These should be enough for most cases and avoid de-optimising and using CSS classes
 directly.
@@ -73,6 +73,29 @@ cp.applyStyles(annotationPage, {
 });
 ```
 
+### Vault helper
+If you decide to use [Vault helpers](https://github.com/IIIF-Commons/vault-helpers) you will need to ensure you pass
+in the correct scope when you apply styles.
+
+```ts
+import { createStyleHelper } from '@iiif/vault-helpers';
+import { globalVault } from '@iiif/vault';
+
+const helper = createStyleHelper(globalVault());
+
+// For box styles.
+helper.applyStyle(annotation, {
+  background: 'red'
+}, 'atlas');
+
+// For setting a class name
+helper.applyStyle(annotation, {
+  className: 'my-custom-style',
+}, 'html');
+```
+
+
+### Quirks
 Some quirks of the box style.
 
 * You can only use solid borders and outlines
