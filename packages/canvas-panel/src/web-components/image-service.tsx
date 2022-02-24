@@ -40,6 +40,7 @@ export function ImageService(props: ImageServiceProps) {
     inlineStyleSheet,
     vault,
     useProp,
+    interactive
   } = useGenericAtlasProps(props);
 
   const [src] = useProp('src');
@@ -104,7 +105,7 @@ export function ImageService(props: ImageServiceProps) {
           {...atlasProps}
         >
           <WorldObject height={image.height} width={image.width} x={x} y={y}>
-            <RenderImage key={image.id} image={image} id={image.id} virtualSizes={virtualSizes} />
+            <RenderImage key={image.id} image={image} id={image.id} isStatic={!interactive} virtualSizes={virtualSizes} />
           </WorldObject>
         </NestedAtlas>
       </VaultProvider>

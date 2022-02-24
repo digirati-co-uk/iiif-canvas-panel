@@ -32,6 +32,7 @@ export const AtlasCanvas: FC<{
   defaultChoices?: Array<{ id: string; opacity?: number }>;
   onCreated?: any;
   registerActions?: (actions: StrategyActions) => void;
+  isStatic?: boolean;
 }> = ({
   x,
   y,
@@ -44,6 +45,7 @@ export const AtlasCanvas: FC<{
   highlightCssClass,
   registerActions,
   defaultChoices,
+  isStatic,
 }) => {
   const canvas = useCanvas();
   const elementProps = useResourceEvents(canvas, ['deep-zoom']);
@@ -115,6 +117,7 @@ export const AtlasCanvas: FC<{
         ? strategy.images.map((image, idx) => {
             return (
               <RenderImage
+                isStatic={isStatic}
                 key={image.id}
                 image={image}
                 id={image.id}

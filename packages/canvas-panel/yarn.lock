@@ -3080,10 +3080,10 @@ react-error-boundary@^3.1.4:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-iiif-vault@^0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/react-iiif-vault/-/react-iiif-vault-0.9.3.tgz#6cc4194036f6e8235316fc7d92a8f814a146ff38"
-  integrity sha512-Baw7dEp09nDr29Bmn0cQ4/a6G5Fkf98yGqlQDMfWrzSv+rhRmPwSuZcz5mcfmaQdLMQXjHA6B0oqRS7k4nmcvQ==
+react-iiif-vault@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/react-iiif-vault/-/react-iiif-vault-0.9.4.tgz#8a01e2a63b713517f73fa7482dfcde16bfa94783"
+  integrity sha512-TpVM6AvP5BNBS7y2PMTE0qYkGqyPERvbvWEyfvBF7q5QxsFEkMAiUhuq5DaF+SDYvslKuplIe/PXMTWTW3tCRQ==
   dependencies:
     "@atlas-viewer/iiif-image-api" "^2.0.2"
     "@iiif/presentation-2" "^1.0.1"
