@@ -1,3 +1,4 @@
+
 <template>
   <div class="container">
     <h3>Manifest thumbs</h3>
@@ -7,7 +8,8 @@
           ref="viewer"
           :manifest-id="manifest.current.id"
           :canvas-id="currentCanvas.id"
-          height="300"
+          height="290"
+          style-id="atlas-styles"
       />
     </div>
 
@@ -18,7 +20,7 @@
           v-on:click="handlerClick(canvas)"
       >
         <IIIFCanvas v-bind:canvasId="canvas.id">
-          <CanvasThumbnail />
+          <CanvasThumbnail :active="currentCanvas.id === canvas.id"/>
         </IIIFCanvas>
       </div>
     </div>
@@ -65,10 +67,10 @@ export default {
 };
 </script>
 
-
 <style>
+
 .container {
-  background: #2548B4;
+  background: #3E8A6F;
   color: #fff;
 }
 
@@ -85,7 +87,7 @@ export default {
   padding: 1em;
 }
 
-.thumb-list > div {
+.thumb-list > div ~ div {
   margin-left: 1em;
 }
 

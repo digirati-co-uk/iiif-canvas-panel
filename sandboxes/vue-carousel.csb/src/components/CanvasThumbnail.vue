@@ -1,5 +1,5 @@
 <template>
-  <div :v-if="thumbnail.current" class="image">
+  <div :v-if="thumbnail.current" :class="active ? 'image image--active' : 'image'">
     <img :src="thumbnail.current?.id" alt="thumbnail" />
   </div>
 </template>
@@ -12,6 +12,7 @@ export default {
   inject: ["vault", "thumbs"],
   mixins: [CanvasMixinVue],
   props: {
+    active: Boolean,
     manifestId: String,
   },
   provide() {
@@ -52,7 +53,10 @@ export default {
 </script>
 
 <style>
+
 .image {
+  cursor: pointer;
+  border: 2px solid transparent;
   background: rgb(0, 0, 0);
   padding: 2px;
   height: 120px;
@@ -61,6 +65,10 @@ export default {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.image--active {
+  border-color: red;
 }
 
 .image img {
