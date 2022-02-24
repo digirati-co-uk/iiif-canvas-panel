@@ -1,6 +1,6 @@
 <template>
-  <div :v-if="thumbnail.current">
-    <img :src="thumbnail.current?.id" />
+  <div :v-if="thumbnail.current" class="image">
+    <img :src="thumbnail.current?.id" alt="thumbnail" />
   </div>
 </template>
 
@@ -50,3 +50,25 @@ export default {
   },
 };
 </script>
+
+<style>
+.image {
+  background: rgb(0, 0, 0);
+  padding: 2px;
+  height: 120px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.image img {
+  display: inline-block;
+  object-fit: contain;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+}
+
+</style>

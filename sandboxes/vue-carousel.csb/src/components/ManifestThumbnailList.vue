@@ -1,22 +1,26 @@
 <template>
-  <h3>Manifest thumbs</h3>
+  <div class="container">
+    <h3>Manifest thumbs</h3>
 
-  <div v-if="currentCanvas">
-    <canvas-panel
-      :manifest-id="manifest.current.id"
-      :canvas-id="currentCanvas.id"
-    />
-  </div>
+    <div v-if="currentCanvas">
+      <canvas-panel
+          ref="viewer"
+          :manifest-id="manifest.current.id"
+          :canvas-id="currentCanvas.id"
+          height="300"
+      />
+    </div>
 
-  <div v-if="manifest.current">
-    <div
-      v-bind:key="canvas.id"
-      v-for="canvas in manifest.current?.items"
-      v-on:click="handlerClick(canvas)"
-    >
-      <IIIFCanvas v-bind:canvasId="canvas.id">
-        <CanvasThumbnail />
-      </IIIFCanvas>
+    <div v-if="manifest.current" class="thumb-list">
+      <div
+          v-bind:key="canvas.id"
+          v-for="canvas in manifest.current?.items"
+          v-on:click="handlerClick(canvas)"
+      >
+        <IIIFCanvas v-bind:canvasId="canvas.id">
+          <CanvasThumbnail />
+        </IIIFCanvas>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +47,9 @@ export default {
   methods: {
     handlerClick(canvas) {
       this.currentCanvas = canvas;
+      if (this.$refs.viewer) {
+        this.$refs.viewer.goHome();
+      }
     },
   },
 
@@ -57,3 +64,29 @@ export default {
   },
 };
 </script>
+
+
+<style>
+.container {
+  background: #2548B4;
+  color: #fff;
+}
+
+.container h3 {
+  padding: 1em 0;
+  text-align: center;
+  margin: 0;
+}
+
+.thumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 1em;
+}
+
+.thumb-list > div {
+  margin-left: 1em;
+}
+
+</style>

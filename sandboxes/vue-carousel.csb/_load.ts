@@ -18,7 +18,7 @@ const config: SandpackProps = {
     showTabs: false,
     showLineNumbers: true,
     autorun: true,
-    editorWidthPercentage: 60,
+    editorWidthPercentage: 50,
   },
   customSetup: {
     dependencies: require('./package.json').dependencies,
