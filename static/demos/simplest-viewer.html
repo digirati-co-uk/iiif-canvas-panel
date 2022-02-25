@@ -8,7 +8,8 @@
         .tc { display: inline-block; padding:5px; cursor: pointer; }
         #cp { height:100% }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.22"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
 </head>
 <body>
     <h1>A simple viewer using Canvas Panel</h1>
@@ -31,10 +32,10 @@
             const manifestUri = $("manifest").value;
             if(manifestUri){
                 const manifest = await cp.vault.loadManifest(manifestUri);       
-                $("manifestLabel").innerText = getLabel(manifest, "; ");      
+                $("manifestLabel").innerText = IIIFVaultHelpers.getValue(manifest.label);      
                 let thumbsHtml = "";
                 for(const canvas of cp.vault.allFromRef(manifest.items)){              
-                    const label = getLabel(canvas, "<br/>");
+                    const label = IIIFVaultHelpers.getValue(canvas.label);
                     const cvThumb = await cp.getThumbnail(canvas, {maxWidth:100, maxHeight:200})
                     thumbsHtml += '<div class="tc">' + label + '<br/>';
                     thumbsHtml += '<img data-uri="' + canvas.id + '" data-label="' + label + '" src="' + cvThumb.best.id + '" />';
@@ -56,25 +57,6 @@
             const cvId = this.getAttribute("data-uri");
             cp.setCanvas(cvId);
             $("cvLabel").innerText = this.getAttribute("data-label");
-        }
-
-        // TODO: similar functionality should be part of Vault - needs to check for {} as label, and values length > 0
-        // Extract a string from a language map label property of `entity` in an appropriate language.
-        // If there is more than one value, use `separator` to join then into a single string.
-        // This will fall back to the "none" language, and then to any language.
-        function getLabel(entity, separator, lang){
-            if(!entity.label) return "";
-            if(!lang){
-                if(navigator && navigator.language){
-                    lang = navigator.language.substring(0,2);
-                } else {
-                    lang = "none";
-                }               
-            }
-            if(!separator) separator = "\n";
-            if(entity.label[lang]) return entity.label[lang].join(separator); // joined strings in desired lang
-            if(entity.label["none"]) return entity.label["none"].join(separator); // joined strings in "none" lang
-            return Object.values(entity.label)[0].join(separator) || ""; // joined strings in any lang
         }
 
      </script>

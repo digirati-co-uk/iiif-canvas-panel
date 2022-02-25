@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@atlas-viewer/atlas@^2.0.0-alpha.1":
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.0-alpha.1.tgz#693ba58f7180f746521eb7a8a515428f94d64de4"
-  integrity sha512-84d6UgGo0sno6vrQnGhvuFycMhlG2QEq37+1BpDvIOY1row6teW2xdoifY0slbXY2SvKL+Z4SRiWnxp3nT0zww==
+"@atlas-viewer/atlas@2.0.0-alpha.4":
+  version "2.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.0-alpha.4.tgz#e6082f7f13e29366cf824c6e247ff222eae6a72a"
+  integrity sha512-C+e49IasSygcnxbTZ1IT0Gp28NdL53NboXz9CpCE6uaLiJysVZWF/862CwgBWJVzWDY+inMfdJX1RfQmyiobjg==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
     "@atlas-viewer/iiif-image-api" "^1.2.5"
@@ -1147,19 +1147,19 @@
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
 "@digirati/canvas-panel-web-components@../canvas-panel":
-  version "1.0.31"
+  version "1.0.36"
   dependencies:
-    "@atlas-viewer/atlas" "^2.0.0-alpha.1"
+    "@atlas-viewer/atlas" "2.0.0-alpha.4"
     "@atlas-viewer/iiif-image-api" "2.0.1"
     "@iiif/presentation-2" "^1.0.1"
     "@iiif/presentation-3" "^1.0.4"
-    "@iiif/vault" "^0.9.10"
+    "@iiif/vault" "^0.9.14"
     "@iiif/vault-helpers" "^0.9.4"
     "@preact/compat" "17.0.2"
     "@react-hook/media-query" "^1.1.1"
     preact "^10.5.15"
     react-error-boundary "^3.1.4"
-    react-iiif-vault "^0.9.0"
+    react-iiif-vault "^0.9.2"
 
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
@@ -1317,7 +1317,21 @@
     "@iiif/vault" "^0.9.8"
     tiny-invariant "^1.2.0"
 
-"@iiif/vault@^0.9.10", "@iiif/vault@^0.9.8", "@iiif/vault@^0.9.9":
+"@iiif/vault@^0.9.14":
+  version "0.9.14"
+  resolved "https://registry.yarnpkg.com/@iiif/vault/-/vault-0.9.14.tgz#f455d0089fb542f9d50ab27aebe2aa55ff7bcf67"
+  integrity sha512-Y6ay8Ja3WibEJKX98a5Ttre6vmti3NR13f5yu+YJa63dStgzrB0KA4DQ3zxn4pxBAne9Mjj6mxRrRDWw9dvOyA==
+  dependencies:
+    "@iiif/parser" "^1.0.2"
+    "@iiif/presentation-2" "^1.0.1"
+    "@iiif/presentation-3" "^1.0.3"
+    mitt "^3.0.0"
+    node-fetch "^3.1.1"
+    redux "^4.1.2"
+    tiny-invariant "^1.2.0"
+    typesafe-actions "^5.1.0"
+
+"@iiif/vault@^0.9.8":
   version "0.9.11"
   resolved "https://registry.yarnpkg.com/@iiif/vault/-/vault-0.9.11.tgz#5f0f56d9dd8f6b1d46e44bcacb3fa15aae1ce4f5"
   integrity sha512-TaNQUOl/imJ9fC1JubV0IG9Yxqx1Z06tY3EDNxQTOgl4LzYA4UcPCBHvQ57LigSWiLggQMVsSJL0ahCVNlRcZQ==
@@ -9279,15 +9293,15 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.10.tgz#0fe26db4fa85d9dbb8624729580e90e7159a59a6"
   integrity sha512-mKR90fX7Pm5seCOfz8q9F+66VCc1PGsWSBxKbITjfKVQHMNF2zudxHnMdJiB1fRCb+XsbQV9sO9DCkgsMQgBIA==
 
-react-iiif-vault@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/react-iiif-vault/-/react-iiif-vault-0.9.0.tgz#204dc7902e5255a9da8c4c75fbed410fed084dc5"
-  integrity sha512-MKWpcO0beSFn9OWiOUb1y1HOvQsUZutXu2CxbrLBn9ZkdY1QTHzMS3xLtnPQM4vS05MtGMhLe1/Sfvd2zo2jZQ==
+react-iiif-vault@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/react-iiif-vault/-/react-iiif-vault-0.9.2.tgz#d741cd7c138c7deb8686cac8822e5443175e4753"
+  integrity sha512-ye00adaVu2qZXECTvHkt3PW6d2r47wWRoXpPBg/78GvKvl9BB3w8KG4H8lP1Rb+vsG+JiB5zxLgsIih26sXN+g==
   dependencies:
     "@atlas-viewer/iiif-image-api" "^1.2.6"
     "@iiif/presentation-2" "^1.0.1"
     "@iiif/presentation-3" "^1.0.4"
-    "@iiif/vault" "^0.9.9"
+    "@iiif/vault" "^0.9.14"
     "@iiif/vault-helpers" "^0.9.4"
     react "^16.10.2 || ^17.0.1"
     react-dom "^16.10.2 || ^17.0.1"

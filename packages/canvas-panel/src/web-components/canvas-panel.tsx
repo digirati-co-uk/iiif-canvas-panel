@@ -39,6 +39,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     viewport,
     debug,
     target,
+    interactive,
+    x,
+    y,
     className,
     inlineStyles,
     inlineStyleSheet,
@@ -180,6 +183,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       <ViewCanvas
         // Escape hatch for bugs - to be improved.
         key={`${viewport ? 'v1' : 'v0'}`}
+        interactive={interactive}
         defaultChoices={defaultChoices}
         followAnnotations={followAnnotations}
         onChoiceChange={onChoiceChange}
@@ -190,6 +194,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         highlightCssClass={highlightCssClass}
         canvasId={canvasId}
         displayOptions={atlasProps}
+        x={x}
+        y={y}
       >
         <slot name="atlas" />
       </ViewCanvas>

@@ -38,7 +38,7 @@ The content-management template author will then produce code that will output s
 ```html
 <div class="canvas-figure">
     <canvas-panel 
-          render="static"
+          preset="responsive"
           iiif-content="https://quire.getty.edu/iiif-snippets/
 asnieres-detail-boy-with-straw-hat.json"
            />
@@ -68,7 +68,7 @@ or, make the canvas panel image the link:
 <a href="https://getty.edu/iiif-viewer?iiif-content=https://quire.getty.edu/iiif-snippets/
 asnieres-detail-boy-with-straw-hat.json">
     <canvas-panel 
-          render="static"
+          preset="responsive"
           iiif-content="https://quire.getty.edu/iiif-snippets/
 asnieres-detail-boy-with-straw-hat.json"
            />
@@ -83,12 +83,20 @@ An alternative would be where the developer has the region and IIIF information 
 
 ```html
 <canvas-panel
-   render="static"
-   iiif-content="https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json"
-   partof="https://iiifmediawiki.herokuapp.com/presentation/File:Baigneurs_a_Asnieres.jpg"
+   preset="responsive"
+   canvas-id="https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json"
+   manifest-id="https://iiifmediawiki.herokuapp.com/presentation/File:Baigneurs_a_Asnieres.jpg"
    region="50,990,2100,1755">
 </canvas-panel>
 ```
 
+TODO: this doesn't work!
+
+<canvas-panel
+   preset="responsive"
+   canvas-id="https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json"
+   manifest-id="https://iiifmediawiki.herokuapp.com/presentation/File:Baigneurs_a_Asnieres.jpg"
+   region="50,990,2100,1755">
+</canvas-panel>
 
 <GitHubDiscussion ghid="7" />

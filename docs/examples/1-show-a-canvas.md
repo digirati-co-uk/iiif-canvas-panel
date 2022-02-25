@@ -5,7 +5,8 @@ sidebar_position: 1
 # Render a canvas
 
 import { GitHubDiscussion } from "@site/GitHubDiscussion.js";
-import exampleSandbox from '@site/sandboxes/example-sandbox.csb/_load';
+import renderCanvasContentState from '@site/sandboxes/01-show-canvas/canvas-content-state.csb/_load';
+import renderCanvasAttributes from '@site/sandboxes/01-show-canvas/canvas-attributes.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
 The [quick start](../intro) showed the basics of rendering a canvas. The power of Canvas Panel is more apparent when you render a canvas that isn't the 99% use case - when the canvas:
@@ -18,67 +19,47 @@ The developer experience is the same - it has to be: you probably don't know wha
 
 Instead, Canvas Panel does the hard work. You can still _respond_ to the scene composition and what the user does with it.
 
-Here the Canvas has several different image sources on it:
+Here the Canvas has two different image sources on it:
 
-<!-- TODO: GH-71 -->
 ```html
 <canvas-panel
-   iiif-content="..multiple-content-canvas..."
-   partof="..manifest..">
+   canvas-id="..canvas-with-multiple-images..."
+   manifest-id="..manifest-that-contains-this-canvas..">
 </canvas-panel>
 ```
 
-<Sandbox project={exampleSandbox} />
+<canvas-panel
+   canvas-id="https://preview.iiif.io/cookbook/3333-choice/recipe/0036-composition-from-multiple-images/canvas/p1"
+   manifest-id="https://gist.githubusercontent.com/stephenwf/19e61dac5c329c77db8cf22fe0366dad/raw/04971529e364063ac88de722db786c97e2df0e6b/manifest.json">
+</canvas-panel>
 
-This can still be rendered as a static image!
+This can still be rendered as a static image, even though it's a composite scene!
 
-<!-- TODO: GH-71, GH-56 -->
 ```html
 <canvas-panel
-   render="static"
-   iiif-content="..multiple-content-canvas..."
-   partof="..manifest..">
+   preset="static"
+   canvas-id="..multiple-content-canvas..."
+   manifest-id="..manifest..">
 </canvas-panel>
 ```
 
-<!-- TODO GH-55 (task) -->
-> The default value of `render` is "zoom" - this can be set explicitly but is not usually required.
+<canvas-panel
+   preset="static"
+   canvas-id="https://preview.iiif.io/cookbook/3333-choice/recipe/0036-composition-from-multiple-images/canvas/p1"
+   manifest-id="https://gist.githubusercontent.com/stephenwf/19e61dac5c329c77db8cf22fe0366dad/raw/04971529e364063ac88de722db786c97e2df0e6b/manifest.json">
+</canvas-panel>
 
-## Accessibility considerations
+> The default value of `preset` is "zoom" - this can be set explicitly but is not usually required. See [Responsive Images and rendering modes](responsive-image).
 
-By default, Canvas Panel will render HTML5 that uses as much information from the IIIF resource as available to provide accessibility information, using the browser's current language settings to pick from alternate languages if available.
+The other likely rendering option is `responsive` - which on its own will cause canvas panel to render the region, without a viewport:
 
-<!-- TODO: GH-91 -->
-The HTML5 `alt`, `aria-label`, `aria-labelledby`, `role` and `title` attributes are available on `<canvas-panel>` and will be carried through to the DOM and from the DOM to the accessibility tree seen by assistive technologies. These attributes can be used for manual control over resulting attributes, to override the defaults that Canvas Panel decides from the IIIF content.
+<Sandbox project={renderCanvasContentState} />
 
-<!-- TODO: GH-91 -->
-> Demonstrate that CP generates `aria-*` attributes for assistive technologies from the IIIF label langauage map(s), using browser settings
+The above example encodes the region of the canvas, and the manifest that canvas belongs to, into a content state - you can see it [decoded here](https://base64url.herokuapp.com/?iiif-content=JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRnByZXZpZXcuaWlpZi5pbyUyRmNvb2tib29rJTJGMzMzMy1jaG9pY2UlMkZyZWNpcGUlMkYwMDM2LWNvbXBvc2l0aW9uLWZyb20tbXVsdGlwbGUtaW1hZ2VzJTJGY2FudmFzJTJGcDElMjN4eXdoJTNEMzU2OSUyQzc2MSUyQzE4NTElMkMyMDU5JTIyJTJDJTIydHlwZSUyMiUzQSUyMkNhbnZhcyUyMiUyQyUyMnBhcnRPZiUyMiUzQSU1QiU3QiUyMmlkJTIyJTNBJTIyaHR0cHMlM0ElMkYlMkZnaXN0LmdpdGh1YnVzZXJjb250ZW50LmNvbSUyRnN0ZXBoZW53ZiUyRjE5ZTYxZGFjNWMzMjljNzdkYjhjZjIyZmUwMzY2ZGFkJTJGcmF3JTJGYTgxYzM3Mzk3MTFkMTQwYmQwNGJlNGYwYjQ4MDBlNDIxY2M2MTc2MSUyRm1hbmlmZXN0Lmpzb24lMjIlMkMlMjJ0eXBlJTIyJTNBJTIyTWFuaWZlc3QlMjIlN0QlNUQlN0Q). The same result can be achieved with attributes:
 
-For a standard 2D canvas, the canvas panel on the page will assign itself `role="img"`. If the canvas carries text content could be exposed to a screen reader, Canvas Panel provides ways of doing this - see [Handling Text](./handling-text) for more on how to expose text from the canvas (e.g., transcriptions, OCR, captions) to assisitve technologies.
 
-:::question
-Should Canvas Panel, _by default_, render as a static image and only become a zoomable element on interaction? Mousewheel, click, etc. Mousewheel and pan events need to be carefully handled to avoid trapping the user in the element, especially on narrow touch devices like a phone. <!-- TODO: GH-78 -->
-:::
+<Sandbox project={renderCanvasAttributes} />
 
-:::info
-Canvas Panel could, in future, make use of the [Accessibility Object Model](https://wicg.github.io/aom/explainer.html). It needs to be accessible _today_ in browsers that don't support that spec (no browsers support it fully, and those that support parts of it still require that it is manually enabled).
-:::
-
-<!-- TODO: GH-91 -->
-```html title="Telling assistive technologies that the canvas is a decorative element"
-<canvas-panel id="cp"></canvas-panel>
-<script>
-   const cp = document.getElementById("cp");
-   const vault = HyperionVault.globalVault();
-   cp.setAttribute("render", "static");
-   cp.setAttribute("role", "presentation");
-   cp.setAttribute("alt", "");
-   await vault.loadManifest("..manifest containing canvas..");
-   cp.setCanvas("..id of canvas with nice pattern on ..it");
-</script>
-```
-
-> Show it! (demonstrates manual override of accessibility defaults, potentially)
 
 ## Server-side Canvas Panel
 

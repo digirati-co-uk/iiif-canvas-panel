@@ -73,6 +73,7 @@ export type UseRegisterPublicApi = {
     // removeHighlight(id: string | AnnotationNormalized): void;
 
     applyStyles(idOrRef: string | Reference<any>, style: BoxStyle): void;
+    setClassName(idOrRef: string | Reference<any>, className: string): void;
 
     // Unsure about this, but trying to combine these similar terms
     setAnnotationOptions(options: {

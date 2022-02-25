@@ -9,8 +9,15 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 :::caution
 
+TODO - see packages/react-preact-demo/src/DrawingBoxes1.js
+TODO: better title - not user drawing boxes
+
 TODO: need to get a valid source for The Ambassadors or use a different image
 
+
+TODO:
+Work in https://codesandbox.io/s/frosty-bush-48h9t?file=/index.html
+(@latest)
 :::
 
 ## Scenario
@@ -21,8 +28,8 @@ Consider Canvas Panel showing a painting:
 
 ```html
 <canvas-panel
-   iiif-content=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
-   partof=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest
+   canvas-id=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
+   manifest-id=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest
 />
 ```
 ![The Ambassadors - full](../../static/img/examples/ambassadors-1.png)
@@ -31,8 +38,8 @@ Then showing a detail via the addition of a `region` attribute:
 
 ```html
 <canvas-panel
-   iiif-content=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
-   partof=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest
+   canvas-id=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
+   manifest-id=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest
    region="2000,2000,1000,1000"
 />
 ```
@@ -44,13 +51,22 @@ Then **highlighting something** within that detail:
 <!-- TODO: GH-70, GH-93, GH-94 -->
 ```html
 <canvas-panel
-   iiif-content=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
-   partof=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest
+   canvas-id=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
+   manifest-id=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest
    region="2000,2000,1000,1000"
    highlight="2400,2400,400,400"
    highlight-css-class="red-box"
 />
 ```
+
+TODO - show what the CSS actually looks like - not `.red-box`
+
+Reference 20-styling.md for full explanation
+
+WC cannot access CSS outside of itself; needs to access a `<style>` element by id
+(This is a good thing... honest)
+
+
 
 ![The Ambassadors - box](../../static/img/examples/ambassadors-3.png)
 
@@ -58,8 +74,8 @@ And using different styles:
 
 ```html
 <canvas-panel class="knock-back"
-   iiif-content=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
-   partof=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest
+   canvas-id=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/-1
+   manifest-id=https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest
    region="2000,2000,1000,1000"
    highlight="2400,2400,400,400"
    highlight-css-class="dash"
@@ -68,9 +84,19 @@ And using different styles:
 
 ![The Ambassadors - style](../../static/img/examples/ambassadors-4.png)
 
+
+TODO - some other way of achieving the above effect
+
+TODO explain enough here about style ids, etc
+
 The CSS classes are not part of Canvas Panel, they are in your styles under your control.
 
 In the above examples, the `region` and `highlight` attributes both take string values that can be transformed to [Target](./annotations#target) objects. `highlight` is a convenience attribute, with a convenience css assistant; in code you are doing something more general - you are adding an annotation to the canvas that appears as a highlight. This is such a common scenario that it still has a helper:
+
+TODO: rewrite the below using AnnotationDisplay etc, from
+packages/canvas-panel/src/helpers/annotation-display.ts
+
+
 
 <!-- TODO: GH-70, GH-93, GH-94 -->
 ```html
@@ -110,6 +136,24 @@ In the above examples, the `region` and `highlight` attributes both take string 
 
 
 The highlight region might also be defined by SVG.
+
+## TODO
+
+Need work this demo in:
+
+https://codesandbox.io/s/canvas-panel-web-component-demo-forked-nj46y?file=/index.html
+
+```html
+<canvas-panel
+  preset="zoom"
+  iiif-content='{"id": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116#1000,1500,1500,1000", "type": "Canvas", "manifest-id": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"}'
+  highlight="1250,1780,400,400"
+  highlight-css-class="example-annotation"
+  style-id="my-style"
+/>
+```
+
+
 
 
 <GitHubDiscussion ghid="12" />

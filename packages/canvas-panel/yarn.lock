@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@atlas-viewer/atlas@2.0.0-alpha.4":
-  version "2.0.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.0-alpha.4.tgz#e6082f7f13e29366cf824c6e247ff222eae6a72a"
-  integrity sha512-C+e49IasSygcnxbTZ1IT0Gp28NdL53NboXz9CpCE6uaLiJysVZWF/862CwgBWJVzWDY+inMfdJX1RfQmyiobjg==
+"@atlas-viewer/atlas@^2.0.0-alpha.5":
+  version "2.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.0-alpha.5.tgz#8b85cbbb48db62ea3fd3248caa3f2c2bfb06ed8b"
+  integrity sha512-+ihRIA6RL+L9SkfeKbgYC5QuBYmqnX7Kh/xE7sou5ylltw+BR7ff9z7qqSaTzMkxwBeIfm6+UJp3PcDxRkmv5g==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
     "@atlas-viewer/iiif-image-api" "^1.2.5"
@@ -30,18 +30,10 @@
   resolved "https://registry.yarnpkg.com/@atlas-viewer/dna/-/dna-0.5.0.tgz#aab824540b59dc3897e2ba4cdb51a53e47ed3311"
   integrity sha512-vHyMwXoCFq6ymk+wOVIkMphUo+I+wBRoA2tBf1AIUZWJMsk51cBtO2qzOaZQUh/TmrzrqEY5aEAtgBj52LVRUg==
 
-"@atlas-viewer/iiif-image-api@2.0.1":
+"@atlas-viewer/iiif-image-api@^1.2.4", "@atlas-viewer/iiif-image-api@^1.2.5", "@atlas-viewer/iiif-image-api@^1.2.6", "@atlas-viewer/iiif-image-api@^2.0.1", "@atlas-viewer/iiif-image-api@^2.0.2":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@atlas-viewer/iiif-image-api/-/iiif-image-api-2.0.1.tgz#b78e0517e04dfad1cc73c53c8372513de712afe8"
   integrity sha512-aLx92GXLBuy2Jmglhhuix4+yB9emOrDBayEGlIMhxz36J0K5Kycx53FvBBjAjkT3D/E41ZGMNvaZmxch6xt4wg==
-  dependencies:
-    "@iiif/presentation-3" "*"
-    node-fetch "^3.2.0"
-
-"@atlas-viewer/iiif-image-api@^1.2.4", "@atlas-viewer/iiif-image-api@^1.2.5", "@atlas-viewer/iiif-image-api@^1.2.6", "@atlas-viewer/iiif-image-api@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/iiif-image-api/-/iiif-image-api-2.0.0.tgz#2bb993074556756e51b94ef28d4f2c59c46e7c13"
-  integrity sha512-Lt04aGRU3PryMk06Xfuk8+MYOyu+v4X5hwSHBIL5Zg1y/KByzxMesD71pOrGc7S9st479BOgETY5kCZZ0AwZzQ==
   dependencies:
     "@iiif/presentation-3" "*"
     node-fetch "^3.2.0"
@@ -430,13 +422,13 @@
     mitt "^2.1.0"
     rollup "^2.36.1"
 
-"@iiif/parser@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@iiif/parser/-/parser-1.0.2.tgz#14f84be4ebe0989a74a39feb1fab4d269e5b5afd"
-  integrity sha512-zgwonz5ofF/CM+9EkQO7FoeVho/x5FkC9G+vXpt3P8F0AYzPUyfkGQrcHcjAh2ikFNKoE/yx8+vFU7lQNZfECA==
+"@iiif/parser@^1.0.2", "@iiif/parser@^1.0.5":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@iiif/parser/-/parser-1.0.6.tgz#0f5252b94ba586aade3d6558b5a649fa265fe217"
+  integrity sha512-bIdmqe3JwPopL7qEeZk193YNkGaEkkfSR9i/+B7I3MVXkKGE6G80tOWhfQRs/EY3fMzOS8OUFxzAu+aS6CXvEg==
   dependencies:
     "@iiif/presentation-2" "^1.0.1"
-    "@iiif/presentation-3" "^1.0.3"
+    "@iiif/presentation-3" "^1.0.4"
     "@types/geojson" "^7946.0.8"
 
 "@iiif/presentation-2@^1.0.1":
@@ -463,10 +455,10 @@
     "@iiif/vault" "^0.9.8"
     tiny-invariant "^1.2.0"
 
-"@iiif/vault@^0.9.12", "@iiif/vault@^0.9.8", "@iiif/vault@^0.9.9":
-  version "0.9.12"
-  resolved "https://registry.yarnpkg.com/@iiif/vault/-/vault-0.9.12.tgz#36cbeafc5ed41069fb727e26ca7aff3c00fcfdb7"
-  integrity sha512-7o051s6breFOiDZqKHXz7H+O75JGoqSmlsJjXd0e6GTe5USZVIH72CFXmQtW3/tn5r/mMcHT8UbrdS9IDAFX9Q==
+"@iiif/vault@^0.9.14", "@iiif/vault@^0.9.8":
+  version "0.9.14"
+  resolved "https://registry.yarnpkg.com/@iiif/vault/-/vault-0.9.14.tgz#f455d0089fb542f9d50ab27aebe2aa55ff7bcf67"
+  integrity sha512-Y6ay8Ja3WibEJKX98a5Ttre6vmti3NR13f5yu+YJa63dStgzrB0KA4DQ3zxn4pxBAne9Mjj6mxRrRDWw9dvOyA==
   dependencies:
     "@iiif/parser" "^1.0.2"
     "@iiif/presentation-2" "^1.0.1"
@@ -3088,21 +3080,21 @@ react-error-boundary@^3.1.4:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-iiif-vault@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/react-iiif-vault/-/react-iiif-vault-0.9.0.tgz#204dc7902e5255a9da8c4c75fbed410fed084dc5"
-  integrity sha512-MKWpcO0beSFn9OWiOUb1y1HOvQsUZutXu2CxbrLBn9ZkdY1QTHzMS3xLtnPQM4vS05MtGMhLe1/Sfvd2zo2jZQ==
+react-iiif-vault@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/react-iiif-vault/-/react-iiif-vault-0.9.4.tgz#8a01e2a63b713517f73fa7482dfcde16bfa94783"
+  integrity sha512-TpVM6AvP5BNBS7y2PMTE0qYkGqyPERvbvWEyfvBF7q5QxsFEkMAiUhuq5DaF+SDYvslKuplIe/PXMTWTW3tCRQ==
   dependencies:
-    "@atlas-viewer/iiif-image-api" "^1.2.6"
+    "@atlas-viewer/iiif-image-api" "^2.0.2"
     "@iiif/presentation-2" "^1.0.1"
     "@iiif/presentation-3" "^1.0.4"
-    "@iiif/vault" "^0.9.9"
+    "@iiif/vault" "^0.9.14"
     "@iiif/vault-helpers" "^0.9.4"
     react "^16.10.2 || ^17.0.1"
     react-dom "^16.10.2 || ^17.0.1"
     react-query "^1.5.10"
     redux "^4.1.2"
-    rollup "^2.67.1"
+    rollup "^2.68.0"
     typescript "^4.5.5"
 
 react-is@^16.8.1:
@@ -3228,10 +3220,10 @@ rollup@^2.36.1:
   optionalDependencies:
     fsevents "~2.3.2"
 
-rollup@^2.67.1:
-  version "2.67.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.67.1.tgz#4402665706fa00f321d446ce45f880e02cf54f01"
-  integrity sha512-1Sbcs4OuW+aD+hhqpIRl+RqooIpF6uQcfzU/QSI7vGkwADY6cM4iLsBGRM2CGLXDTDN5y/yShohFmnKegSPWzg==
+rollup@^2.68.0:
+  version "2.68.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.68.0.tgz#6ccabfd649447f8f21d62bf41662e5caece3bd66"
+  integrity sha512-XrMKOYK7oQcTio4wyTz466mucnd8LzkiZLozZ4Rz0zQD+HeX4nUK4B8GrTX/2EvN2/vBF/i2WnaXboPxo0JylA==
   optionalDependencies:
     fsevents "~2.3.2"
 

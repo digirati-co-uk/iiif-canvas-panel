@@ -8,6 +8,12 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 ## Preferred Formats
 
+:::danger
+
+This feature is still in development and not yet in the release version.
+
+:::
+
 The `preferredFormats` property is a feature of the [IIIF Image API version 3](https://iiif.io/api/image/3.0/#55-preferred-formats).
 
 It allows the publisher to suggest that the client ask for a different format from the default JPEG. For example, if publishing line art, `.png` might be better.
@@ -23,5 +29,12 @@ Canvas Panel (and `<img-service/>`) will use the preferred format(s) automatical
 > Show it!
 
 If the format is not available, the tag will fall back to the default jpg.
+
+
+TODO - also you can change the `quality` param
+
+```html
+<canvas-panel iiif-content=".." preferred-formats="png" preferred-quality="psychedelic,bitonal,gray"></canvas-panel>
+```
 
 <GitHubDiscussion ghid="45" />

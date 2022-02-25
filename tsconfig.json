@@ -13,5 +13,6 @@
       "@site/*": ["./*"],
       "@csb/*": ["./sandboxes"]
     }
-  }
+  },
+  "exclude": ["packages"],
 }

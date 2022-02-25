@@ -23,5 +23,8 @@ export type ViewCanvasProps = {
   children?: any;
   debug?: boolean;
   className?: string;
+  interactive?: boolean;
   defaultChoices?: Array<{ id: string; opacity?: number }>;
+  x?: number;
+  y?: number;
 };

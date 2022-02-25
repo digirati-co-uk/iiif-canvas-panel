@@ -24,4 +24,10 @@ cp.applyStyles(ref, {
 cp.setPageEnabled(ref):
 ```
 
+```
+cp.applyStyles('https://example.org/annotation-page-id', {
+  border: '3px solid green',
+})
+```
+
 <GitHubDiscussion ghid="99" />

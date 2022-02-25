@@ -116,6 +116,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
       >
         {canvas ? (
           <AtlasCanvas
+            isStatic={!props.interactive}
             debug={props.debug}
             virtualSizes={props.virtualSizes}
             highlight={props.highlight}
@@ -138,6 +139,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
               }
               setAnnoMode(false);
             }}
+            x={props.x}
+            y={props.y}
           />
         ) : null}
         {props.children}
