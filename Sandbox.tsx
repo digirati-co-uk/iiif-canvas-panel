@@ -6,6 +6,7 @@ import {
   SandpackCodeEditor,
   SandpackStack,
   SandpackProps,
+  githubLightTheme,
   SandpackProviderProps, CodeEditorProps, PreviewProps, ClasserProvider, SandpackThemeProvider
 } from "@codesandbox/sandpack-react";
 import useThemeContext from '@theme/hooks/useThemeContext';
@@ -16,7 +17,16 @@ export function Sandbox(_props: { stacked?: boolean; project: SandpackProps } & 
 
   const options = { editorHeight: 540, ...project.options, ...props.options };
 
-  return <CustomSandpack theme={isDarkTheme ? 'dark' : 'light'}  {...project} {...props} options={options} />
+  return <CustomSandpack theme={isDarkTheme ? 'dark' : {
+    ...githubLightTheme,
+    palette: {
+      ...githubLightTheme.palette,
+      defaultBackground: 'rgb(246, 248, 250)'
+    },
+    typography: {
+      monoFont: 'SFMono-Regular, Menlo, Monaco, Consolas, \'Liberation Mono\', \'Courier New\', monospace',
+    },
+  }}  {...project} {...props} options={options} />
 }
 
 
