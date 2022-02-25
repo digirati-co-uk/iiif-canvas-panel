@@ -138,6 +138,8 @@ Canvas Panel generally fills up the available width, with a default height. You 
 
 The above examples use _presets_ - with the default being `zoom`. 
 
+Note that the second of the two canvas panels above uses the `region` attribute to render just one part of the Canvas.
+
 ### Getting content in
 
 The `canvas-id` and `manifest-id` attributes are helpers for a very common scenario for loading a canvas into Canvas Panel: when you know the manifest URL, and you know the ID of the canvas within it, but the canvas is not dereferenceable on its own.
@@ -211,3 +213,21 @@ Under the hood, Vault manages the HTTP fetch operations and optimises internal s
 
 One of the most common tasks is building _viewers_ - where we load a IIIF Manifest and allow the user to navigate around the different Canvases (views) within it. You can explore Canvas Panel's features in the docs, or go straight to [Building a Simple Viewer](../docs/applications/simple-viewer) to follow along.
 
+
+## Canvas Panel as part of a wider set of tools
+
+A larger IIIF application like a viewer, manifest editor or annotation tool will certainly get a lot of benefit from using Canvas Panel.
+
+What happens visually on Canvas Panel is a reflection of the data in Vault. Canvas Panel's own API is a mixture of styling and behaviour control, and operations that modify Vault data.
+
+In a larger application, you are likely to be manipulating Vault data via additional mechanisms, additional UI surfaces beyond Canvas Panel, but still see the effects of that manipulation reflected in Canvas Panel. For example in a React or Vue application, UI controls are bound to data in Vault, and Canvas Panel changes in response to Vault data; you might not interact with Canvas Panel's own API much.
+
+In a simpler application, Canvas Panel's API is more useful; it (and vault-helpers) fulfil common scenarios.
+
+Canvas Panel aims to be a slice through a larger space of possible functionality, encapsulated in a web component. Being a web component is very powerful and simple, but it does constrain development style; there are things more easily done by bypassing the Canvas Panel API.
+
+:::info
+
+We'll be providing more articles about using Canvas Panel in a wider application context.
+
+:::
