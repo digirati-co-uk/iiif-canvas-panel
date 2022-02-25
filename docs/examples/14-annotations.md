@@ -8,6 +8,40 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 TODO: work this in - https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
 
+TODO...
+
+```
+Construct a regular anno (W3C anno) - WITH A TARGET (targets the canvas)
+Add it to vault
+make a cp anno with cp.createAnnotationDisplay(myW3CAnnoId);
+give it styles, classes etc
+give it event listeners
+cp.annotations is per CP instance not per canvas
+```
+
+use the widget to get the W3C anno data
+put CP in box-draw mode (Atlas-level API) so that you can capture the target rectangle
+
+vault.load('https://iiif.wellcomecollection.org/presentation/b21146172/canvases/b21146172_0003.jp2/supplementing/t1', {
+ "id": "https://iiif.wellcomecollection.org/presentation/b21146172/canvases/b21146172_0003.jp2/supplementing/t1",
+  "type": "Annotation",
+  "body": {
+    "value": "As I stated in the conclusion of my \"Refutation of Certain Calumnies\"",
+    "type": "TextualBody"
+   },
+   "motivation": "supplementing",
+   "target": "https://iiif.wellcomecollection.org/presentation/b21146172/canvases/b21146172_0003.jp2#xywh=180,601,1481,53"
+})
+^ should work, needs tested
+
+12:56
+const annoPage = helper.importWebVTTAsAnnotations('https://example.org/web-vtt', {target: 'https://example.org/canvas-id' });
+
+https://atlas-viewer-storybook.netlify.app/?path=/story/annotations--selection-demo
+
+----
+
+
 
 The underlying Hyperion framework is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Hyperion+Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 
@@ -204,7 +238,7 @@ TODO - update from Slack https://digirati.slack.com/archives/C9U6T4G92/p16455326
 
 TODO - cp.annotations page
 
-
+todo cp.annotations is CP's own managed list of displayable, interactive (potentially) annotations
 
 For displaying an Annotation on the Canvas, you wrap it in a `DisplayAnnotation`.  (no!!)
 
