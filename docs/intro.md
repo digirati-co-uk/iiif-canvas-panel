@@ -197,7 +197,7 @@ Content states can be used to point at any part of a Canvas:
 
 You can also work with the Canvas from script. This is more typical in client-side applications. The attribute-based approach is more useful in rendering IIIF content server-side. You can tell Canvas Panel to do the same thing as the attributes above like this:
 
-<Sandbox project={introScript} />
+<Sandbox stacked project={introScript} />
 
 
 ## What is Vault?

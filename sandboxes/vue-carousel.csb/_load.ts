@@ -14,7 +14,7 @@ const config: SandpackProps = {
     wrapContent: false,
     editorHeight: 513,
     showTabs: true,
-    showLineNumbers: true,
+    showLineNumbers: false,
     autorun: true,
     editorWidthPercentage: 50,
   },
