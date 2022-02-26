@@ -4,6 +4,18 @@ sidebar_position: 4
 
 # Accessibility
 
+:::info
+
+Accessibility of IIIF resources is a really important topic. So many apparently inaccessible digital objects contain a huge amount of information that could be useful to assistive technologies - labels, other metadata, textual transcriptions and descriptions, all labelled by language.
+
+Often publishers are aware of this but can't see a way to connect the digital object in a deep zoom viewer with the information that they have; even though the viewer is a box that assistive technologies can enter, the presentation of _useful_ information to those technologies (rather than obvious and non-helpful information) is a hard problem.
+
+Canvas Panel has the potential to help publishers make their IIIF as accessible as possible - not just by using the content of the IIIF alone, but where necessary connecting the IIIF content to other markup on the page outside of the web component.
+
+In the current phase of work, we have made a start. We recognise that much more can be done. Ideally, Canvas Panel is a great tool for helping publishers of IIIF make their content as accessible as possible - it does it all can for you, and gives you hooks to do more yourself.
+
+:::
+
 By default, Canvas Panel will render HTML5 that uses as much information from the IIIF resource as available to provide accessibility information, using the browser's current language settings to pick from alternate languages if available.
 
 <!-- TODO: GH-91 -->
