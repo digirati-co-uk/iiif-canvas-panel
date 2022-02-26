@@ -35,11 +35,10 @@ Canvas Panel could, in future, make use of the [Accessibility Object Model](http
 <canvas-panel id="cp"></canvas-panel>
 <script>
    const cp = document.getElementById("cp");
-   const vault = HyperionVault.globalVault();
    cp.setAttribute("render", "static");
    cp.setAttribute("role", "presentation");
    cp.setAttribute("alt", "");
-   await vault.loadManifest("..manifest containing canvas..");
+   await cp.vault.loadManifest("..manifest containing canvas..");
    cp.setCanvas("..id of canvas with nice pattern on ..it");
 </script>  
 ```
