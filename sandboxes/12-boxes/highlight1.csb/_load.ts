@@ -10,7 +10,7 @@ const config: SandpackProps = {
     activePath: '/src/index.js',
     wrapContent: false,
     editorHeight: 513,
-    showTabs: false,
+    showTabs: true,
     showLineNumbers: false,
     autorun: true,
     editorWidthPercentage: 60,
