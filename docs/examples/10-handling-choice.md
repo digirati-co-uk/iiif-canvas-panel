@@ -6,6 +6,7 @@ sidebar_position: 10
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 import choicesReactSandbox from '@site/sandboxes/choices-react.csb/_load';
+import simpleChoice from '@site/sandboxes/10-choices/simpleChoice.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
 A Canvas have have multiple images. Sometimes, they are all a part of the scene to be rendered and the developer doesn't have to do anything extra - Canvas Panel will just render the scene.
@@ -47,6 +48,8 @@ Here the value of `choice-id` is the `id` of the content resource within a set o
 ## Before loading
 
 Before you put the `<canvas-panel />` web component on a page, you can first load the manifest into the vault, find out if there is a choice and render a UI.
+
+<Sandbox project={simpleChoice} />
 
 TODO: update this to reflect current API
 React example: https://codesandbox.io/s/sweet-zhukovsky-cz4p3?file=/src/App.js 
