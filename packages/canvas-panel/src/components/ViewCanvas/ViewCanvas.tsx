@@ -16,6 +16,7 @@ import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
 import { serialiseContentState } from '../../helpers/content-state/content-state';
 import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
+import { targetToPixels } from '../../helpers/target-to-pixels';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -74,7 +75,15 @@ export function ViewCanvas(props: ViewCanvasProps) {
   useVaultSelector((state) => (ctx.canvas ? state.iiif.entities.Canvas[ctx.canvas] : null), []);
 
   const displayOptions = useMemo(() => {
-    const { width, height, ...rest } = props.displayOptions;
+    const { width, height, homePosition: _, ...rest } = props.displayOptions;
+    const homePosition =
+      props.displayOptions.homePosition && canvas
+        ? targetToPixels(props.displayOptions.homePosition as any, canvas)
+        : null;
+
+    if (homePosition) {
+      (rest as any).homePosition = homePosition;
+    }
 
     if (width) {
       (rest as any).width = width;
@@ -85,7 +94,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
     }
 
     return rest as typeof props.displayOptions;
-  }, [props.displayOptions]);
+  }, [props.displayOptions, canvas]);
 
   const onKeyDownContainer = (e: any) => {
     if (e.altKey && e.code === 'KeyB') {
