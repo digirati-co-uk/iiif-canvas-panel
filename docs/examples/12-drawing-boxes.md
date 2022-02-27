@@ -55,7 +55,7 @@ This example shows one way of styling something inside canavas panel. The `.exam
 
 The CSS classes are not part of Canvas Panel, they are in your styles under your control.
 
-There is a more detailed [discussion on styling](./20-styling) in Canvas Panel.
+There is a more detailed [discussion on styling](./styling) in Canvas Panel.
 
 :::
 
