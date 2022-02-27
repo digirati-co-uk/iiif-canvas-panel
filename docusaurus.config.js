@@ -12,9 +12,9 @@ module.exports = {
     'https://cdn.jsdelivr.net/npm/@codesandbox/sandpack-react/dist/index.css'
   ],
   scripts: [
-    'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest',
-    // 'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.40',
-    'https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js'
+    // 'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest',
+    'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.42',
+    // 'https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js'
   ],
   // clientModules: [
   //   require.resolve('./packages/canvas-panel/dist/bundle.js'),
