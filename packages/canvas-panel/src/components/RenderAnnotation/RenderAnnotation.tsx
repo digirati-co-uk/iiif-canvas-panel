@@ -1,4 +1,4 @@
-import { ParsedSelector, useAnnotation, useCanvas, useResourceEvents, useStyles } from 'react-iiif-vault';
+import { useAnnotation, useCanvas, useResourceEvents, useStyles } from 'react-iiif-vault';
 import { FC, useMemo } from 'preact/compat';
 import { h } from 'preact';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
@@ -24,6 +24,7 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
     annotation &&
     annotation.target &&
     (annotation.target as any).selector &&
+    (annotation.target as any).selector.type === 'BoxSelector' &&
     (annotation.target as any).source &&
     (annotation.target as any).source.id === canvas.id;
 
@@ -35,7 +36,7 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
     <RegionHighlight
       id={annotation.id}
       isEditing={true}
-      region={(annotation.target as any).selector}
+      region={(annotation.target as any).selector.spatial}
       style={allStyles}
       className={html?.className || className}
       {...events}
