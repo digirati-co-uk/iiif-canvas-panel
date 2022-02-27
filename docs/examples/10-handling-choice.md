@@ -7,6 +7,7 @@ sidebar_position: 10
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 import choicesReactSandbox from '@site/sandboxes/choices-react.csb/_load';
 import simpleChoice from '@site/sandboxes/10-choices/simpleChoice.csb/_load';
+import choice1 from '@site/sandboxes/10-choices/choice1.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
 A Canvas have have multiple images. Sometimes, they are all a part of the scene to be rendered and the developer doesn't have to do anything extra - Canvas Panel will just render the scene.
@@ -32,10 +33,7 @@ Usually, if Choice is present at all, it's only one set of choices, for the whol
 <canvas-panel iiif-content="http://example.org/canvas-1.json" choice-id="http://example.org/choice-1" />
 ```
 
-<canvas-panel 
-    manifest-id="https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/manifest.json"
-    canvas-id="https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/canvas/p1"
-    choice-id="https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-xray/full/max/0/default.jpg" />
+<Sandbox stacked project={choice1} />
 
 
 Here the value of `choice-id` is the `id` of the content resource within a set of choices. You don't need to specify which set of choices, in the rare event that there is more than one - although you can specify more than one value:
@@ -49,22 +47,45 @@ Here the value of `choice-id` is the `id` of the content resource within a set o
 
 Before you put the `<canvas-panel />` web component on a page, you can first load the manifest into the vault, find out if there is a choice and render a UI.
 
+In this example, the "choice" event is fired when Canvas Panel detects that a Choice is present on the rendered Canvas.
+
+:::tip
+
+The choice event may be fired multiple times as Canvas Panel loads
+
+:::
+
 <Sandbox project={simpleChoice} />
 
-TODO: update this to reflect current API
-React example: https://codesandbox.io/s/sweet-zhukovsky-cz4p3?file=/src/App.js 
+Canvas panel also has the additional helpers for scenarios where you don't want to react to the choice event:
 
-Make non-react version of this ^^
-Also show React version
-
-
+```js
 cp.setDefaultChoiceIds(ids);
 cp.makeChoice(id, options)
+```
+
+And you can render a choice directly, with opacity, via attributes (e.g., if generating the markup on the server):
+
+```html
+<canvas-panel iiif-content="http://example.org/canvas-1.json" choice-id="http://example.org/choice-1#opacity=0.5" />
+```
+
+## Choice React Example
+
+This is a more realistic use of Canvas Panel's choice-handling capability:
 
 
 <Sandbox project={choicesReactSandbox} />
 
+:::danger
 
+## Additional choice helper API
+
+The following section is still under development
+
+:::
+
+You might want to analyse the canvas even earlier, to decide what UI to render. Canvas Panel provides some helpers for this:
 
 ```js
 vault.loadManifest('http://example.org/manifest.json').then(manifestRef => {
@@ -113,6 +134,7 @@ In most cases, you won't want to handle a choice until you come across one:
   })
 </script>
 ```
+
 When that event fires, as a developer I can render my own UI from that data and bind `renderChoice` to buttons to control the viewer. This UI could appear only when a canvas has a choice and the user could use the UI created to switch between them. With the returned function, that UI could be cleaned up if the canvas is switched.
 
 Since the `choice-id` attribute also drives this, I could do the following to manually set the choice ID.
@@ -120,6 +142,5 @@ Since the `choice-id` attribute also drives this, I could do the following to ma
 ```js
 element.setAttribute('choice-id', 'http://example.org/choice-1')
 ```
-
 
 <GitHubDiscussion ghid="10" />
