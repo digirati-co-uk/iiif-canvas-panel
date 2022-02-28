@@ -1,0 +1,15 @@
+{
+  "id": "https://iiif-canvas-panel.netlify.app/extra-fixtures/test-with-id.json"
+  "type": "Annotation",
+  "motivation": ["highlighting"],
+  "target": {
+    "id": "https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json#xywh=50,990,2100,1755",
+    "type": "Canvas",
+    "partOf": [
+      {
+        "id": "https://iiifmediawiki.herokuapp.com/presentation/File:Baigneurs_a_Asnieres.jpg",
+        "type": "Manifest"
+      }
+    ]
+  }
+}
