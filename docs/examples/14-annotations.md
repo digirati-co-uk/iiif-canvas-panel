@@ -55,8 +55,6 @@ We can still program against annotations in Vault, and use them with Canvas Pane
 
 You can add an annotation to the Vault, and you can add whole annotation pages at a time to the Vault. Annotations can be provided as inline JSON, or can be loaded from URLs.
 
-
-
 <Sandbox stacked project={vaultLoading} />
 
 
