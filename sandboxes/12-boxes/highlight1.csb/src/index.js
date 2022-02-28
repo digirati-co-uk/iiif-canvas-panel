@@ -10,7 +10,7 @@ async function load() {
   cp.setCanvas(
     "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"
   );
-  const target = { x: 1000, y: 1500, width: 1500, height: 1000 };
+  const target = { x: 1000, y: 1900, width: 1500, height: 1000 };
   setTimeout(() => {
     cp.goToTarget(target);
     drawBox();
@@ -31,7 +31,8 @@ async function drawBox() {
   const highlight = cp.createAnnotationDisplay(w3CAnno.id);
   highlight.className = "example-annotation";
   cp.annotations.add(highlight);
-
+  // for a bonus - change the style after three seconds
+  setTimeout(() => {
   highlight.applyStyle({
     borderWidth: "2px",
     borderStyle: "solid",
@@ -39,5 +40,7 @@ async function drawBox() {
     ":hover": {
       borderColor: "orange"
     }
-  });
+  });    
+  }, 3000);
+
 }

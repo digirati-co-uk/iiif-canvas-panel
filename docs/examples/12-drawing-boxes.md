@@ -64,6 +64,7 @@ In the above examples, the `region` and `highlight` attributes both take string 
 
 <Sandbox stacked project={highlight1} />
 
-For more information on this, see [Annotations](./annotations).
+For more information on creating annotations programatically, see [Annotations](./annotations).
+For more information on styling and CSS in Canvas Panel, see [Styling](./styling).
 
 <GitHubDiscussion ghid="12" />
