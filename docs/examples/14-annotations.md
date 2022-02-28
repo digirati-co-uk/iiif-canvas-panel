@@ -5,7 +5,11 @@ sidebar_position: 14
 # Working with Annotations
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+import vaultLoading from '@site/sandboxes/14-annotations/vaultLoading.csb/_load';
+import { Sandbox } from '@site/Sandbox';
 
+<!-- NB the original version of this doc ument has been moved to notes/14-annotations-hidden.md -->
+<!-- It describes an internal Vault normalised annotation approach, which is not the same as v1 below. -->
 TODO: work this in - https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
 
 TODO...
@@ -43,39 +47,23 @@ https://atlas-viewer-storybook.netlify.app/?path=/story/annotations--selection-d
 
 
 
-The underlying Hyperion framework is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Hyperion+Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
+The underlying [Vault](../components/vault) library is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 
-In IIIF, content is associated with canvases through [Annotations](https://iiif.io/api/presentation/3.0/#56-annotation), using the [W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/). This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same intention to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further specification to normalise the data to, and using annotations directly reintroduces the overly defensive, always-checking style Hyperion aims to avoid.
+In IIIF, content is associated with canvases through [Annotations](https://iiif.io/api/presentation/3.0/#56-annotation), using the [W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/). This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same intention to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further specification to normalise the data to.
 
-For this reason, Hyperion **exposes annotations through its own type system**. It can't hope to coerce every _possible_ annotation into its own types, but it does attempt to do this for annotation styles commonly encountered in IIIF development scenarios, especially (but not exclusively) annotations on Canvases. Hyperion also gives you access to the original annotation fields if you really need them, but generally you shouldn't need to do this.
+We can still program against annotations in Vault, and use them with Canvas Panel, but (in the current code) Vault cannot coerce every _possible_ annotation into its own normalised types.
 
-<!-- TODO: GH-94 -->
-<!-- this whole section depends on the way we approach annotations and helper classes -->
-## Annotation Data
+You can add an annotation to the Vault, and you can add whole annotation pages at a time to the Vault. Annotations can be provided as inline JSON, or can be loaded from URLs.
 
-Hyperion will attempt to wrap any annotations it finds with its own Annotation class - or rather, an instance of a motivation-specific class:
 
- - `Annotation` - abstract annotation class
-   - `HighlightingAnnotation`
-   - `LinkingAnnotation`
-   - `TaggingAnnotation`
-   - ...
 
-(This needs further brainstorming, dealing with multiple motivations)
+<Sandbox stacked project={vaultLoading} />
 
-The Annotation class makes use of two further helper classes:
-
- - `Body`
- - `Target`
-
-These reflect the W3C Annotation Model's `body` and `target` properties, but are accessed via the properties `bodies` and `targets` (both _arrays_) on Hyperion's `Annotation` class.  Usually there is one of each, but there can be more than one _target_, more than one _body_, and also, no _body_. The original `body` and `target` properties are available as their original JSON-LD representations. 
-
-<!-- TODO: GH-94 -->
-Hyperion attempts to coerce the found annotation bodies and targets into normalised representations common in IIIF development. If it can't do this it leaves the W3C body or target as-is and doesn't add to the `bodies` or `targets` array.
 
 ## Annotation Display
 
-As well as Hyperion providing types to help with annotation _data_, Canvas Panel provides a type to help with annotation _display_. That is, an annotation drawn on the canvas surface in some way, and potentially _interactive_.
+While , Canvas Panel provides a type to help with annotation _display_. That is, an annotation drawn on the canvas surface in some way, and potentially _interactive_.
+
 
   - `DisplayAnnotation`
 
