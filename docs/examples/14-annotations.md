@@ -11,42 +11,6 @@ import { Sandbox } from '@site/Sandbox';
 
 <!-- NB the original version of this doc ument has been moved to notes/14-annotations-hidden.md -->
 <!-- It describes an internal Vault normalised annotation approach, which is not the same as v1 below. -->
-TODO: work this in - https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
-
-TODO...
-
-```
-Construct a regular anno (W3C anno) - WITH A TARGET (targets the canvas)
-Add it to vault
-make a cp anno with cp.createAnnotationDisplay(myW3CAnnoId);
-give it styles, classes etc
-give it event listeners
-cp.annotations is per CP instance not per canvas
-```
-
-use the widget to get the W3C anno data
-put CP in box-draw mode (Atlas-level API) so that you can capture the target rectangle
-
-vault.load('https://iiif.wellcomecollection.org/presentation/b21146172/canvases/b21146172_0003.jp2/supplementing/t1', {
- "id": "https://iiif.wellcomecollection.org/presentation/b21146172/canvases/b21146172_0003.jp2/supplementing/t1",
-  "type": "Annotation",
-  "body": {
-    "value": "As I stated in the conclusion of my \"Refutation of Certain Calumnies\"",
-    "type": "TextualBody"
-   },
-   "motivation": "supplementing",
-   "target": "https://iiif.wellcomecollection.org/presentation/b21146172/canvases/b21146172_0003.jp2#xywh=180,601,1481,53"
-})
-^ should work, needs tested
-
-12:56
-
-https://atlas-viewer-storybook.netlify.app/?path=/story/annotations--selection-demo
-
-----
-
-
-
 The underlying [Vault](../components/vault) library is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 
 In IIIF, content is associated with canvases through [Annotations](https://iiif.io/api/presentation/3.0/#56-annotation), using the [W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/). This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same intention to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further specification to normalise the data to.
@@ -105,6 +69,16 @@ The Vault doesn't know anything about the `AnnotationDisplay` class. It belongs 
 :::info
 If you want total control of what you draw on the canvas, outside of IIIF and annotations, you can step down into Atlas and access the _world_ directly. But for general annotation scenarios - including annotation creation and editing as well as tags, links, descriptions, markers, highlights... the `AnnotationDisplay` provides common functionality using a consistent Annotation model for associating content with the canvas. It can be made interactive, allowing it to be positioned and re-sized by the user. Canvas Panel is deliberately not a general-purpose drawing surface, it's for IIIF+Annotation scenarios.
 :::
+
+Available functions:
+
+```js
+cp.annotations.add(myAnno);
+cp.annotations.remove(myAnno);
+cp.annotations.getAll();
+cp.annotations.get(id);
+cp.annotations.getSource(id); // returns the original ID, not display annotation
+```
 
 ### Honorary annotations - METS-ALTO, hOCR and WebVTT
 

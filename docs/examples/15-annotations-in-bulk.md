@@ -4,30 +4,27 @@ sidebar_position: 15
 
 # Working with Annotation Pages
 
-TODO - THIS IS NOT DONE YET!!!!
-
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+import annoPages from '@site/sandboxes/15-annotations-in-bulk/annoPage.csb/_load';
+import { Sandbox } from '@site/Sandbox';
 
-Discussion and examples for loading whole anno pages, styling them, wiring up events
+The preferred way of dealing with large numbers of annotations is to separate them into multiple AnnotationPage resources. For example, one AnnotationPage for the English transcription, another AnnotationPage for the French translation, and another page for the German translation.
 
-Displaying 1000s of annos without them being display annos
-Best practices
+AnnotationPages can be used to partition annotations for any purpose, and should have labels to describe what they are for.
 
-Converting to display annos
+Canvas Panel can then load, display and style whole annotation pages - that is, display all the annotations in one AnnotationPage, and style all the annotations in one AnnotationPage.
 
-```
-ref = cp.loadAnnotationPage(annotationPageId);
-cp.applyStyles(ref, {
-  backgroundColor: 'red',
-  border: '1px solid blue',
-});
-cp.setPageEnabled(ref):
-```
 
-```
-cp.applyStyles('https://example.org/annotation-page-id', {
-  border: '3px solid green',
-})
+<Sandbox stacked project={annoPages} />
+
+
+Canvas Panel's `AnnotationPageManager` has the following helper methods:
+
+```js
+const allPages = cp.annotationPageManager.availablePageIds(); 
+const activePages = cp.annotationPageManager.enabledPageIds();
+cp.annotationPageManager.setPageEnabled(myPageId); // make visible
+cp.annotationPageManager.setPageDisabled(myPageId); // make invisible
 ```
 
 <GitHubDiscussion ghid="99" />
