@@ -18,11 +18,11 @@ Canvas Panel can then load, display and style whole annotation pages - that is, 
 <Sandbox stacked project={annoPages} />
 
 
-Canvas Panel's `AnnotationPageManager` has the following helper methods:
+Canvas Panel's `AnnotationPageManager` has the following helpers:
 
 ```js
-const allPages = cp.annotationPageManager.availablePageIds(); 
-const activePages = cp.annotationPageManager.enabledPageIds();
+const allPages = cp.annotationPageManager.availablePageIds; 
+const activePages = cp.annotationPageManager.enabledPageIds;
 cp.annotationPageManager.setPageEnabled(myPageId); // make visible
 cp.annotationPageManager.setPageDisabled(myPageId); // make invisible
 ```
