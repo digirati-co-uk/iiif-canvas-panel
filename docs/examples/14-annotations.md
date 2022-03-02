@@ -90,6 +90,22 @@ A W3C `Annotation` can't have a CSS Class, but the Canvas Panel `DisplayAnnotati
 <Sandbox stacked project={annoPages} />
 
 
+## Canvas Panel's managed annotations
+
+TODO - update from Slack https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
+
+TODO - cp.annotations page
+
+todo cp.annotations is CP's own managed list of displayable, interactive (potentially) annotations
+
+For displaying an Annotation on the Canvas, you wrap it in a `DisplayAnnotation`.  (no!!)
+
+The Vault doesn't know anything about this class. It belongs to Canvas Panel. `DisplayAnnotation` provides properties that help you style annotations, react to events on them, manage their visibility on the canvas, and other utility / extensions.
+
+:::info
+If you want total control of what you draw on the canvas, outside of IIIF and annotations, you can step down into Atlas and access the _world_ directly. But for general annotation scenarios - including annotation creation and editing as well as tags, links, descriptions, markers, highlights... the `DisplayAnnotation` provides common functionality using a consistent Annotation model for associating content with the canvas. It can be made interactive, allowing it to be positioned and re-sized by the user. Canvas Panel is deliberately not a general-purpose drawing surface, it's for IIIF+Annotation scenarios.
+:::
+
 ### Honorary annotations - METS-ALTO, hOCR and WebVTT
 
 :::danger
@@ -110,22 +126,6 @@ const annoPage = helper.importWebVTTAsAnnotations('https://example.org/web-vtt',
 
 See [Text Handling](./handling-text) for further information.
 
-
-## Canvas Panel's managed annotations
-
-TODO - update from Slack https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
-
-TODO - cp.annotations page
-
-todo cp.annotations is CP's own managed list of displayable, interactive (potentially) annotations
-
-For displaying an Annotation on the Canvas, you wrap it in a `DisplayAnnotation`.  (no!!)
-
-The Vault doesn't know anything about this class. It belongs to Canvas Panel. `DisplayAnnotation` provides properties that help you style annotations, react to events on them, manage their visibility on the canvas, and other utility / extensions.
-
-:::info
-If you want total control of what you draw on the canvas, outside of IIIF and annotations, you can step down into Atlas and access the _world_ directly. But for general annotation scenarios - including annotation creation and editing as well as tags, links, descriptions, markers, highlights... the `DisplayAnnotation` provides common functionality using a consistent Annotation model for associating content with the canvas. It can be made interactive, allowing it to be positioned and re-sized by the user. Canvas Panel is deliberately not a general-purpose drawing surface, it's for IIIF+Annotation scenarios.
-:::
 
 ## DisplayAnnotation details
 

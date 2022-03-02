@@ -25,27 +25,31 @@ async function demo() {
 }
 
 async function showSomeAnnotations(canvasId, annoPage) {
-  // This doesn't work?
+  // A temporary sleep...
+  await new Promise((resovle) => setTimeout(resovle, 500));
   const w3cAnno = cp.vault.get(annoPage.items[5]);
   console.log(w3cAnno);
   const displayAnno = cp.createAnnotationDisplay(w3cAnno);
-  displayAnno.className = "my-class";
+  // displayAnno.className = "my-class";
   displayAnno.applyStyle({
     background: "red"
   });
+  cp.annotations.add(displayAnno);
 
   const newAnno = {
     type: "Annotation",
     motivation: ["tagging"],
     target: canvasId + "#300,300,500,500"
   };
-  const annoWithId = await cp.vault.load(newAnno);
+  const annoWithId = await cp.vault.load("fake-id", newAnno);
   const displayAnno2 = cp.createAnnotationDisplay(annoWithId);
   displayAnno2.className = "my-class";
 
   const listener = displayAnno2.addEventListener("onClick", () => {
     console.log("clicked!");
   });
+  cp.annotations.add(displayAnno2);
+  //cp.annotations.add(displayAnno2);
   // displayAnno2.removeEventListener('onClick', listener);
 }
 
