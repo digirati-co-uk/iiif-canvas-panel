@@ -7,6 +7,11 @@ sidebar_position: 16
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
+:::danger
+
+The features on this page are still in development and not available in release versions.
+
+:::
 
 Types of interaction:
 

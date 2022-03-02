@@ -6,6 +6,13 @@ sidebar_position: 17
 
 Discussion of using CP on the server.
 
+
+:::danger
+
+The features on this page are still in development and not available in release versions.
+
+:::
+
 :::caution
 
 It's not mentioned in the docs, but maybe worth a paragraph. If you're outside of a browser environment class names won't work, but applyStyles() will. It would be fairly trivial to add a node-helper around canvas panel:

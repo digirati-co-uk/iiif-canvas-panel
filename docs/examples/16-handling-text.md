@@ -7,6 +7,13 @@ sidebar_position: 15
 <!-- TODO: GH-81 -->
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
+:::danger
+
+The features on this page are still in development and not available in release versions
+
+:::
+
+
 
 How do I get the text from the canvas so I can do things with it in other parts of my application?
 How do I let the user select text on the Canvas surface?
