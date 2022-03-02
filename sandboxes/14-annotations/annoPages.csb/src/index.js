@@ -45,8 +45,8 @@ async function showSomeAnnotations(canvasId, annoPage) {
   const displayAnno2 = cp.createAnnotationDisplay(annoWithId);
   displayAnno2.className = "my-class";
 
-  const listener = displayAnno2.addEventListener("onClick", () => {
-    console.log("clicked!");
+  const listener = displayAnno2.addEventListener("onClick", (target, anno) => {
+    console.log("clicked " + anno.id + " on " + JSON.stringify(target));
   });
   cp.annotations.add(displayAnno2);
   //cp.annotations.add(displayAnno2);

@@ -78,7 +78,7 @@ Canvas Panel provides an additional class, `AnnotationDisplay`, that turns an an
 
 > `AnnotationDisplay` is where the W3C Model meets the DOM in the browser
 
-A W3C `Annotation` can't have a CSS Class, but the Canvas Panel `DisplayAnnotation` that wraps it can.
+A W3C `Annotation` can't have a CSS Class, but the Canvas Panel `AnnotationDisplay` that wraps it can.
 
 <!--Canvas Panel also defines `TransitionOptions` - a class used to define how the canvas navigates from one Annotation or state to another, e.g., for guided viewing.-->
 
@@ -92,18 +92,18 @@ A W3C `Annotation` can't have a CSS Class, but the Canvas Panel `DisplayAnnotati
 
 ## Canvas Panel's managed annotations
 
-TODO - update from Slack https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
+The example above showed that in order for an annotation to become visible, it needs to be wrapped in an AnnotationDisplay, using the helper `cp.createAnnotationDisplay(w3cAnno)`, and then added to `cp.annotations`.
 
-TODO - cp.annotations page
+Canvas Panel's `annotations` property is an AnnotationPage, just like the one loaded in the previous example. But it's a specially managed AnnotationPage, used to store the visible annotations.
 
-todo cp.annotations is CP's own managed list of displayable, interactive (potentially) annotations
+A W3C Annotation might exist in vault as a reference in this AnnotationPage as well as the AnnotationPage it started out in.
 
-For displaying an Annotation on the Canvas, you wrap it in a `DisplayAnnotation`.  (no!!)
+The Vault doesn't know anything about the `AnnotationDisplay` class. It belongs to Canvas Panel. It provides properties that help you style annotations, react to events on them, manage their visibility on the canvas, and other utility / extensions.
 
-The Vault doesn't know anything about this class. It belongs to Canvas Panel. `DisplayAnnotation` provides properties that help you style annotations, react to events on them, manage their visibility on the canvas, and other utility / extensions.
+> You can also reorder annotations using the vault helper `reoderEntityField`
 
 :::info
-If you want total control of what you draw on the canvas, outside of IIIF and annotations, you can step down into Atlas and access the _world_ directly. But for general annotation scenarios - including annotation creation and editing as well as tags, links, descriptions, markers, highlights... the `DisplayAnnotation` provides common functionality using a consistent Annotation model for associating content with the canvas. It can be made interactive, allowing it to be positioned and re-sized by the user. Canvas Panel is deliberately not a general-purpose drawing surface, it's for IIIF+Annotation scenarios.
+If you want total control of what you draw on the canvas, outside of IIIF and annotations, you can step down into Atlas and access the _world_ directly. But for general annotation scenarios - including annotation creation and editing as well as tags, links, descriptions, markers, highlights... the `AnnotationDisplay` provides common functionality using a consistent Annotation model for associating content with the canvas. It can be made interactive, allowing it to be positioned and re-sized by the user. Canvas Panel is deliberately not a general-purpose drawing surface, it's for IIIF+Annotation scenarios.
 :::
 
 ### Honorary annotations - METS-ALTO, hOCR and WebVTT
@@ -127,62 +127,24 @@ const annoPage = helper.importWebVTTAsAnnotations('https://example.org/web-vtt',
 See [Text Handling](./handling-text) for further information.
 
 
-## DisplayAnnotation details
+## AnnotationDisplay details
 
 One major role of Canvas Panel is simply rendering scenes - passing a canvas in and relying on Canvas Panel to render all the painting annotations. Occasionally that requires some user interaction - when the painting anno has a Choice body - but usually, the point of Canvas Panel is to forget about this.
 
 The other major part of Canvas Panel is working with annotations - displaying them, even allowing users to create them.
 
-DisplayAnnotation has properties and events that relate to the visual (and/or audible) canvas - selection, resize, click. If you used Canvas Panel as part of an annotation creation tool, you'd be allowing the user to create new `DisplayAnnotation` instances.
+AnnotationDisplay has properties and events that relate to the visual (and/or audible) canvas - selection, resize, click. If you used Canvas Panel as part of an annotation creation tool, you'd be allowing the user to create new `AnnotationDisplay` instances.
 
-When displaying existing annotations (like the ones loaded above), you wrap them with a `DisplayAnnotation` to make them visible to the user. You can optionally allow the user to resize or reposition the `DisplayAnnotation` - its internal Target object would update as the user does this, as well as the visual size and position changes on the canvas surface.
+When displaying existing annotations (like the ones loaded above), you wrap them with a `AnnotationDisplay` to make them visible to the user. You can optionally allow the user to resize or reposition the `AnnotationDisplay` - its internal Target object would update as the user does this, as well as the visual size and position changes on the canvas surface.
 
-Canvas Panel knows what DisplayAnnotations are on it at any moment. Canvas Panel manages the ordered list of DisplayAnnotations for you. You can inspect this list and manipulate it, for example moving DisplayAnnotations to change the visible stacking order.
+Canvas Panel knows what AnnotationDisplays are on it at any moment. Canvas Panel manages the ordered list of AnnotationDisplays for you. You can inspect this list and manipulate it, for example moving AnnotationDisplays to change the visible stacking order.
 
 If you allowed all of the annotations that come referenced from a manifest to be wrapped and displayed then they'd all be on the canvas and accessible. The developer has access to all the actual annotations via Vault, and might want to be selective about which ones become visible on the canvas and when.
 
-Continuing the example above:
-
-```html
-<canvas-panel id="cp"><canvas-panel>
-<script>
-  // ... ommitted repeat of earlier example
-  const myAnno = annoPage.items[3];
-  const myDisplayAnno = new DisplayAnnotation(myAnno);
-  myDisplayAnno.cssClass = "red-box";
-  cp.DisplayAnnotations.add(displayAnno);
-  myDisplayAnno.addEventListener("click", (anno, args) => { .. }); // ??
-
+<!--
   myDisplayAnno.draggable = true; // can be moved on the canvas
   myDisplayAnno.resizable = true; // Canvas Panel renders handles, allows resizing
-</script>
-```
-
-TODO: need to work out how Manifest Editor would do this - what does it need?
-(Leave with Stephen!!)
-
-A common pattern is drawing lots of annotations on the canvas at once, and wiring up event listeners for activity on those annotations. To do this, Canvas Panel supports a query API:
-
-TODO - update this using the Vault walkthrough mechanism
-```js
-cp.query({
-  type: "Annotation", // `DisplayAnnotation` here?
-  motivation: "linking",
-}).addEventListener("click", (e) => {
-  // Handle the event here.
-});
-```
-
-query first, then add event listener for normal events
-
-```js
-cp.query({
-  type: 'Canvas',
-  options: { choice: true }
-}).addEventListener('load', () => {
- // ...
-})
-```
+-->
 
 Canvas Panel won't draw annotations on the Canvas unless you tell it to, apart from the `painting` motivation annotations which it must draw because they are part of the scene. Any other annotations are _not_ part of the scene, but may still be rendered on the canvas surface - e.g., a [highlight](./drawing-boxes) or a [link](rendering-links).
 
@@ -200,69 +162,18 @@ Additional links:
 See events introduction at https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/45#discussioncomment-1164643
 [See Annotation Library (gist)](https://gist.github.com/stephenwf/b04b60f2cef22f43cd985f5983587e37)
 
-## More on constructing DisplayAnnotations
-
-:::caution
-This is still mostly a discussion - see https://github.com/digirati-co-uk/iiif-canvas-panel/discussions/33#discussioncomment-1163791
-:::
-
-The underlying Annotation is constructed by Hyperion/Vault from a W3C annotation directly (because it's come from some IIIF). It will be strongly-typed, depending on motivation:
-
- - LinkingAnnotation
- - TaggingAnnotation
- - etc
-
-There might not be a lot of difference between these classes - they'll have different motivation properties, but many of them will have similar targets and many will have similar bodies.
-
-(Do we really need them? Just inspect motivation(s))?
-
-While Target is probably the same class, bodies can be `TextualBody` (which can take HTML too), `IIIFResourceBody` (links to other IIIF resources or parts of), `ResourceBody` (links to other web resources like text/html pages, application/pdf document, etc).
-
-In the [linking example](rendering-links) it's shown how the DisplayAnnotation constructor can take additional options to control handling of annotation bodies. For example if the linking annotation has a body that is part of a IIIF resource, you might want the generated hyperlink the end user clicks on to point to a viewer that loads that resource via a content state - you need a helper to transform that, CP won't know.
-
-But can be constructed from Hyperion helper classes
-
-How far do we want to go with default behaviour?
-
-```js
-let dispAnno = new DisplayAnnotation("<any HTML>");
-// now you can position dispAnno, have the user move it around...
-
-// that's probably too loose. But:
-const anno2 = new DescribingAnnotation("describing"); 
-
-// its position and content are determined by the backing annotation:
-anno2.target = new Target("xywh=2000,2000,1000,1000");
-anno2.body = new HtmlBody("<any HTML>");
-vault.load("xxx", anno2);
-
-// but its style is at the DisplayAnnotation level
-let dispAnno = new DisplayAnnotation(anno2, { cssClass: "desc" });
-cp.displayAnnotations.add("xxx"); // add via vault ref?
-``` 
-
-A DisplayAnnotation has an annotation, and the annotation has Body and Target properties, where these are helper classes that help with the underlying W3C model variability.
-
-Body and Target are probable subclasses of some other resource.
-
-in [linking example](rendering-links) there's an example of `body.getContentState()` but a Target could have that too; there's some base class. A body might be a plain string, or a plain hyperlink.
-
-## Intermediate annotations
-
-Need an example for https://github.com/digirati-co-uk/iiif-canvas-panel/issues/94#issuecomment-996670694
 
 ## More on annotation style and CSS
 
-In previous examples, a CSS class has been applied to a DisplayAnnotation like this:
+In previous examples, a CSS class has been applied to a AnnotationDisplay like this:
 
 ```js
-const displayAnno = new DisplayAnnotation(vault.FromRef("my-anno"));
 displayAnno.cssClass = "red-box";
 ```
 
 ...where your CSS has a selector for `.red-box` that perhaps sets border and background styles.
 
-This works as you might expect it to - the DisplayAnnotation is an HTML Element in the DOM within Canvas Panel, and the styles are applied directly by the browser.
+This works as you might expect it to - the AnnotationDisplay is an HTML Element in the DOM within Canvas Panel, and the styles are applied directly by the browser.
 
 This works simply and well for a small number of annotations, but is inefficient for scenarios involving bulk display of a very large number of annotations.
 
@@ -272,18 +183,17 @@ These annotations can still be styled, but not by picking up your CSS directly (
 
 Instead, they can use a subset of styling information set in a CSS-like syntax:
 
+This approach is explained in more detail in [Working with Annotation Pages](./annotations-in-bulk).
 
 ```js
 // TODO - example of loading a whole anno page (also needed for previous section)
 // Also wire up some mouse over and click handlers here.
 ```
 
-This approach is explained in more detail in [Working with Annotation Pages](./annotations-in-bulk).
-
 It is possible to create DisplayAnnotations as before, but style them using the optimised, non-HTML technique. This way they do not become HTML elements:
 
 ```js
-const displayAnno = new DisplayAnnotation(vault.FromRef("my-anno"));
+const displayAnno = new AnnotationDisplay(vault.FromRef("my-anno"));
 displayAnno.applyStyle({
   backgroundColor: 'red',
   border: '1px solid blue',
