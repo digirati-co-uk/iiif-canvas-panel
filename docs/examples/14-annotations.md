@@ -6,6 +6,7 @@ sidebar_position: 14
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 import vaultLoading from '@site/sandboxes/14-annotations/vaultLoading.csb/_load';
+import annoPages from '@site/sandboxes/14-annotations/annoPages.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
 <!-- NB the original version of this doc ument has been moved to notes/14-annotations-hidden.md -->
@@ -39,7 +40,6 @@ vault.load('https://iiif.wellcomecollection.org/presentation/b21146172/canvases/
 ^ should work, needs tested
 
 12:56
-const annoPage = helper.importWebVTTAsAnnotations('https://example.org/web-vtt', {target: 'https://example.org/canvas-id' });
 
 https://atlas-viewer-storybook.netlify.app/?path=/story/annotations--selection-demo
 
@@ -51,174 +51,67 @@ The underlying [Vault](../components/vault) library is opinionated about IIIF: i
 
 In IIIF, content is associated with canvases through [Annotations](https://iiif.io/api/presentation/3.0/#56-annotation), using the [W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/). This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same intention to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further specification to normalise the data to.
 
-We can still program against annotations in Vault, and use them with Canvas Panel, but (in the current code) Vault cannot coerce every _possible_ annotation into its own normalised types.
+We can still program against annotations in Vault, and use them with Canvas Panel, but (in the current code) Vault cannot coerce every _possible_ annotation into normalised types.
 
 You can add an annotation to the Vault, and you can add whole annotation pages at a time to the Vault. Annotations can be provided as inline JSON, or can be loaded from URLs.
+
+
+The following sandbox shows a few patterns for working with annotations - both existing annotations, and new ones that you add to Vault.
 
 <Sandbox stacked project={vaultLoading} />
 
 
 ## Annotation Display
 
-While , Canvas Panel provides a type to help with annotation _display_. That is, an annotation drawn on the canvas surface in some way, and potentially _interactive_.
+Like the IIIF resources, annotations loaded into Vault are just data. Canvases in vault become visible when given to Canvas Panel - so what about annotations?
+
+Canvases are intended for presentation (that's what IIIF is for), so the media to show and where to show it are governed by that specification. In IIIF the media are associated with the Canvases via Annotations, with the special motivation property of `painting`.
+
+Other types of Annotations in IIIF need a bit more work to become user interface. For content like comments, transcriptions, tags, highlights, descriptions and all the other types of possible annotation, we need to consider a few things before rendering them.
+
+ - There might be a very large number of annotations on a canvas - thousands even. We shouldn't just show them all.
+ - If we do show an annotation, what does it look like? Can we style it with CSS? W3C annotations don't typically have any style information associated with them.
+ - In IIIF, Annotations are grouped into AnnotationPages. We will often want to load and style all of the annotations on a page in one go.
 
 
-  - `DisplayAnnotation`
+Canvas Panel provides an additional class, `AnnotationDisplay`, that turns an annotation-as-data in Vault to an annotation as a visible UI element on the Canvas. `AnnotationDisplay` represents the Annotation _rendered in the user interface_ - the element rendered on the canvas surface, that might have styles, behaviours and user interaction events. 
 
-The Hyperion classes represent the data - the annotation content, the canvas or part of canvas it targets. `DisplayAnnotation` represents the Annotation _rendered in the user interface_ - the element rendered on the canvas surface, that might have styles, behaviours and user interaction events. 
+> `AnnotationDisplay` is where the W3C Model meets the DOM in the browser
 
-> `DisplayAnnotation` is where the W3C Model meets the DOM in the browser
+A W3C `Annotation` can't have a CSS Class, but the Canvas Panel `DisplayAnnotation` that wraps it can.
 
-A W3C Hyperion `Annotation` can't have a CSS Class, but the Canvas Panel `DisplayAnnotation` that wraps it can.
+<!--Canvas Panel also defines `TransitionOptions` - a class used to define how the canvas navigates from one Annotation or state to another, e.g., for guided viewing.-->
 
-Canvas Panel also defines `TransitionOptions` - a class used to define how the canvas navigates from one Annotation or state to another, e.g., for guided viewing.
+<!-- removed sections on Target and Body classes - see /notes/14-annotations-hidden.md -->
 
-## Target
-
-TODO - re-focus on creating W3C annos and letting Vault parse them rather than using custom target class.
+## Loading Annotation Pages
 
 
-<!-- TODO: GH-108 -->
-**Target** is a standardised object representing a spatial and/or temporal target on a canvas, from the various forms that could take in Annotation JSON. Hyperion will parse these from W3C and Open Annotation content.
-
-```json
-"target": "http://example.org/canvas-1.json#xywh=1,2,3,4"
-```
-
-or
-
-```json
-"target": { 
-  "id": "http://example.org/canvas-1.json", 
-  "refinedBy": "#xywh=1,2,3,4" 
-}
-```
-
-Parsing these results in an object with `.x`, `.y` properties:
-
-`.target.spatial.x`, `.target.spatial.y`, `.target.spatial.w` ...
-
-If the target is a point (defined by a PointSelector), then `target.spatial.w` and `target.spatial.h` are both 0, and `target.spatial.point` is `true` to make this explicit and easy to test for.
-
-Where the targets are _temporal_, the helper classes have the following:
-
-`.target.temporal.start`,`.target.temporal.end`, `target.temporal.point`
-
-For the latter, `.point` is true and `.start` and `.end` have the same value.
-
-A `Target` can have both spatial and temporal properties, for example if it targets part of a video for a certain amount of time.
-
-You can also use create Target without an annotation. In [Regions](./regions), the last example shows the code moving the viewport to focus on a particular part, using `Target` and `TransitionOptions`.
-
-As Vault loads annotations, it can keep track of where they were referenced from, so a concise form such as this annotation's target still evaulates to a useful object:
-
-```json
-{
-  "id": "https://iiif.wellcomecollection.org/presentation/b21146172/canvases/b21146172_0003.jp2/supplementing/t1",
-  "type": "Annotation",
-  "body": {
-    "value": "As I stated in the conclusion of my \"Refutation of Certain Calumnies\"",
-    "type": "TextualBody"
-   },
-   "motivation": "supplementing",
-   "target": "https://iiif.wellcomecollection.org/presentation/b21146172/canvases/b21146172_0003.jp2#xywh=180,601,1481,53"
-}
-```
-
-```js
-log(anno.target.spatial.x); // 180
-log(anno.target.type); // "Canvas", because it came from a Canvas
-const canvas = vault.fromRef(anno.target.id);
-log(canvas); // { .. } (see below - assumes vault was already tracking the canvas before loading its annos)
-```
-
-## Body
-
-TODO - similar to above, just construct the W3C anno and let Vault parse the body
-
-A **Body** could be very similar to a target (e.g., a canvas in a manifest could be the body of a link annotation). But a body could be a URL, a textual body, and other kinds of resource. Hyperion doesn't have wrapper classes for every possible type of Target, but it will try to coerce the found Annotation body into one of its known types.
-
-It will also attempt to coerce string values into a language map compatible with IIIF language maps.
-
-For example, re-using the above annotation:
-
-```js
-log(anno.bodies[0].type); // "TextualBody"
-log(anno.bodies[0].format); // "text/plain" - as no format has been given
-log(anno.bodies[0].valueMap["none"]); // "As I stated in the conclusion of my \"Refutation of Certain Calumnies\""
-```
-
-In the last example, the language has been mapped to the special value "none" because no language was specified. However, you will often know the likely language of textual annotations that Vault is loading and can provide an alternative default. In this case, you would provide "en":
-
-```js
-vault.loadAnnotations("..linked anno page url..", { defaultLanguage: "en" });
-```
-
-:::question
-How much of this can vault do unaided? In the above, we're manually loading the linked `annotations` from a canvas. Just loading them into vault on their own would be problematic because vault isn't tracking the canvas id in the `target`. You'd need to make sure the targets are loaded first.
-:::
-
-:::info
-Need to list examples of the anno forms we want to support - ResourceBody (e.g., an mp3, an image), TextualBody (with embedded and external variants, format, language etc), IIIFResource (probably the same as Target).
-These should align with the cookbook, if present there.
-:::
-
-## Annotation
-
-TODO -  not _just_ a W3C Web Annotation .... yes it is
-
-As discussed above, **Annotation** is not _just_ a W3C Web Annotation, although you can create an instance from a W3C Anno in a constructor, and you can call `.toW3CAnnotation()` on an Annotation to get the W3C JSON representation.
-
-`Annotation` is loaded and managed by the Vault. However it does not automatically follow and load all annotations linked from the manifest. For a printed book this could trigger potentially thousands of HTTP requests. Instead, you can listen for events that notify you that annotations are present, and then follow them on demand as necessary.
-
-TODO update - load anno pages as in the Vault walkthrough docs/components/vault.md
-TODO - with vault.requestStatus
-
-
-```html
-<canvas-panel id="cp"><canvas-panel>
-<script>
-  const vault = HyperionVault.globalVault();
-  const manifest = await vault.loadManifest(manifestId);
-  // a viewer can work with this normalised Presentation 3 manifest
-  const cp = document.getElementById("cp");
-  let selectedCanvas = vault.fromRef(manifest.items[12]);
-  cp.setCanvas(selectedCanvas.id);
-  log(selectedCanvas.annotations.length); // 1 (in our case)
-  const annoPage = await vault.loadAnnotations(selectedCanvas.annotations[0]);
-  // same as ?
-  // const annoPage = await vault.loadAnnotations(selectedCanvas.annotations[0].id);
-  // same as ?
-  // const annoPage = await vault.load(selectedCanvas.annotations[0]); // Vault can find out what they are
-  // What if the anno page had been inline, and the id wasn't dereferenceable?
-  // Vault would spot this and return the inline annotations, which it would already be tracking.
-  // Otherwise it will follow the link and make an HTTP request
-  const myAnno = annoPage.items[3];
-  // or does it need to do this?...
-  // const myAnno = vault.fromRef(annoPage.items[3]);
-</script>
-
-```
-
-:::caution
-We need to decide the whole pattern around anno loading and Vault. Does it unload them when no longer needed?
-
-Need more examples of anno loading here.
-:::
+<Sandbox stacked project={annoPages} />
 
 
 ### Honorary annotations - METS-ALTO, hOCR and WebVTT
 
-TODO - candidates for Vault helpers   danger admonition
+:::danger
+
+This feature is still under development, it is not available in released versions.
+
+:::
 
 It's common for IIIF canvases to link to non-IIIF formats containing text. 
 
-Hyperion allows you to load these _as if they were annotations_ and program against them through the Annotation/Target/Body classes for consistency. If it finds it linked from the Canvas, Canvas Panel will expose WebVTT to `<video>` and `<audio>` tags, but you might want to do additional things with the text, without parsing WebVTT yourself, instead parsing as W3C annotations for consistency.
+Vault allows you to load these _as if they were annotations_ and program against them through the Annotation/Target/Body classes for consistency. If it finds it linked from the Canvas, Canvas Panel will expose WebVTT to `<video>` and `<audio>` tags, but you might want to do additional things with the text, without parsing WebVTT yourself, instead parsing as W3C annotations for consistency.
+
+You can also add external text formats as annotations, using a Vault helper:
+
+```js
+const annoPage = helper.importWebVTTAsAnnotations('https://example.org/web-vtt', {target: 'https://example.org/canvas-id' });
+```
 
 See [Text Handling](./handling-text) for further information.
 
 
-## DisplayAnnotation
+## Canvas Panel's managed annotations
 
 TODO - update from Slack https://digirati.slack.com/archives/C9U6T4G92/p1645532626064159
 
