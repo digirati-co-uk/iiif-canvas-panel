@@ -110,6 +110,10 @@ This gives complete flexibility over choices at the data level, and can happen b
 Since the `choice-id` attribute also drives this, I could do the following to manually set the choice ID.
 
 ```js
+element.setAttribute('choice-id', 'http://example.org/choice-1')
+
+// or even
+
 element.setAttribute('choice-id', 'http://example.org/choice-1#opacity=20')
 ```
 

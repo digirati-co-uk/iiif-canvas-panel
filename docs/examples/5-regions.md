@@ -135,7 +135,7 @@ cp.goToTarget(myTarget, myOptions);
 // https://developer.mozilla.org/en-US/docs/Web/CSS/transition
 ```
 
-You can also remove the target, and there is a built-in _home_ target, to return canvas panel to its initial state:
+You can also remove the target, and there is a built-in _home_ target, to return canvas panel to its initial state (returning to the viewport as it was initially, before panning and zooming):
 
 ```js
 cp.clearTarget();

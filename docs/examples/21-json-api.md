@@ -100,6 +100,10 @@ static | canvas | webgl (don't use unless you know what you are doing)
 
 ### choice-id
 
+```js
+element.setAttribute('choice-id', 'http://example.org/choice-1#opacity=20')
+```
+
 ### virtual-sizes
 
     
