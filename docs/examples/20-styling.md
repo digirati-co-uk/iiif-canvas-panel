@@ -5,6 +5,13 @@ sidebar_position: 20
 import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
+<!-- Stephen
+Needs a really good example of how to make it stick to 4 sides of container
+Typical viewer behaviour
+
+A discussion of styling quirks
+ -->
+
 # Styling inside Canvas Panel
 
 There are 3 types of object you can type in 

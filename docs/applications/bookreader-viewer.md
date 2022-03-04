@@ -26,7 +26,7 @@ An example of wrapping a Canvas Panel (or in this case, image-service) component
     <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" />
 </atlas-viewer>
 
-> Link to atlas-viewer on GitHub
+> Atlas Viewer is a developer tool (whereas Canvas Panel is equivalent to OpenSeadragon). [Atlas Viewer on GitHub](https://github.com/atlas-viewer/atlas)
 
 The same thing can be done with canvas-panel instances:
 

@@ -107,40 +107,10 @@ vault.loadManifest('http://example.org/manifest.json').then(manifestRef => {
 
 This gives complete flexibility over choices at the data level, and can happen before anything is rendered to the user.
 
-### After loading
-
-In most cases, you won't want to handle a choice until you come across one:
-
-```html
-<canvas-panel id="viewer" canvas-id="http://example.org/canvas-1.json" [ ... ] />
-
-<script>
-  const viewer = document.getElementById('viewer');
-
-  // TODO - this API is not confirmed
-  viewer.addEventListener('canvas-choice', (helper) => {
-    helper.choices // the choices in the IIIF form.
-
-    helper.renderChoice(helper.choices[0]); // render a single choice (hiding any others)
-  
-    helper.renderChoice([helper.choices[0], data.choices[1]]); // Or render multiple
-  
-    helper.setOptions(helper.choices[0], { opacity: 20 }); // Something to pass directly to the rendering
-    helper.setOptions(helper.choices[1], { opacity: 80 });
-
-    return function() {
-      // An unsubscribe callback for when the UI can be removed.
-    };
-  })
-</script>
-```
-
-When that event fires, as a developer I can render my own UI from that data and bind `renderChoice` to buttons to control the viewer. This UI could appear only when a canvas has a choice and the user could use the UI created to switch between them. With the returned function, that UI could be cleaned up if the canvas is switched.
-
 Since the `choice-id` attribute also drives this, I could do the following to manually set the choice ID.
 
 ```js
-element.setAttribute('choice-id', 'http://example.org/choice-1')
+element.setAttribute('choice-id', 'http://example.org/choice-1#opacity=20')
 ```
 
 <GitHubDiscussion ghid="10" />

@@ -4,6 +4,16 @@ sidebar_position: 4
 
 # Accessibility
 
+<!-- stephen
+
+Not that media queries can be used for other things beside viewport - e.g., prefers reducedMotion, high contrast
+https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+
+https://iiif.wellcomecollection.org/image/b22383268_0016.jp2/full/max/0/bitonal.jpg
+
+Also talk about keyboard navigation
+
+ -->
 :::info
 
 Accessibility of IIIF resources is a really important topic. So many apparently inaccessible digital objects contain a huge amount of information that could be useful to assistive technologies - labels, other metadata, textual transcriptions and descriptions, all labelled by language.

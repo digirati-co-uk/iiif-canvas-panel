@@ -7,6 +7,10 @@ sidebar_position: 16
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
+<!-- Stephen: list events that reflect browser DOM events -->
+<!-- get point relative to canvas (actually atlas world but...) -->
+<!-- imperative version of box selector -- https://digirati.slack.com/archives/C9U6T4G92/p1646305168578719 -->
+
 :::danger
 
 The features on this page are still in development and not available in release versions.

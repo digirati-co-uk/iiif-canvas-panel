@@ -11,6 +11,17 @@ import { Sandbox } from '@site/Sandbox';
  - show how to use them as attrs and via the "JSON API":
 
  TODO - discuss how to set CP from JSON blocks
+https://github.com/digirati-co-uk/iiif-canvas-panel/blob/main/packages/canvas-panel/src/hooks/use-generic-atlas-props.ts
+
+
+"useSyncedState" = prop
+
+
+10:16
+enable-navigator="true"
+x="123"
+y="456"
+nested="true"
 
 
 ## Properties common to Canvas Panel and Image Service
@@ -22,6 +33,15 @@ import { Sandbox } from '@site/Sandbox';
 ### region
 
 ### atlas-mode
+change between dz/pan and have to hold spacebar to pan
+for drawing on top etc
+'explore' | 'sketch' (explore default)
+
+### nested (not needed)
+see https://deploy-preview-151--iiif-canvas-panel.netlify.app/docs/applications/bookreader-viewer
+
+also x, y
+
 
 ### preferred-formats
 
@@ -35,7 +55,25 @@ import { Sandbox } from '@site/Sandbox';
 
 ### interactive
 
+t/f
+
 ### class
+
+### highlight
+
+### highlight-css-class
+
+### exact-initial-image
+
+### media
+
+### viewport
+
+t/f
+
+### render
+
+static | canvas | webgl (don't use unless you know what you are doing)
 
 
 ## Properties only on Image Service
@@ -54,10 +92,6 @@ import { Sandbox } from '@site/Sandbox';
 
 ### target
 
-### highlight
-
-### highlight-css-class
-
 ### text-selection-enabled
 
 ### text-enabled
@@ -66,7 +100,7 @@ import { Sandbox } from '@site/Sandbox';
 
 ### choice-id
 
-### exact-initial-image
+### virtual-sizes
 
     
 

@@ -4,6 +4,12 @@ sidebar_position: 22
 
 # Navigator
 
+:::danger
+
+Under development
+
+:::
+
 Canvas panel has an optional viewport navigator:
 
 ```html
@@ -20,6 +26,7 @@ Canvas panel has an optional viewport navigator:
    enable-navigator="true"
 />
 
+Annotations will be shown in the navigator.
 
 :::info
 

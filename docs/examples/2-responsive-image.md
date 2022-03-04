@@ -28,6 +28,8 @@ Simply declaring an `image-service` or `canvas-panel` tag as `responsive` makes 
   src="https://iiif.wellcomecollection.org/image/L0007430">
 </image-service>
 
+<!-- Stephen: discuss how Cp and IS make these requests -->
+
 The image-service tag optimises the requests it makes, taking note of any specific [sizes](https://iiif.io/api/image/3.0/#53-sizes) advertised by the IIIF image service; if they are suitable to use, it will prefer one of these to tiles.
 
 Sometimes you want to force a single image request, rather than generate multiple tile requests. You can add additional `sizes` to the list of candidates even if they are not in the image service, with the `virtual-sizes` attribute:
