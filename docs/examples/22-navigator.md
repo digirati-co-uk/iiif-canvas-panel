@@ -6,7 +6,7 @@ sidebar_position: 22
 
 :::danger
 
-Under development
+This is currently unstable
 
 :::
 
@@ -26,7 +26,7 @@ Canvas panel has an optional viewport navigator:
    enable-navigator="true"
 />
 
-Annotations will be shown in the navigator.
+The navigator mini-window will also show a miniature view of the annotations on the canvas.
 
 :::info
 

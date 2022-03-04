@@ -7,12 +7,6 @@ import { Sandbox } from '@site/Sandbox';
 
 # Canvas Panel and Image Service attributes
 
- - list the available attrs
- - show how to use them as attrs and via the "JSON API":
-
- TODO - discuss how to set CP from JSON blocks
-https://github.com/digirati-co-uk/iiif-canvas-panel/blob/main/packages/canvas-panel/src/hooks/use-generic-atlas-props.ts
-
 
 "useSyncedState" = prop
 
@@ -45,6 +39,8 @@ also x, y
 
 ### preferred-formats
 
+### preferred-qualities
+
 ### style-id
 
 ### debug
@@ -58,6 +54,8 @@ also x, y
 t/f
 
 ### class
+
+(className in JavaScript)
 
 ### highlight
 
@@ -74,6 +72,11 @@ t/f
 ### render
 
 static | canvas | webgl (don't use unless you know what you are doing)
+
+### enable-navigator
+
+
+### virtual-sizes
 
 
 ## Properties only on Image Service
@@ -104,7 +107,6 @@ static | canvas | webgl (don't use unless you know what you are doing)
 element.setAttribute('choice-id', 'http://example.org/choice-1#opacity=20')
 ```
 
-### virtual-sizes
 
     
 
@@ -156,3 +158,11 @@ You can supply these properties to canvas panel:
 You can also do this directly on the page in a script block. This may be a more typical approach:
 
 <Sandbox project={presetSandbox} />
+
+
+
+# Canvas Panel and Image Service methods
+
+
+
+TBC
