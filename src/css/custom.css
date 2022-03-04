@@ -48,3 +48,10 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 .sp-tabs {
   background: #fff;
 }
+
+@media (min-width: 1440px) {
+  .container p {
+    max-width: unset;
+  }
+}
+
