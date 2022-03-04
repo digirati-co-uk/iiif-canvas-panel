@@ -10,6 +10,8 @@ Needs a really good example of how to make it stick to 4 sides of container
 Typical viewer behaviour
 
 A discussion of styling quirks
+
+You can also style image services using their image service ID (no canvas ID)
  -->
 
 # Styling inside Canvas Panel

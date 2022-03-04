@@ -206,7 +206,7 @@ By default, all `canvas-panel` elements on the page share a common instance of a
 
 Under the hood, Vault manages the HTTP fetch operations and optimises internal storage of all the IIIF resources in use on a page. Vault normalises all IIIF to the Presentation 3 specification, allowing you to take advantage of a consistent programming interface regardless of the source IIIF. Vault also has the advantage of making your IIIF strongly-typed when used via TypeScript.
 
-[Read more about Vault here](../../docs/components/vault). Vault is part of [IIIF Commons](https://github.com/IIIF-Commons/vault).
+[Read more about Vault here](../../docs/components/vault). Vault is now part of [IIIF Commons](https://github.com/IIIF-Commons/vault).
 
 
 ## Getting started with making a Viewer

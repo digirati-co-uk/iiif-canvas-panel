@@ -4,16 +4,7 @@ sidebar_position: 4
 
 # Accessibility
 
-<!-- stephen
 
-Not that media queries can be used for other things beside viewport - e.g., prefers reducedMotion, high contrast
-https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
-
-https://iiif.wellcomecollection.org/image/b22383268_0016.jp2/full/max/0/bitonal.jpg
-
-Also talk about keyboard navigation
-
- -->
 :::info
 
 Accessibility of IIIF resources is a really important topic. So many apparently inaccessible digital objects contain a huge amount of information that could be useful to assistive technologies - labels, other metadata, textual transcriptions and descriptions, all labelled by language.
@@ -67,10 +58,35 @@ Canvas Panel could, in future, make use of the [Accessibility Object Model](http
 
 > Show it! (demonstrates manual override of accessibility defaults, potentially)
 
+
+## Other possible accessibility measures
+
+Canvas Panel makes it very easy to tie different configurations to feature detection through media queries, as described in [Responsive Images](./responsive-image). On its own this doesn't make anything accessible, but sensible choices of rendering modes can assist. For example, render a static image rather than a deep zoom image if [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) is detected.
+
+We can also use queries to determine how Canvas Panel makes requests to the IIIF Image API. This is perhaps more useful in cases where a client viewer is built for a known collection, where the capabilities of its image services are predictable. For example, queries like `forced-colors`, `inverted-colors`, `monochrome`, `orientation`, `prefers-color-scheme` and `prefers-contrast` could be used to determine what [quality](https://iiif.io/api/image/3.0/#quality) parameter is passed to the image service, including custom qualities implemented for accessibility purposes - which might not even be directly equivalent to the other qualities. This might be especially useful for digitised printed books. A high contrast mode could trigger `bitonal` requests, and a custom mode could trigger requests for images that render a synthetic view of the page using cleaned-up OCR text.
+
+An idea of what could be possible is shown in the following demo.
+
+<!-- stephen
+
+Not that media queries can be used for other things beside viewport - e.g., prefers reducedMotion, high contrast
+https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+
+https://iiif.wellcomecollection.org/image/b22383268_0016.jp2/full/max/0/bitonal.jpg
+
+Also talk about keyboard navigation
+
+ -->
+
+## Keyboard navigation
+
+TBC 
+
 ## Server-side Canvas Panel
 
 Canvas Panel and its underlying libraries can also be used on the server, to render simple HTML representations of IIIF resources.
 
 This is covered in [Server-side rendering](../../docs/applications/server-side).
+
 
 <GitHubDiscussion ghid="1" />
