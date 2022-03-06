@@ -46,6 +46,8 @@ _This viewer is then extended by [Content State Selector](./content-state-select
     </div>
     <script>    
         function $(id) { return document.getElementById(id); }
+        const cp = $("cp");
+        const thumbHelper = IIIFVaultHelpers.createThumbnailHelper(cp.vault);
 
         async function loadManifest(){
             const manifestUri = $("manifest").value;
@@ -53,9 +55,9 @@ _This viewer is then extended by [Content State Selector](./content-state-select
                 const manifest = await cp.vault.loadManifest(manifestUri);       
                 $("manifestLabel").innerText = IIIFVaultHelpers.getValue(manifest.label);      
                 let thumbsHtml = "";
-                for(const canvas of cp.vault.allFromRef(manifest.items)){              
+                for(const canvas of cp.vault.get(manifest.items)){              
                     const label = IIIFVaultHelpers.getValue(canvas.label);
-                    const cvThumb = await cp.getThumbnail(canvas, {maxWidth:100, maxHeight:200})
+                    const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {maxWidth:100, maxHeight:200});
                     thumbsHtml += '<div class="tc">' + label + '<br/>';
                     thumbsHtml += '<img data-uri="' + canvas.id + '" data-label="' + label + '" src="' + cvThumb.best.id + '" />';
                     thumbsHtml += '</div>';   
