@@ -11,7 +11,7 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
 }) => {
   const annotation = useAnnotation({ id });
   const style = useStyles<BoxStyle>(annotation, 'atlas');
-  const html = useStyles<{ className?: string }>(annotation, 'html');
+  const html = useStyles<{ className?: string; href?: string; title?: string; target?: string }>(annotation, 'html');
   const events = useResourceEvents(annotation as any, ['atlas']);
   const canvas = useCanvas();
 
@@ -39,6 +39,10 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
       region={(annotation.target as any).selector.spatial}
       style={allStyles}
       className={html?.className || className}
+      interactive={!!html?.href}
+      href={html?.href || null}
+      title={html?.title || null}
+      hrefTarget={html?.target || null}
       {...events}
     />
   );

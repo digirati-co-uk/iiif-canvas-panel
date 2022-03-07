@@ -228,6 +228,18 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         styles.applyStyles(typeof resource === 'string' ? { id: resource } : resource, 'atlas', style);
       },
 
+      applyHTMLProperties(
+        resource: string | Reference<any>,
+        style: Partial<{
+          className?: string;
+          href?: string;
+          target?: string;
+          title?: string;
+        }>
+      ) {
+        styles.applyStyles(typeof resource === 'string' ? { id: resource } : resource, 'html', style);
+      },
+
       setClassName(resource: string | Reference<any>, className: string) {
         styles.applyStyles(typeof resource === 'string' ? { id: resource } : resource, 'html', { className });
       },

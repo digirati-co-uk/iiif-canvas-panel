@@ -21,6 +21,9 @@ export const RegionHighlight: React.FC<{
   interactive?: boolean;
   style?: BoxStyle;
   className?: string;
+  href?: string;
+  hrefTarget?: string;
+  title?: string;
 }> = ({ interactive, region, onClick, onSave, isEditing, className, style, ...props }) => {
   const mode = useMode();
 
