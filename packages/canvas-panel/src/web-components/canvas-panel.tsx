@@ -10,6 +10,8 @@ import { parseContentState } from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
+import { useState } from 'react';
+import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 
 export type CanvasPanelProps = GenericAtlasComponent<
   {
@@ -50,6 +52,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   } = useGenericAtlasProps(props);
 
   const [contentState, , setParsedContentState] = useProp('iiifContent', { parse: parseContentStateParameter });
+  const [error, setError] = useState<Error | null>();
   const [canvasId, setCanvasId, , canvasIdRef] = useProp('canvasId');
   const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
   const [followAnnotations] = useProp('followAnnotations', { parse: parseBool, defaultValue: true });

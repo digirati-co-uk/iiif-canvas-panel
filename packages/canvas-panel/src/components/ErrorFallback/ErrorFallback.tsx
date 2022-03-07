@@ -5,9 +5,9 @@ export function ErrorFallback({
   error,
   resetErrorBoundary,
   aspectRatio,
-  height,
+  height = 512,
   width,
-}: FallbackProps & { aspectRatio?: number; height?: number; width: number }) {
+}: Partial<FallbackProps> & { aspectRatio?: number; height?: number; width?: number }) {
   const style = aspectRatio ? { paddingTop: `${aspectRatio * 100}%` } : { height, width };
 
   return (
@@ -32,19 +32,21 @@ export function ErrorFallback({
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAICAYAAAAvOAWIAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAC6ADAAQAAAABAAAACAAAAADGHiDWAAAAO0lEQVQYGWP4DwQMQACjQWxkABOH0TgVwjRhKIQLwFRAaZg4jEaTphKXEWYOPmsYgQCmjnQPwnXiYQAAP/M3zvinPKAAAAAASUVORK5CYII="
         />
         <h2>Unable to load image</h2>
-        <pre>{error.message}</pre>
-        <button
-          style={{
-            color: '#fff',
-            border: '2px solid #fff',
-            background: '#000',
-            fontFamily: 'monospace',
-            padding: '0.25em 1em',
-          }}
-          onClick={resetErrorBoundary}
-        >
-          Try again
-        </button>
+        <pre>{error?.message}</pre>
+        {resetErrorBoundary ? (
+          <button
+            style={{
+              color: '#fff',
+              border: '2px solid #fff',
+              background: '#000',
+              fontFamily: 'monospace',
+              padding: '0.25em 1em',
+            }}
+            onClick={resetErrorBoundary}
+          >
+            Try again
+          </button>
+        ) : null}
         <style>
           {`
           .img-oops {
