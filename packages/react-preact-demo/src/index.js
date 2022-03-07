@@ -8,6 +8,11 @@ import { PresetTesting } from "./PresetTesting";
 import { Choices } from "./Choices";
 import { ChangeCanvas } from "./ChangeCanvas";
 import { Region } from "./Region";
+import { AnnoPage } from "./AnnoPage";
+import { JsonPreset } from "./JsonPreset";
+import { Disappear } from "./Disappear";
+import { Opacity } from "./Opacity";
+import { RemotePreset } from "./RemotePreset";
 
 function Home() {
   return (
@@ -31,6 +36,21 @@ function Home() {
         <li>
           <Link to={"draw-region"}>Draw region</Link>
         </li>
+        <li>
+          <Link to={"anno-pages"}>Anno pages</Link>
+        </li>
+        <li>
+          <Link to={"json"}>Json preset</Link>
+        </li>
+        <li>
+          <Link to={"disappear"}>Disappear</Link>
+        </li>
+        <li>
+          <Link to={"opacity"}>Opacity</Link>
+        </li>
+        <li>
+          <Link to={"remote-preset"}>Remote preset</Link>
+        </li>
       </ul>
     </div>
   );
@@ -49,6 +69,11 @@ ReactDOM.render(
         <Route path="/choices" element={<Choices />} />
         <Route path="/change-canvas" element={<ChangeCanvas />} />
         <Route path="/draw-region" element={<Region />} />
+        <Route path="/anno-pages" element={<AnnoPage />} />
+        <Route path="/json" element={<JsonPreset />} />
+        <Route path="/disappear" element={<Disappear />} />
+        <Route path="/opacity" element={<Opacity />} />
+        <Route path="/remote-preset" element={<RemotePreset />} />
         <Route
           path="/region"
           element={
