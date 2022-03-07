@@ -17,7 +17,7 @@ AnnotationPages can be used to partition annotations for any purpose, and should
 Canvas Panel can then load, display and style whole annotation pages - that is, display all the annotations in one AnnotationPage, and style all the annotations in one AnnotationPage.
 
 
-<Sandbox stacked project={annoPages} />
+<Sandbox label="Loading and styling Annotation pages" stacked project={annoPages} />
 
 
 Canvas Panel's `AnnotationPageManager` has the following helpers:
