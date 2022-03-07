@@ -1,11 +1,11 @@
 import { useLayoutEffect, useState } from 'preact/compat';
 import { resolveConfig } from '../helpers/resolve-config';
 
-export function usePresetConfig<T>(preset?: string) {
+export function usePresetConfig<T>(preset?: string, onChange?: (query: string, config: Partial<T>) => void) {
   const [_isReady, setIsReady] = useState(false);
   const [internalConfig, setInternalConfig] = useState<{ __loaded?: true } & Partial<T>>({});
   const isConfigBlocking = preset && !internalConfig.__loaded;
-  const isReady = (!preset || internalConfig.__loaded) && _isReady;
+  const isReady = !!((!preset || internalConfig.__loaded) && _isReady);
 
   useLayoutEffect(() => {
     const cleanUp: Array<() => void> = [];
@@ -24,19 +24,26 @@ export function usePresetConfig<T>(preset?: string) {
               }
               const active = queryList.filter(({ mql }) => mql.matches);
 
-              return {
+              const finalConfig = {
                 __loaded: true,
                 ...conf,
                 ...(active.reduce((acc, next) => {
                   return Object.assign(acc, media[next.query]);
                 }, {}) as any),
               };
+              if (onChange) {
+                for (const activeItem of active) {
+                  onChange(activeItem.query, finalConfig);
+                }
+              }
+              return finalConfig;
             };
 
             for (const query of queries) {
               const mql = window.matchMedia(query);
               const listener = () => {
-                setInternalConfig(getValue());
+                const newValue = getValue();
+                setInternalConfig(newValue);
               };
               mql.addEventListener('change', listener);
               cleanUp.push(() => {
