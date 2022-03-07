@@ -10,7 +10,7 @@ import {
   ChoiceDescription,
 } from 'react-iiif-vault';
 import { createStylesHelper } from '@iiif/vault-helpers';
-import { h } from 'preact';
+import { Fragment, h } from 'preact';
 import { WorldObject, SingleImage } from '../../atlas-components';
 import { RenderAnnotationPage } from '../RenderAnnotationPage/RenderAnnotationPage';
 import { useVirtualAnnotationPage } from '../../hooks/use-virtual-annotation-page';
@@ -111,22 +111,8 @@ export const AtlasCanvas: FC<{
     throw new Error('Unknown image strategy');
   }
 
-  return (
-    <WorldObject height={canvas.height} width={canvas.width} x={x} y={y} {...elementProps}>
-      {strategy.type === 'images'
-        ? strategy.images.map((image, idx) => {
-            return (
-              <RenderImage
-                isStatic={isStatic}
-                key={image.id}
-                image={image}
-                id={image.id}
-                thumbnail={idx === 0 ? thumbnail : undefined}
-                virtualSizes={virtualSizes}
-              />
-            );
-          })
-        : null}
+  const annotations = (
+    <Fragment>
       {annoMode ? (
         <DrawBox
           onCreate={(e: any) => {
@@ -158,6 +144,27 @@ export const AtlasCanvas: FC<{
           })
         : null}
       {debug ? <Debug /> : null}
+    </Fragment>
+  );
+
+  return (
+    <WorldObject key={strategy.type} height={canvas.height} width={canvas.width} x={x} y={y} {...elementProps}>
+      {strategy.type === 'images'
+        ? strategy.images.map((image, idx) => {
+            return (
+              <RenderImage
+                isStatic={isStatic}
+                key={image.id}
+                image={image}
+                id={image.id}
+                thumbnail={idx === 0 ? thumbnail : undefined}
+                virtualSizes={virtualSizes}
+                annotations={annotations}
+              />
+            );
+          })
+        : null}
+      {/* This is required to fix a race condition. */}
     </WorldObject>
   );
 };
