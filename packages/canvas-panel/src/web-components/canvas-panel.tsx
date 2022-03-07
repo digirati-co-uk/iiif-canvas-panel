@@ -50,15 +50,20 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     useProp,
     useRegisterWebComponentApi,
   } = useGenericAtlasProps(props);
-
-  const [contentState, , setParsedContentState] = useProp('iiifContent', { parse: parseContentStateParameter });
   const [error, setError] = useState<Error | null>();
+  const [unknownContentState, , setParsedContentState] = useProp('iiifContent', {
+    parse: parseContentStateParameter,
+  });
   const [canvasId, setCanvasId, , canvasIdRef] = useProp('canvasId');
   const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
   const [followAnnotations] = useProp('followAnnotations', { parse: parseBool, defaultValue: true });
   const [defaultChoices, , , defaultChoiceIdsRef] = useProp('choiceId', { parse: parseChoices });
   const [textSelectionEnabled] = useProp('textSelectionEnabled', { parse: parseBool, defaultValue: true });
   const [textEnabled] = useProp('textEnabled', { parse: parseBool, defaultValue: false });
+  const contentState =
+    unknownContentState && unknownContentState.type !== 'remote-content-state' ? unknownContentState : null;
+  const contentStateToLoad =
+    unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
 
   const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
     if (webComponent.current) {
@@ -149,6 +154,20 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       // setRenderMode(mode: 'zoom' | 'static' | 'responsive') {},
     };
   });
+
+  useLayoutEffect(() => {
+    if (contentStateToLoad && !error) {
+      fetch(contentStateToLoad)
+        .then((r) => r.json())
+        .then((rawState) => {
+          setParsedContentState(parseContentStateParameter(rawState));
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(new Error(`Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`));
+        });
+    }
+  }, [contentStateToLoad, error]);
 
   useLayoutEffect(() => {
     if (contentState) {

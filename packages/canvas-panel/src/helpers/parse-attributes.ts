@@ -1,7 +1,12 @@
 import { parseSize, SizeParameter } from './size-parameter';
 import { Selector } from '@iiif/presentation-3';
 import { ParsedSelector, parseSelector } from 'react-iiif-vault';
-import { ContentState, normaliseContentState, parseContentState } from './content-state/content-state';
+import {
+  ContentState,
+  normaliseContentState,
+  NormalisedContentState,
+  parseContentState,
+} from './content-state/content-state';
 
 export function parseSizeParameter(
   input: undefined | string | SizeParameter | Array<SizeParameter> | Array<string>
@@ -106,9 +111,15 @@ export function parseNumber(num?: string | number | undefined | null, defaultVal
   return defaultValue;
 }
 
-export function parseContentStateParameter(contentState?: ContentState) {
+export function parseContentStateParameter(
+  contentState?: ContentState | string
+): NormalisedContentState | { type: 'remote-content-state'; id: string } | null {
   if (!contentState) {
     return null;
+  }
+
+  if (typeof contentState === 'string' && contentState.startsWith('http')) {
+    return { type: 'remote-content-state', id: contentState };
   }
 
   try {
