@@ -200,6 +200,10 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     return null;
   }
 
+  if (error) {
+    return <ErrorFallback error={error} resetErrorBoundary={() => setError(null)} />;
+  }
+
   const canvasInner = canvasId ? (
     <CanvasContext canvas={canvasId}>
       <ViewCanvas
