@@ -24,7 +24,7 @@ export function RenderImage({
   y?: number;
 }) {
   // For image resources, we may not support everything.. but we do support opacity.
-  const style = useStyles({ id, type: 'ContentResource' }, 'html');
+  const style = useStyles({ id, type: 'ContentResource' }, 'atlas');
 
   return (
     <React.Fragment>
