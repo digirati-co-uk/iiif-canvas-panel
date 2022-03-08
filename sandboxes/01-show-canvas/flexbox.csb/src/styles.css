@@ -1,6 +1,16 @@
-html, body { margin: 0; }
+html, body { margin: 0; height: 100%; }
+
+body {
+  display: flex;
+}
 
 
 canvas-panel {
-  --atlas-background: red;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0; /* Required for downsizing */
+
+  --atlas-container-flex: 1 1 0px;
+  --atlas-background: #9B6631;
 }
