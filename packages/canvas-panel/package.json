@@ -1,6 +1,6 @@
 {
   "name": "@digirati/canvas-panel-web-components",
-  "version": "1.0.44",
+  "version": "1.0.45",
   "typings": "./dist/types/index.d.ts",
   "main": "./dist/bundle.js",
   "files": [
@@ -10,7 +10,8 @@
   "scripts": {
     "build": "node ./esbuild.mjs && yarn run build-types",
     "watch": "node ./esbuild.mjs --watch",
-    "build-types": "tsc -p ./ --emitDeclarationOnly"
+    "build-types": "tsc -p ./ --emitDeclarationOnly",
+    "prepublishOnly": "NODE_ENV=production yarn build"
   },
   "resolutions": {
     "@atlas-viewer/iiif-image-api": "^2.0.1",
