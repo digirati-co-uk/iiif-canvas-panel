@@ -52,6 +52,15 @@ export function Opacity() {
           })
         : null}
 
+      <style>
+        {`
+          canvas-panel {
+            --atlas-background: #f0f0f0;
+            --atlas-container-height: calc(100vh - 200px);
+          }
+        `}
+      </style>
+
       <canvas-panel
         ref={viewer}
         // choice-id={`https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-xray/full/max/0/default.jpg#opacity=0.5,https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-natural/full/max/0/default.jpg#opacity=0.25`}

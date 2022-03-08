@@ -48,6 +48,10 @@ export function AnnoPage() {
     <>
       <div ref={scriptTag} />
       <style id="my-style">{`
+        canvas-panel {
+          --atlas-background: #f0f0f0;
+          --atlas-container-height: calc(100vh - 200px);
+        }
         .my-class {
           background: rgba(50, 0, 200, 0.4);
         }

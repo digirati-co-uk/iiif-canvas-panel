@@ -19,9 +19,7 @@ async function demo() {
       const loadedAnnoPage = await cp.vault.load(annoPage.id);
       // These are now loaded into the Vault
 
-      // A temporary sleep...
-      await new Promise((resovle) => setTimeout(resovle, 500));
-      cp.annotationPageManager.setPageEnabled(loadedAnnoPage);
+      cp.annotationPageManager.setPageEnabled(loadedAnnoPage.id);
       cp.applyStyles(loadedAnnoPage, {
         border: "3px solid green"
       });

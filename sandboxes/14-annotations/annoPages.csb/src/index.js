@@ -25,8 +25,6 @@ async function demo() {
 }
 
 async function showSomeAnnotations(canvasId, annoPage) {
-  // A temporary sleep...
-  await new Promise((resovle) => setTimeout(resovle, 500));
   const w3cAnno = cp.vault.get(annoPage.items[5]);
   console.log(w3cAnno);
   const displayAnno = cp.createAnnotationDisplay(w3cAnno);
