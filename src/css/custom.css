@@ -20,6 +20,22 @@
   --ifm-container-width-xl: 1800px;
 }
 
+canvas-panel {
+  /* Canvas panel */
+  --atlas-background: #f0f0f0;
+  --atlas-focus: 4px solid #EB5561;
+  --atlas-z-index: 10;
+
+  /*--atlas-container-flex: 1 1 0px;*/
+  /*--atlas-container-width: 1000px;*/
+  /*--atlas-container-height: 1000px;*/
+
+  /*--atlas-navigator-bottom: 20px;*/
+  /*--atlas-navigator-left: 20px;*/
+  /*--atlas-navigator-top: auto;*/
+  /*--atlas-navigator-right: auto;*/
+}
+
 .container p {
   max-width: 55em;
 }
