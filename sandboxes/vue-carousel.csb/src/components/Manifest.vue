@@ -19,6 +19,9 @@ export default {
   },
   created() {
     this.vault.loadManifest(this.manifestId).then((manifest) => {
+      if (manifest.id !== this.manifestId) {
+        manifest.id = this.manifestId;
+      }
       this.context.current = manifest;
     });
   },
