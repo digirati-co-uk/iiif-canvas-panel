@@ -15,6 +15,12 @@ export class AnnotationDisplay {
   classList: ClassList;
   source: string | AnnotationNormalized | Reference<'Annotation'>;
   style?: BoxStyle;
+  htmlProps: {
+    className?: string;
+    href?: string;
+    title?: string;
+    target?: string;
+  } = {};
   handlers: Array<[string, (e: any) => void]> = [];
   onBeforeRemove?: () => void;
 
@@ -23,7 +29,7 @@ export class AnnotationDisplay {
       typeof source === 'string' ? { id: source, type: 'Annotation' } : { id: source.id, type: 'Annotation' };
     this.classList = new ClassList((className: string) => {
       if (this.__stylesHelper) {
-        this.__stylesHelper.applyStyles(this.__annotation, 'html', { className });
+        this.__stylesHelper.applyStyles(this.__annotation, 'html', { ...this.htmlProps, className });
       }
     });
     this.source = source;
@@ -35,6 +41,27 @@ export class AnnotationDisplay {
 
   set className(value: string) {
     this.classList.className = value;
+  }
+
+  set href(href: string) {
+    if (this.__stylesHelper) {
+      this.__stylesHelper.applyStyles(this.__annotation, 'html', { href });
+    }
+    this.htmlProps.href = href;
+  }
+
+  set title(title: string) {
+    if (this.__stylesHelper) {
+      this.__stylesHelper.applyStyles(this.__annotation, 'html', { title });
+    }
+    this.htmlProps.title = title;
+  }
+
+  set target(target: string) {
+    if (this.__stylesHelper) {
+      this.__stylesHelper.applyStyles(this.__annotation, 'html', { target });
+    }
+    this.htmlProps.target = target;
   }
 
   applyStyle(style: BoxStyle) {
@@ -71,7 +98,10 @@ export class AnnotationDisplay {
     this.__stylesHelper.applyStyles(this.__annotation, 'atlas', this.style);
 
     // Add class names?
-    this.__stylesHelper.applyStyles(this.__annotation, 'html', { className: this.classList.getClassName() });
+    this.__stylesHelper.applyStyles(this.__annotation, 'html', {
+      ...this.htmlProps,
+      className: this.classList.getClassName(),
+    });
   }
 
   getSource() {

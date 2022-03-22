@@ -19,6 +19,9 @@ export const Box = createAtlasWrapper<
     relativeStyle?: boolean;
     backgroundColor?: string;
     className?: string;
+    href?: string;
+    hrefTarget?: string;
+    title?: string;
     border?: string;
     target?: { x?: number; y?: number; width: number; height: number };
     style?: BoxStyle;

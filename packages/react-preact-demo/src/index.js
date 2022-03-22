@@ -2,49 +2,95 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { ImageService } from "./ImageService";
-import '@digirati/canvas-panel-web-components';
+import "@digirati/canvas-panel-web-components";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { PresetTesting } from "./PresetTesting";
 import { Choices } from "./Choices";
 import { ChangeCanvas } from "./ChangeCanvas";
+import { Region } from "./Region";
+import { AnnoPage } from "./AnnoPage";
+import { JsonPreset } from "./JsonPreset";
+import { Disappear } from "./Disappear";
+import { Opacity } from "./Opacity";
+import { RemotePreset } from "./RemotePreset";
 
 function Home() {
-  return <div>
-    <ul>
-      <li><Link to={"image-service"}>Image Service</Link></li>
-      <li><Link to={"region"}>Region</Link></li>
-      <li><Link to={"presets"}>Preset testing</Link></li>
-      <li><Link to={"choices"}>Choices</Link></li>
-      <li><Link to={"change-canvas"}>Change canvas</Link></li>
-    </ul>
-
-  </div>;
+  return (
+    <div>
+      <ul>
+        <li>
+          <Link to={"image-service"}>Image Service</Link>
+        </li>
+        <li>
+          <Link to={"region"}>Region</Link>
+        </li>
+        <li>
+          <Link to={"presets"}>Preset testing</Link>
+        </li>
+        <li>
+          <Link to={"choices"}>Choices</Link>
+        </li>
+        <li>
+          <Link to={"change-canvas"}>Change canvas</Link>
+        </li>
+        <li>
+          <Link to={"draw-region"}>Draw region</Link>
+        </li>
+        <li>
+          <Link to={"anno-pages"}>Anno pages</Link>
+        </li>
+        <li>
+          <Link to={"json"}>Json preset</Link>
+        </li>
+        <li>
+          <Link to={"disappear"}>Disappear</Link>
+        </li>
+        <li>
+          <Link to={"opacity"}>Opacity</Link>
+        </li>
+        <li>
+          <Link to={"remote-preset"}>Remote preset</Link>
+        </li>
+      </ul>
+    </div>
+  );
 }
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <div><Link to={"/"}>Home</Link></div>
+      <div>
+        <Link to={"/"}>Home</Link>
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/image-service" element={<ImageService />} />
         <Route path="/presets" element={<PresetTesting />} />
         <Route path="/choices" element={<Choices />} />
         <Route path="/change-canvas" element={<ChangeCanvas />} />
-        <Route path="/region" element={
-          <>
-          <canvas-panel
-            width={512}
-            height={512}
-            canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"
-            manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
-            region="1000,1500,1000,1000"
-            highlight="1250,1780,400,400"
-            highlight-css-class="example-annotation"
-          />
-            <style>{`canvas-panel::part(example-annotation){border: 2px solid blue}`}</style>
-          </>
-        } />
+        <Route path="/draw-region" element={<Region />} />
+        <Route path="/anno-pages" element={<AnnoPage />} />
+        <Route path="/json" element={<JsonPreset />} />
+        <Route path="/disappear" element={<Disappear />} />
+        <Route path="/opacity" element={<Opacity />} />
+        <Route path="/remote-preset" element={<RemotePreset />} />
+        <Route
+          path="/region"
+          element={
+            <>
+              <canvas-panel
+                width={512}
+                height={512}
+                canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"
+                manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
+                region="1000,1500,1000,1000"
+                highlight="1250,1780,400,400"
+                highlight-css-class="example-annotation"
+              />
+              <style>{`canvas-panel::part(example-annotation){border: 2px solid blue}`}</style>
+            </>
+          }
+        />
       </Routes>
     </BrowserRouter>
     {/*<ImageService />*/}
@@ -53,4 +99,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-

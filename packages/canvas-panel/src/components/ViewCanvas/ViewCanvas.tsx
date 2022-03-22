@@ -25,7 +25,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const ctx = useResourceContext();
   const canvas = useCanvas();
   const manifest = useManifest();
-  const manager = useAnnotationPageManager(manifest?.id);
+  const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
   const actions = useRef<StrategyActions>();
   const [annoMode, setAnnoMode] = useState(false);
   const aspectRatio =

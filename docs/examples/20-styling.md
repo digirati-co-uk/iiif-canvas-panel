@@ -5,6 +5,15 @@ sidebar_position: 20
 import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
+<!-- Stephen
+Needs a really good example of how to make it stick to 4 sides of container
+Typical viewer behaviour
+
+A discussion of styling quirks
+
+You can also style image services using their image service ID (no canvas ID)
+ -->
+
 # Styling inside Canvas Panel
 
 There are 3 types of object you can type in 
@@ -141,14 +150,6 @@ styles.
 ```
 
 <Sandbox project={externalStylesheet} />
-
-### EXTRA
-
-TODO
-
-Although other pages show how things get styled in passing, this page summarises the approach and brings some examples together in one place.
-
-This page also gives advice on how to make CP work with your layouts - how to make it flex, fill available space, and so on.
 
 
 ```javascript

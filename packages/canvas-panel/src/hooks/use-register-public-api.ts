@@ -13,6 +13,7 @@ import { useContext, useEffect } from 'preact/compat';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ParsedSelector } from 'react-iiif-vault';
 import { BoxStyle } from '@atlas-viewer/atlas';
+import {useLayoutEffect} from "react";
 
 type TBC = any;
 
@@ -166,7 +167,7 @@ export function useRegisterPublicApi(
 ) {
   const register = useContext(RegisterPublicApi) || emptyCtx;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     register(cb);
   }, [...deps]);
 }

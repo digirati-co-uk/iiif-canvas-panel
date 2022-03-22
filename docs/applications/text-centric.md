@@ -4,6 +4,12 @@ sidebar_position: 3
 
 # Text-centric viewer
 
+:::danger
+
+This example requires the features described in [text examples](../../docs/examples/handling-text).
+
+:::
+
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 This viewer extends [Simple Viewer](./simple-viewer) to add support for:

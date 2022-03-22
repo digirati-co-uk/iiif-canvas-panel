@@ -15,7 +15,8 @@ Most of this tool is a viewer here we extend the viewer we made in [Simple Viewe
 
 :::caution
 
-Demonstrate how Canvas Panel has the API that allows this component to be built.
+Demonstrate how Canvas Panel and vault has the API that allows this component to be built.
+This is waiting on the imperative content state selection mode (see [reacting to the user](../examples/reacting-to-the-user)).
 
 :::
 

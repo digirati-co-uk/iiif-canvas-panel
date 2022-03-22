@@ -10,6 +10,8 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 Handling and rendering linking annotations is a work in progress.
 
+The information on this page describes future API - comments are welcome [on GitHub](https://github.com/digirati-co-uk/iiif-canvas-panel/issues).
+
 :::
 
 In any canvas rendering scenario, if the canvas has `linking` annotations available, we need to render them as hyperlinks on the image surface.

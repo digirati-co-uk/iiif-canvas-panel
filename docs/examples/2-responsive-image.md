@@ -12,9 +12,9 @@ import { Sandbox } from '@site/Sandbox';
 
 Using IIIF for [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images) is a natural fit. An image service allows different sizes, and/or different regions to be requested. You can construct standard HTML5 `srcset` and `picture` elements manually using IIIF Image API requests as the image sources.
 
-The `image-service` and `canvas-panel` elements offer API to achieve a similar outcome using familiar patterns, but instead of providing information for matching media queries via HTML elements and attributes, you can pass this information into canvas panel using JSON configuration. This is a very powerful way of controlling Canvas Panel's behaviour.
+The [`<image-service />`](../../docs/components/single-image-service) and [`<canvas-panel />`](../../docs/components/cp) elements offer API to achieve a similar outcome using familiar patterns, but instead of providing information for matching media queries via HTML elements and attributes, you can pass this information into canvas panel using JSON configuration. This is a very powerful way of controlling Canvas Panel's behaviour.
 
-Simply declaring an `image-service` or `canvas-panel` tag as `responsive` makes it behave like a responsive image; it will make image requests appropriate to its size on the page.
+Simply declaring an `image-service` or `canvas-panel` tag as `responsive` makes it behave like a responsive image; it will make image requests **appropriate to its size on the page**.
 
 ```html
 <image-service 
@@ -28,7 +28,7 @@ Simply declaring an `image-service` or `canvas-panel` tag as `responsive` makes 
   src="https://iiif.wellcomecollection.org/image/L0007430">
 </image-service>
 
-The image-service tag optimises the requests it makes, taking note of any specific [sizes](https://iiif.io/api/image/3.0/#53-sizes) advertised by the IIIF image service; if they are suitable to use, it will prefer one of these to tiles.
+The image-service tag optimises the requests it makes, taking note of any specific [sizes](https://iiif.io/api/image/3.0/#53-sizes) advertised by the IIIF image service; if they are suitable to use, it will prefer one of these to [tiles](https://iiif.io/api/image/3.0/#54-tiles).
 
 Sometimes you want to force a single image request, rather than generate multiple tile requests. You can add additional `sizes` to the list of candidates even if they are not in the image service, with the `virtual-sizes` attribute:
 
@@ -51,8 +51,28 @@ Sometimes you want to force a single image request, rather than generate multipl
   virtual-sizes="500,">
 </image-service>
 
+These virtual sizes conform to the syntax of the IIIF Image API [size](https://iiif.io/api/image/3.0/#42-size) parameter. You can supply a list of virtual sizes by separating them with the `|` character:
+
+```html
+<image-service ...
+  virtual-sizes="500,|880,">
+</image-service>
+```
 And you can also force the component to make a single image request, on initial load at least, no matter what the size, using `exact-initial-image="true"`.
 
+```html
+<image-service ...
+  virtual-sizes="500,|880,"
+  exact-initial-image="true">
+</image-service>
+```
+
+## How Canvas Panel chooses which image requests to make 
+
+<!-- Stephen: discuss how CP and IS make these requests - how it decides etc -->
+<!-- enough to produce an ImageResponsive equivalent -->
+
+## Media queries and more
 
 More complex responsive image scenarios involve media queries, like this:
 
@@ -90,10 +110,13 @@ More typical might be showing a different region of the Canvas, or different asp
 
 <Sandbox project={respPreset2} />
 
-TODO - demonstrate that responsive breakpoints can be used on image-service, too
+The `image-service` component can also take the same media-query syntax. 
 
 If there is a IIIF Image Service available, canvas-panel or image-service will use it to make optimised requests. But the same syntax, using the canvas region property, will work even if the canvas just has a static image on it (i.e., with no image service).
 
+This media query syntax can supply different properties to canvas panel for _any_ [supported query](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries), not just browser widths. For example, you could switch on `prefers-contrast` or `prefers-reduced-motion` to change the behaviour and event the content of Canvas Panel.
+
+An example of this can be seen on the [accessibility](./accessibility) page, where a high-contrast mode is enabled.
 
 ## Presets
 
@@ -163,9 +186,12 @@ This is the same as:
 
 The default `zoom` preset and the `static` preset generate similar layouts. They both offer a viewport, and will preserve the shape of the canvas, fitting it inside the viewport (unless a `region` is specified). In the static preset, there is no panning or zooming.
 
-The `responsive` preset behaves more like an image - 
+The `responsive` preset behaves more like an image - it doesn't occupy any space on the page outside of the available media (unless the IIIF Canvas has blank space on it).
+
+It's possible to combine `render`, `interactive` and `viewport` in ways other than the three presets, but these are likely the most common combinations.
 
 See [Styling](styling) for more guidance on using canvas panel in different layout systems.
 
+For more details on the available attributes, see [API](./json-api).
 
 <GitHubDiscussion ghid="2" />

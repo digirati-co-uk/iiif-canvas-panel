@@ -1,4 +1,4 @@
-import { ParsedSelector, useAnnotation, useCanvas, useResourceEvents, useStyles } from 'react-iiif-vault';
+import { useAnnotation, useCanvas, useResourceEvents, useStyles } from 'react-iiif-vault';
 import { FC, useMemo } from 'preact/compat';
 import { h } from 'preact';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
@@ -11,7 +11,7 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
 }) => {
   const annotation = useAnnotation({ id });
   const style = useStyles<BoxStyle>(annotation, 'atlas');
-  const html = useStyles<{ className?: string }>(annotation, 'html');
+  const html = useStyles<{ className?: string; href?: string; title?: string; target?: string }>(annotation, 'html');
   const events = useResourceEvents(annotation as any, ['atlas']);
   const canvas = useCanvas();
 
@@ -24,6 +24,7 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
     annotation &&
     annotation.target &&
     (annotation.target as any).selector &&
+    (annotation.target as any).selector.type === 'BoxSelector' &&
     (annotation.target as any).source &&
     (annotation.target as any).source.id === canvas.id;
 
@@ -35,9 +36,13 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
     <RegionHighlight
       id={annotation.id}
       isEditing={true}
-      region={(annotation.target as any).selector}
+      region={(annotation.target as any).selector.spatial}
       style={allStyles}
       className={html?.className || className}
+      interactive={!!html?.href}
+      href={html?.href || null}
+      title={html?.title || null}
+      hrefTarget={html?.target || null}
       {...events}
     />
   );

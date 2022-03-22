@@ -28,7 +28,7 @@ export const TileSet: FC<{
 
   return (
     <WorldObject
-      key={props.tiles.imageService.id}
+      key={canonicalId}
       scale={scale}
       height={props.tiles.height}
       width={props.tiles.width}
@@ -36,8 +36,8 @@ export const TileSet: FC<{
       y={props.y}
     >
       <CompositeResource
-        key={props.tiles.imageService.id}
-        id={props.tiles.imageService.id}
+        key={canonicalId}
+        id={canonicalId}
         width={props.tiles.width}
         height={props.tiles.height}
         renderOptions={
@@ -97,7 +97,7 @@ export const TileSet: FC<{
           (tile.scaleFactors || []).map((size: number) => (
             <TiledImage
               key={`${tile}-${size}`}
-              uri={props.tiles.imageService.id}
+              uri={canonicalId}
               display={{ width: props.tiles.width, height: props.tiles.height }}
               tile={tile}
               scaleFactor={size}

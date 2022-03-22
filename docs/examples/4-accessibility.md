@@ -4,6 +4,19 @@ sidebar_position: 4
 
 # Accessibility
 
+
+:::info
+
+Accessibility of IIIF resources is a really important topic. So many apparently inaccessible digital objects contain a huge amount of information that could be useful to assistive technologies - labels, other metadata, textual transcriptions and descriptions, all labelled by language.
+
+Often publishers are aware of this but can't see a way to connect the digital object in a deep zoom viewer with the information that they have; even though the viewer is a box that assistive technologies can enter, the presentation of _useful_ information to those technologies (rather than obvious and non-helpful information) is a hard problem.
+
+Canvas Panel has the potential to help publishers make their IIIF as accessible as possible - not just by using the content of the IIIF alone, but where necessary connecting the IIIF content to other markup on the page outside of the web component.
+
+In the current phase of work, we have made a start. We recognise that much more can be done. Ideally, Canvas Panel is a great tool for helping publishers of IIIF make their content as accessible as possible - it does it all can for you, and gives you hooks to do more yourself.
+
+:::
+
 By default, Canvas Panel will render HTML5 that uses as much information from the IIIF resource as available to provide accessibility information, using the browser's current language settings to pick from alternate languages if available.
 
 <!-- TODO: GH-91 -->
@@ -35,21 +48,45 @@ Canvas Panel could, in future, make use of the [Accessibility Object Model](http
 <canvas-panel id="cp"></canvas-panel>
 <script>
    const cp = document.getElementById("cp");
-   const vault = HyperionVault.globalVault();
    cp.setAttribute("render", "static");
    cp.setAttribute("role", "presentation");
    cp.setAttribute("alt", "");
-   await vault.loadManifest("..manifest containing canvas..");
+   await cp.vault.loadManifest("..manifest containing canvas..");
    cp.setCanvas("..id of canvas with nice pattern on ..it");
 </script>  
 ```
 
 > Show it! (demonstrates manual override of accessibility defaults, potentially)
 
+
+## Other possible accessibility measures
+
+Canvas Panel makes it very easy to tie different configurations to feature detection through media queries, as described in [Responsive Images](./responsive-image). On its own this doesn't make anything accessible, but sensible choices of rendering modes can assist. For example, render a static image rather than a deep zoom image if [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) is detected.
+
+We can also use queries to determine how Canvas Panel makes requests to the IIIF Image API. This is perhaps more useful in cases where a client viewer is built for a known collection, where the capabilities of its image services are predictable. For example, queries like `forced-colors`, `inverted-colors`, `monochrome`, `orientation`, `prefers-color-scheme` and `prefers-contrast` could be used to determine what [quality](https://iiif.io/api/image/3.0/#quality) parameter is passed to the image service, including custom qualities implemented for accessibility purposes - which might not even be directly equivalent to the other qualities. This might be especially useful for digitised printed books. A high contrast mode could trigger `bitonal` requests, and a custom mode could trigger requests for images that render a synthetic view of the page using cleaned-up OCR text.
+
+An idea of what could be possible is shown in the following demo.
+
+<!-- stephen
+
+Not that media queries can be used for other things beside viewport - e.g., prefers reducedMotion, high contrast
+https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+
+https://iiif.wellcomecollection.org/image/b22383268_0016.jp2/full/max/0/bitonal.jpg
+
+Also talk about keyboard navigation
+
+ -->
+
+## Keyboard navigation
+
+TBC 
+
 ## Server-side Canvas Panel
 
 Canvas Panel and its underlying libraries can also be used on the server, to render simple HTML representations of IIIF resources.
 
 This is covered in [Server-side rendering](../../docs/applications/server-side).
+
 
 <GitHubDiscussion ghid="1" />

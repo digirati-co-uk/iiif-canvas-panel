@@ -46,7 +46,7 @@ export const HTMLPortal: FC<{
       if (typeof fwdRef === 'function') {
         (fwdRef as any)(box);
       } else {
-        fwdRef.current = box;
+        (fwdRef as any).current = box;
       }
     }
     if (box && box.__host) {

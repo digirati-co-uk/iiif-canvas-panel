@@ -2,7 +2,7 @@ import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
 import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
 import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
-import { BoxStyle, Runtime, AtlasProps } from '@atlas-viewer/atlas';
+import { BoxStyle, Runtime, AtlasProps, Preset } from '@atlas-viewer/atlas';
 import { useSyncedState } from './use-synced-state';
 import {
   parseBool,
@@ -15,13 +15,22 @@ import { Reference, Selector } from '@iiif/presentation-3';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
 import { createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
+import { useEffect } from 'react';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
   const vault = useExistingVault();
   const loader = useImageServiceLoader();
+  const mediaEventQueue = useRef<Record<string, any>>({});
   const { isReady, isConfigBlocking, setIsReady, internalConfig } = usePresetConfig<GenericAtlasComponent<T>>(
-    props.preset
+    props.preset,
+    (query, config) => {
+      if (webComponent.current) {
+        webComponent.current.dispatchEvent(new CustomEvent('media', { detail: { query, config } }));
+      } else {
+        mediaEventQueue.current[query] = config;
+      }
+    }
   );
   const styles = useMemo(() => createStylesHelper(vault), [vault]);
   const thumbs = useMemo(() => createThumbnailHelper(vault, { imageServiceLoader: loader }), [vault, loader]);
@@ -83,6 +92,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   const [mode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
   const [inlineStyles, setInlineStyles] = useState('');
   const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
+  const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
 
   function useProp<K extends keyof T, V = T[K]>(
     prop: K,
@@ -101,6 +111,17 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
   useRegisterWebComponentApi((htmlComponent) => {
     webComponent.current = htmlComponent;
+
+    const mediaQueue = Object.keys(mediaEventQueue.current);
+    if (mediaQueue.length) {
+      for (const mediaEvent of mediaQueue) {
+        htmlComponent.dispatchEvent(
+          new CustomEvent('media', { detail: { query: mediaEvent, config: mediaEventQueue.current[mediaEvent] } })
+        );
+      }
+      mediaEventQueue.current = {};
+    }
+
     return {
       vault,
 
@@ -131,6 +152,11 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       goHome(immediate = false) {
         if (runtime.current) {
           runtime.current.world.goHome(immediate);
+        } else {
+          actionQueue.current = {
+            ...actionQueue.current,
+            viewport: (rt) => rt.world.goHome(immediate),
+          };
         }
       },
 
@@ -149,12 +175,26 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       ) {
         if (runtime.current) {
           runtime.current.world.gotoRegion({ ...target, ...options });
+        } else {
+          actionQueue.current = {
+            ...actionQueue.current,
+            viewport: (rt) => {
+              rt.world.gotoRegion({ ...target, ...options });
+            },
+          };
         }
       },
 
       setFps(frames: number) {
         if (runtime.current) {
           runtime.current.fpsLimit = frames;
+        } else {
+          actionQueue.current = {
+            ...actionQueue.current,
+            setFps: (rt) => {
+              rt.fpsLimit = frames;
+            },
+          };
         }
       },
 
@@ -162,6 +202,13 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         setTarget(undefined);
         if (runtime.current) {
           runtime.current.world.goHome(true);
+        } else {
+          actionQueue.current = {
+            ...actionQueue.current,
+            viewport: (rt) => {
+              rt.world.goHome(true);
+            },
+          };
         }
       },
 
@@ -181,6 +228,18 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         styles.applyStyles(typeof resource === 'string' ? { id: resource } : resource, 'atlas', style);
       },
 
+      applyHTMLProperties(
+        resource: string | Reference<any>,
+        style: Partial<{
+          className?: string;
+          href?: string;
+          target?: string;
+          title?: string;
+        }>
+      ) {
+        styles.applyStyles(typeof resource === 'string' ? { id: resource } : resource, 'html', style);
+      },
+
       setClassName(resource: string | Reference<any>, className: string) {
         styles.applyStyles(typeof resource === 'string' ? { id: resource } : resource, 'html', { className });
       },
@@ -194,6 +253,16 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       },
     };
   });
+
+  useEffect(() => {
+    if (runtime.current) {
+      const actions = Object.values(actionQueue.current);
+      for (const action of actions) {
+        action(runtime.current);
+      }
+      actionQueue.current = {};
+    }
+  }, [isReady]);
 
   // @todo this appears not to be needed.. but maybe worth adding back in.
   // useLayoutEffect(() => {

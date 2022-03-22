@@ -25,6 +25,12 @@ export default function App() {
                   type="checkbox"
                   disabled={disabledChoice && item.selected}
                   onChange={(e) => {
+                    if (idx !== 0 && disabledChoice) {
+                      // Select the first (default) choice when another choice is made.
+                      viewer.current.makeChoice(choice.items[0].id, {
+                        deselectOthers: false,
+                      });
+                    }
                     viewer.current.makeChoice(item.id, {
                       deselect: item.selected,
                       deselectOthers: false

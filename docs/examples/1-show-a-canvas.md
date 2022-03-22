@@ -7,6 +7,7 @@ sidebar_position: 1
 import { GitHubDiscussion } from "@site/GitHubDiscussion.js";
 import renderCanvasContentState from '@site/sandboxes/01-show-canvas/canvas-content-state.csb/_load';
 import renderCanvasAttributes from '@site/sandboxes/01-show-canvas/canvas-attributes.csb/_load';
+import flexbox from '@site/sandboxes/01-show-canvas/flexbox.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
 The [quick start](../intro) showed the basics of rendering a canvas. The power of Canvas Panel is more apparent when you render a canvas that isn't the 99% use case - when the canvas:
@@ -60,6 +61,10 @@ The above example encodes the region of the canvas, and the manifest that canvas
 
 <Sandbox project={renderCanvasAttributes} />
 
+
+## Flexbox and styling
+
+<Sandbox project={flexbox} />
 
 ## Server-side Canvas Panel
 

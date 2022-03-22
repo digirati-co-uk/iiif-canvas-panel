@@ -61,7 +61,7 @@ export function createAtlasWrapper<T = any, C = any>({
           if (typeof fwdRef === 'function') {
             (fwdRef as any)(instance);
           } else {
-            fwdRef.current = instance;
+            (fwdRef as any).current = instance;
           }
         }
 
