@@ -13,7 +13,7 @@ import { Sandbox } from '@site/Sandbox';
 The [quick start](../intro) showed the basics of rendering a canvas. The power of Canvas Panel is more apparent when you render a canvas that isn't the 99% use case - when the canvas:
 
  - has one image, but that image doesn't target the whole canvas.
- - has more than one image on a canvas (e.g., a digitally reconstituted manuscript)
+ - has more than one image on a canvas (e.g., a [digitally reconstituted manuscript](https://preview.iiif.io/cookbook/3333-choice/recipe/0036-composition-from-multiple-images/) from the IIIF Cookbook) .
  - has time-based media, text or other resources.
 
 The developer experience is the same - it has to be: you probably don't know what's on the Canvas. That's the point of using Canvas Panel, to avoid having to _evaluate the scene_ and make complex rendering decisions yourself.

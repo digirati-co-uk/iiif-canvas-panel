@@ -51,7 +51,7 @@ You can also ask for a specific region of the image:
    preset="responsive"
    width="400"
    height="400"
-   target="1000,1000,1000,1000"
+   region="1000,1000,1000,1000"
    src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2"
 />
 ```
@@ -60,6 +60,6 @@ You can also ask for a specific region of the image:
    preset="responsive"
    width="400"
    height="400"
-   target="1000,1000,1000,1000"
+   region="1000,1000,1000,1000"
    src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2"
 />

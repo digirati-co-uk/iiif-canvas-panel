@@ -42,7 +42,8 @@ Canvas Panel provides an additional class, `AnnotationDisplay`, that turns an an
 
 > `AnnotationDisplay` is where the W3C Model meets the DOM in the browser
 
-A W3C `Annotation` can't have a CSS Class, but the Canvas Panel `AnnotationDisplay` that wraps it can.
+* A W3C `Annotation` can't have a CSS Class, but the Canvas Panel `AnnotationDisplay` that wraps it can.
+* A W3C `Annotation` can't have an href property to link to a web page, but the Canvas Panel `AnnotationDisplay` that wraps it can.
 
 <!--Canvas Panel also defines `TransitionOptions` - a class used to define how the canvas navigates from one Annotation or state to another, e.g., for guided viewing.-->
 
@@ -57,6 +58,9 @@ A W3C `Annotation` can't have a CSS Class, but the Canvas Panel `AnnotationDispl
 ## Canvas Panel's managed annotations
 
 The example above showed that in order for an annotation to become visible, it needs to be wrapped in an AnnotationDisplay, using the helper `cp.createAnnotationDisplay(w3cAnno)`, and then added to `cp.annotations`.
+
+AnnotationDisplays can be given event handlers, to react to the user. If the desired behaviour is to link to an external web page, you can simply give the AnnotationDisplay an `href` property, as shown in the third annotation in the above example.
+
 
 Canvas Panel's `annotations` property is an AnnotationPage, just like the one loaded in the previous example. But it's a specially managed AnnotationPage, used to store the visible annotations.
 

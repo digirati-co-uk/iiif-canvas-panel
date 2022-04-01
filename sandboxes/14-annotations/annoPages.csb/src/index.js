@@ -32,6 +32,7 @@ async function showSomeAnnotations(canvasId, annoPage) {
   displayAnno.applyStyle({
     background: "red"
   });
+  await new Promise((r) => setTimeout(r, 1000));
   cp.annotations.add(displayAnno);
 
   const newAnno = {
@@ -47,8 +48,18 @@ async function showSomeAnnotations(canvasId, annoPage) {
     console.log("clicked " + anno.id + " on " + JSON.stringify(target));
   });
   cp.annotations.add(displayAnno2);
-  //cp.annotations.add(displayAnno2);
-  // displayAnno2.removeEventListener('onClick', listener);
+
+  const linkingAnno = {
+    type: "Annotation",
+    motivation: ["linking"],
+    target: canvasId + "#300,900,500,500"
+  };
+  const linkingAnnoWithId = await cp.vault.load("fake-id-2", linkingAnno);
+  const displayAnno3 = cp.createAnnotationDisplay(linkingAnnoWithId);
+  displayAnno3.className = "my-link-class";
+  displayAnno3.href = "https://iiif.io/";
+  await new Promise((r) => setTimeout(r, 1000));
+  cp.annotations.add(displayAnno3);
 }
 
 demo();
