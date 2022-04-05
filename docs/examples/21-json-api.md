@@ -299,8 +299,12 @@ You can also do this directly on the page in a script block. This may be a more 
 
 
 
-# Canvas Panel and Image Service methods
+## Canvas Panel and Image Service methods
 
 
+### zoomIn(immediate)
+
+
+### zoomOut(immediate)
 
 TBC
