@@ -191,14 +191,33 @@ For more details on the available attributes, see [API](./json-api).
 
 ## How Canvas Panel chooses which image requests to make 
 
-<!-- Stephen: discuss how CP and IS make these requests - how it decides etc -->
-<!-- enough to produce an ImageResponsive equivalent -->
+Canvas panel has 5 internal variables, with the following defaults:
 
-:::danger
+```json
+{
+  renderSmallestFallback: true,
+  renderLayers: 2,
+  minSize: 256,
+  maxImageSize: 1024,
+  quality: 1,
+}
+```
 
-This section is still under development
+> In the current Canvas Panel, these are not configurable via the API.
 
-:::
+For a Canvas that has a single image service, Canvas Panel will construct a list of candidate image requests, ordered by size. Some will be labelled with "priority" for exact sizes - as advertised in the image service's `sizes` property, if it has one, and any `virtual-sizes` set on Canvas Panel itself. These images are _assumed_ to be more likely to be in web caches. Included in the list is tiled images, and their real-pixel widths.
+
+Canvas Panel then filters out any that are outside of the min/max size in the config. It also removes images that are close in size to priority images (it will prefer the priority images).
+
+The `quality` setting determines how much Canvas Panel super-samples. For example, a value of 2 would request images twice as large as the viewport. Canvas Panel then picks the closest image and uses the `renderLayers` setting to decide how many of the sizes to paint (useful for loading fallbacks) - which are just the next smallest from the chosen image. This allows a lower resolution image to load quickly while the larger image is still downloading.
+
+If `renderSmallestFallback` is set to `true`, we also add the smallest image (usually ~256px) to act as a final fallback.
+
+For responsive images, there are three steps:
+
+* The gathering of all valid sizes
+* Filtering which sizes make a good pyramid
+* Choosing the best size from the list
 
 
 <GitHubDiscussion ghid="2" />
