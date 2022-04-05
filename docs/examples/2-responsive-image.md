@@ -67,10 +67,22 @@ And you can also force the component to make a single image request, on initial 
 </image-service>
 ```
 
-## How Canvas Panel chooses which image requests to make 
+:::tip
 
-<!-- Stephen: discuss how CP and IS make these requests - how it decides etc -->
-<!-- enough to produce an ImageResponsive equivalent -->
+## Responsive Images and Caches
+
+Careful use of `virtual-sizes` and `exact-initial-image`, as well as publishing preferred or optimal `sizes` on your IIIF Image Services, can dramatically improve the user experience by speeding up image loading, when the Canvas Panel (or Image Service component) is the client. If you have a Content Delivery Network, or other form of web cache in front of your image servers, then
+
+If you are in reponsive or static mode, and your page layout and attributes ensure that the required image will always be the same size (or one of a small number of known sizes depending on media queries), then your cache will be populated with these images.
+
+You can even combine zoom behaviour with an initial full static image, by starting canvas panel in responsive mode and then switching to zoom after a user interaction.
+
+Canvas Panel also attempts to load the smallest image it can as a placeholder while loading in larger images.
+
+You need to be careful, though - if you have a flexible layout, so that different users won't normally request exactly the same image, then it's better to leave Canvas Panel to decide what tiles and/or fized sizes to request, and have your cache fill up with fixed size tiles.
+
+:::
+
 
 ## Media queries and more
 
@@ -78,27 +90,9 @@ More complex responsive image scenarios involve media queries, like this:
 
 `media="(min-width: 600px)"`
 
-Rather than nested within HTML elements, `image-service` and `canvas-panel` can take complex configuration from JSON. This includes all the attributes already seen in this documentation, but also includes constructions that are much more easily conveyed via JSON:
+Rather than nested within HTML elements, `image-service` and `canvas-panel` can take complex configuration from JSON. This includes all the attributes already seen in this documentation, but also includes constructions that are much more easily conveyed via JSON.
 
-```html
-<script id="my-preset" type="application/json">
-{
-  "styleId": "css",
-  "height": 300,
-  "canvasId": "https://iiif.wellcomecollection.org/presentation/b28929780/canvases/b28929780_0006.jp2",
-  "media": {
-    "(min-width: 800px)": {
-      "canvasId": "https://iiif.wellcomecollection.org/presentation/b28929780/canvases/b28929780_0004.jp2", 
-      "height": 500
-    },
-    "(min-width: 1200px)": {
-      "height": 700
-    }
-  }
-}
-</script>
-<canvas-panel preset="#my-preset"></canvas-panel>
-```
+You can mix values supplied as tag attributes and attributes supplied as JSON. For a (contrived) example, you might want to set the manifest ID on the web component, but vary the canvas in two different JSON presets:
 
 <Sandbox project={respPreset1} />
 
@@ -193,5 +187,37 @@ It's possible to combine `render`, `interactive` and `viewport` in ways other th
 See [Styling](styling) for more guidance on using canvas panel in different layout systems.
 
 For more details on the available attributes, see [API](./json-api).
+
+
+## How Canvas Panel chooses which image requests to make 
+
+Canvas panel has 5 internal variables, with the following defaults:
+
+```json
+{
+  renderSmallestFallback: true,
+  renderLayers: 2,
+  minSize: 256,
+  maxImageSize: 1024,
+  quality: 1,
+}
+```
+
+> In the current Canvas Panel, these are not configurable via the API.
+
+For a Canvas that has a single image service, Canvas Panel will construct a list of candidate image requests, ordered by size. Some will be labelled with "priority" for exact sizes - as advertised in the image service's `sizes` property, if it has one, and any `virtual-sizes` set on Canvas Panel itself. These images are _assumed_ to be more likely to be in web caches. Included in the list is tiled images, and their real-pixel widths.
+
+Canvas Panel then filters out any that are outside of the min/max size in the config. It also removes images that are close in size to priority images (it will prefer the priority images).
+
+The `quality` setting determines how much Canvas Panel super-samples. For example, a value of 2 would request images twice as large as the viewport. Canvas Panel then picks the closest image and uses the `renderLayers` setting to decide how many of the sizes to paint (useful for loading fallbacks) - which are just the next smallest from the chosen image. This allows a lower resolution image to load quickly while the larger image is still downloading.
+
+If `renderSmallestFallback` is set to `true`, we also add the smallest image (usually ~256px) to act as a final fallback.
+
+For responsive images, there are three steps:
+
+* The gathering of all valid sizes
+* Filtering which sizes make a good pyramid
+* Choosing the best size from the list
+
 
 <GitHubDiscussion ghid="2" />
