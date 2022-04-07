@@ -149,6 +149,24 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         htmlComponent.setAttribute('choice-id', choiceIds.join(','));
       },
 
+      zoomIn(point?: { x: number; y: number }) {
+        if (runtime.current) {
+          runtime.current.world.zoomIn(point);
+        }
+      },
+
+      zoomOut(point?: { x: number; y: number }) {
+        if (runtime.current) {
+          runtime.current.world.zoomOut(point);
+        }
+      },
+
+      zoomTo(factor: number, point?: { x: number; y: number }, stream?: boolean) {
+        if (runtime.current) {
+          runtime.current.world.zoomTo(factor, point, stream);
+        }
+      },
+
       goHome(immediate = false) {
         if (runtime.current) {
           runtime.current.world.goHome(immediate);
