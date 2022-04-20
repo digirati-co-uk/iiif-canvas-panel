@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import register from 'preact-custom-element';
+import register from '../library/preact-custom-element';
 import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
 import { RenderImage } from '../components/RenderImage/RenderImage';
 import { ImageWithOptionalService, useLoadImageService, VaultProvider } from 'react-iiif-vault';

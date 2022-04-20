@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { FC, useCallback, useEffect, useLayoutEffect } from 'preact/compat';
-import register from 'preact-custom-element';
+import register from '../library/preact-custom-element';
 import { CanvasContext, VaultProvider, ChoiceDescription } from 'react-iiif-vault';
 import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-public-api';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';

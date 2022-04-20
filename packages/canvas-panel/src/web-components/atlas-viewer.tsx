@@ -1,4 +1,4 @@
-import register from 'preact-custom-element';
+import register from '../library/preact-custom-element';
 import { useExistingVault, VaultProvider } from 'react-iiif-vault';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
@@ -7,8 +7,6 @@ import { h } from 'preact';
 function AtlasViewer({ children, ...props }: any) {
   const vault = useExistingVault();
   const { setIsReady, atlasProps, isReady, className } = useGenericAtlasProps(props);
-
-  console.log('Atlas viewer?', atlasProps);
 
   return (
     <VaultProvider vault={vault}>
