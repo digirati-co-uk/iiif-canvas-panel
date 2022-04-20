@@ -13,7 +13,9 @@ export const ManifestLoader: FC<ManifestLoaderProps> = ({ manifestId, children }
   const { manifest, isLoaded, error } = useExternalManifest(manifestId, {});
 
   useEffect(() => {
-    console.error(error);
+    if (error) {
+      console.error(error);
+    }
   }, [error]);
 
   if (error) {

@@ -9,7 +9,7 @@ import {
 } from '@iiif/presentation-3';
 import { Vault } from '@iiif/vault';
 import { createContext } from 'preact';
-import { useContext, useEffect } from 'preact/compat';
+import {useContext, useEffect, useRef} from 'preact/compat';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ParsedSelector } from 'react-iiif-vault';
 import { BoxStyle } from '@atlas-viewer/atlas';
@@ -163,11 +163,15 @@ export const RegisterPublicApi = createContext<
 
 export function useRegisterPublicApi(
   cb: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>,
-  deps: any[] = []
+  cacheKey: any
 ) {
+  const lastCacheKey = useRef();
   const register = useContext(RegisterPublicApi) || emptyCtx;
 
-  useLayoutEffect(() => {
+  // Yes, inline side-effect.
+  if (lastCacheKey.current !== cacheKey) {
     register(cb);
-  }, [...deps]);
+  }
+
+  lastCacheKey.current = cacheKey;
 }

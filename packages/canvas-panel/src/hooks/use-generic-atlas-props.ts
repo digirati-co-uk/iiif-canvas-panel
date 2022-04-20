@@ -167,6 +167,17 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         }
       },
 
+      withAtlas(callback: (rt: Runtime) => void) {
+        if (runtime.current) {
+          callback(runtime.current);
+        } else {
+          actionQueue.current = {
+            ...actionQueue.current,
+            [new Date().getTime()]: (rt) => callback(rt),
+          };
+        }
+      },
+
       goHome(immediate = false) {
         if (runtime.current) {
           runtime.current.world.goHome(immediate);
@@ -281,15 +292,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       actionQueue.current = {};
     }
   }, [isReady]);
-
-  // @todo this appears not to be needed.. but maybe worth adding back in.
-  // useLayoutEffect(() => {
-  //   if (target && isReady && runtime.current && target.selector && target.selector.type === 'BoxSelector') {
-  //     // console.log('isReady...');
-  //     // runtime.current.transitionManager.goToRegion(target.selector.spatial, { transition: { duration: 0 } });
-  //     // runtime.current.transitionManager.runTransition(runtime.current.target, 5);
-  //   }
-  // }, [isReady, target]);
 
   useLayoutEffect(() => {
     if (styleId) {

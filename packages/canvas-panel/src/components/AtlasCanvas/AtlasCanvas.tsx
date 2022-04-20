@@ -13,12 +13,12 @@ import { createStylesHelper } from '@iiif/vault-helpers';
 import { Fragment, h } from 'preact';
 import { WorldObject, SingleImage } from '../../atlas-components';
 import { RenderAnnotationPage } from '../RenderAnnotationPage/RenderAnnotationPage';
-import { useVirtualAnnotationPage } from '../../hooks/use-virtual-annotation-page';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
 import { SizeParameter } from '../../helpers/size-parameter';
 import { Debug } from '../../hooks/debug';
 import { DrawBox } from '@atlas-viewer/atlas';
 import { RenderImage } from '../RenderImage/RenderImage';
+import { useVirtualAnnotationPageContext } from '../../hooks/use-virtual-annotation-page-context';
 
 export const AtlasCanvas: FC<{
   x?: number;
@@ -49,7 +49,7 @@ export const AtlasCanvas: FC<{
 }) => {
   const canvas = useCanvas();
   const elementProps = useResourceEvents(canvas, ['deep-zoom']);
-  const [virtualPage] = useVirtualAnnotationPage();
+  const [virtualPage] = useVirtualAnnotationPageContext();
   const vault = useVault();
   const helper = useMemo(() => createStylesHelper(vault), [vault]);
   const [strategy, actions] = useRenderingStrategy({

@@ -104,6 +104,7 @@ export function createAtlasWrapper<T = any, C = any>({
         prevProps.current = props;
         atlas.runtime.pendingUpdate = true;
         if (atlas.runtime.world) {
+          atlas.runtime.world.needsRecalculate = true;
           if (atlas.runtime.world.needsRecalculate) {
             atlas.runtime.world.recalculateWorldSize();
             atlas.runtime.world.triggerRepaint();
