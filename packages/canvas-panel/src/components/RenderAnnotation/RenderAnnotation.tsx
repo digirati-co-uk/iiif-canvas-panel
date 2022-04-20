@@ -4,10 +4,11 @@ import { h } from 'preact';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
 import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas';
 
-export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxStyle }> = ({
+export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxStyle; interactive?: boolean }> = ({
   id,
   style: defaultStyle,
   className,
+  interactive,
 }) => {
   const annotation = useAnnotation({ id });
   const style = useStyles<BoxStyle>(annotation, 'atlas');
@@ -39,7 +40,7 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
       region={(annotation.target as any).selector.spatial}
       style={allStyles}
       className={html?.className || className}
-      interactive={!!html?.href}
+      interactive={!!(html?.href || interactive)}
       href={html?.href || null}
       title={html?.title || null}
       hrefTarget={html?.target || null}

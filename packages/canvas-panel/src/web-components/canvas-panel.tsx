@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { FC, useCallback, useEffect, useLayoutEffect } from 'preact/compat';
-import register from 'preact-custom-element';
+import register from '../library/preact-custom-element';
 import { CanvasContext, VaultProvider, ChoiceDescription } from 'react-iiif-vault';
 import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-public-api';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
@@ -12,6 +12,7 @@ import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { useState } from 'react';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
+import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 
 export type CanvasPanelProps = GenericAtlasComponent<
   {
@@ -40,7 +41,6 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     virtualSizes,
     viewport,
     debug,
-    target,
     interactive,
     x,
     y,
@@ -68,6 +68,12 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
     if (webComponent.current) {
       webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
+    }
+  }, []);
+
+  const onCanvasChange = useCallback((canvas: string | undefined) => {
+    if (webComponent.current) {
+      webComponent.current.dispatchEvent(new CustomEvent('canvas-change', { detail: { canvas } }));
     }
   }, []);
 
@@ -132,26 +138,6 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           setParsedContentState(contentState);
         }
       },
-
-      // addHighlight(region: string | TBC, options?: TBC): string {},
-      // displayAnnotations() {},
-      // enableTextSelection() {},
-      // getAnnotationPageManager(): {
-      //   getAvailablePageIds(): void;
-      //   getEnabledPageIds(): void;
-      //   setPageEnabled(pageId: string): void;
-      //   setPageDisabled(pageId: string): void;
-      //   setPageStyle(pageId: string, style: TBC): void;
-      // } {},
-      // getTextContent(options?: { html?: boolean; motivation?: string; selected?: boolean }): TBC[] {},
-      // query(format: TBC): { addEventListener(): void } & TBC {},
-      // removeHighlight(id: string | AnnotationNormalized) {},
-      // setAnnotationOptions(options: {
-      //   highlighting: { cssClass: string; visible: boolean; selectable: boolean };
-      //   linking: { cssClass: string; visible: boolean; selectable: boolean };
-      //   text: { cssClass: string; visible: boolean; selectable: boolean };
-      // }) {},
-      // setRenderMode(mode: 'zoom' | 'static' | 'responsive') {},
     };
   });
 
@@ -188,12 +174,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   }, [contentState]);
 
   useEffect(() => {
-    console.log('unused state', {
-      textSelectionEnabled,
-      textEnabled,
-      preferredFormats,
-    });
-  }, []);
+    onCanvasChange(canvasId);
+  }, [canvasId]);
 
   // Waiting for config.
   if (isConfigBlocking) {
@@ -233,7 +215,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   return (
     <RegisterPublicApi.Provider value={props.__registerPublicApi}>
       <VaultProvider vault={vault}>
-        {manifestId ? <ManifestLoader manifestId={manifestId}>{canvasInner}</ManifestLoader> : canvasInner}
+        <VirtualAnnotationProvider>
+          {manifestId ? <ManifestLoader manifestId={manifestId}>{canvasInner}</ManifestLoader> : canvasInner}
+        </VirtualAnnotationProvider>
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
       {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}

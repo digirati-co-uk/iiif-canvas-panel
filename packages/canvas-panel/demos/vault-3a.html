@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vault Example</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+
+        img {
+            padding: 0.3em;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div id="app"></div>
+    <pre id="data"></pre>
+</div>
+<script type="module">
+  import * as IIIFVault from '@iiif/vault';
+  import * as IIIFVaultHelpers from '@iiif/vault-helpers';
+
+  let manifestUri = "https://digirati-co-uk.github.io/finsbury.json";
+  const vault = new IIIFVault.Vault();
+
+  // a couple of helpers for displaying what we find
+  function show(obj, label) {
+    const data = document.getElementById("data");
+    const sep = "\n\n\n" + (label || "") + " ==========================================\n\n"
+    data.innerHTML = sep + JSON.stringify(obj, null, 2) + data.innerHTML;
+  }
+  function append(element) {
+    document.getElementById("app").appendChild(element);
+  }
+
+  async function demo() {
+
+
+    const manifest = await vault.loadManifest(manifestUri);
+    vault.setMetaValue(["ViewerState", "LoadedResources", "CurrentManifest"], manifest.id);
+    await vault.subscribe(
+      state => state.iiif.meta["ViewerState"],
+      selection => {
+        if (selection && selection.LoadedResources) {
+          LoadManifest(selection.LoadedResources.CurrentManifest);
+        }
+      }
+    )
+  }
+
+  demo();
+
+  async function LoadManifest(manifestId) {
+
+    const manifest = await vault.loadManifest(manifestId);
+    const events = IIIFVaultHelpers.createEventsHelper(vault);
+    const thumbHelper = IIIFVaultHelpers.createThumbnailHelper(vault);
+
+    for (const canvas of manifest.items) {
+      // give these handlers a scope, we may wish to have other click handlers for the same canvases elsewhere
+      events.addEventListener(canvas, 'onClick', () => show(vault.get(canvas)), ["Thumbs"]);
+    }
+
+    await vault.subscribe(
+      state => state.iiif.entities.Manifest[manifestId], // (can't subscribe to [manifest.id].items)
+      (selection, vault) => {
+        // selection is the manifest. When the manifest changes...
+        document.getElementById("app").innerHTML = "";
+        for (const canvas of selection.items) {
+          // ...create an image element for each canvas
+          const thumb = document.createElement("img");
+          // const canvasManager = vault.getResourceMeta(canvas.id).eventManager;
+          const props = events.getListenersAsProps(canvas);
+          // thumb.addEventListener("click", canvasManager.onClick[0].callback);
+          thumb.addEventListener("click", props.onClick);
+          // ...set the src of the image to a vault-picked thumbnail
+          thumbHelper.getBestThumbnailAtSize(canvas, { maxWidth: 100 }).then(cvThumb => thumb.src = cvThumb.best.id);
+          append(thumb);
+        }
+      }
+    )
+  }
+
+
+</script>
+</body>
+
+</html>
