@@ -15,7 +15,7 @@ type ImageServiceApi = {
   //
 };
 
-type ImageServiceProps = GenericAtlasComponent<
+export type ImageServiceProps = GenericAtlasComponent<
   {
     src: string;
     nested?: string;

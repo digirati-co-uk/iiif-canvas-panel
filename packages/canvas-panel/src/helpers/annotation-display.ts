@@ -87,8 +87,8 @@ export class AnnotationDisplay {
 
   bindToVault(vault: Vault) {
     this.__vault = vault;
-    this.__eventsHelper = createEventsHelper(vault);
-    this.__stylesHelper = createStylesHelper<BoxStyle>(vault);
+    this.__eventsHelper = createEventsHelper(vault as any);
+    this.__stylesHelper = createStylesHelper<BoxStyle>(vault as any);
     // Add events.
     for (const [name, handler] of this.handlers) {
       this.__eventsHelper.addEventListener(this.__annotation, name, handler);

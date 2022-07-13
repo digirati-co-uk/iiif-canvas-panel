@@ -2,7 +2,7 @@
   "name": "@digirati/canvas-panel-web-components",
   "version": "1.0.48",
   "typings": "./dist/types/index.d.ts",
-  "main": "./dist/bundle.js",
+  "main": "./dist/bundle/cjs/index.js",
   "files": [
     "dist"
   ],
@@ -13,28 +13,43 @@
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "prepublishOnly": "NODE_ENV=production yarn build"
   },
+  "exports": {
+    ".": {
+      "node": {
+        "require": "./dist/node/cjs/index.js",
+        "import": "./dist/node/esm/index.mjs",
+        "default": "./dist/node/cjs/index.js"
+      },
+      "browser": {
+        "require": "./dist/bundle/cjs/index.js",
+        "import": "./dist/bundle/esm/index.mjs",
+        "default": "./dist/bundle/cjs/index.js"
+      }
+    }
+  },
   "resolutions": {
     "@atlas-viewer/iiif-image-api": "^2.*",
-    "@iiif/vault": "0.9.*",
+    "@iiif/presentation-3": ">=1.0.6",
+    "@iiif/vault": "^0.9.18",
     "@iiif/parser": "1.*",
     "nanoid": "3.1.25"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": ">=2.0.0-alpha.10",
-    "@atlas-viewer/iiif-image-api": "2.*",
-    "@iiif/presentation-2": "1.*",
-    "@iiif/presentation-3": "1.*",
-    "@iiif/vault": "0.9.*",
-    "@iiif/vault-helpers": "0.9.*",
+    "@atlas-viewer/atlas": ">=2.0.0-alpha.16",
+    "@atlas-viewer/iiif-image-api": ">=2.0.5",
+    "@iiif/presentation-2": ">=1.0.2",
+    "@iiif/presentation-3": ">=1.0.6",
+    "@iiif/vault": "^0.9.18",
+    "@iiif/vault-helpers": ">=0.9.7",
     "@preact/compat": "17.*",
     "@react-hook/media-query": "^1.1.1",
     "preact": "^10.*",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "0.9.*"
+    "react-iiif-vault": "^0.9.15"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.2.0",
-    "@types/jest": "^27.4.1",
+    "@preact/preset-vite": "^2.3.0",
+    "@types/jest": "^28.1.4",
     "@types/preact-custom-element": "^4.0.1",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.13",
@@ -45,11 +60,14 @@
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "jest": "^27.5.1",
+    "happy-dom": "^6.0.3",
+    "jest": "^28.1.2",
+    "preact-render-to-string": "^5.2.0",
     "prettier": "^2.5.1",
-    "ts-jest": "^27.1.3",
+    "ts-jest": "^28.0.5",
     "typescript": "^4.6.2",
-    "vite": "^2.9.5"
+    "vite": "^2.9.5",
+    "vitest": "^0.18.0"
   },
   "publishConfig": {
     "access": "public"

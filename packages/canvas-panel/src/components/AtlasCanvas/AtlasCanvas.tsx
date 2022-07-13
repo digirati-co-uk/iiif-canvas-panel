@@ -51,7 +51,7 @@ export const AtlasCanvas: FC<{
   const elementProps = useResourceEvents(canvas, ['deep-zoom']);
   const [virtualPage] = useVirtualAnnotationPageContext();
   const vault = useVault();
-  const helper = useMemo(() => createStylesHelper(vault), [vault]);
+  const helper = useMemo(() => createStylesHelper(vault as any), [vault]);
   const [strategy, actions] = useRenderingStrategy({
     strategies: ['images'],
     defaultChoices: defaultChoices?.map(({ id }) => id),

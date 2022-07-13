@@ -89,7 +89,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       parse: parseCSV,
     }
   );
-  const [mode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
+  const [mode, setMode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
   const [inlineStyles, setInlineStyles] = useState('');
   const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
   const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
@@ -304,6 +304,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
   const atlasProps = useMemo(() => {
     return {
+      children: null,
       nested,
       responsive,
       viewport,
@@ -316,7 +317,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       },
       homePosition:
         target && target.selector && target.selector.type === 'BoxSelector' ? target.selector.spatial : undefined,
-      mode,
       renderPreset:
         render === 'static'
           ? [
@@ -335,7 +335,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       width: width ? width : undefined,
       height: height ? height : responsive ? undefined : 512,
     } as AtlasProps & { nested?: boolean };
-  }, [responsive, viewport, target, mode, render, enableNavigator, internalConfig]);
+  }, [responsive, viewport, target, render, enableNavigator, internalConfig]);
 
   return {
     atlasProps,
@@ -351,6 +351,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     render,
     interactive,
     mode,
+    setMode,
     virtualSizes,
     styleId,
     responsive,

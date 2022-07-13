@@ -1,5 +1,6 @@
 import { h } from 'preact';
 import { FallbackProps } from 'react-error-boundary';
+import { useEffect } from 'preact/compat';
 
 export function ErrorFallback({
   error,
@@ -9,6 +10,10 @@ export function ErrorFallback({
   width,
 }: Partial<FallbackProps> & { aspectRatio?: number; height?: number; width?: number }) {
   const style = aspectRatio ? { paddingTop: `${aspectRatio * 100}%` } : { height, width };
+
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
 
   return (
     <slot name="fallback">

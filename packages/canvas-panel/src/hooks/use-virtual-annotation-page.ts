@@ -1,6 +1,6 @@
 import { AnnotationPageNormalized } from '@iiif/presentation-3';
 import { useStyleHelper, useVault, useVirtualAnnotationPage as useVirtualAnnotationPageBase } from 'react-iiif-vault';
-import { useRef, unstable_UserBlockingPriority } from 'preact/compat';
+import { useRef } from 'preact/compat';
 import { useRegisterPublicApi } from './use-register-public-api';
 import { BoxStyle } from '@atlas-viewer/atlas';
 

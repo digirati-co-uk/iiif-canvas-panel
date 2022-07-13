@@ -10,7 +10,7 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   render?: 'static' | 'canvas' | 'webgl';
   interactive?: boolean;
   atlasMode?: 'sketch' | 'explore';
-  virtualSizes: string | SizeParameter | Array<SizeParameter> | Array<string>;
+  virtualSizes?: string | SizeParameter | Array<SizeParameter> | Array<string>;
   styleId?: string;
   preset?: string;
   stylesheet?: string;
