@@ -225,40 +225,42 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   );
 };
 
-register(
-  CanvasPanel,
-  'canvas-panel',
-  [
-    'manifest-id',
-    'canvas-id',
-    'width',
-    'height',
-    'follow-annotations',
-    'target',
-    'region',
-    'highlight',
-    'highlight-css-class',
-    'text-selection-enabled',
-    'text-enabled',
-    'preferred-formats',
-    'atlas-mode',
-    'style-id',
-    'debug',
-    'preset',
-    'responsive',
-    'interactive',
-    'iiif-content',
-    'class',
-    'choice-id',
-  ],
-  {
-    shadow: true,
-    onConstruct(instance: any) {
-      instance._props = {
-        __registerPublicApi: (api: any) => {
-          Object.assign(instance, api(instance));
-        },
-      };
-    },
-  } as any
-);
+if (typeof window !== 'undefined') {
+  register(
+    CanvasPanel,
+    'canvas-panel',
+    [
+      'manifest-id',
+      'canvas-id',
+      'width',
+      'height',
+      'follow-annotations',
+      'target',
+      'region',
+      'highlight',
+      'highlight-css-class',
+      'text-selection-enabled',
+      'text-enabled',
+      'preferred-formats',
+      'atlas-mode',
+      'style-id',
+      'debug',
+      'preset',
+      'responsive',
+      'interactive',
+      'iiif-content',
+      'class',
+      'choice-id',
+    ],
+    {
+      shadow: true,
+      onConstruct(instance: any) {
+        instance._props = {
+          __registerPublicApi: (api: any) => {
+            Object.assign(instance, api(instance));
+          },
+        };
+      },
+    } as any
+  );
+}

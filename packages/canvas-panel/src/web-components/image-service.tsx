@@ -119,13 +119,15 @@ export function ImageService(props: ImageServiceProps) {
   );
 }
 
-register(ImageService, 'image-service', [], {
-  shadow: true,
-  onConstruct(instance: any) {
-    instance._props = {
-      __registerPublicApi: (api: any) => {
-        Object.assign(instance, api(instance));
-      },
-    };
-  },
-} as any);
+if (typeof window !== 'undefined') {
+  register(ImageService, 'image-service', [], {
+    shadow: true,
+    onConstruct(instance: any) {
+      instance._props = {
+        __registerPublicApi: (api: any) => {
+          Object.assign(instance, api(instance));
+        },
+      };
+    },
+  } as any);
+}
