@@ -151,13 +151,19 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
       zoomIn(point?: { x: number; y: number }) {
         if (runtime.current) {
-          runtime.current.world.zoomIn(point);
+          runtime.current.world.trigger('zoom-to', {
+            point,
+            factor: 1 / 0.75,
+          });
         }
       },
 
       zoomOut(point?: { x: number; y: number }) {
         if (runtime.current) {
-          runtime.current.world.zoomOut(point);
+          runtime.current.world.trigger('zoom-to', {
+            point,
+            factor: 0.75,
+          });
         }
       },
 
