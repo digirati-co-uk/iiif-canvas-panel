@@ -22,6 +22,7 @@ export type ViewCanvasProps = {
   onChoiceChange?: (choice?: ChoiceDescription) => void;
   children?: any;
   debug?: boolean;
+  mode?: 'sketch' | 'explore';
   className?: string;
   interactive?: boolean;
   defaultChoices?: Array<{ id: string; opacity?: number }>;

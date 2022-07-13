@@ -118,7 +118,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
         }}
         className={props.className}
         {...displayOptions}
-        mode={annoMode ? 'sketch' : displayOptions.mode}
+        mode={annoMode ? 'sketch' : props.mode}
       >
         <AtlasCanvas
           isStatic={!props.interactive}
