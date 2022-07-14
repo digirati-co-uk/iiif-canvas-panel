@@ -35,7 +35,7 @@
     "nanoid": "3.1.25"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": ">=2.0.0-alpha.16",
+    "@atlas-viewer/atlas": ">=2.0.0-alpha.17",
     "@atlas-viewer/iiif-image-api": ">=2.0.5",
     "@iiif/presentation-2": ">=1.0.2",
     "@iiif/presentation-3": ">=1.0.6",
