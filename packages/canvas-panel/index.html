@@ -12,6 +12,9 @@
       canvas-panel::part(my-link-class) {
           border: 2px solid lightgreen;
       }
+      html {
+          height: 200vh;
+      }
   </style>
 </head>
 <body>
@@ -21,6 +24,7 @@
 <div id="container"></div>
 
 <button id="content-state">Content state</button>
+<button id="transition">Transition</button>
 <pre id="selection"></pre>
 
 
@@ -29,12 +33,16 @@
   const container = document.getElementById('container');
   const cp = document.createElement("canvas-panel");
 
+  // cp.setAttribute('disable-keyboard-navigation', "true");
+  cp.setAttribute('click-to-enable-zoom', "true");
+
   cp.addEventListener('canvas-change', (ev) => {
     console.log('change-canvas', ev.detail)
   })
 
   const $cs = document.getElementById('content-state');
   const $selection =document.getElementById('selection');
+  const $transition =document.getElementById('transition');
 
   $cs.addEventListener('click', () => {
     $cs.disabled = true;
@@ -43,6 +51,22 @@
       $selection.innerText = JSON.stringify(selection, null, 2);
       cp.disableContentStateSelection();
       $cs.disabled = false;
+    });
+  })
+
+  $transition.addEventListener('click', () => {
+    cp.transition(tm => {
+      tm.goToRegion({
+        height: 200,
+        width: 200,
+        x: 200,
+        y: 200,
+      }, {
+        transition: {
+          easing: cp.easingFunctions().easeOutExpo,
+          duration: 2000,
+        }
+      });
     });
   })
 
