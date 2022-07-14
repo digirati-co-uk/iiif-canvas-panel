@@ -2,7 +2,7 @@
   "name": "@digirati/canvas-panel-web-components",
   "version": "1.0.50",
   "typings": "./dist/types/index.d.ts",
-  "main": "./dist/bundle/cjs/index.js",
+  "main": "./dist/bundle.js",
   "files": [
     "dist"
   ],
@@ -11,20 +11,6 @@
     "build": "node ./esbuild.mjs && yarn run build-types",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "prepublishOnly": "NODE_ENV=production yarn build"
-  },
-  "exports": {
-    ".": {
-      "node": {
-        "require": "./dist/node/cjs/index.js",
-        "import": "./dist/node/esm/index.mjs",
-        "default": "./dist/node/cjs/index.js"
-      },
-      "browser": {
-        "require": "./dist/bundle/cjs/index.js",
-        "import": "./dist/bundle/esm/index.mjs",
-        "default": "./dist/bundle/cjs/index.js"
-      }
-    }
   },
   "resolutions": {
     "@atlas-viewer/iiif-image-api": "^2.*",
