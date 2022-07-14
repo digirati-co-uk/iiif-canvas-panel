@@ -290,6 +290,7 @@ if (typeof window !== 'undefined') {
       'highlight',
       'highlight-css-class',
       'text-selection-enabled',
+      'disable-keyboard-navigation',
       'text-enabled',
       'preferred-formats',
       'atlas-mode',
