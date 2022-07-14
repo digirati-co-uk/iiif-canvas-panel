@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
-import { DrawBox, Projection } from '@atlas-viewer/atlas';
+import { DrawBox, easingFunctions, Projection } from '@atlas-viewer/atlas';
 import { ContentState } from '@iiif/vault-helpers';
 
 export type CanvasPanelProps = GenericAtlasComponent<
@@ -152,8 +152,18 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         htmlComponent.setAttribute('text-enabled', 'true');
       },
 
-      get contentState() {
+      easingFunctions() {
+        return easingFunctions;
+      },
+
+      getContentStateStack() {
         return contentStateStack.current;
+      },
+
+      transition(callback: (transitionManager: any) => void) {
+        if (runtime.current?.transitionManager) {
+          callback(runtime.current?.transitionManager);
+        }
       },
 
       enableContentStateSelection(callback: ContentStateCallback) {
