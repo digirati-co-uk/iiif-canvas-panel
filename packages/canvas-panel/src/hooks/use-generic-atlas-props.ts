@@ -123,26 +123,45 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   useRegisterWebComponentApi((htmlComponent) => {
     webComponent.current = htmlComponent;
 
-    let zoomPreventCallback: (e: WheelEvent) => void;
+    let zoomPreventCallback: ((e: Event) => void) | undefined;
+    let resetFunc: (() => void) | undefined;
     let zoomPrevented = false;
 
     if (clickToEnableZoom) {
-      zoomPreventCallback = (e: WheelEvent) => {
+      zoomPreventCallback = (e: Event) => {
         e.stopPropagation();
       };
-      zoomPrevented = true;
-      htmlComponent.addEventListener('wheel', zoomPreventCallback, { capture: true });
-      htmlComponent.addEventListener('blur', () => {
-        if (!zoomPrevented) {
+
+      const registerFunc = () => {
+        if (zoomPreventCallback && !zoomPrevented) {
+          zoomPrevented = true;
           htmlComponent.addEventListener('wheel', zoomPreventCallback, { capture: true });
+          htmlComponent.addEventListener('touchstart', zoomPreventCallback, { capture: true });
+          console.log('added listeners');
+        }
+      };
+
+      resetFunc = () => {
+        if (zoomPreventCallback && zoomPrevented) {
+          zoomPrevented = false;
+          htmlComponent.removeEventListener('wheel', zoomPreventCallback, { capture: true });
+          htmlComponent.removeEventListener('touchstart', zoomPreventCallback, { capture: true });
+          console.log('removed listeners');
+        }
+      };
+
+      registerFunc();
+
+      document.addEventListener('click', (e) => {
+        if (document.activeElement !== htmlComponent) {
+          registerFunc();
         }
       });
     }
 
     htmlComponent.addEventListener('click', (e) => {
-      if (zoomPreventCallback) {
-        zoomPrevented = false;
-        htmlComponent.removeEventListener('wheel', zoomPreventCallback, { capture: true });
+      if (resetFunc) {
+        resetFunc();
       }
 
       const targets = e.composedPath();
