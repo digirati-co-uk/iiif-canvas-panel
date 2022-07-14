@@ -301,6 +301,7 @@ if (typeof window !== 'undefined') {
       'highlight-css-class',
       'text-selection-enabled',
       'disable-keyboard-navigation',
+      'click-to-enable-zoom',
       'text-enabled',
       'preferred-formats',
       'atlas-mode',

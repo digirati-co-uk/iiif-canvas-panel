@@ -63,6 +63,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     parse: parseBool,
     defaultValue: true,
   });
+  const [clickToEnableZoom] = useSyncedState(props.clickToEnableZoom || props.clickToEnableZoom, {
+    parse: parseBool,
+    defaultValue: true,
+  });
   const [disableKeyboardNavigation] = useSyncedState(
     props.disableKeyboardNavigation || internalConfig.disableKeyboardNavigation,
     {
@@ -119,7 +123,28 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   useRegisterWebComponentApi((htmlComponent) => {
     webComponent.current = htmlComponent;
 
+    let zoomPreventCallback: (e: WheelEvent) => void;
+    let zoomPrevented = false;
+
+    if (clickToEnableZoom) {
+      zoomPreventCallback = (e: WheelEvent) => {
+        e.stopPropagation();
+      };
+      zoomPrevented = true;
+      htmlComponent.addEventListener('wheel', zoomPreventCallback, { capture: true });
+      htmlComponent.addEventListener('blur', () => {
+        if (!zoomPrevented) {
+          htmlComponent.addEventListener('wheel', zoomPreventCallback, { capture: true });
+        }
+      });
+    }
+
     htmlComponent.addEventListener('click', (e) => {
+      if (zoomPreventCallback) {
+        zoomPrevented = false;
+        htmlComponent.removeEventListener('wheel', zoomPreventCallback, { capture: true });
+      }
+
       const targets = e.composedPath();
       const target = targets[0] as HTMLElement;
       if (target && htmlComponent !== document.activeElement) {
