@@ -19,9 +19,10 @@
   },
   "dependencies": {
     "@atlas-viewer/atlas": "1.6.6",
+    "@cmfcmf/docusaurus-search-local": "^0.11.0",
     "@codesandbox/sandpack-react": "^0.14.2",
-    "@docusaurus/core": "2.0.0-beta.4",
-    "@docusaurus/preset-classic": "2.0.0-beta.4",
+    "@docusaurus/core": "2.0.0-beta.22",
+    "@docusaurus/preset-classic": "2.0.0-beta.22",
     "@mdx-js/react": "^1.6.21",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",

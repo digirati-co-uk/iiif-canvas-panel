@@ -9,11 +9,12 @@ import {
   githubLightTheme,
   SandpackProviderProps, CodeEditorProps, PreviewProps, ClasserProvider, SandpackThemeProvider
 } from "@codesandbox/sandpack-react";
-import useThemeContext from '@theme/hooks/useThemeContext';
+// import useThemeContext from '@theme/hooks/useThemeContext';
 
 export function Sandbox(_props: { stacked?: boolean; label?: string; project: SandpackProps } & SandpackProps) {
-  const {isDarkTheme} = useThemeContext();
+  // const {isDarkTheme} = useThemeContext();
   const {project, label, ...props} = _props;
+  const isDarkTheme = false;
 
   const options = {editorHeight: 542, ...project.options, ...props.options};
 
