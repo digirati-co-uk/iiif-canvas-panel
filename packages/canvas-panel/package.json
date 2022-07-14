@@ -8,8 +8,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "node ./esbuild.mjs && yarn run build-types",
-    "watch": "node ./esbuild.mjs --watch",
+    "build": "node vite/build.mjs && yarn run build-types",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "prepublishOnly": "NODE_ENV=production yarn build"
   },
