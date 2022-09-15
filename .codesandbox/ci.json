@@ -1,5 +1,5 @@
 {
-  "installCommand": "yarn custom-install",
+  "installCommand": "custom-install",
   "packages": ["packages/canvas-panel"],
   "sandboxes": [
     "new",
