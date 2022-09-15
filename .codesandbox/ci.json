@@ -1,5 +1,6 @@
 {
   "installCommand": "custom-install",
+  "buildCommand": false,
   "packages": ["packages/canvas-panel"],
   "sandboxes": [
     "new",
