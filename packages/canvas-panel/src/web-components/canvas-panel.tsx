@@ -172,6 +172,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           return prevCallback ? prevCallback : callback;
         });
       },
+
       disableContentStateSelection() {
         setContentStateCallback(undefined);
         setMode('explore');

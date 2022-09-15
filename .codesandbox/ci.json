@@ -1,0 +1,8 @@
+{
+  "packages": ["packages/canvas-panel"],
+  "sandboxes": [
+    "new",
+    "canvas-panel-web-component-demo-image-service-forked-174cgb"
+  ],
+  "node": "16"
+}
