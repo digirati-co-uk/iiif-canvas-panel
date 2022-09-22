@@ -11,6 +11,12 @@ const preactCompatPlugin = {
       return {path: preactCompat};
     });
 
+    const preactRuntime = path.join(process.cwd(), "node_modules", "preact", "jsx-runtime", "dist", "jsxRuntime.module.js");
+
+    build.onResolve({filter: /^(react\/jsx-runtime)$/}, args => {
+      return {path: preactRuntime};
+    });
+
     const preact = path.join(process.cwd(), "node_modules", "preact", "dist", "preact.module.js");
 
     build.onResolve({filter: /^(preact)$/}, args => {

@@ -15,7 +15,7 @@ type ImageServiceApi = {
   //
 };
 
-type ImageServiceProps = GenericAtlasComponent<
+export type ImageServiceProps = GenericAtlasComponent<
   {
     src: string;
     nested?: string;
@@ -37,6 +37,7 @@ export function ImageService(props: ImageServiceProps) {
     className,
     inlineStyles,
     inlineStyleSheet,
+    viewport,
     vault,
     useProp,
     interactive,
@@ -46,7 +47,6 @@ export function ImageService(props: ImageServiceProps) {
 
   const [src] = useProp('src');
   const [loadImageService, status] = useLoadImageService();
-  const aspectRatio = undefined;
 
   const statusOf = status[src];
   const image = useMemo(() => {
@@ -86,6 +86,12 @@ export function ImageService(props: ImageServiceProps) {
     return null;
   }
 
+  const aspectRatio = !viewport
+    ? atlasProps.homePosition
+      ? atlasProps.homePosition.width / atlasProps.homePosition.height
+      : image.width / image.height
+    : undefined;
+
   return (
     <ErrorBoundary
       fallbackRender={(props: any) => (
@@ -119,13 +125,15 @@ export function ImageService(props: ImageServiceProps) {
   );
 }
 
-register(ImageService, 'image-service', [], {
-  shadow: true,
-  onConstruct(instance: any) {
-    instance._props = {
-      __registerPublicApi: (api: any) => {
-        Object.assign(instance, api(instance));
-      },
-    };
-  },
-} as any);
+if (typeof window !== 'undefined') {
+  register(ImageService, 'image-service', [], {
+    shadow: true,
+    onConstruct(instance: any) {
+      instance._props = {
+        __registerPublicApi: (api: any) => {
+          Object.assign(instance, api(instance));
+        },
+      };
+    },
+  } as any);
+}

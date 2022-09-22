@@ -18,20 +18,21 @@ function AtlasViewer({ children, ...props }: any) {
         className={className}
         {...atlasProps}
       >
-        {isReady ?
-        <slot>{children}</slot> : null}
+        {isReady ? <slot>{children}</slot> : null}
       </NestedAtlas>
     </VaultProvider>
   );
 }
 
-register(AtlasViewer, 'atlas-viewer', [], {
-  shadow: true,
-  onConstruct(instance: any) {
-    instance._props = {
-      __registerPublicApi: (api: any) => {
-        Object.assign(instance, api(instance));
-      },
-    };
-  },
-} as any);
+if (typeof window !== 'undefined') {
+  register(AtlasViewer, 'atlas-viewer', [], {
+    shadow: true,
+    onConstruct(instance: any) {
+      instance._props = {
+        __registerPublicApi: (api: any) => {
+          Object.assign(instance, api(instance));
+        },
+      };
+    },
+  } as any);
+}

@@ -23,7 +23,9 @@ export function VirtualAnnotationProvider({ children }: { children: any }) {
   const [fullPage, { addAnnotation, removeAnnotation }] = useVirtualAnnotationPage();
 
   return (
-    <VirtualAnnotationPageContext.Provider value={useMemo(() => ({ fullPage, addAnnotation, removeAnnotation }), [fullPage])}>
+    <VirtualAnnotationPageContext.Provider
+      value={useMemo(() => ({ fullPage, addAnnotation, removeAnnotation } as any), [fullPage])}
+    >
       {children}
     </VirtualAnnotationPageContext.Provider>
   );

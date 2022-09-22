@@ -1,18 +1,21 @@
 import { h } from 'preact';
-import { FC, useCallback, useEffect, useLayoutEffect } from 'preact/compat';
+import { FC, useCallback, useEffect, useLayoutEffect, useRef } from 'preact/compat';
 import register from '../library/preact-custom-element';
 import { CanvasContext, VaultProvider, ChoiceDescription } from 'react-iiif-vault';
 import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-public-api';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { ManifestLoader } from '../components/manifest-loader';
 import { parseBool, parseChoices, parseContentStateParameter } from '../helpers/parse-attributes';
-import { parseContentState } from '../helpers/content-state/content-state';
+import { parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { useState } from 'react';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
+import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
+import { DrawBox, easingFunctions, Projection } from '@atlas-viewer/atlas';
+import { ContentState } from '@iiif/vault-helpers';
 
 export type CanvasPanelProps = GenericAtlasComponent<
   {
@@ -41,6 +44,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     virtualSizes,
     viewport,
     debug,
+    mode,
     interactive,
     x,
     y,
@@ -49,7 +53,10 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     inlineStyleSheet,
     useProp,
     useRegisterWebComponentApi,
+    setMode,
   } = useGenericAtlasProps(props);
+  const [contentStateCallback, setContentStateCallback] = useState<ContentStateCallback | undefined>(undefined);
+  const contentStateStack = useRef<ContentStateEvent[]>([]);
   const [error, setError] = useState<Error | null>();
   const [unknownContentState, , setParsedContentState] = useProp('iiifContent', {
     parse: parseContentStateParameter,
@@ -76,6 +83,31 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       webComponent.current.dispatchEvent(new CustomEvent('canvas-change', { detail: { canvas } }));
     }
   }, []);
+
+  const onDrawBox = useCallback(
+    (e: Projection) => {
+      if (contentStateCallback) {
+        const contentState: ContentState = {
+          id: `${canvasId}#xywh=${e.x},${e.y},${e.width},${e.height}`,
+          type: 'Canvas',
+          partOf: [{ id: manifestId, type: 'Manifest' }],
+        };
+        const event: ContentStateEvent = {
+          contentState,
+          normalisedContentState: normaliseContentState(contentState),
+          encodedContentState: serialiseContentState(contentState),
+          selection: {
+            type: 'BoxSelector',
+            spatial: e,
+          },
+        };
+
+        contentStateStack.current.push(event);
+        contentStateCallback(event);
+      }
+    },
+    [contentStateCallback, manifestId, canvasId]
+  );
 
   useRegisterWebComponentApi((htmlComponent: HTMLElement) => {
     return {
@@ -118,6 +150,33 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
 
       disableText() {
         htmlComponent.setAttribute('text-enabled', 'true');
+      },
+
+      easingFunctions() {
+        return easingFunctions;
+      },
+
+      getContentStateStack() {
+        return contentStateStack.current;
+      },
+
+      transition(callback: (transitionManager: any) => void) {
+        if (runtime.current?.transitionManager) {
+          callback(runtime.current?.transitionManager);
+        }
+      },
+
+      enableContentStateSelection(callback: ContentStateCallback) {
+        setMode('sketch');
+        setContentStateCallback((prevCallback: ContentStateCallback | undefined) => {
+          return prevCallback ? prevCallback : callback;
+        });
+      },
+
+      disableContentStateSelection() {
+        setContentStateCallback(undefined);
+        setMode('explore');
+        contentStateStack.current = [];
       },
 
       setContentStateFromText(text: string) {
@@ -202,10 +261,12 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         highlightCssClass={highlightCssClass}
         canvasId={canvasId}
         displayOptions={atlasProps}
+        mode={mode}
         x={x}
         y={y}
       >
         <slot name="atlas" />
+        {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}
       </ViewCanvas>
       {/* Default slot. */}
       <slot />
@@ -225,40 +286,44 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   );
 };
 
-register(
-  CanvasPanel,
-  'canvas-panel',
-  [
-    'manifest-id',
-    'canvas-id',
-    'width',
-    'height',
-    'follow-annotations',
-    'target',
-    'region',
-    'highlight',
-    'highlight-css-class',
-    'text-selection-enabled',
-    'text-enabled',
-    'preferred-formats',
-    'atlas-mode',
-    'style-id',
-    'debug',
-    'preset',
-    'responsive',
-    'interactive',
-    'iiif-content',
-    'class',
-    'choice-id',
-  ],
-  {
-    shadow: true,
-    onConstruct(instance: any) {
-      instance._props = {
-        __registerPublicApi: (api: any) => {
-          Object.assign(instance, api(instance));
-        },
-      };
-    },
-  } as any
-);
+if (typeof window !== 'undefined') {
+  register(
+    CanvasPanel,
+    'canvas-panel',
+    [
+      'manifest-id',
+      'canvas-id',
+      'width',
+      'height',
+      'follow-annotations',
+      'target',
+      'region',
+      'highlight',
+      'highlight-css-class',
+      'text-selection-enabled',
+      'disable-keyboard-navigation',
+      'click-to-enable-zoom',
+      'text-enabled',
+      'preferred-formats',
+      'atlas-mode',
+      'style-id',
+      'debug',
+      'preset',
+      'responsive',
+      'interactive',
+      'iiif-content',
+      'class',
+      'choice-id',
+    ],
+    {
+      shadow: true,
+      onConstruct(instance: any) {
+        instance._props = {
+          __registerPublicApi: (api: any) => {
+            Object.assign(instance, api(instance));
+          },
+        };
+      },
+    } as any
+  );
+}

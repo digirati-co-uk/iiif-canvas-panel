@@ -2,7 +2,7 @@ import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
 import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
 import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
-import { BoxStyle, Runtime, AtlasProps, Preset } from '@atlas-viewer/atlas';
+import { BoxStyle, Runtime, AtlasProps, Preset, easingFunctions } from '@atlas-viewer/atlas';
 import { useSyncedState } from './use-synced-state';
 import {
   parseBool,
@@ -63,6 +63,17 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     parse: parseBool,
     defaultValue: true,
   });
+  const [clickToEnableZoom] = useSyncedState(props.clickToEnableZoom || props.clickToEnableZoom, {
+    parse: parseBool,
+    defaultValue: true,
+  });
+  const [disableKeyboardNavigation] = useSyncedState(
+    props.disableKeyboardNavigation || internalConfig.disableKeyboardNavigation,
+    {
+      parse: parseBool,
+      defaultValue: false,
+    }
+  );
   const [debug] = useSyncedState(props.debug || internalConfig.debug, { parse: parseBool });
   const [enableNavigator] = useSyncedState(props.enableNavigator || internalConfig.enableNavigator, {
     parse: parseBool,
@@ -89,7 +100,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       parse: parseCSV,
     }
   );
-  const [mode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
+  const [mode, setMode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
   const [inlineStyles, setInlineStyles] = useState('');
   const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
   const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
@@ -111,6 +122,54 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
   useRegisterWebComponentApi((htmlComponent) => {
     webComponent.current = htmlComponent;
+
+    let zoomPreventCallback: ((e: Event) => void) | undefined;
+    let resetFunc: (() => void) | undefined;
+    let zoomPrevented = false;
+
+    if (clickToEnableZoom) {
+      zoomPreventCallback = (e: Event) => {
+        e.stopPropagation();
+      };
+
+      const registerFunc = () => {
+        if (zoomPreventCallback && !zoomPrevented) {
+          zoomPrevented = true;
+          htmlComponent.addEventListener('wheel', zoomPreventCallback, { capture: true });
+          htmlComponent.addEventListener('touchstart', zoomPreventCallback, { capture: true });
+          console.log('added listeners');
+        }
+      };
+
+      resetFunc = () => {
+        if (zoomPreventCallback && zoomPrevented) {
+          zoomPrevented = false;
+          htmlComponent.removeEventListener('wheel', zoomPreventCallback, { capture: true });
+          htmlComponent.removeEventListener('touchstart', zoomPreventCallback, { capture: true });
+          console.log('removed listeners');
+        }
+      };
+
+      registerFunc();
+
+      document.addEventListener('click', (e) => {
+        if (document.activeElement !== htmlComponent) {
+          registerFunc();
+        }
+      });
+    }
+
+    htmlComponent.addEventListener('click', (e) => {
+      if (resetFunc) {
+        resetFunc();
+      }
+
+      const targets = e.composedPath();
+      const target = targets[0] as HTMLElement;
+      if (target && htmlComponent !== document.activeElement) {
+        target.focus();
+      }
+    });
 
     const mediaQueue = Object.keys(mediaEventQueue.current);
     if (mediaQueue.length) {
@@ -151,13 +210,19 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
       zoomIn(point?: { x: number; y: number }) {
         if (runtime.current) {
-          runtime.current.world.zoomIn(point);
+          runtime.current.world.trigger('zoom-to', {
+            point,
+            factor: 1 / 0.75,
+          });
         }
       },
 
       zoomOut(point?: { x: number; y: number }) {
         if (runtime.current) {
-          runtime.current.world.zoomOut(point);
+          runtime.current.world.trigger('zoom-to', {
+            point,
+            factor: 0.75,
+          });
         }
       },
 
@@ -302,8 +367,79 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     }
   }, [isReady, styleId]);
 
+  useLayoutEffect(() => {
+    if (webComponent.current && !disableKeyboardNavigation) {
+      const keydownHandler = (e: KeyboardEvent) => {
+        if (runtime.current && runtime.current.transitionManager) {
+          const tm = runtime.current.transitionManager;
+          const points = !tm.pendingTransition.done ? tm.pendingTransition.to : runtime.current.target;
+          const moveBy = Math.min(points[3] - points[1], points[4] - points[2]) * 0.1;
+          let newTarget;
+
+          switch (e.key) {
+            case '=': {
+              runtime.current.world?.zoomIn();
+              return;
+            }
+            case '-': {
+              runtime.current.world?.zoomOut();
+              return;
+            }
+            case '0': {
+              runtime.current.world?.goHome();
+              return;
+            }
+            case 'ArrowRight': {
+              e.preventDefault();
+              newTarget = points.slice(0);
+              newTarget[1] = newTarget[1] + moveBy;
+              newTarget[3] = newTarget[3] + moveBy;
+              break;
+            }
+            case 'ArrowLeft': {
+              e.preventDefault();
+              newTarget = points.slice(0);
+              newTarget[1] = newTarget[1] - moveBy;
+              newTarget[3] = newTarget[3] - moveBy;
+              break;
+            }
+            case 'ArrowUp': {
+              e.preventDefault();
+              newTarget = points.slice(0);
+              newTarget[2] = newTarget[2] - moveBy;
+              newTarget[4] = newTarget[4] - moveBy;
+              break;
+            }
+            case 'ArrowDown': {
+              e.preventDefault();
+              newTarget = points.slice(0);
+              newTarget[2] = newTarget[2] + moveBy;
+              newTarget[4] = newTarget[4] + moveBy;
+              break;
+            }
+          }
+
+          if (newTarget) {
+            tm.applyTransition(newTarget, {
+              duration: 500,
+              easing: easingFunctions.easeOutExpo,
+              constrain: true,
+            });
+          }
+        }
+      };
+      const wc = webComponent.current;
+      wc.addEventListener('keydown', keydownHandler);
+      return () => {
+        wc.removeEventListener('keydown', keydownHandler);
+      };
+    }
+    return () => void 0;
+  }, [disableKeyboardNavigation]);
+
   const atlasProps = useMemo(() => {
     return {
+      children: null,
       nested,
       responsive,
       viewport,
@@ -316,7 +452,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       },
       homePosition:
         target && target.selector && target.selector.type === 'BoxSelector' ? target.selector.spatial : undefined,
-      mode,
       renderPreset:
         render === 'static'
           ? [
@@ -335,7 +470,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       width: width ? width : undefined,
       height: height ? height : responsive ? undefined : 512,
     } as AtlasProps & { nested?: boolean };
-  }, [responsive, viewport, target, mode, render, enableNavigator, internalConfig]);
+  }, [responsive, viewport, target, render, enableNavigator, internalConfig]);
 
   return {
     atlasProps,
@@ -351,6 +486,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     render,
     interactive,
     mode,
+    setMode,
     virtualSizes,
     styleId,
     responsive,
