@@ -1,8 +1,8 @@
 ---
-sidebar_position: 12
+sidebar_position: 7
 ---
 
-# Highlights - showing boxes on the Canvas
+# Highlighting Regions
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 import highlight1 from '@site/sandboxes/12-boxes/highlight1.csb/_load';

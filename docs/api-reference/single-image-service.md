@@ -1,8 +1,9 @@
 ---
 sidebar_position: 2
+title: <image-service />
 ---
 
-# Single Image Service
+# Image service
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 

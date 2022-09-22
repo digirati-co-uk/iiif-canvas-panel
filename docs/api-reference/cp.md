@@ -1,8 +1,9 @@
 ---
 sidebar_position: 3
+title: <canvas-panel />
 ---
 
-# Canvas Panel
+# Canvas panel
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 

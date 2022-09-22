@@ -1,11 +1,11 @@
 ---
-sidebar_position: 21
+sidebar_position: 1
 ---
 
 import presetSandbox from '@site/sandboxes/custom-preset.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
-# Canvas Panel and Image Service attributes
+# Web Component Attributes
 
 ## Properties common to Canvas Panel and Image Service
 

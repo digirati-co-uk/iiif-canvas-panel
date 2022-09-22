@@ -2,13 +2,14 @@
 sidebar_position: 2
 ---
 
-# Responsive Images and rendering modes
+# Rendering modes
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 import respPreset1 from '@site/sandboxes/02-responsive/custom-preset-1.csb/_load';
 import respPreset2 from '@site/sandboxes/02-responsive/custom-preset-2.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
+## Responsive Images
 
 Using IIIF for [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images) is a natural fit. An image service allows different sizes, and/or different regions to be requested. You can construct standard HTML5 `srcset` and `picture` elements manually using IIIF Image API requests as the image sources.
 
@@ -189,17 +190,17 @@ See [Styling](styling) for more guidance on using canvas panel in different layo
 For more details on the available attributes, see [API](./json-api).
 
 
-## How Canvas Panel chooses which image requests to make 
+## Rendering strategies
 
 Canvas panel has 5 internal variables, with the following defaults:
 
 ```json
 {
-  renderSmallestFallback: true,
-  renderLayers: 2,
-  minSize: 256,
-  maxImageSize: 1024,
-  quality: 1,
+  "renderSmallestFallback": true,
+  "renderLayers": 2,
+  "minSize": 256,
+  "maxImageSize": 1024,
+  "quality": 1,
 }
 ```
 

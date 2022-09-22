@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Render a canvas
+# Render any Canvas
 
 import { GitHubDiscussion } from "@site/GitHubDiscussion.js";
 import renderCanvasContentState from '@site/sandboxes/01-show-canvas/canvas-content-state.csb/_load';

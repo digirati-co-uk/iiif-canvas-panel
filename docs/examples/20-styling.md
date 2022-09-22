@@ -2,6 +2,8 @@
 sidebar_position: 20
 ---
 
+# Styling
+
 import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
@@ -13,8 +15,6 @@ A discussion of styling quirks
 
 You can also style image services using their image service ID (no canvas ID)
  -->
-
-# Styling inside Canvas Panel
 
 There are 3 types of object you can type in 
 

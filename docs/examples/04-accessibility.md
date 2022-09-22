@@ -74,19 +74,52 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 
 https://iiif.wellcomecollection.org/image/b22383268_0016.jp2/full/max/0/bitonal.jpg
 
-Also talk about keyboard navigation
-
  -->
 
 ## Keyboard navigation
 
-TBC 
+Canvas Panel can be controlled via the keyboard. Once it has focus (through standard tab order):
 
+ - The arrow keys Move the viewport.
+ - The + and - keys zoom in and out (without holding _Shift_)
+ - The 0 key returns the viewport to its "home" start position. 
+ 
+ 
+ <p>
+    <canvas-panel
+        click-to-enable-zoom="true"
+        canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+        manifest-id="https://digirati-co-uk.github.io/wunder.json">
+    </canvas-panel>
+</p>
 ## Server-side Canvas Panel
 
 Canvas Panel and its underlying libraries can also be used on the server, to render simple HTML representations of IIIF resources.
 
 This is covered in [Server-side rendering](../../docs/applications/server-side).
+
+
+## Capturing user control
+
+
+CP is just a web component. You can style it, add event listeners... anything you can do with a div. You can attach a click event listener to it, handle it and call CP's zoom action. A double click on Canvas Panel to zoom should be a standard browser-provided event handler on the element, followed by an API call to zoom.
+
+The internal event system is different, e.g., clicking on an annotation within CP. But for externally facing events, we think developers should use the standard web event model.
+
+There are many kinds of interaction that do not require CP to expose a specific event because they are just standard web events - but we'll make a few more demos for common scenarios.
+
+## Avoiding capture
+
+For mousewheel events, when CP has focus it will capture mousewheel events. If you click off it, then it won't capture mousewheel events and allows the user to scroll the page.
+
+TODO: Make a demo equiv of:
+ 
+https://deploy-preview-186--iiif-canvas-panel-demos.netlify.app/ 
+
+We also need to demonstrate techniques for mobile/touch - both the simple viewer and reacting to the user pages need more worked examples.
+```
+click-to-enable-zoom="true"
+```
 
 
 <GitHubDiscussion ghid="1" />
