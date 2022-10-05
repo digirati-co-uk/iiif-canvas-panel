@@ -314,6 +314,8 @@ if (typeof window !== 'undefined') {
       'iiif-content',
       'class',
       'choice-id',
+      'move-events',
+      'granular-move-events',
     ],
     {
       shadow: true,

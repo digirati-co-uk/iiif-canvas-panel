@@ -15,6 +15,8 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   preset?: string;
   stylesheet?: string;
   responsive?: boolean;
+  moveEvents?: boolean;
+  granularMoveEvents?: boolean;
   disableKeyboardNavigation?: boolean;
   clickToEnableZoom?: boolean;
   viewport?: boolean;

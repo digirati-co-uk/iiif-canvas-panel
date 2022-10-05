@@ -71,8 +71,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
 
   useVaultSelector((state) => (ctx.canvas ? state.iiif.entities.Canvas[ctx.canvas] : null), []);
 
-  const displayOptions = useMemo(() => {
-    const { width, height, homePosition: _, ...rest } = props.displayOptions;
+  const [displayOptions, containerProps] = useMemo(() => {
+    const { width, height, homePosition: _, containerProps, ...rest } = props.displayOptions;
     const homePosition =
       props.displayOptions.homePosition && canvas
         ? targetToPixels(props.displayOptions.homePosition as any, canvas)
@@ -90,7 +90,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
       (rest as any).height = height;
     }
 
-    return rest as typeof props.displayOptions;
+    return [rest as typeof props.displayOptions, containerProps];
   }, [props.displayOptions, canvas]);
 
   const onKeyDownContainer = (e: any) => {
@@ -115,6 +115,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
         aspectRatio={aspectRatio}
         containerProps={{
           onKeyDown: onKeyDownContainer,
+          ...(containerProps || {}),
         }}
         className={props.className}
         {...displayOptions}

@@ -25,6 +25,17 @@
 
 <button id="content-state">Content state</button>
 <button id="transition">Transition</button>
+<div>Zoom: <span id="zoom"></span>
+
+  <button id="zoomIn">Zoom in</button>
+  <button id="zoomOut">Zoom out</button>
+  <button id="home">Home</button>
+
+  <div>
+    <button id="enable-move">enable move</button>
+    move: <span id="move"></span>
+  </div>
+</div>
 <pre id="selection"></pre>
 
 
@@ -32,9 +43,54 @@
   import { AnnotationDisplay } from './src/index.ts';
   const container = document.getElementById('container');
   const cp = document.createElement("canvas-panel");
+  const zoom = document.getElementById("zoom");
+  const zoomIn = document.getElementById("zoomIn");
+  const zoomOut = document.getElementById("zoomOut");
+  const home = document.getElementById("home");
+  const move = document.getElementById("move");
+  const enableMove = document.getElementById("enable-move");
+
 
   // cp.setAttribute('disable-keyboard-navigation', "true");
   cp.setAttribute('click-to-enable-zoom', "true");
+
+  enableMove.addEventListener('click', () => {
+    if (cp.getAttribute('move-events')) {
+      cp.removeAttribute('move-events');
+    } else {
+      cp.setAttribute('move-events', 'true');
+    }
+  });
+
+  zoomIn.addEventListener('click', () => {
+    cp.zoomIn();
+  })
+  zoomOut.addEventListener('click', () => {
+    cp.zoomOut();
+  })
+  home.addEventListener('click', () => {
+    cp.goHome();
+  })
+
+  cp.addEventListener('move', ev => {
+    move.innerText = `x: ${ev.detail.x}, y: ${ev.detail.y}, w: ${ev.detail.width}, h: ${ev.detail.height}`
+  })
+
+  cp.addEventListener('zoom', ev => {
+    console.log('zoom', ev.detail);
+    zoom.innerText = ev.detail.scaleFactor;
+
+    if (ev.detail.isMax) {
+      zoomIn.setAttribute('disabled', 'disabled');
+    } else {
+      zoomIn.removeAttribute('disabled');
+    }
+    if (ev.detail.isMin) {
+      zoomOut.setAttribute('disabled', 'disabled');
+    } else {
+      zoomOut.removeAttribute('disabled');
+    }
+  })
 
   cp.addEventListener('canvas-change', (ev) => {
     console.log('change-canvas', ev.detail)
@@ -92,8 +148,8 @@
 
 
 
-    cp.withAtlas(runtime => {
-      runtime.worldToViewer()
+    cp.withAtlas(rt => {
+      zoom.innerText = rt._lastGoodScale;
     })
     //document.getElementById("output").innerText = msg;
   }

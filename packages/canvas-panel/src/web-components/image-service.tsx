@@ -126,14 +126,45 @@ export function ImageService(props: ImageServiceProps) {
 }
 
 if (typeof window !== 'undefined') {
-  register(ImageService, 'image-service', [], {
-    shadow: true,
-    onConstruct(instance: any) {
-      instance._props = {
-        __registerPublicApi: (api: any) => {
-          Object.assign(instance, api(instance));
-        },
-      };
-    },
-  } as any);
+  register(
+    ImageService,
+    'image-service',
+    [
+      'src',
+      'nested',
+      'x',
+      'y',
+      'width',
+      'height',
+      'target',
+      'region',
+      'highlight',
+      'highlight-css-class',
+      'text-selection-enabled',
+      'disable-keyboard-navigation',
+      'click-to-enable-zoom',
+      'preferred-formats',
+      'atlas-mode',
+      'style-id',
+      'debug',
+      'preset',
+      'responsive',
+      'interactive',
+      'iiif-content',
+      'class',
+      'choice-id',
+      'move-events',
+      'granular-move-events',
+    ],
+    {
+      shadow: true,
+      onConstruct(instance: any) {
+        instance._props = {
+          __registerPublicApi: (api: any) => {
+            Object.assign(instance, api(instance));
+          },
+        };
+      },
+    } as any
+  );
 }
