@@ -20,6 +20,7 @@ export const Box = createAtlasWrapper<
     backgroundColor?: string;
     className?: string;
     href?: string;
+    html?: boolean;
     hrefTarget?: string;
     title?: string;
     border?: string;

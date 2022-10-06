@@ -65,12 +65,3 @@ The above example encodes the region of the canvas, and the manifest that canvas
 ## Flexbox and styling
 
 <Sandbox project={flexbox} />
-
-## Server-side Canvas Panel
-
-Canvas Panel and its underlying libraries can also be used on the server, to render simple HTML representations of IIIF resources.
-
-This is covered in [Server-side rendering](../../docs/applications/server-side).
-
-<GitHubDiscussion ghid="1" />
-

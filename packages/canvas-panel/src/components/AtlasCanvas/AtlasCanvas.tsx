@@ -4,7 +4,6 @@ import {
   useResourceEvents,
   useRenderingStrategy,
   useThumbnail,
-  ParsedSelector,
   StrategyActions,
   useVault,
   ChoiceDescription,
@@ -19,11 +18,13 @@ import { Debug } from '../../hooks/debug';
 import { DrawBox } from '@atlas-viewer/atlas';
 import { RenderImage } from '../RenderImage/RenderImage';
 import { useVirtualAnnotationPageContext } from '../../hooks/use-virtual-annotation-page-context';
+import { RenderAudio } from '../RenderAudio/RenderAudio';
+import { RenderVideo } from '../RenderVideo/RenderVideo';
 
 export const AtlasCanvas: FC<{
   x?: number;
   y?: number;
-  highlight?: ParsedSelector | undefined;
+  highlight?: any | undefined;
   virtualSizes: SizeParameter[];
   highlightCssClass?: string;
   debug?: boolean;
@@ -53,7 +54,7 @@ export const AtlasCanvas: FC<{
   const vault = useVault();
   const helper = useMemo(() => createStylesHelper(vault as any), [vault]);
   const [strategy, actions] = useRenderingStrategy({
-    strategies: ['images'],
+    strategies: ['images', 'media'],
     defaultChoices: defaultChoices?.map(({ id }) => id),
   });
   const choice = strategy.type === 'images' ? strategy.choice : undefined;
@@ -88,6 +89,26 @@ export const AtlasCanvas: FC<{
     return null;
   }
 
+  if (strategy.type === 'media') {
+    if (strategy.media.type !== 'Sound' && strategy.media.type !== 'Video') {
+      throw new Error('Unknown media type');
+    }
+
+    return (
+      <WorldObject
+        key={strategy.type}
+        height={canvas.height || 1000}
+        width={canvas.width || 1000}
+        x={x}
+        y={y}
+        {...elementProps}
+      >
+        {strategy.media.type === 'Sound' ? <RenderAudio media={strategy.media} /> : null}
+        {strategy.media.type === 'Video' ? <RenderVideo media={strategy.media} /> : null}
+      </WorldObject>
+    );
+  }
+
   if (strategy.type === 'unknown') {
     if (thumbnail && thumbnail.type === 'fixed') {
       return (
@@ -97,10 +118,10 @@ export const AtlasCanvas: FC<{
             target={{ x: 0, y: 0, width: canvas.width, height: canvas.height }}
             display={
               thumbnail.width && thumbnail.height
-                ? {
+                ? ({
                     width: thumbnail.width,
                     height: thumbnail.height,
-                  }
+                  } as any)
                 : undefined
             }
           />
@@ -157,7 +178,7 @@ export const AtlasCanvas: FC<{
                 key={image.id}
                 image={image}
                 id={image.id}
-                thumbnail={idx === 0 ? thumbnail : undefined}
+                thumbnail={idx === 0 ? (thumbnail as any) : undefined}
                 virtualSizes={virtualSizes}
                 annotations={annotations}
               />

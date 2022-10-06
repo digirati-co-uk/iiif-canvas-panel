@@ -77,37 +77,34 @@ This is a more realistic use of Canvas Panel's choice-handling capability:
 
 <Sandbox project={choicesReactSandbox} />
 
-:::danger
 
 ## Additional choice helper API
 
-The following section is still under development
-
-:::
-
-You might want to analyse the canvas even earlier, to decide what UI to render. Canvas Panel provides some helpers for this:
+There is an additional helper that can be used to extract choices.
 
 ```js
-vault.loadManifest('http://example.org/manifest.json').then(manifestRef => {
-   // At this point I know the canvas is loaded.
-   // assume we are showing a particular canvas:
-   const canvas = vault.fromRef({ id: 'http://example.org/manifest/canvas-1.json', type: 'Canvas' });
+import { createPaintingAnnotationsHelper } from '@iiif/vault-helpers';
 
-  if (vault.containsChoice(canvas)) {
-    const choiceSets = vault.extractChoiceSets(canvas); // Array<{ annotation: {}, choices: Choice[] }>
-    // Render UI for choices.
-    // When I'm ready, I can insert a web component onto the page:
-    // <canvas-panel canvas-id=" ... " choice-id=" ... " />
-  } else {
-    // Render normal component
-    // <canvas-panel canvas-id=" ... " ... />
-  }
-});
+const helper = createPaintingAnnotationsHelper(element.vault);
+const choice = helper.extractChoices("http://example.org/manifest/canvas-1.json");
+// Choice looks like this: 
+// {
+//   type: 'single-choice';
+//   label?: InternationalString;
+//   items: Array<{
+//     id: string;
+//     label?: InternationalString;
+//     selected?: true;
+//   }>
+// }
 ```
 
-This gives complete flexibility over choices at the data level, and can happen before anything is rendered to the user.
+You might want to analyse the canvas even earlier, to decide what UI to render. You need to ensure that the Manifest
+is loaded before you extract the choices for your canvas.
 
-Since the `choice-id` attribute also drives this, I could do the following to manually set the choice ID.
+Using this helper gives complete flexibility over choices at the data level, and can happen before anything is rendered to the user.
+
+Since the `choice-id` attribute also drives the users choice, I could do the following to manually set the choice ID.
 
 ```js
 element.setAttribute('choice-id', 'http://example.org/choice-1')

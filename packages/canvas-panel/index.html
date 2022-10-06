@@ -1,58 +1,90 @@
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
   <title>Document</title>
   <style>
       canvas-panel::part(my-class) {
           background: rgba(50, 0, 200, 0.4);
       }
+
       canvas-panel::part(my-link-class) {
           border: 2px solid lightgreen;
       }
+
       html {
           height: 200vh;
       }
   </style>
 </head>
 <body>
-<script type="module" src="./src/index.ts"></script>
+<script type='module' src='./src/index.ts'></script>
 
 
-<div id="container"></div>
+<div id='container'></div>
 
-<button id="content-state">Content state</button>
-<button id="transition">Transition</button>
-<div>Zoom: <span id="zoom"></span>
+<button id='content-state'>Content state</button>
+<button id='transition'>Transition</button>
+<div>Zoom: <span id='zoom'></span>
 
-  <button id="zoomIn">Zoom in</button>
-  <button id="zoomOut">Zoom out</button>
-  <button id="home">Home</button>
+  <button id='zoomIn'>Zoom in</button>
+  <button id='zoomOut'>Zoom out</button>
+  <button id='home'>Home</button>
+
+  <div id='media' style='display: none'>
+    <div style='display: flex; align-items: center;'>
+      <button id="playpause">play</button>
+<!--      <div style='padding: 0px 20px;'>0:00</div>-->
+<!--      <div style='flex: 1 1 0px; height: 6px; display: flex; position: relative; padding: 15px 0px;'>-->
+<!--        <div-->
+<!--          id='progress'-->
+<!--          style='height: 6px; pointer-events: none; position: absolute; top: 13px; left: 0px; right: 0px; border-radius: 3px; transition: width 200ms ease 0s; background: rgb(249, 249, 249);'></div>-->
+<!--        <div-->
+<!--          style='position: absolute; top: 13px; left: 0px; height: 6px; border-radius: 3px; background: cornflowerblue; width: 0%; pointer-events: none;'></div>-->
+<!--      </div>-->
+<!--      <div style='padding: 0px 20px;'>33:05</div>-->
+<!--      <div style='display: flex;'><input type='range' id='audio-slider' role='slider' min='0' max='100' value='100'>-->
+<!--        <button>Unmute</button>-->
+<!--      </div>-->
+    </div>
+  </div>
 
   <div>
-    <button id="enable-move">enable move</button>
-    move: <span id="move"></span>
+    <button id='enable-move'>enable move</button>
+    move: <span id='move'></span>
   </div>
 </div>
-<pre id="selection"></pre>
+<pre id='selection'></pre>
 
 
-<script type="module">
+<script type='module'>
   import { AnnotationDisplay } from './src/index.ts';
+
   const container = document.getElementById('container');
-  const cp = document.createElement("canvas-panel");
-  const zoom = document.getElementById("zoom");
-  const zoomIn = document.getElementById("zoomIn");
-  const zoomOut = document.getElementById("zoomOut");
-  const home = document.getElementById("home");
-  const move = document.getElementById("move");
-  const enableMove = document.getElementById("enable-move");
+  const cp = document.createElement('canvas-panel');
+  const zoom = document.getElementById('zoom');
+  const zoomIn = document.getElementById('zoomIn');
+  const zoomOut = document.getElementById('zoomOut');
+  const home = document.getElementById('home');
+  const move = document.getElementById('move');
+  const enableMove = document.getElementById('enable-move');
+  const play = document.getElementById('playpause');
+  const mediaControls = document.getElementById('media');
+  const progress = document.getElementById('progress');
+
+
+  const el = document.createElement('canvas-panel');
+  console.log('We are here.')
+  console.log(el.vault);
+  el.whenReady(() => {
+    console.log(el.vault)
+  })
 
 
   // cp.setAttribute('disable-keyboard-navigation', "true");
-  cp.setAttribute('click-to-enable-zoom', "true");
+  cp.setAttribute('click-to-enable-zoom', 'true');
 
   enableMove.addEventListener('click', () => {
     if (cp.getAttribute('move-events')) {
@@ -64,17 +96,17 @@
 
   zoomIn.addEventListener('click', () => {
     cp.zoomIn();
-  })
+  });
   zoomOut.addEventListener('click', () => {
     cp.zoomOut();
-  })
+  });
   home.addEventListener('click', () => {
     cp.goHome();
-  })
+  });
 
   cp.addEventListener('move', ev => {
-    move.innerText = `x: ${ev.detail.x}, y: ${ev.detail.y}, w: ${ev.detail.width}, h: ${ev.detail.height}`
-  })
+    move.innerText = `x: ${ev.detail.x}, y: ${ev.detail.y}, w: ${ev.detail.width}, h: ${ev.detail.height}`;
+  });
 
   cp.addEventListener('zoom', ev => {
     console.log('zoom', ev.detail);
@@ -90,15 +122,17 @@
     } else {
       zoomOut.removeAttribute('disabled');
     }
-  })
+  });
 
   cp.addEventListener('canvas-change', (ev) => {
-    console.log('change-canvas', ev.detail)
-  })
+
+    mediaControls.style.display = 'none';
+    console.log('change-canvas', ev.detail);
+  });
 
   const $cs = document.getElementById('content-state');
-  const $selection =document.getElementById('selection');
-  const $transition =document.getElementById('transition');
+  const $selection = document.getElementById('selection');
+  const $transition = document.getElementById('transition');
 
   $cs.addEventListener('click', () => {
     $cs.disabled = true;
@@ -108,7 +142,7 @@
       cp.disableContentStateSelection();
       $cs.disabled = false;
     });
-  })
+  });
 
   $transition.addEventListener('click', () => {
     cp.transition(tm => {
@@ -121,16 +155,16 @@
         transition: {
           easing: cp.easingFunctions().easeOutExpo,
           duration: 2000,
-        }
+        },
       });
     });
-  })
+  });
 
   async function demo() {
     const manifestWithAnnotations = await cp.vault.loadManifest(
-      "https://digirati-co-uk.github.io/wunder.json"
+      'https://gist.githubusercontent.com/stephenwf/57cc5024144c53d48cc3c07cc522eb94/raw/a87a5d9a8f949bfb11cebd4f011a204abe8a932b/manifest.json',
     );
-    const canvas10 = cp.vault.get(manifestWithAnnotations.items[10]);
+    const canvas10 = cp.vault.get(manifestWithAnnotations.items[1]);
     cp.setManifest(manifestWithAnnotations.id);
     cp.setCanvas(canvas10.id);
     for (const annoPage of canvas10.annotations) {
@@ -138,7 +172,7 @@
       // how do we know these are not inline?
       let embedded = annoPage.items && !cp.vault.requestStatus(annoPage);
       if (!embedded) {
-        console.log(annoPage.id + " needs to be loaded");
+        console.log(annoPage.id + ' needs to be loaded');
         // As a resource external to the manifest, we load annotations specifically, from their id:
         const loadedAnnoPage = await cp.vault.load(annoPage.id);
         // These are now loaded into the Vault
@@ -147,16 +181,37 @@
     }
 
 
+    cp.addEventListener('media-displayed', () => {
+      mediaControls.style.display = 'block';
+      cp.setMediaProgressElement(progress);
+    });
+
+    play.addEventListener('click', () => {
+      if (cp.mediaActions) {
+        cp.mediaActions.playPause();
+      }
+    });
+
+
+    setTimeout(() => {
+      console.log(cp.mediaActions);
+    }, 3000);
+
 
     cp.withAtlas(rt => {
       zoom.innerText = rt._lastGoodScale;
-    })
+    });
+
+    console.log('events helper ->', cp.events)
+    console.log('styles helper ->', cp.styles)
+    console.log('Image service loader ->', cp.imageServiceLoader)
+    console.log('Thumbnail helper ->', cp.thumbnailHelper)
     //document.getElementById("output").innerText = msg;
   }
 
   async function showSomeAnnotations(canvasId, annoPage) {
     if (!cp.annotations) {
-      console.log('ERROR NO ANNOTATIONS!')
+      console.log('ERROR NO ANNOTATIONS!');
     }
 
 
@@ -165,33 +220,33 @@
     const displayAnno = new AnnotationDisplay(w3cAnno);
     // displayAnno.className = "my-class";
     displayAnno.applyStyle({
-      background: "red"
+      background: 'red',
     });
     cp.annotations.add(displayAnno);
 
     const newAnno = {
-      type: "Annotation",
-      motivation: ["tagging"],
-      target: canvasId + "#300,300,500,500"
+      type: 'Annotation',
+      motivation: ['tagging'],
+      target: canvasId + '#300,300,500,500',
     };
-    const annoWithId = await cp.vault.load("fake-id", newAnno);
+    const annoWithId = await cp.vault.load('fake-id', newAnno);
     const displayAnno2 = new AnnotationDisplay(annoWithId);
-    displayAnno2.className = "my-class";
+    displayAnno2.className = 'my-class';
 
-    displayAnno2.addEventListener("onClick", (target, anno) => {
-      console.log("clicked " + anno.id + " on " + JSON.stringify(target));
+    displayAnno2.addEventListener('onClick', (target, anno) => {
+      console.log('clicked ' + anno.id + ' on ' + JSON.stringify(target));
     });
     cp.annotations.add(displayAnno2);
 
     const linkingAnno = {
-      type: "Annotation",
-      motivation: ["linking"],
-      target: canvasId + "#300,900,500,500"
+      type: 'Annotation',
+      motivation: ['linking'],
+      target: canvasId + '#300,900,500,500',
     };
-    const linkingAnnoWithId = await cp.vault.load("fake-id-2", linkingAnno);
+    const linkingAnnoWithId = await cp.vault.load('fake-id-2', linkingAnno);
     const displayAnno3 = new AnnotationDisplay(linkingAnnoWithId);
-    displayAnno3.className = "my-link-class";
-    displayAnno3.href = "https://iiif.io/";
+    displayAnno3.className = 'my-link-class';
+    displayAnno3.href = 'https://iiif.io/';
     cp.annotations.add(displayAnno3);
   }
 

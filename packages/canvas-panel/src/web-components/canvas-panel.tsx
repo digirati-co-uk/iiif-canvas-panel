@@ -320,6 +320,14 @@ if (typeof window !== 'undefined') {
     {
       shadow: true,
       onConstruct(instance: any) {
+        Object.defineProperty(instance, 'vault', {
+          get(): any {
+            return instance._props.vault;
+          },
+          set(v): any {
+            instance._props.vault = v;
+          },
+        });
         instance._props = {
           __registerPublicApi: (api: any) => {
             Object.assign(instance, api(instance));

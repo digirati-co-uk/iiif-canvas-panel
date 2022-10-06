@@ -4,7 +4,7 @@ import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
 import { h } from 'preact';
 
-export function LayoutViewer({ children, ...props }: any) {
+export function LayoutContainer({ children, ...props }: any) {
   const vault = useExistingVault();
   const { setIsReady, atlasProps, isReady, className } = useGenericAtlasProps(props);
 
@@ -15,7 +15,7 @@ export function LayoutViewer({ children, ...props }: any) {
           setIsReady(true);
         }}
         viewport={true}
-        className={className}
+        className={className || ''}
         {...atlasProps}
       >
         {isReady ? <slot>{children}</slot> : null}
@@ -36,6 +36,6 @@ if (typeof window !== 'undefined') {
     },
   } as any;
 
-  register(LayoutViewer, 'atlas-viewer', [], config);
-  register(LayoutViewer, 'layout-viewer', [], config);
+  register(LayoutContainer, 'atlas-viewer', [], config);
+  register(LayoutContainer, 'layout-container', [], config);
 }

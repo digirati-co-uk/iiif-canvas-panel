@@ -92,11 +92,6 @@ Canvas Panel can be controlled via the keyboard. Once it has focus (through stan
         manifest-id="https://digirati-co-uk.github.io/wunder.json">
     </canvas-panel>
 </p>
-## Server-side Canvas Panel
-
-Canvas Panel and its underlying libraries can also be used on the server, to render simple HTML representations of IIIF resources.
-
-This is covered in [Server-side rendering](../../docs/applications/server-side).
 
 
 ## Capturing user control

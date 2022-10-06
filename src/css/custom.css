@@ -40,6 +40,13 @@ canvas-panel {
   max-width: 55em;
 }
 
+.container p:has(canvas-panel) {
+  max-width: unset;
+}
+.container p:has(canvas-panel[preset="responsive"]) {
+  max-width: 55em;
+}
+
 .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.1);
   display: block;
@@ -65,9 +72,4 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   background: #fff;
 }
 
-@media (min-width: 1440px) {
-  .container p {
-    max-width: unset;
-  }
-}
 

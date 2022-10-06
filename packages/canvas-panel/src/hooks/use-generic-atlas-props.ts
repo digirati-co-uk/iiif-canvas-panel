@@ -1,6 +1,6 @@
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
-import { Ref, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
+import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
 import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
 import { BoxStyle, Runtime, AtlasProps, Preset, easingFunctions } from '@atlas-viewer/atlas';
 import { useSyncedState } from './use-synced-state';
@@ -14,12 +14,13 @@ import {
 import { Reference, Selector } from '@iiif/presentation-3';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
-import { createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
+import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
 import { useEffect } from 'react';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
-  const vault = useExistingVault();
+  const existingVault = useExistingVault();
+  const vault = props.vault || existingVault;
   const loader = useImageServiceLoader();
   const mediaEventQueue = useRef<Record<string, any>>({});
   const { isReady, isConfigBlocking, setIsReady, internalConfig } = usePresetConfig<GenericAtlasComponent<T>>(
@@ -32,6 +33,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       }
     }
   );
+  const events = useMemo(() => createEventsHelper(vault as any), [vault]);
   const styles = useMemo(() => createStylesHelper(vault), [vault]);
   const thumbs = useMemo(() => createThumbnailHelper(vault, { imageServiceLoader: loader }), [vault, loader]);
   const [nested] = useSyncedState(props.nested || internalConfig.nested, { parse: parseBool, defaultValue: false });
@@ -294,6 +296,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
     return {
       vault,
+      events,
+      styles,
+      thumbnailHelper: thumbs,
+      imageServiceLoader: loader,
 
       getHighlight: () => {
         return highlightRef.current;

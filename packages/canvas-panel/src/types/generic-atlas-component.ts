@@ -1,5 +1,6 @@
 import { Selector } from '@iiif/presentation-3';
 import { SizeParameter } from '../helpers/size-parameter';
+import { Vault } from '@iiif/vault';
 
 export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   region?: Selector | Selector[] | undefined; // same as target.
@@ -15,6 +16,7 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   preset?: string;
   stylesheet?: string;
   responsive?: boolean;
+  vault?: Vault;
   moveEvents?: boolean;
   granularMoveEvents?: boolean;
   disableKeyboardNavigation?: boolean;
