@@ -90,7 +90,7 @@ cp.disableContentStateSelection();
 
 ## Text selection
 
-This feature is still in development. See [Handling Text](handling-text) for more information.
+This feature is still in development. See [Handling Text](../future/handling-text) for more information.
 
 
 <GitHubDiscussion ghid="16" />

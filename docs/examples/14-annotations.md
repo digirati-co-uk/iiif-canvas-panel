@@ -11,7 +11,7 @@ import { Sandbox } from '@site/Sandbox';
 
 <!-- NB the original version of this doc ument has been moved to notes/14-annotations-hidden.md -->
 <!-- It describes an internal Vault normalised annotation approach, which is not the same as v1 below. -->
-The underlying [Vault](../components/vault) library is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
+The underlying [Vault](../api-reference/vault) library is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 
 In IIIF, content is associated with canvases through [Annotations](https://iiif.io/api/presentation/3.0/#56-annotation), using the [W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/). This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same intention to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further specification to normalise the data to.
 
@@ -102,7 +102,7 @@ You can also add external text formats as annotations, using a Vault helper:
 const annoPage = helper.importWebVTTAsAnnotations('https://example.org/web-vtt', {target: 'https://example.org/canvas-id' });
 ```
 
-See [Text Handling](./handling-text) for further information.
+See [Text Handling](../future/handling-text) for further information.
 
 
 ## AnnotationDisplay details
@@ -124,7 +124,7 @@ If you allowed all of the annotations that come referenced from a manifest to be
   myDisplayAnno.resizable = true; // Canvas Panel renders handles, allows resizing
 -->
 
-Canvas Panel won't draw annotations on the Canvas unless you tell it to, apart from the `painting` motivation annotations which it must draw because they are part of the scene. Any other annotations are _not_ part of the scene, but may still be rendered on the canvas surface - e.g., a [highlight](./drawing-boxes) or a [link](rendering-links).
+Canvas Panel won't draw annotations on the Canvas unless you tell it to, apart from the `painting` motivation annotations which it must draw because they are part of the scene. Any other annotations are _not_ part of the scene, but may still be rendered on the canvas surface - e.g., a [highlight](./highlighting-regions) or a [link](rendering-links).
 
 :::info
 Turning linked annotations into displayed annotations is mostly done via code rather than attributes, with the exception of helpers for simple scenarios such as highlighting. It's more flexible to do this in code.

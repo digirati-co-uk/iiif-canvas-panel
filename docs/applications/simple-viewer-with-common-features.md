@@ -30,11 +30,6 @@ This can be seen in the Book Reader example.
 
 TBC
 
-
-## Viewport navigator
-
-This is described at [Viewport Navigator](../examples/navigator).
-
 ## Reset
 
 The `goHome()` function will return the viewport to the initial condition:

@@ -24,7 +24,7 @@ The web components (canvas-panel and image-service) are bundled in one script:
 </canvas-panel>
 ```
 
-This also gives you access to [Vault](vault), for doing things programmatically:
+This also gives you access to [Vault](./api-reference/vault), for doing things programmatically:
 
 ```html
 <canvas-panel id="cp"></canvas-panel>
@@ -37,7 +37,7 @@ This also gives you access to [Vault](vault), for doing things programmatically:
 </script>  
 ```
 
-([Read more about Vault](vault))
+([Read more about Vault](./api-reference/vault))
 
 You can use Vault independently of the Canvas Panel web component:
 

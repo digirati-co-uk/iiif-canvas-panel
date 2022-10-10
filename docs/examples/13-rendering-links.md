@@ -51,7 +51,7 @@ There are several different scenarios to consider here.
 
 ## Adding links to the Canvas
 
-One is similar to explicit highlighting, as [Drawing boxes](./drawing-boxes) - the only difference being that the target on the canvas is a clickable link. 
+One is similar to explicit highlighting, as [Drawing boxes](./highlighting-regions) - the only difference being that the target on the canvas is a clickable link. 
 
 Here we are adding a linking annotation to the canvas:
 
@@ -125,7 +125,7 @@ The second scenario is where the annotations are already present in the IIIF res
 
 Canvas panel's default behaviour is (via vault) to follow `annotations`.
 
-> That isn't true? You have to load them manually - see [Vault introduction](../../docs/components/vault).
+> That isn't true? You have to load them manually - see [Vault introduction](../../docs/api-reference/vault).
 
 So it has raw W3C annos available. Then we need to handle them. (Does CP have them? What does that mean - that they are loaded into the vault? They aren't drawn yet).
 
@@ -137,7 +137,7 @@ The painting annos, inline in the canvas (usually, but might require a dereferen
 
 Other annotations are linked via the `annotations` property.
 
-If they have the motivation `supplementing`, they will be fed down a different path. They are possibly transcriptions, OCR text, captions, etc. Handle this somewhere else. See [Handling text](./handling-text) .
+If they have the motivation `supplementing`, they will be fed down a different path. They are possibly transcriptions, OCR text, captions, etc. Handle this somewhere else. See [Handling text](../future/handling-text) .
 
 All other annotations could just be each wrapped with DisplayAnnotation instances and cp would attempt to draw them
 

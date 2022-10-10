@@ -25,7 +25,7 @@ The HTML5 `alt`, `aria-label`, `aria-labelledby`, `role` and `title` attributes 
 <!-- TODO: GH-91 -->
 > Demonstrate that CP generates `aria-*` attributes for assistive technologies from the IIIF label language map(s), using browser settings
 
-For a standard 2D canvas, the canvas panel on the page will assign itself `role="img"`. If the canvas carries text content could be exposed to a screen reader, Canvas Panel provides ways of doing this - see [Handling Text](./handling-text) for more on how to expose text from the canvas (e.g., transcriptions, OCR, captions) to assisitve technologies.
+For a standard 2D canvas, the canvas panel on the page will assign itself `role="img"`. If the canvas carries text content could be exposed to a screen reader, Canvas Panel provides ways of doing this - see [Handling Text](../future/handling-text) for more on how to expose text from the canvas (e.g., transcriptions, OCR, captions) to assisitve technologies.
 
 :::question
 Should Canvas Panel, _by default_, render as a static image and only become a zoomable element on interaction? Mousewheel, click, etc. Mousewheel and pan events need to be carefully handled to avoid trapping the user in the element, especially on narrow touch devices like a phone. <!-- TODO: GH-78 -->
@@ -61,7 +61,7 @@ Canvas Panel could, in future, make use of the [Accessibility Object Model](http
 
 ## Other possible accessibility measures
 
-Canvas Panel makes it very easy to tie different configurations to feature detection through media queries, as described in [Responsive Images](./responsive-image). On its own this doesn't make anything accessible, but sensible choices of rendering modes can assist. For example, render a static image rather than a deep zoom image if [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) is detected.
+Canvas Panel makes it very easy to tie different configurations to feature detection through media queries, as described in [Responsive Images](./rendering-modes). On its own this doesn't make anything accessible, but sensible choices of rendering modes can assist. For example, render a static image rather than a deep zoom image if [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) is detected.
 
 We can also use queries to determine how Canvas Panel makes requests to the IIIF Image API. This is perhaps more useful in cases where a client viewer is built for a known collection, where the capabilities of its image services are predictable. For example, queries like `forced-colors`, `inverted-colors`, `monochrome`, `orientation`, `prefers-color-scheme` and `prefers-contrast` could be used to determine what [quality](https://iiif.io/api/image/3.0/#quality) parameter is passed to the image service, including custom qualities implemented for accessibility purposes - which might not even be directly equivalent to the other qualities. This might be especially useful for digitised printed books. A high contrast mode could trigger `bitonal` requests, and a custom mode could trigger requests for images that render a synthetic view of the page using cleaned-up OCR text.
 

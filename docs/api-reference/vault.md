@@ -16,7 +16,7 @@ This documentation site is full of examples showing Vault usage alongside Canvas
 
 ## Installation
 
-If you have Canvas Panel available on your page, you already have Vault, too. But you can use it on its own, without Canvas Panel. See the [installation instructions](../../docs/components/installation) for the full details. In the following example, Vault is loaded from a CDN, avoiding any need to build or run a server.
+If you have Canvas Panel available on your page, you already have Vault, too. But you can use it on its own, without Canvas Panel. See the [installation instructions](../../docs/installation) for the full details. In the following example, Vault is loaded from a CDN, avoiding any need to build or run a server.
 
 The next few examples use this HTML page to help make the demonstration visible.
 
@@ -289,7 +289,7 @@ for(const line of lines){
 show(pageText, "The full text of the page");
 ```
 
-When using Canvas Panel, you will more likely make use of Canvas Panel's API to [work with annotations](../../docs/examples/annotations) on the Canvas. And for annotation scenarios that involve multiple text fragments, such as the lines of text here or captions on a video, Canvas Panel has a companion component called [text-lines](../../docs/examples/handling-text), that will bind to these annotations and render them.
+When using Canvas Panel, you will more likely make use of Canvas Panel's API to [work with annotations](../../docs/examples/annotations) on the Canvas. And for annotation scenarios that involve multiple text fragments, such as the lines of text here or captions on a video, Canvas Panel has a companion component called [text-lines](../../docs/future/handling-text), that will bind to these annotations and render them.
 
 
 

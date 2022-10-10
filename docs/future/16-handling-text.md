@@ -30,7 +30,7 @@ See https://canvas-panel.digirati.com/developer-stories/viewer1.html
 I want to obtain the text that's currently on the canvas and render it somewhere else.
 I also want to be able to respond to interactions with that text and reflect it on the canvas surface.
 
-A simple example of this is [Drawing boxes](./drawing-boxes), but for text annotations. Consider this view in (regular) Mirador 3:
+A simple example of this is [Drawing boxes](../examples/highlighting-regions), but for text annotations. Consider this view in (regular) Mirador 3:
 
 ![image](../../static/img/examples/mirador.png)
 
@@ -58,7 +58,7 @@ This is a common scenario and the interactions between text in annotations have 
 </text-lines>
 ```
 
-See [Text-lines](../../docs/components/text-lines) for a description of how this is implemented.
+See [Text-lines](./text-lines) for a description of how this is implemented.
 
 This component produces outputs for video and audio with captions as annotations, video and audio with captions as WebVTT, images of text with line transcription `supplementing` annotations (it looks for and favours the `line` text granularity).
 
@@ -91,11 +91,11 @@ Canvas panel treats `supplementing` annotations differently from other textual a
 </div>
 
 <script>
-   const cp = document.getElementById("cp"); ​
+   const cp = document.getElementById("cp");  
 
-  ​// (whatever the pattern for this is)
-  ​cp.addEventListener("ready", () => { 
-     ​ if(cp.hasText) {  
+   // (whatever the pattern for this is)
+   cp.addEventListener("ready", () => { 
+       if(cp.hasText) {  
          document.getElementById("textyStuff").style.display = "";
          const toggler = document.getElementById("textToggle"); 
          const textState = document.getElementById("textState"); 
@@ -115,7 +115,7 @@ Canvas panel treats `supplementing` annotations differently from other textual a
             console.log(cp.text.selection.supplementingAnnotations); // just those in the current selection
          });
       }
-  ​});
+   });
 
 </script>
 ```

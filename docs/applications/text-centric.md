@@ -6,7 +6,7 @@ sidebar_position: 3
 
 :::danger
 
-This example requires the features described in [text examples](../../docs/examples/handling-text).
+This example requires the features described in [text examples](../../docs/future/handling-text).
 
 :::
 
@@ -17,7 +17,7 @@ This viewer extends [Simple Viewer](./simple-viewer) to add support for:
 * Text selection on the Canvas
 * Text display alongside the Canvas
 
-...building on the [text examples](../../docs/examples/handling-text).
+...building on the [text examples](../../docs/future/handling-text).
 
 It also demonstrates how Canvas Panel can be used to make any text in IIIF resources accessible to assistive technologies.
 

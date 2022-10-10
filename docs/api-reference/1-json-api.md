@@ -12,12 +12,12 @@ import { Sandbox } from '@site/Sandbox';
 ### width
 
 The width of the component, in pixels. 
-See [Styling](./styling) for different ways of using Canvas Panel in layouts.
+See [Styling](../examples/styling) for different ways of using Canvas Panel in layouts.
 
 ### height
 
 The height of the component, in pixels. 
-See [Styling](./styling) for different ways of using Canvas Panel in layouts.
+See [Styling](../examples/styling) for different ways of using Canvas Panel in layouts.
 
 ### region
 
@@ -48,7 +48,7 @@ Tell canvas panel to favour one or more formats when it constructs requests to i
 <canvas-panel preferred-formats="webp,heif">
 ```
 
-See [Other Options](./other-options) for further details.
+See [Other Options](../future/other-options) for further details.
 
 
 ### preferred-qualities
@@ -59,7 +59,7 @@ Tell canvas panel to favour one or more qualities when it constructs requests to
 <canvas-panel preferred-formats="bitonal">
 ```
 
-See [Other Options](./other-options) for further details.
+See [Other Options](../future/other-options) for further details.
 
 ### style-id
 
@@ -72,7 +72,7 @@ The HTML `id` of a `<style>` element on the containing page. The CSS in that ele
 <canvas-panel style-id="my-styles">
 ```
 
-See [Styling](./styling) for further details.
+See [Styling](../examples/styling) for further details.
 
 ### debug
 
@@ -97,7 +97,7 @@ The `preset` attribute is a way of referencing a block of configuration data. Th
 <canvas-panel preset="responsive" />
 ```
 
-See [Responsive Images](./responsive-image) for further details.
+See [Responsive Images](../examples/rendering-modes) for further details.
 
 ### responsive
 
@@ -107,7 +107,7 @@ See [Responsive Images](./responsive-image) for further details.
 
 (TBC - needs better description)
 
-See [Responsive Images](./responsive-image) for further details.
+See [Responsive Images](../examples/rendering-modes) for further details.
 
 ### interactive
 
@@ -115,9 +115,9 @@ See [Responsive Images](./responsive-image) for further details.
 <canvas-panel interactive="true">
 ```
 
-(TBC - needs better description)
+(TBC - needs better description) 
 
-See [Responsive Images](./responsive-image) for further details.
+See [Responsive Images](../examples/rendering-modes) for further details.
 
 ### class
 
@@ -131,7 +131,7 @@ Accepts the same syntax as the `region` attribute, but draws a box on the canvas
 <canvas-panel highlight="1000,1200,900,1340" />
 ```
 
-See [Highlights](./drawing-boxes) for further details.
+See [Highlights](../examples/highlighting-regions) for further details.
 
 ### highlight-css-class
 
@@ -141,7 +141,7 @@ A CSS class accessible to Canvas Panel, to be applied to the highlight.
 <canvas-panel highlight="1000,1200,900,1340" highlight-css-class="my-highlight" />
 ```
 
-See [Highlights](./drawing-boxes) for further details.
+See [Highlights](../examples/highlighting-regions) for further details.
 
 ### exact-initial-image
 
@@ -165,7 +165,7 @@ TBC
 <canvas-panel viewport="true" />
 ```
 
-See [Responsive Images](./responsive-image) for further details.
+See [Responsive Images](../examples/rendering-modes) for further details.
 
 ### render
 
@@ -179,16 +179,6 @@ TBC
 
  webgl: (don't use unless you know what you are doing)
 
-### enable-navigator
-
-Whether the built-in navigator window is shown on the Canvas surface.
-
-```html
-<canvas-panel enable-navigator="webgl" />
-```
-
-See [Viewport Navigator](./navigator) for further details.
-
 ### virtual-sizes
 
 Adds additional `sizes` to the list of `sizes` on any image service used to render the scene, even if they are not in the image service. These virtual sizes conform to the syntax of the IIIF Image API [size](https://iiif.io/api/image/3.0/#42-size) parameter. You can supply a list of virtual sizes by separating them with the `|` character:
@@ -199,7 +189,7 @@ Adds additional `sizes` to the list of `sizes` on any image service used to rend
 </image-service>
 ```
 
-See [Responsive Images](./responsive-image) for further details.
+See [Responsive Images](../examples/rendering-modes) for further details.
 
 ### nested (not needed)
 

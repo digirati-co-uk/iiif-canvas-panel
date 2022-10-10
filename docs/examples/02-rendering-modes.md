@@ -13,7 +13,7 @@ import { Sandbox } from '@site/Sandbox';
 
 Using IIIF for [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images) is a natural fit. An image service allows different sizes, and/or different regions to be requested. You can construct standard HTML5 `srcset` and `picture` elements manually using IIIF Image API requests as the image sources.
 
-The [`<image-service />`](../../docs/components/single-image-service) and [`<canvas-panel />`](../../docs/components/cp) elements offer API to achieve a similar outcome using familiar patterns, but instead of providing information for matching media queries via HTML elements and attributes, you can pass this information into canvas panel using JSON configuration. This is a very powerful way of controlling Canvas Panel's behaviour.
+The [`<image-service />`](../api-reference/single-image-service) and [`<canvas-panel />`](../api-reference/canvas-panel) elements offer API to achieve a similar outcome using familiar patterns, but instead of providing information for matching media queries via HTML elements and attributes, you can pass this information into canvas panel using JSON configuration. This is a very powerful way of controlling Canvas Panel's behaviour.
 
 Simply declaring an `image-service` or `canvas-panel` tag as `responsive` makes it behave like a responsive image; it will make image requests **appropriate to its size on the page**.
 
@@ -187,7 +187,7 @@ It's possible to combine `render`, `interactive` and `viewport` in ways other th
 
 See [Styling](styling) for more guidance on using canvas panel in different layout systems.
 
-For more details on the available attributes, see [API](./json-api).
+For more details on the available attributes, see [API](../api-reference/json-api).
 
 
 ## Rendering strategies
