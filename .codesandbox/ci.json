@@ -1,6 +1,6 @@
 {
   "installCommand": "custom-install",
-  "buildCommand": "prepublishOnly",
+  "buildCommand": "custom-build",
   "packages": [
     "packages/canvas-panel"
   ],
