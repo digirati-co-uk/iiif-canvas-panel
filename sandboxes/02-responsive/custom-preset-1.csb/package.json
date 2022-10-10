@@ -1,5 +1,6 @@
 {
-  "name": "custom-preset-sandbox",
+  "name": "responsive-1",
+  "description": "Responsive JSON config",
   "main": "./src/index.js",
   "dependencies": {
     "@digirati/canvas-panel-web-components": "*"
