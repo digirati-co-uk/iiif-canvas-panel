@@ -57,6 +57,7 @@
   </div>
 
   <div>
+    <button id='enable-text'>enable text</button>
     <button id='enable-move'>enable move</button>
     move: <span id='move'></span>
   </div>
@@ -73,6 +74,7 @@
   const zoomIn = document.getElementById('zoomIn');
   const zoomOut = document.getElementById('zoomOut');
   const home = document.getElementById('home');
+  const text = document.getElementById('enable-text');
   const move = document.getElementById('move');
   const enableMove = document.getElementById('enable-move');
   const play = document.getElementById('playpause');
@@ -93,8 +95,16 @@
 
   // cp.setAttribute('disable-keyboard-navigation', "true");
   cp.setAttribute('click-to-enable-zoom', 'true');
-  // cp.setAttribute('text-enabled', 'true');
+  cp.setAttribute('text-enabled', 'false');
   cp.setAttribute('text-selection-enabled', 'true');
+
+  text.addEventListener('click', () => {
+    if (cp.getAttribute('text-enabled') === 'false') {
+      cp.setAttribute('text-enabled', 'true');
+    } else {
+      cp.setAttribute('text-enabled', 'false');
+    }
+  })
 
   enableMove.addEventListener('click', () => {
     if (cp.getAttribute('move-events')) {
