@@ -23,8 +23,9 @@ export const RegionHighlight: React.FC<{
   className?: string;
   href?: string;
   hrefTarget?: string;
+  children?: any;
   title?: string;
-}> = ({ interactive, region, onClick, onSave, isEditing, className, style, ...props }) => {
+}> = ({ children, interactive, region, onClick, onSave, isEditing, className, style, ...props }) => {
   const mode = useMode();
 
   const saveCallback = useCallback(
@@ -62,6 +63,7 @@ export const RegionHighlight: React.FC<{
         style={style}
         {...(props as any)}
       />
+      {children}
     </ResizeWorldItem>
   );
 };

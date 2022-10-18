@@ -10,7 +10,7 @@ import { parseContentState, serialiseContentState } from '../helpers/content-sta
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { useState } from 'react';
+import { useState } from 'preact/compat';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
@@ -264,6 +264,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         mode={mode}
         x={x}
         y={y}
+        textEnabled={textEnabled}
+        textSelectionEnabled={textSelectionEnabled}
       >
         <slot name="atlas" />
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}

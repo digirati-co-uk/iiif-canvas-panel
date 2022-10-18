@@ -5,7 +5,7 @@ import { ImageWithOptionalService, useStyles } from 'react-iiif-vault';
 import { ImageCandidate } from '@atlas-viewer/iiif-image-api';
 import { SizeParameter } from '../../helpers/size-parameter';
 import { getImageUrl } from '../../helpers/get-image-url';
-import { Fragment } from 'react';
+import { Fragment } from 'preact/compat';
 
 export function RenderImage({
   id,

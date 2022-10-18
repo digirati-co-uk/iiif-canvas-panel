@@ -40,7 +40,7 @@ export function createAtlasWrapper<T = any, C = any>({
     const _parent = useContext(ParentContext);
     const prevProps = useRef(props);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       if (atlas && atlas.runtime) {
         setInstance(customConstructor ? customConstructor(props) : new Component());
       }

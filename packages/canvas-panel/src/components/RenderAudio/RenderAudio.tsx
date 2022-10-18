@@ -1,5 +1,5 @@
 import { MediaPlayerProvider, SingleAudio, useSimpleMediaPlayer } from 'react-iiif-vault';
-import { ReactNode, useRef } from 'react';
+import { ReactNode } from 'react';
 import { h } from 'preact';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 

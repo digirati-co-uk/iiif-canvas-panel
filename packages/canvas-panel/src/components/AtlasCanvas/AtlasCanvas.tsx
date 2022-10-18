@@ -34,6 +34,7 @@ export const AtlasCanvas: FC<{
   onCreated?: any;
   registerActions?: (actions: StrategyActions) => void;
   isStatic?: boolean;
+  textSelectionEnabled?: boolean;
 }> = ({
   x,
   y,
@@ -47,6 +48,7 @@ export const AtlasCanvas: FC<{
   registerActions,
   defaultChoices,
   isStatic,
+  textSelectionEnabled,
 }) => {
   const canvas = useCanvas();
   const elementProps = useResourceEvents(canvas, ['deep-zoom']);
@@ -158,10 +160,10 @@ export const AtlasCanvas: FC<{
           className={highlightCssClass}
         />
       ) : null}
-      {virtualPage ? <RenderAnnotationPage page={virtualPage} /> : null}
+      {virtualPage ? <RenderAnnotationPage page={virtualPage} textSelectionEnabled={textSelectionEnabled} /> : null}
       {strategy.annotations && strategy.annotations.pages
         ? strategy.annotations.pages.map((page) => {
-            return <RenderAnnotationPage key={page.id} page={page} />;
+            return <RenderAnnotationPage key={page.id} page={page} textSelectionEnabled={textSelectionEnabled} />;
           })
         : null}
       {debug ? <Debug /> : null}

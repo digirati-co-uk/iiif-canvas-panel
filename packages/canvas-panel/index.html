@@ -14,6 +14,11 @@
           border: 2px solid lightgreen;
       }
 
+      canvas-panel::part(text-line-segment)::selection {
+          fill: #fff;
+          background: blue;
+      }
+
       html {
           height: 200vh;
       }
@@ -83,8 +88,13 @@
   })
 
 
+
+  // Set our attributes
+
   // cp.setAttribute('disable-keyboard-navigation', "true");
   cp.setAttribute('click-to-enable-zoom', 'true');
+  // cp.setAttribute('text-enabled', 'true');
+  cp.setAttribute('text-selection-enabled', 'true');
 
   enableMove.addEventListener('click', () => {
     if (cp.getAttribute('move-events')) {
@@ -162,9 +172,9 @@
 
   async function demo() {
     const manifestWithAnnotations = await cp.vault.loadManifest(
-      'https://gist.githubusercontent.com/stephenwf/57cc5024144c53d48cc3c07cc522eb94/raw/a87a5d9a8f949bfb11cebd4f011a204abe8a932b/manifest.json',
+      'https://iiif.wellcomecollection.org/presentation/b2169512x',
     );
-    const canvas10 = cp.vault.get(manifestWithAnnotations.items[1]);
+    const canvas10 = cp.vault.get(manifestWithAnnotations.items[30]);
     cp.setManifest(manifestWithAnnotations.id);
     cp.setCanvas(canvas10.id);
     for (const annoPage of canvas10.annotations) {
@@ -221,6 +231,7 @@
     // displayAnno.className = "my-class";
     displayAnno.applyStyle({
       background: 'red',
+      color: '#000',
     });
     cp.annotations.add(displayAnno);
 

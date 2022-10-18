@@ -1,15 +1,18 @@
-import { useAnnotation, useCanvas, useResourceEvents, useStyles } from 'react-iiif-vault';
+import { useAnnotation, useCanvas, useResourceEvents, useStyles, useVault, VaultProvider } from 'react-iiif-vault';
 import { FC, useMemo } from 'preact/compat';
 import { h } from 'preact';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
 import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas';
+import { RenderTextualContent } from '../RenderTextLines/RenderTextualContent';
+import { HTMLPortal } from '../../atlas-components/HTMLPortal';
 
-export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxStyle; interactive?: boolean }> = ({
-  id,
-  style: defaultStyle,
-  className,
-  interactive,
-}) => {
+export const RenderAnnotation: FC<{
+  id: string;
+  className?: string;
+  style?: BoxStyle;
+  interactive?: boolean;
+  textSelectionEnabled?: boolean;
+}> = ({ id, style: defaultStyle, className, interactive, textSelectionEnabled }) => {
   const annotation = useAnnotation({ id });
   const style = useStyles<BoxStyle>(annotation, 'atlas');
   const html = useStyles<{ className?: string; href?: string; title?: string; target?: string }>(annotation, 'html');
@@ -45,6 +48,8 @@ export const RenderAnnotation: FC<{ id: string; className?: string; style?: BoxS
       title={html?.title || null}
       hrefTarget={html?.target || null}
       {...events}
-    />
+    >
+      <RenderTextualContent annotation={annotation as any} textSelectionEnabled={textSelectionEnabled} />
+    </RegionHighlight>
   );
 };

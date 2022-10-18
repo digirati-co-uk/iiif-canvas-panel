@@ -3,7 +3,7 @@ import { ManifestContext, useExternalManifest } from 'react-iiif-vault';
 import { Spinner } from './spinner';
 import { h } from 'preact';
 import { ErrorFallback } from './ErrorFallback/ErrorFallback';
-import { useEffect } from 'react';
+import { useEffect } from 'preact/compat';
 
 export type ManifestLoaderProps = {
   manifestId: string;

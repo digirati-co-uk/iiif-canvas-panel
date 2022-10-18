@@ -17,6 +17,9 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
 import { serialiseContentState } from '../../helpers/content-state/content-state';
 import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
 import { targetToPixels } from '../../helpers/target-to-pixels';
+import { useEffect } from 'preact/compat';
+import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
+import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -34,6 +37,27 @@ export function ViewCanvas(props: ViewCanvasProps) {
         ? props.displayOptions.homePosition.width / props.displayOptions.homePosition.height
         : canvas.width / canvas.height
       : undefined;
+  const fullPages = useVaultSelector(
+    (state, vault) => {
+      return manager.availablePageIds.map((i) => vault.get(i));
+    },
+    [...manager.availablePageIds]
+  );
+
+  const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
+  const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;
+  const firstTextLines = hasTextLines ? pageTypes.pageMapping.supplementing[0] : null;
+
+  useEffect(() => {
+    if (props.textEnabled) {
+      const promises = [];
+      for (const page of manager.availablePageIds) {
+        if (!vault.requestStatus(page)) {
+          promises.push(vault.load(page));
+        }
+      }
+    }
+  }, [canvas?.id, props.textEnabled]);
 
   useRegisterPublicApi((el) => {
     if (!manager) {
@@ -147,9 +171,14 @@ export function ViewCanvas(props: ViewCanvasProps) {
           }}
           x={props.x}
           y={props.y}
+          textSelectionEnabled={props.textSelectionEnabled}
         />
 
         {props.children}
+
+        {props.textEnabled && firstTextLines ? (
+          <RenderTextLines annotationPageId={firstTextLines} selectionEnabled={props.textSelectionEnabled} />
+        ) : null}
       </NestedAtlas>
     </ErrorBoundary>
   );

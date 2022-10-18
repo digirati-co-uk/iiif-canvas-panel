@@ -15,7 +15,7 @@ import { Reference, Selector } from '@iiif/presentation-3';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
 import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
-import { useEffect } from 'react';
+import { useEffect } from 'preact/compat';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
