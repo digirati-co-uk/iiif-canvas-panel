@@ -267,5 +267,5 @@ A further component is available to help with layout: positioning more than one 
 </layout-container>
 ```
 
-Read more about this component at in [Atlas](./api-reference/layout-container).
+Read more about this component in [Layout Container](./api-reference/layout-container).
 
