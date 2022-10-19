@@ -84,11 +84,12 @@ export const TiledImage = createAtlasWrapper<{
   tile: { width: number; height?: number };
   scaleFactor: number;
   style?: any;
+  format?: string;
 }>({
   displayName: 'Atlas.TiledImage',
   component: Atlas.TiledImage,
   customConstructor: (props) => {
-    return Atlas.TiledImage.fromTile(props.uri, props.display, props.tile, props.scaleFactor);
+    return Atlas.TiledImage.fromTile(props.uri, props.display, props.tile, props.scaleFactor, undefined, props.format);
   },
 });
 

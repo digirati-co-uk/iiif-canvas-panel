@@ -16,6 +16,7 @@ export function RenderImage({
   x = 0,
   y = 0,
   annotations,
+  tileFormat,
 }: {
   id: string;
   image: ImageWithOptionalService;
@@ -25,6 +26,7 @@ export function RenderImage({
   x?: number;
   y?: number;
   annotations?: JSX.Element;
+  tileFormat?: string;
 }) {
   // For image resources, we may not support everything.. but we do support opacity.
   const style = useStyles({ id, type: 'ContentResource' }, 'atlas');
@@ -64,6 +66,7 @@ export function RenderImage({
             width={image.target?.spatial.width}
             height={image.target?.spatial.height}
             style={style}
+            tileFormat={tileFormat}
           >
             {image.service &&
               virtualSizes.map((size) => {

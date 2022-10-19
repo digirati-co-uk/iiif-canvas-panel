@@ -21,6 +21,7 @@ export type ImageServiceProps = GenericAtlasComponent<
     nested?: string;
     x?: number;
     y?: number;
+    tileFormat?: string;
   },
   ImageServiceApi
 >;
@@ -46,11 +47,16 @@ export function ImageService(props: ImageServiceProps) {
   } = useGenericAtlasProps(props);
 
   const [src] = useProp('src');
+  const [tileFormat, setTileFormat] = useProp('tileFormat');
   const [loadImageService, status] = useLoadImageService();
-
   const statusOf = status[src];
   const image = useMemo(() => {
     const service = loadImageService({ id: src } as any, {} as any);
+
+    if (service && (service as any).preferredFormats && (service as any).preferredFormats.length === 1) {
+      setTileFormat((service as any).preferredFormats[0]);
+    }
+
     if (service && service.height && service.width && statusOf !== 'loading') {
       return {
         id: src,
@@ -116,6 +122,7 @@ export function ImageService(props: ImageServiceProps) {
             virtualSizes={virtualSizes}
             x={x}
             y={y}
+            tileFormat={tileFormat}
           />
         </NestedAtlas>
       </VaultProvider>
@@ -155,6 +162,7 @@ if (typeof window !== 'undefined') {
       'choice-id',
       'move-events',
       'granular-move-events',
+      'tile-format',
     ],
     {
       shadow: true,
