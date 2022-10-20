@@ -29,6 +29,7 @@ export type ViewCanvasProps = {
   defaultChoices?: Array<{ id: string; opacity?: number }>;
   x?: number;
   y?: number;
+  margin?: number;
   textEnabled?: boolean;
   textSelectionEnabled?: boolean;
 };

@@ -1,16 +1,13 @@
 import register from '../library/preact-custom-element';
-import { LayoutContainer } from './layout-container';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { CanvasContext, SimpleViewerProvider, VaultProvider } from 'react-iiif-vault';
+import { ChoiceDescription, SimpleViewerProvider, VaultProvider } from 'react-iiif-vault';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
-import { DrawBox } from '@atlas-viewer/atlas';
 import { RegisterPublicApi } from '../hooks/use-register-public-api';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
-import { ManifestLoader } from '../components/manifest-loader';
 import { h } from 'preact';
-import { parseBool } from '../helpers/parse-attributes';
-import { RenderAllCanvases } from '../components/RenderAllCanvases';
+import { parseBool, parseNumber } from '../helpers/parse-attributes';
+import { useCallback } from 'preact/compat';
 
 export type SequencePanelProps = GenericAtlasComponent<{
   manifestId: string;
@@ -21,6 +18,7 @@ export type SequencePanelProps = GenericAtlasComponent<{
   textSelectionEnabled?: 'true' | 'false' | boolean;
   textEnabled?: 'true' | 'false' | boolean;
   followAnnotations?: 'true' | 'false' | boolean;
+  margin?: number;
 }>;
 
 export function SequencePanel(props: SequencePanelProps) {
@@ -48,13 +46,20 @@ export function SequencePanel(props: SequencePanelProps) {
     useRegisterWebComponentApi,
     setMode,
   } = useGenericAtlasProps(props);
-  const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
-  const [rangeId, setRangeId, , rangeIdRef] = useProp('rangeId');
+  const [manifestId, , , manifestIdRef] = useProp('manifestId');
+  const [rangeId, , , rangeIdRef] = useProp('rangeId');
   const [startCanvas] = useProp('startCanvas');
+  const [margin] = useProp('margin', { parse: parseNumber, defaultValue: 0 });
   const [pagingEnabled] = useProp('pagingEnabled', { parse: parseBool, defaultValue: true });
   const [textSelectionEnabled] = useProp('textSelectionEnabled', { parse: parseBool, defaultValue: true });
   const [textEnabled] = useProp('textEnabled', { parse: parseBool, defaultValue: false });
   const [followAnnotations] = useProp('followAnnotations', { parse: parseBool, defaultValue: true });
+
+  const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
+    if (webComponent.current) {
+      webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
+    }
+  }, []);
 
   useRegisterWebComponentApi((htmlComponent: HTMLElement) => {
     return {
@@ -70,6 +75,21 @@ export function SequencePanel(props: SequencePanelProps) {
       },
       getManifestId() {
         return manifestIdRef.current;
+      },
+      disableTextSelection() {
+        htmlComponent.setAttribute('text-selection-enabled', 'false');
+      },
+
+      enableTextSelection() {
+        htmlComponent.setAttribute('text-selection-enabled', 'true');
+      },
+
+      enableText() {
+        htmlComponent.setAttribute('text-enabled', 'true');
+      },
+
+      disableText() {
+        htmlComponent.setAttribute('text-enabled', 'true');
       },
     };
   });
@@ -94,6 +114,7 @@ export function SequencePanel(props: SequencePanelProps) {
               key={`${viewport ? 'v1' : 'v0'}`}
               interactive={interactive}
               followAnnotations={followAnnotations}
+              onChoiceChange={onChoiceChange}
               className={className}
               highlight={highlight}
               debug={debug}
@@ -103,6 +124,7 @@ export function SequencePanel(props: SequencePanelProps) {
               mode={mode}
               textEnabled={textEnabled}
               textSelectionEnabled={textSelectionEnabled}
+              margin={margin}
             >
               <slot name="atlas" />
               {/*{contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}*/}

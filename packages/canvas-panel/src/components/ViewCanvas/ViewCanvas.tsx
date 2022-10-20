@@ -153,6 +153,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
           y={props.y}
           textSelectionEnabled={props.textSelectionEnabled}
           textEnabled={props.textEnabled}
+          margin={props.margin}
         />
 
         {props.children}

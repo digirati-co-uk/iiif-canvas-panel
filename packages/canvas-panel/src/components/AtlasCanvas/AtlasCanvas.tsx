@@ -41,6 +41,7 @@ interface AtlasCanvasProps {
   isStatic?: boolean;
   textSelectionEnabled?: boolean;
   children?: any;
+  margin?: number;
   textEnabled?: boolean;
 }
 

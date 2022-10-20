@@ -26,6 +26,7 @@ interface RenderAllCanvasesProps {
   isStatic?: boolean;
   textSelectionEnabled?: boolean;
   children?: any;
+  margin?: number;
 }
 
 export function RenderAllCanvases(props: RenderAllCanvasesProps) {
@@ -65,7 +66,7 @@ export function RenderAllCanvases(props: RenderAllCanvasesProps) {
   let acc = 0;
   const canvasComponents = canvases.map((canvas, i) => {
     const x = acc;
-    acc += canvas.width;
+    acc += canvas.width + (props.margin || 0);
 
     return (
       <CanvasContext key={canvas.id} canvas={canvas.id}>
