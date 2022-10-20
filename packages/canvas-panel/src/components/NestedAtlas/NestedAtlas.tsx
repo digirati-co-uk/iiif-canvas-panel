@@ -28,7 +28,12 @@ export function NestedAtlas({
   const [isCreated, setIsCreated] = useState(false);
   const inAtlas = useContext(InAtlasContext);
 
-  if (inAtlas || nested) {
+
+  if (nested) {
+    if (!inAtlas) {
+      return null;
+    }
+
     return (
       <Fragment>
         {onCreated ? <OnCreated onCreated={onCreated} /> : null}

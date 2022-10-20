@@ -8,6 +8,7 @@ import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { ErrorBoundary as _ErrorBoundary } from 'react-error-boundary';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
+import { parseBool } from '../helpers/parse-attributes';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -22,6 +23,7 @@ export type ImageServiceProps = GenericAtlasComponent<
     x?: number;
     y?: number;
     tileFormat?: string;
+    children?: any;
   },
   ImageServiceApi
 >;
@@ -47,6 +49,7 @@ export function ImageService(props: ImageServiceProps) {
   } = useGenericAtlasProps(props);
 
   const [src] = useProp('src');
+  const [nested] = useProp('nested', { parse: parseBool });
   const [tileFormat, setTileFormat] = useProp('tileFormat');
   const [loadImageService, status] = useLoadImageService();
   const statusOf = status[src];
@@ -86,7 +89,7 @@ export function ImageService(props: ImageServiceProps) {
     }
 
     return null;
-  }, [status]);
+  }, [loadImageService, src, status]);
 
   if (!image || !image.height || !image.width || isConfigBlocking) {
     return null;
@@ -112,6 +115,7 @@ export function ImageService(props: ImageServiceProps) {
           viewport={true}
           aspectRatio={aspectRatio}
           className={className}
+          nested={nested}
           {...atlasProps}
         >
           <RenderImage
@@ -128,6 +132,7 @@ export function ImageService(props: ImageServiceProps) {
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
       {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}
+      {props.children ? <slot>{props.children}</slot> : null}
     </ErrorBoundary>
   );
 }
