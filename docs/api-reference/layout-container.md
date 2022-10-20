@@ -1,4 +1,5 @@
 ---
+sidebar_position: 5
 title: <layout-container />
 ---
 
@@ -22,8 +23,8 @@ The `<layout-container />` component provides this higher-level zoom space or _W
 
 ```html
 <layout-container width="800" preset="zoom">
-    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0" /> 
-    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" />
+    <image-service nested="true" src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0"></image-service> 
+    <image-service nested="true" src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" /></image-service>
 </layout-container>
 ```
 The canvas-panel and/or image-service components can then be positioned within the World-space using the `x` and `y` properties.

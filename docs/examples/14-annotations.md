@@ -163,11 +163,6 @@ Instead, they can use a subset of styling information set in a CSS-like syntax:
 
 This approach is explained in more detail in [Working with Annotation Pages](./annotations-in-bulk).
 
-```js
-// TODO - example of loading a whole anno page (also needed for previous section)
-// Also wire up some mouse over and click handlers here.
-```
-
 It is possible to create DisplayAnnotations as before, but style them using the optimised, non-HTML technique. This way they do not become HTML elements:
 
 ```js

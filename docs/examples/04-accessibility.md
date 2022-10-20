@@ -4,6 +4,15 @@ sidebar_position: 4
 
 # Accessibility
 
+import zoomDemo from '@site/sandboxes/04-accessibility/user-events.csb/_load';
+import { Sandbox } from '@site/Sandbox';
+
+This topic divides into two categories. The first is the accessibility of the user interfaces of the applications that you will build using Canvas Panel. Can people _drive_ the interface, make it do what they want, through multiple input mechanisms.
+
+The second is the accessibility of the content that you are presenting in your applications, with Canvas Panel's help.
+
+Canvas Panel needs to help you make your applications accessible in these two different ways.
+
 
 :::info
 
@@ -13,14 +22,66 @@ Often publishers are aware of this but can't see a way to connect the digital ob
 
 Canvas Panel has the potential to help publishers make their IIIF as accessible as possible - not just by using the content of the IIIF alone, but where necessary connecting the IIIF content to other markup on the page outside of the web component.
 
-In the current phase of work, we have made a start. We recognise that much more can be done. Ideally, Canvas Panel is a great tool for helping publishers of IIIF make their content as accessible as possible - it does it all can for you, and gives you hooks to do more yourself.
+In the current phase of work, we have made a start. **We recognise that much more can be done.** Ideally, Canvas Panel is a great tool for helping publishers of IIIF make their content as accessible as possible - it does it all can for you, and gives you hooks to do more yourself.
 
 :::
+
+## Interface accessibility
+
+### Avoiding capture
+
+The actions a user performs to control the viewport within Canvas Panel are typically the same actions used to control the browser's viewport on the web page - mousewheel actions and swiping.
+
+This can cause problems for a user trying to navigate the web page, when their mouse or finger enters Canvas Panel: subsequent attempts to scroll the page are captured by Canvas Panel and interpreted as zoom actions. The degree to which this is a problem depends on the page design, but is most problematic when the Canvas Panel viewport takes up most of the page width.
+
+If Canvas Panel is not in zoom mode (i.e., not in the default mode), this problem doesn't arise as there is no viewport independent of the page.
+
+When in zoom mode, you can require that canvas panel is activated with a click or tap before zoom is enabled. This is an appropriate setting for content taking up most of the browser width.
+
+```html
+    <canvas-panel
+        click-to-enable-zoom="true"
+        canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+        manifest-id="https://digirati-co-uk.github.io/wunder.json">
+    </canvas-panel>
+```
+
+ <p>
+    <canvas-panel
+        click-to-enable-zoom="true"
+        canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+        manifest-id="https://digirati-co-uk.github.io/wunder.json">
+    </canvas-panel>
+</p>
+
+### Keyboard navigation
+
+Canvas Panel can be controlled via the keyboard. Once it has focus (through standard tab order):
+
+ - The arrow keys Move the viewport.
+ - The + and - keys zoom in and out (without holding _Shift_)
+ - The 0 key returns the viewport to its "home" start position. 
+ 
+ You can try this on the previous example - use the tab order to enter or leave the canvas panel; when in focus, the keys above can be used to navigate.
+ 
+## Capturing user actions
+
+CP is just a web component. You can style it, add event listeners... anything you can do with a div. You can attach a click event listener to it, handle it and call CP's zoom action. A double click on Canvas Panel to zoom should be a standard browser-provided event handler on the element, followed by an API call to zoom.
+
+<Sandbox stacked project={zoomDemo} />
+
+The internal event system is different, e.g., clicking on an annotation within CP. But for externally facing events, we think developers should use the standard web event model.
+
+There are many kinds of interaction that do not require CP to expose a specific event because they are just standard web events.
+
+
+## Accessible content
 
 By default, Canvas Panel will render HTML5 that uses as much information from the IIIF resource as available to provide accessibility information, using the browser's current language settings to pick from alternate languages if available.
 
 <!-- TODO: GH-91 -->
 The HTML5 `alt`, `aria-label`, `aria-labelledby`, `role` and `title` attributes are available on `<canvas-panel>` and will be carried through to the DOM and from the DOM to the accessibility tree seen by assistive technologies. These attributes can be used for manual control over resulting attributes, to override the defaults that Canvas Panel decides from the IIIF content.
+
 
 <!-- TODO: GH-91 -->
 > Demonstrate that CP generates `aria-*` attributes for assistive technologies from the IIIF label language map(s), using browser settings
@@ -76,45 +137,6 @@ https://iiif.wellcomecollection.org/image/b22383268_0016.jp2/full/max/0/bitonal.
 
  -->
 
-## Keyboard navigation
-
-Canvas Panel can be controlled via the keyboard. Once it has focus (through standard tab order):
-
- - The arrow keys Move the viewport.
- - The + and - keys zoom in and out (without holding _Shift_)
- - The 0 key returns the viewport to its "home" start position. 
- 
- 
- <p>
-    <canvas-panel
-        click-to-enable-zoom="true"
-        canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
-        manifest-id="https://digirati-co-uk.github.io/wunder.json">
-    </canvas-panel>
-</p>
-
-
-## Capturing user control
-
-
-CP is just a web component. You can style it, add event listeners... anything you can do with a div. You can attach a click event listener to it, handle it and call CP's zoom action. A double click on Canvas Panel to zoom should be a standard browser-provided event handler on the element, followed by an API call to zoom.
-
-The internal event system is different, e.g., clicking on an annotation within CP. But for externally facing events, we think developers should use the standard web event model.
-
-There are many kinds of interaction that do not require CP to expose a specific event because they are just standard web events - but we'll make a few more demos for common scenarios.
-
-## Avoiding capture
-
-For mousewheel events, when CP has focus it will capture mousewheel events. If you click off it, then it won't capture mousewheel events and allows the user to scroll the page.
-
-TODO: Make a demo equiv of:
- 
-https://deploy-preview-186--iiif-canvas-panel-demos.netlify.app/ 
-
-We also need to demonstrate techniques for mobile/touch - both the simple viewer and reacting to the user pages need more worked examples.
-```
-click-to-enable-zoom="true"
-```
 
 
 <GitHubDiscussion ghid="1" />

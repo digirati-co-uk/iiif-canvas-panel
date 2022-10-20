@@ -5,7 +5,7 @@ sidebar_position: 1
 import presetSandbox from '@site/sandboxes/custom-preset.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
-# Web Component Attributes
+# Attributes
 
 ## Properties common to Canvas Panel and Image Service
 
@@ -287,14 +287,3 @@ You can also do this directly on the page in a script block. This may be a more 
 
 <Sandbox project={presetSandbox} />
 
-
-
-## Canvas Panel and Image Service methods
-
-
-### zoomIn(immediate)
-
-
-### zoomOut(immediate)
-
-TBC
