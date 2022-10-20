@@ -70,7 +70,8 @@
             const viewportContainer = $("viewportContainer");
             // var layout = document.createElement("atlas-viewer");
             var layout = document.createElement("layout-container");
-            viewportContainer.replaceChildren(layout);            
+            viewportContainer.replaceChildren();            
+            viewportContainer.appendChild(layout);
 
             let leftCanvas, rightCanvas, otherCanvas;
             let cpLeft, cpRight, cpOther;
@@ -123,8 +124,9 @@
             const cp = document.createElement("canvas-panel");
             cp.setAttribute("nested", "");
             cp.setAttribute("canvas-id", canvasId);  
-            // cp.setAttribute("manifest-id", manifest.id);  // not needed?
+            cp.setAttribute("manifest-id", manifest.id);  // not needed?
             cp.vault = vault;  
+            return cp;
         }
      </script>
 </body>
