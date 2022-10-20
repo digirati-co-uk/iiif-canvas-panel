@@ -18,7 +18,10 @@ export function RenderTextualContent({
   }
 
   return (
-    <HTMLPortal target={{ ...(annotation.target as any).selector.spatial, x: 0, y: 0 }} interactive>
+    <HTMLPortal
+      target={{ ...(annotation.target as any).selector.spatial, x: 0, y: 0 }}
+      interactive={textSelectionEnabled}
+    >
       <VaultProvider vault={vault}>
         <svg
           height={(annotation.target as any).selector.spatial.height}
