@@ -6,7 +6,8 @@
         #th { width:240px; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
         #main { width:72vw; margin-top:30px; margin-left:10px; float:left; height:90%;} 
         .tc { display: inline-block; padding:5px; cursor: pointer; min-width: 100; }
-        #cp { height:100% }
+        #layout { height:100% }
+        /* #cp { height:100% } */
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
@@ -21,33 +22,36 @@
     <div>    
         <div id="th"></div>
         <div id="main">
-            <layout-container height="600">
-                <canvas-panel nested id="cpLeft"></canvas-panel>
-                <canvas-panel nested id="cpRight"></canvas-panel>
+            <layout-container id="layout">
+                <canvas-panel nested id="cpLeft" y="0"></canvas-panel>
+                <canvas-panel nested id="cpRight" y="0" x="2000"></canvas-panel>
             </layout-container>
             <p id="cvLabel"></p>
         </div>
     </div>
     <script>    
         function $(id) { return document.getElementById(id); }
-        const cp = $("cp");
-        const thumbHelper = VaultHelpers.createThumbnailHelper(cp.vault);
+        const cpLeft = $("cpLeft");
+        const cpRight = $("cpRight");
+        const vault = cpLeft.vault;
+        const thumbHelper = VaultHelpers.createThumbnailHelper(vault);
 
         async function loadManifest(){
             const manifestUri = $("manifest").value;
             if(manifestUri){
-                const manifest = await cp.vault.loadManifest(manifestUri);       
+                const manifest = await vault.loadManifest(manifestUri);       
                 $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);      
                 let thumbsHtml = "";
                 let counter = 1;
                 // for brevity we will assume that the manifest is "paged", the viewingDirection is left-to-right.
                 thumbsHtml += '<div class="tc"></div>';
-                for(const canvas of cp.vault.get(manifest.items)){              
+                for(const canvas of vault.get(manifest.items)){              
                     const label = VaultHelpers.getValue(canvas.label);
                     const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {maxWidth:100, maxHeight:200});
-                    thumbsHtml += `<div class="tc">{label}<br/>`;
-                    thumbsHtml += `<img data-uri="{canvas.id}" data-label="{label}" src="{cvThumb.best.id}" data-index="{counter}" />`;
+                    thumbsHtml += `<div class="tc">${label}<br/>`;
+                    thumbsHtml += `<img data-uri="${canvas.id}" data-label="${label}" src="${cvThumb.best.id}" data-index="${counter}" />`;
                     thumbsHtml += '</div>';   
+                    counter++;
                 }
                 $('th').innerHTML = thumbsHtml;    
                 const thumbs = document.querySelectorAll('#th img');      
@@ -62,10 +66,38 @@
         loadManifest();
 
         function selectCanvas(){
-            const cvId = this.getAttribute("data-uri");
             const index = this.getAttribute("data-index");
-            cp.setCanvas(cvId);
-            $("cvLabel").innerText = this.getAttribute("data-label");
+            let thisCanvas, otherCanvas;
+            let leftLabel, rightLabel, otherLabel;
+            let otherIndex;
+            if(index % 2 == 0){
+                thisCanvas = cpLeft;
+                leftLabel = this.getAttribute("data-label");
+                otherCanvas = cpRight;   
+                otherIndex = index + 1;             
+            } else {
+                thisCanvas = cpRight;
+                rightLabel = this.getAttribute("data-label");
+                otherCanvas = cpLeft;  
+                otherIndex = index - 1;
+            }
+            const otherThumb = document.querySelector(`[data-index="${otherIndex}"]`);
+            if(otherThumb){
+                otherCanvas.style.display = "";
+                otherCanvas.setCanvas(otherThumb.getAttribute("data-uri"));
+                otherLabel = otherThumb.getAttribute("data-label");
+            } else {
+                otherCanvas.style.display = "none";
+            }
+                thisCanvas.style.display = "";
+            thisCanvas.setCanvas(this.getAttribute("data-uri"));
+            let label;
+            if(leftLabel){
+                label = `${leftLabel} | ${otherLabel}`;
+            } else {
+                label = `${otherLabel} | ${rightLabel}`;
+            }
+            $("cvLabel").innerText = label;            
         }
 
      </script>
