@@ -5,6 +5,11 @@ title: <layout-container />
 
 # Layout container
 
+:::caution
+Layout container is currently best for non-changing viewports. Nested web components inside of a `<layout-container />` are not 
+responsive to changes in attributes due to a bug with an underlying library. If you want to build a book viewer, check [Sequence panel](./sequence-panel.md)
+:::
+
 import layoutContainer from '@site/sandboxes/layout-container.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 

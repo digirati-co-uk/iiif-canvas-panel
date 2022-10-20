@@ -125,6 +125,26 @@ By default (as with the Mirador plugin) Canvas Panel will favour OCR formats ove
 This behaviour can be overridden. (samples).
 
 
+### Honorary annotations - METS-ALTO, hOCR and WebVTT
+
+:::danger
+
+This feature is still under development, it is not available in released versions.
+
+:::
+
+It's common for IIIF canvases to link to non-IIIF formats containing text. 
+
+Vault allows you to load these _as if they were annotations_ and program against them through the Annotation/Target/Body classes for consistency. If it finds it linked from the Canvas, Canvas Panel will expose WebVTT to `<video>` and `<audio>` tags, but you might want to do additional things with the text, without parsing WebVTT yourself, instead parsing as W3C annotations for consistency.
+
+You can also add external text formats as annotations, using a Vault helper:
+
+```js
+const annoPage = helper.importWebVTTAsAnnotations('https://example.org/web-vtt', {target: 'https://example.org/canvas-id' });
+```
+
+See [Text Handling](../future/handling-text) for further information.
+
 
 <GitHubDiscussion ghid="15" />
 

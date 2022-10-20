@@ -8,14 +8,14 @@ const config: SandpackProps = {
   ),
   template: "vanilla",
   options: {
-    openPaths: ["/index.html", `/src/index.js`],
-    activePath: "/index.html",
+    openPaths: ["/index.html", "/src/index.js"],
+    activePath: "/index.js",
     wrapContent: false,
-    editorHeight: 513,
+    editorHeight: 700,
     showTabs: true,
     showLineNumbers: false,
     autorun: true,
-    editorWidthPercentage: 60,
+    editorWidthPercentage: 40,
   },
   customSetup: {
     dependencies: require("./package.json").dependencies,

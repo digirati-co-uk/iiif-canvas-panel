@@ -5,6 +5,7 @@ sidebar_position: 20
 # Styling
 
 import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
+import opacity from '@site/sandboxes/20-styling/opacity.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
 <!-- Stephen
@@ -16,7 +17,7 @@ A discussion of styling quirks
 You can also style image services using their image service ID (no canvas ID)
  -->
 
-There are 3 types of object you can type in 
+There are 3 types of object you can style: 
 
 * Canvases
 * Annotation pages
@@ -33,6 +34,7 @@ Vault helper you can apply styles prior to rendering your canvas panel. If you u
 that you pass in a scope of `atlas` as the 3rd argument.
 
 ## Box styles
+
 There are currently a subset of styles that can be applied to annotations that will be rendered using the HTML canvas
 if that is available. This will improve performance if you have large numbers of annotations being displayed - such
 as OCR annotations.
@@ -69,6 +71,7 @@ interface BoxStyles {
 ```
 
 ### States
+
 You can set hover and active states, that support all the above properties. This can be used to create some basic 
 interactivity for your annotations. These should be enough for most cases and avoid de-optimising and using CSS classes
 directly.
@@ -86,6 +89,7 @@ cp.applyStyles(annotationPage, {
 ```
 
 ### Vault helper
+
 If you decide to use [Vault helpers](https://github.com/IIIF-Commons/vault-helpers) you will need to ensure you pass
 in the correct scope when you apply styles.
 
@@ -118,6 +122,7 @@ Some quirks of the box style.
 ## CSS Styles
 
 If you would like to add more styles than these options you can set a custom class name instead.
+
 ```ts
 cp.setClassName(annotationPage, 'my-custom-class');
 ```
@@ -126,6 +131,7 @@ Canvas panel exists in a web-component, so styles will not work out of the box. 
 styles.
 
 **1. Using `::part()`, which must be used instead of `.my-custom-class`**
+
 ```html
 <style>
   canvas-panel::part(my-custom-class) {
@@ -135,6 +141,7 @@ styles.
 ```
 
 **2. Using `style-id`, where you can use normal CSS classses.**
+
 ```html
 <style id="my-style">
   .my-custom-class {
@@ -145,12 +152,16 @@ styles.
 ```
 
 **3. Using an external stylesheet (where you can use normal CSS classes)**
+
 ```html
 <canvas-panel stylesheet="https://example.org/styles.css"></canvas-panel>
 ```
 
 <Sandbox project={externalStylesheet} />
 
+## Opacity
+
+You can set the opacity of resources via their `id`. In this case, the `id` of the image resource that is the body of the painting annotation:
 
 ```javascript
 cp.applyStyles(
@@ -159,8 +170,7 @@ cp.applyStyles(
 });
 ```
 
-
-Does this one work?
+You can also set the opacity of a particular item within a Choice:
 
 ```html
 <canvas-panel 
@@ -168,3 +178,8 @@ Does this one work?
   choice-id="http://example.org/choice-set-a/3, http://example.org/choice-set-b/7#opacity=0.5" 
 />                                                       Useful for static rendering -----^
 ```
+
+<Sandbox project={opacity} />
+
+
+
