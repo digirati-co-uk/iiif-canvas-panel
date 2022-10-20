@@ -96,8 +96,6 @@ export const TileSet: FC<{
         })}
         {tiles.map((tile: any) =>
           (tile.scaleFactors || []).map((size: number) => {
-            console.log('size', size, props.tileFormat);
-
             return (
               <TiledImage
                 key={`${tile}-${size}`}
