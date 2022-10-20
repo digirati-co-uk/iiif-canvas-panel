@@ -70,6 +70,7 @@
             const viewportContainer = $("viewportContainer");
             // var layout = document.createElement("atlas-viewer");
             var layout = document.createElement("layout-container");
+            layout.setAttribute("preset", "zoom");
             viewportContainer.replaceChildren();            
             viewportContainer.appendChild(layout);
 
@@ -122,7 +123,7 @@
 
         function createNestedCanvasPanelElement(canvasId){
             const cp = document.createElement("canvas-panel");
-            cp.setAttribute("nested", "");
+            cp.setAttribute("nested", "true");
             cp.setAttribute("canvas-id", canvasId);  
             cp.setAttribute("manifest-id", manifest.id);  // not needed?
             cp.vault = vault;  
