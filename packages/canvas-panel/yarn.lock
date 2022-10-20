@@ -758,15 +758,18 @@
     "@iiif/vault" "0.9.*"
     tiny-invariant "^1.2.0"
 
-"@iiif/vault-helpers@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/@iiif/vault-helpers/-/vault-helpers-0.9.8.tgz#6570073ff73bc5638255fca2f845ae484d7d208d"
-  integrity sha512-73rUenQUnrd+WIoJwlcL4X/Q1bEwABdr53IZMB7QukecyvTyYr2TsreEzKU56T/Wx1mSLPISPM4AX520bOe6SA==
+"@iiif/vault-helpers@^0.9.11":
+  version "0.9.11"
+  resolved "https://registry.yarnpkg.com/@iiif/vault-helpers/-/vault-helpers-0.9.11.tgz#43a28e4600d41990997a2225e9272491bddc7d57"
+  integrity sha512-4XuFPvu233mMzfU/mMpAqFY5aCTzwhJ0u7MzPcpN8nSfMwbV5Dyvv0PppjcocvbWMUUXScqerRoB1MAfSFas6w==
   dependencies:
     "@iiif/presentation-2" "1.x"
     "@iiif/presentation-3" "1.x"
   optionalDependencies:
+    abs-svg-path "^0.1.0"
+    parse-svg-path "^0.1.0"
     react-i18next "^11.18.0"
+    svg-arc-to-cubic-bezier "^3.2.0"
 
 "@iiif/vault@0.9.*", "@iiif/vault@>=0.9.19", "@iiif/vault@^0.9.18":
   version "0.9.18"
@@ -1400,6 +1403,11 @@
   dependencies:
     "@typescript-eslint/types" "5.14.0"
     eslint-visitor-keys "^3.0.0"
+
+abs-svg-path@^0.1.0:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/abs-svg-path/-/abs-svg-path-0.1.1.tgz#df601c8e8d2ba10d4a76d625e236a9a39c2723bf"
+  integrity sha512-d8XPSGjfyzlXC3Xx891DJRyZfqk5JU0BJrDQcsWomFIV1/BIzPW5HDH5iDdWpqWaav0YVIEzT1RHTwWr0FFshA==
 
 acorn-jsx@^5.3.1:
   version "5.3.2"
@@ -3513,6 +3521,11 @@ parse-json@^5.2.0:
     json-parse-even-better-errors "^2.3.0"
     lines-and-columns "^1.1.6"
 
+parse-svg-path@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/parse-svg-path/-/parse-svg-path-0.1.2.tgz#7a7ec0d1eb06fa5325c7d3e009b859a09b5d49eb"
+  integrity sha512-JyPSBnkTJ0AI8GGJLfMXvKq42cj5c006fnLz6fXy6zfoVjJizi8BNTpu8on8ziI1cKy9d9DGNuY17Ce7wuejpQ==
+
 path-exists@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-exists/-/path-exists-4.0.0.tgz#513bdbe2d3b95d7762e8c1137efa195c6c61b5b3"
@@ -4035,6 +4048,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
+
+svg-arc-to-cubic-bezier@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/svg-arc-to-cubic-bezier/-/svg-arc-to-cubic-bezier-3.2.0.tgz#390c450035ae1c4a0104d90650304c3bc814abe6"
+  integrity sha512-djbJ/vZKZO+gPoSDThGNpKDO+o+bAeA4XQKovvkNCqnIS2t+S4qnLAGQhyyrulhCFRl1WWzAp0wUDV8PpTVU3g==
 
 sync-request@^6.1.0:
   version "6.1.0"

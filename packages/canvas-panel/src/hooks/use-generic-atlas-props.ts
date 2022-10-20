@@ -355,7 +355,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         if (runtime.current) {
           runtime.current.world.trigger('zoom-to', {
             point,
-            factor: 1 / 0.75,
+            factor,
           });
         }
       },

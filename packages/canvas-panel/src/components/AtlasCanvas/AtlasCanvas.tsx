@@ -7,6 +7,9 @@ import {
   StrategyActions,
   useVault,
   ChoiceDescription,
+  useVaultSelector,
+  useAnnotationPageManager,
+  useManifest,
 } from 'react-iiif-vault';
 import { createStylesHelper } from '@iiif/vault-helpers';
 import { Fragment, h } from 'preact';
@@ -20,8 +23,10 @@ import { RenderImage } from '../RenderImage/RenderImage';
 import { useVirtualAnnotationPageContext } from '../../hooks/use-virtual-annotation-page-context';
 import { RenderAudio } from '../RenderAudio/RenderAudio';
 import { RenderVideo } from '../RenderVideo/RenderVideo';
+import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
+import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
 
-export const AtlasCanvas: FC<{
+interface AtlasCanvasProps {
   x?: number;
   y?: number;
   highlight?: any | undefined;
@@ -35,7 +40,11 @@ export const AtlasCanvas: FC<{
   registerActions?: (actions: StrategyActions) => void;
   isStatic?: boolean;
   textSelectionEnabled?: boolean;
-}> = ({
+  children?: any;
+  textEnabled?: boolean;
+}
+
+export function AtlasCanvas({
   x,
   y,
   highlight,
@@ -49,7 +58,9 @@ export const AtlasCanvas: FC<{
   defaultChoices,
   isStatic,
   textSelectionEnabled,
-}) => {
+  textEnabled,
+}: AtlasCanvasProps) {
+  const manifest = useManifest();
   const canvas = useCanvas();
   const elementProps = useResourceEvents(canvas, ['deep-zoom']);
   const [virtualPage] = useVirtualAnnotationPageContext();
@@ -60,12 +71,33 @@ export const AtlasCanvas: FC<{
     defaultChoices: defaultChoices?.map(({ id }) => id),
   });
   const choice = strategy.type === 'images' ? strategy.choice : undefined;
+  const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
+  const fullPages = useVaultSelector(
+    (state, vault) => {
+      return manager.availablePageIds.map((i) => vault.get(i));
+    },
+    [...manager.availablePageIds]
+  );
+  const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
+  const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;
+  const firstTextLines = hasTextLines ? pageTypes.pageMapping.supplementing[0] : null;
 
   useEffect(() => {
     if (registerActions) {
       registerActions(actions);
     }
   }, [strategy.annotations]);
+
+  useEffect(() => {
+    if (textEnabled) {
+      const promises = [];
+      for (const page of manager.availablePageIds) {
+        if (!vault.requestStatus(page)) {
+          promises.push(vault.load(page));
+        }
+      }
+    }
+  }, [canvas?.id, textEnabled]);
 
   useEffect(() => {
     if (defaultChoices) {
@@ -167,6 +199,9 @@ export const AtlasCanvas: FC<{
           })
         : null}
       {debug ? <Debug /> : null}
+      {textEnabled && firstTextLines ? (
+        <RenderTextLines annotationPageId={firstTextLines} selectionEnabled={textSelectionEnabled} />
+      ) : null}
     </Fragment>
   );
 
@@ -190,4 +225,4 @@ export const AtlasCanvas: FC<{
       {/* This is required to fix a race condition. */}
     </WorldObject>
   );
-};
+}

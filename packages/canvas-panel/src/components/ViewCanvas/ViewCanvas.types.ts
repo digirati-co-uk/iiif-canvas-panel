@@ -12,6 +12,7 @@ export type AtlasDisplayOptions = AtlasProps & {
 
 export type ViewCanvasProps = {
   canvasId?: string;
+  renderMultiple?: boolean;
   canvasIndex?: number;
   homePosition?: ParsedSelector | undefined;
   highlight?: ParsedSelector | undefined;

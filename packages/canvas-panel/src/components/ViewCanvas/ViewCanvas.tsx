@@ -17,9 +17,7 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
 import { serialiseContentState } from '../../helpers/content-state/content-state';
 import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
 import { targetToPixels } from '../../helpers/target-to-pixels';
-import { useEffect } from 'preact/compat';
-import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
-import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
+import { RenderAllCanvases } from '../RenderAllCanvases';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -37,27 +35,6 @@ export function ViewCanvas(props: ViewCanvasProps) {
         ? props.displayOptions.homePosition.width / props.displayOptions.homePosition.height
         : canvas.width / canvas.height
       : undefined;
-  const fullPages = useVaultSelector(
-    (state, vault) => {
-      return manager.availablePageIds.map((i) => vault.get(i));
-    },
-    [...manager.availablePageIds]
-  );
-
-  const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
-  const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;
-  const firstTextLines = hasTextLines ? pageTypes.pageMapping.supplementing[0] : null;
-
-  useEffect(() => {
-    if (props.textEnabled) {
-      const promises = [];
-      for (const page of manager.availablePageIds) {
-        if (!vault.requestStatus(page)) {
-          promises.push(vault.load(page));
-        }
-      }
-    }
-  }, [canvas?.id, props.textEnabled]);
 
   useRegisterPublicApi((el) => {
     if (!manager) {
@@ -123,6 +100,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
     }
   };
 
+  const Component = props.renderMultiple ? RenderAllCanvases : AtlasCanvas;
+
   // To centre: containerStyle={{ margin: '0 auto' }}
   return (
     <ErrorBoundary
@@ -136,6 +115,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
       )}
     >
       <NestedAtlas
+        key={props.renderMultiple ? '' : canvas?.id}
         aspectRatio={aspectRatio}
         containerProps={{
           onKeyDown: onKeyDownContainer,
@@ -145,7 +125,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
         {...displayOptions}
         mode={annoMode ? 'sketch' : props.mode}
       >
-        <AtlasCanvas
+        <Component
           isStatic={!props.interactive}
           debug={props.debug}
           virtualSizes={props.virtualSizes}
@@ -172,13 +152,10 @@ export function ViewCanvas(props: ViewCanvasProps) {
           x={props.x}
           y={props.y}
           textSelectionEnabled={props.textSelectionEnabled}
+          textEnabled={props.textEnabled}
         />
 
         {props.children}
-
-        {props.textEnabled && firstTextLines ? (
-          <RenderTextLines annotationPageId={firstTextLines} selectionEnabled={props.textSelectionEnabled} />
-        ) : null}
       </NestedAtlas>
     </ErrorBoundary>
   );
