@@ -8,7 +8,7 @@ async function load() {
     "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
   );
   cp.setCanvas(
-    "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"
+    "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
   );
   const target = { x: 1000, y: 1900, width: 1500, height: 1000 };
   setTimeout(() => {
@@ -25,7 +25,7 @@ async function drawBox() {
     type: "Annotation",
     motivation: "highlighting",
     target:
-      "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116#xywh=1250,1780,400,400"
+      "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123#xywh=1250,1780,400,400"
   };
   await cp.vault.load(w3CAnno.id, w3CAnno);
   const highlight = cp.createAnnotationDisplay(w3CAnno.id);

@@ -18,13 +18,13 @@ Consider Canvas Panel showing a painting:
 
 ```html
 <canvas-panel
-   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"
+   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
    manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
 />
 ```
 
 <canvas-panel
-   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"
+   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
    manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
 />
 
@@ -32,14 +32,14 @@ Then showing a detail via the addition of a `region` attribute:
 
 ```html
 <canvas-panel
-   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"
+   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
    manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
    region="1105,1548,701,720"
 />
 ```
 
 <canvas-panel
-   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"
+   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
    manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
    region="1105,1548,701,720"
 />
