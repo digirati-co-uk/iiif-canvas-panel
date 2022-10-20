@@ -175,7 +175,7 @@ The `vault-helpers` library brings some additional utilities. Add another `scrip
 
     let manifestUri = "https://digirati-co-uk.github.io/journal.json";        
     const vault = new IIIFVault.Vault();
-    const thumbHelper = IIIFVaultHelpers.createThumbnailHelper(vault);  // NEW - make a thumbnail helper
+    const thumbHelper = VaultHelpers.createThumbnailHelper(vault);  // NEW - make a thumbnail helper
 ```
 
 Now we can use this to help build user interface:
@@ -265,7 +265,7 @@ let loadedAnnoPage; // this will be the last loaded but here we know there's onl
 for(const annoPage of canvas10.annotations)
 {
     // the .annotations property is an array of 0..n AnnotationPage resources.
-    console.log(IIIFVaultHelpers.getValue(annoPage.label)); 
+    console.log(VaultHelpers.getValue(annoPage.label)); 
     // how do we know these are not inline?
     let embedded = annoPage.items && !vault.requestStatus(annoPage);
     if(!embedded){
@@ -405,7 +405,7 @@ await vault.subscribe(
     },
     annotationPage => {
         console.log("(callback on change) " + annotationPage.items.length + " items");
-        show([IIIFVaultHelpers.getValue(annotationPage.label), annotationPage.items.length + " items"], "Annotation Page");
+        show([VaultHelpers.getValue(annotationPage.label), annotationPage.items.length + " items"], "Annotation Page");
     }
 );
 ```
@@ -441,7 +441,7 @@ show(vault.getResourceMeta(manifest.id).eventManager, "Event manager for " + man
 // undefined 
 
 // Introducing another helper
-const events = IIIFVaultHelpers.createEventsHelper(vault);
+const events = VaultHelpers.createEventsHelper(vault);
 
 // There is no event manager for this entity, yet. But if we start adding event listeners, one wil be created:
 events.addEventListener(manifest, 'onClick', (e) => {
@@ -494,8 +494,8 @@ For clarity, add this `LoadManifest` function to the script after the demo() fun
 async function LoadManifest(manifestId){
     
     const manifest = await vault.loadManifest(manifestId); 
-    const events = IIIFVaultHelpers.createEventsHelper(vault);
-    const thumbHelper = IIIFVaultHelpers.createThumbnailHelper(vault); 
+    const events = VaultHelpers.createEventsHelper(vault);
+    const thumbHelper = VaultHelpers.createThumbnailHelper(vault); 
 
     for(const canvas of manifest.items){
         // give these handlers a scope, we may wish to have other click handlers for the same canvases elsewhere

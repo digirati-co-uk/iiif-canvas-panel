@@ -66,16 +66,16 @@ The additional vault-helpers library adds some useful utilities:
     function $(id){ return document.getElementById(id); }
 
     const cp = $("cp");
-    const helper = IIIFVaultHelpers.createThumbnailHelper(cp.vault);
+    const helper = VaultHelpers.createThumbnailHelper(cp.vault);
 
     async function main(){
         const manifestId = "https://digirati-co-uk.github.io/wunder.json";
         const canvasId = "https://digirati-co-uk.github.io/wunder/canvases/1";
         let manifest = await cp.vault.loadManifest(manifestId);
-        $("manifestLabel").innerText = IIIFVaultHelpers.getValue(manifest.label);
+        $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);
         cp.setCanvas(canvasId);
         let thatCanvas = cp.vault.get(canvasId);
-        $("canvasLabel").innerText = IIIFVaultHelpers.getValue(thatCanvas.label);
+        $("canvasLabel").innerText = VaultHelpers.getValue(thatCanvas.label);
         let thumbSrc = (await helper.getBestThumbnailAtSize(thatCanvas, 200)).best.id;
         $("thumb").src = thumbSrc;
     }

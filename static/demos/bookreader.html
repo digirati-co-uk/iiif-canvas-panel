@@ -1,36 +1,18 @@
----
-sidebar_position: 1
-title: Simple Viewer
----
-
-# Building a Simple Viewer
-
-import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-
-This is a very minimal IIIF viewer that can load a manifest, display thumbnails, and load canvases in response to user navigation through the thumbnails.
-
-You can see it running at /demos/simplest-viewer.html <a href="/demos/simplest-viewer.html" target="_blank">Simplest Viewer</a>.
-
-
-_The code below shows how CP plus a few other UI components, combined with vault, can load manifests, render thumbnails, and show the canvases. The code is simple against a vault-normalised Presentation 3 representation._
-
-
-```html
 <html>
 <head>
-    <title>Canvas Panel - simple</title>
+    <title>Bookreader</title>
     <style>
         #manifest { width: 50vw; }
-        #th { width:12vw; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
-        #main { width:78vw; margin-top:30px; margin-left:10px; float:left; height:90%;} 
-        .tc { display: inline-block; padding:5px; cursor: pointer; }
+        #th { width:240px; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
+        #main { width:72vw; margin-top:30px; margin-left:10px; float:left; height:90%;} 
+        .tc { display: inline-block; padding:5px; cursor: pointer; min-width: 100; }
         #cp { height:100% }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
 </head>
 <body>
-    <h1>A simple viewer using Canvas Panel</h1>
+    <h1>A bookreader using Canvas Panel and Layout Container</h1>
     <h2 id="manifestLabel"></h2>
     <div>    
         <input id="manifest" type="text" value="https://iiif.wellcomecollection.org/presentation/b18035723" />
@@ -39,7 +21,10 @@ _The code below shows how CP plus a few other UI components, combined with vault
     <div>    
         <div id="th"></div>
         <div id="main">
-            <canvas-panel id="cp" height="600"></canvas-panel> <!--height="95%" -->
+            <layout-container height="600">
+                <canvas-panel nested id="cpLeft"></canvas-panel>
+                <canvas-panel nested id="cpRight"></canvas-panel>
+            </layout-container>
             <p id="cvLabel"></p>
         </div>
     </div>
@@ -54,11 +39,14 @@ _The code below shows how CP plus a few other UI components, combined with vault
                 const manifest = await cp.vault.loadManifest(manifestUri);       
                 $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);      
                 let thumbsHtml = "";
+                let counter = 1;
+                // for brevity we will assume that the manifest is "paged", the viewingDirection is left-to-right.
+                thumbsHtml += '<div class="tc"></div>';
                 for(const canvas of cp.vault.get(manifest.items)){              
                     const label = VaultHelpers.getValue(canvas.label);
                     const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {maxWidth:100, maxHeight:200});
-                    thumbsHtml += '<div class="tc">' + label + '<br/>';
-                    thumbsHtml += '<img data-uri="' + canvas.id + '" data-label="' + label + '" src="' + cvThumb.best.id + '" />';
+                    thumbsHtml += `<div class="tc">{label}<br/>`;
+                    thumbsHtml += `<img data-uri="{canvas.id}" data-label="{label}" src="{cvThumb.best.id}" data-index="{counter}" />`;
                     thumbsHtml += '</div>';   
                 }
                 $('th').innerHTML = thumbsHtml;    
@@ -75,6 +63,7 @@ _The code below shows how CP plus a few other UI components, combined with vault
 
         function selectCanvas(){
             const cvId = this.getAttribute("data-uri");
+            const index = this.getAttribute("data-index");
             cp.setCanvas(cvId);
             $("cvLabel").innerText = this.getAttribute("data-label");
         }
@@ -82,6 +71,3 @@ _The code below shows how CP plus a few other UI components, combined with vault
      </script>
 </body>
 </html>
-```
-
-<GitHubDiscussion ghid="20" />
