@@ -6,10 +6,11 @@
         #th { width:240px; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
         #main { width:72vw; margin-top:30px; margin-left:10px; float:left; height:90%;} 
         .tc { display: inline-block; padding:5px; cursor: pointer; min-width: 100; }
-        #layout { height:100% }
+        #viewportContainer { height:80%; background-color: black; }
         /* #cp { height:100% } */
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
 </head>
 <body>
@@ -22,24 +23,23 @@
     <div>    
         <div id="th"></div>
         <div id="main">
-            <layout-container id="layout">
-                <canvas-panel nested id="cpLeft" y="0"></canvas-panel>
-                <canvas-panel nested id="cpRight" y="0" x="2000"></canvas-panel>
-            </layout-container>
+            <div id="viewportContainer">
+
+            </div>
             <p id="cvLabel"></p>
         </div>
     </div>
+
     <script>    
         function $(id) { return document.getElementById(id); }
-        const cpLeft = $("cpLeft");
-        const cpRight = $("cpRight");
-        const vault = cpLeft.vault;
+        const vault = new IIIFVault.Vault();
         const thumbHelper = VaultHelpers.createThumbnailHelper(vault);
+        let manifest;
 
         async function loadManifest(){
             const manifestUri = $("manifest").value;
             if(manifestUri){
-                const manifest = await vault.loadManifest(manifestUri);       
+                manifest = await vault.loadManifest(manifestUri);     
                 $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);      
                 let thumbsHtml = "";
                 let counter = 1;
@@ -66,31 +66,50 @@
         loadManifest();
 
         function selectCanvas(){
-            const index = this.getAttribute("data-index");
-            let thisCanvas, otherCanvas;
+            var clickedCanvas = vault.get(this.getAttribute("data-uri"));
+            const viewportContainer = $("viewportContainer");
+            // var layout = document.createElement("atlas-viewer");
+            var layout = document.createElement("layout-container");
+            viewportContainer.replaceChildren(layout);            
+
+            let leftCanvas, rightCanvas, otherCanvas;
+            let cpLeft, cpRight, cpOther;
             let leftLabel, rightLabel, otherLabel;
+
+            const index = parseInt(this.getAttribute("data-index"));
             let otherIndex;
+
             if(index % 2 == 0){
-                thisCanvas = cpLeft;
+                cpLeft = createNestedCanvasPanelElement(clickedCanvas.id);           
                 leftLabel = this.getAttribute("data-label");
-                otherCanvas = cpRight;   
                 otherIndex = index + 1;             
             } else {
-                thisCanvas = cpRight;
+                cpRight = createNestedCanvasPanelElement(clickedCanvas.id);                         
                 rightLabel = this.getAttribute("data-label");
-                otherCanvas = cpLeft;  
-                otherIndex = index - 1;
+                otherIndex = index - 1;  
             }
             const otherThumb = document.querySelector(`[data-index="${otherIndex}"]`);
             if(otherThumb){
-                otherCanvas.style.display = "";
-                otherCanvas.setCanvas(otherThumb.getAttribute("data-uri"));
+                otherCanvas = vault.get(otherThumb.getAttribute("data-uri"));
+                cpOther = createNestedCanvasPanelElement(otherCanvas.id); 
                 otherLabel = otherThumb.getAttribute("data-label");
-            } else {
-                otherCanvas.style.display = "none";
             }
-                thisCanvas.style.display = "";
-            thisCanvas.setCanvas(this.getAttribute("data-uri"));
+            offsetCanvas = clickedCanvas;
+            if(cpLeft){
+                cpRight = cpOther;
+            } else {
+                cpLeft = cpOther;
+                if(otherCanvas){
+                    offsetCanvas = otherCanvas;
+                }
+            }
+            if(cpLeft){
+                layout.appendChild(cpLeft);
+            }
+            if(cpRight){
+                cpRight.setAttribute("x", offsetCanvas.width + 10);
+                layout.appendChild(cpRight);
+            }
             let label;
             if(leftLabel){
                 label = `${leftLabel} | ${otherLabel}`;
@@ -100,6 +119,13 @@
             $("cvLabel").innerText = label;            
         }
 
+        function createNestedCanvasPanelElement(canvasId){
+            const cp = document.createElement("canvas-panel");
+            cp.setAttribute("nested", "");
+            cp.setAttribute("canvas-id", canvasId);  
+            // cp.setAttribute("manifest-id", manifest.id);  // not needed?
+            cp.vault = vault;  
+        }
      </script>
 </body>
 </html>
