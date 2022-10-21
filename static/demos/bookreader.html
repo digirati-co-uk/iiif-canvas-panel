@@ -81,14 +81,16 @@
                     // thumb.addEventListener('click', selectCanvas);
                     thumb.addEventListener('click', () => {
                         // Change the canvas.
-                        const sequence = sequencePanel.sequence;
-                        if (sequence) {
-                            sequence.setCurrentCanvasId(thumb.getAttribute('data-uri'));
-                            const itemIndexes = sequence.sequence[sequence.currentSequenceIndex]; 
-                            const canvasRefs = itemIndexes.map(idx => sequence.items[idx]);
-                            const canvases = vault.get(canvasRefs);
-                            const labels = canvases.map(canvas => VaultHelpers.getValue(canvas.label));
-                            $("cvLabel").innerText = labels.join(" | ");                              
+                        if (sequencePanel.sequence) {
+                            sequencePanel.sequence.setCurrentCanvasId(thumb.getAttribute('data-uri'));
+                            setTimeout(() => {
+                                const sequence = sequencePanel.sequence; // reacquire
+                                const itemIndexes = sequence.sequence[sequence.currentSequenceIndex]; 
+                                const canvasRefs = itemIndexes.map(idx => sequence.items[idx]);
+                                const canvases = vault.get(canvasRefs);
+                                const labels = canvases.map(canvas => VaultHelpers.getValue(canvas.label));
+                                $("cvLabel").innerText = labels.join(" | ");   
+                            }, 500);                           
                         }
                     });
                 }  
