@@ -1,5 +1,6 @@
 ---
 sidebar_position: 5
+hide_title: true
 ---
 
 # Showing a region of the Canvas
@@ -14,6 +15,15 @@ import region6 from '@site/sandboxes/05-regions/region6.csb/_load';
 import more2 from '@site/sandboxes/07-more-regions/more2.csb/_load';
 import more3 from '@site/sandboxes/07-more-regions/more3.csb/_load';
 import { Sandbox } from '@site/Sandbox';
+
+
+<div style={{ height: '240px', overflow: 'hidden', marginBottom: 30, position: 'relative' }}>
+<image-service 
+   height="240"
+   preset="static" 
+   src="https://iiif.wellcomecollection.org/image/b14658197.jp2" region="2449,1062,1695,965" />
+
+</div>
 
 
 Sometimes you want to render just a _part_ of an image (an `xywh` region).

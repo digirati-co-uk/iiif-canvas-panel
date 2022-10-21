@@ -11,6 +11,8 @@ responsive to changes in attributes due to a bug with an underlying library. If 
 :::
 
 import layoutContainer from '@site/sandboxes/layout-container.csb/_load';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import { Sandbox } from '@site/Sandbox';
 
 A common requirement when building a more complex viewer application is to show multiple canvases, or images, at the same time, for example:
@@ -26,13 +28,49 @@ Where this is insufficient is when multiple _sources_ - image services and/or ca
 
 The `<layout-container />` component provides this higher-level zoom space or _World_. It uses the same viewport implementation as `<canvas-panel />` and `<image-service />`. It takes the same `preset` attribute to determine behaviour within the viewport.
 
+
+<Tabs>
+
+<TabItem label="Image service" value="image-service" default>
+
+An example of wrapping a Canvas Panel (or in this case, image-service) component inside a higher-level component:
+
 ```html
 <layout-container width="800" preset="zoom">
-    <image-service nested="true" src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0"></image-service> 
-    <image-service nested="true" src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" /></image-service>
+    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0" /> 
+    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" />
 </layout-container>
 ```
+
+<layout-container width="800" preset="zoom">
+    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0" /> 
+    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" />
+</layout-container>
+
+</TabItem>
+
+<TabItem label="Canvas panel" value="canvas-panel" default>
+
+The same thing can be done with canvas-panel instances:
+
+```html
+<layout-container width="800" preset="zoom">
+    <canvas-panel nested manifest-id="https://digirati-co-uk.github.io/wunder.json" canvas-id="https://digirati-co-uk.github.io/wunder/canvases/8" x="0" /> 
+    <canvas-panel nested manifest-id="https://digirati-co-uk.github.io/wunder.json" canvas-id="https://digirati-co-uk.github.io/wunder/canvases/9" x="2411" />
+</layout-container>
+```
+
+<layout-container width="800" preset="zoom">
+    <canvas-panel nested manifest-id="https://digirati-co-uk.github.io/wunder.json" canvas-id="https://digirati-co-uk.github.io/wunder/canvases/8" x="0" /> 
+    <canvas-panel nested manifest-id="https://digirati-co-uk.github.io/wunder.json" canvas-id="https://digirati-co-uk.github.io/wunder/canvases/9" x="2411" />
+</layout-container>
+
+</TabItem>
+
+</Tabs>
+
 The canvas-panel and/or image-service components can then be positioned within the World-space using the `x` and `y` properties.
+
 
 <Sandbox stacked project={layoutContainer} />
 

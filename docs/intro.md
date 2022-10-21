@@ -18,7 +18,7 @@ You can see how to use Canvas Panel to build a [Manifest Viewer](../../docs/appl
 
 ## How do I get Canvas Panel?
 
-An easy way to try things out is to simply include a reference to Canvas Panel on (CDN).
+An easy way to try things out is to simply include a reference to Canvas Panel on (CDN). See [Installtion](./installation.md) for more options.
 
 ```html
 <html>

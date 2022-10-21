@@ -1,0 +1,115 @@
+---
+sidebar_position: 1
+title: Installation
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+# Installation
+
+Canvas panel is made up of several [Web Components](https://www.webcomponents.org/). In order to use the
+components you need to have a `<script/>` tag loaded on your webpage. You can also include them in your existing bundler of choice.
+
+The provided Web Components are as follows:
+
+* `<canvas-panel />` - this is the primary web component, used for rendering any single IIIF canvas.
+* `<image-service />` - this is a web component that can be used without a IIIF manifest and only an Image service.
+* `<sequence-panel />` - This is a web component that can show a sequence of Canvases either from a Manifest or a Range.
+
+
+Canvas panel also uses a few libraries to provide IIIF functionality.
+
+* [Vault](https://github.com/IIIF-Commons/vault) is the library used by Canvas Panel to load, normalise and track IIIF resources. 
+* [Vault-helpers](https://github.com/IIIF-Commons/vault-helpers/) contains additional utilities for working with IIIF resources, such as `getLabel` and `getThumbnail`.
+* [Canvas Panel](https://github.com/digirati-co-uk/iiif-canvas-panel) is the web component. Its distribution includes vault and the various web components.
+* [IIIF Image API](https://github.com/atlas-viewer/iiif-image-api) is a utility library for working with IIIF Image resources
+
+
+<Tabs>
+
+<Tab label="Script tag" value="script-tag" default>
+    
+The web components (canvas-panel and image-service) are bundled in one script: 
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
+
+<canvas-panel
+  manifest-id="https://digirati-co-uk.github.io/wunder.json"
+  canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0">
+</canvas-panel>
+```
+
+This also gives you access to [Vault](./api-reference/vault), for doing things programmatically:
+
+```html {7}
+<canvas-panel id="cp"></canvas-panel>
+
+<script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
+<script>  
+    const cp = document.getElementById("cp");
+    const manifestUrl = "https://digirati-co-uk.github.io/wunder.json";
+    cp.vault.load(manifestUrl).then((manifest) => console.log(manifest.items.length));
+</script>  
+```
+
+You can use Vault independently of the Canvas Panel web component:
+
+```html {4-5}
+<script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
+<script>  
+    const manifestUrl = "https://digirati-co-uk.github.io/wunder.json";
+    const vault = new IIIFVault.Vault();
+    vault.load(manifestUrl).then((manifest) => console.log(manifest.items.length));
+</script>  
+```
+
+([Read more about Vault](./api-reference/vault))
+  
+</Tab>
+
+<Tab label="NPM / Yarn" value="npm-yarn">
+  
+You can install the Web Components using:
+
+```bash
+npm i @digirati/canvas-panel-web-components
+```
+
+```bash
+yarn add @digirati/canvas-panel-web-components
+```
+
+and then import in your script:
+```js
+import '@digirati/canvas-panel-web-components';
+```
+
+#### And the supporting libraries for Vault + Helpers:
+
+
+NPM Projects:
+```bash
+npm i @iiif/vault @iiif/vault-helpers
+```
+
+Yarn projects:
+```bash
+yarn add @iiif/vault @iiif/vault-helpers
+```
+
+and then import:
+```js
+import { Vault } from '@iiif/vault';
+```
+or with RequireJS / Node:
+```js
+const { Vault }  = require('@iiif/vault');
+```
+
+  
+</Tab>
+  
+</Tabs>

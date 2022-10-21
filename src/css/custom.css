@@ -7,15 +7,16 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #EB5561;
-  --ifm-color-primary-dark: #D61A29;
-  --ifm-color-primary-darker: #B40916;
-  --ifm-color-primary-darkest: #910D16;
-  --ifm-color-primary-light: #E97881;
-  --ifm-color-primary-lighter: #EA999F;
-  --ifm-color-primary-lightest: #E7ACB0;
+  --ifm-color-primary: #eb5561;
+  --ifm-color-primary-dark: #d61a29;
+  --ifm-color-primary-darker: #b40916;
+  --ifm-color-primary-darkest: #910d16;
+  --ifm-color-primary-light: #e97881;
+  --ifm-color-primary-lighter: #ea999f;
+  --ifm-color-primary-lightest: #e7acb0;
   --ifm-code-font-size: 95%;
   --ifm-z-index-fixed: 20;
+  --docusaurus-highlighted-code-line-bg: #e8ebef;
 
   --ifm-container-width-xl: 1800px;
 }
@@ -23,7 +24,7 @@
 canvas-panel {
   /* Canvas panel */
   --atlas-background: #f0f0f0;
-  --atlas-focus: 4px solid #EB5561;
+  --atlas-focus: 4px solid #eb5561;
   --atlas-z-index: 10;
 
   /*--atlas-container-flex: 1 1 0px;*/
@@ -54,7 +55,7 @@ canvas-panel {
   padding: 0 var(--ifm-pre-padding);
 }
 
-html[data-theme='dark'] .docusaurus-highlight-code-line {
+html[data-theme="dark"] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -63,13 +64,11 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-
-.sp-wrapper, .sp-wrapper .sp-layout {
-  border-radius:  0.4rem;
+.sp-wrapper,
+.sp-wrapper .sp-layout {
+  border-radius: 0.4rem;
   overflow: hidden;
 }
 .sp-tabs {
   background: #fff;
 }
-
-

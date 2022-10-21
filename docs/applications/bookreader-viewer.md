@@ -5,42 +5,24 @@ title: Book Reader
 
 # A Bookreader viewer, with facing pages
 
+import CodeBlock from '@theme/CodeBlock';
 import { GitHubIssue } from "../../GitHubDiscussion.js";
+import source from '!!raw-loader!../../static/demos/bookreader.html';
 
+This example builds on the minimal viewer by adding support for 2-up views - facing pages.
 
-This example builds on the minimal viewer by adding support for 2-up views - facing pages - and showing simple annotations.
+One way of doing that would be to use two Canvas Panel instances, next to each other. But the expected behaviour of a 2-up viewer is that there is still only one viewport, the two canvases live in the same "zoom-space".
 
-_This viewer is then extended by [Content State Selector](./content-state-selector) and [Text-centric Viewer](./text-centric)._
+A generalised way of _hoisting_ the viewport is to use `<layout-container/>`. This demo uses [Sequence panel](../api-reference/sequence-panel.md) which has some extra features to deal with paged sequences.
 
-An example of wrapping a Canvas Panel (or in this case, image-service) component inside a higher-level component:
+You can see it running at /demos/bookreader.html <a href="/demos/bookreader.html" target="_blank">Bookreader 2-up viewer</a>.
 
-```html
-<layout-container width="800" preset="zoom">
-    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0" /> 
-    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" />
-</layout-container>
-```
-
-<layout-container width="800" preset="zoom">
-    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0" /> 
-    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" />
-</layout-container>
-
-> Atlas Viewer is a developer tool (whereas Canvas Panel is equivalent to OpenSeadragon). [Atlas Viewer on GitHub](https://github.com/atlas-viewer/atlas)
-
-The same thing can be done with canvas-panel instances:
-
-```html
-<layout-container width="800" preset="zoom">
-    <canvas-panel nested manifest-id="https://digirati-co-uk.github.io/wunder.json" canvas-id="https://digirati-co-uk.github.io/wunder/canvases/8" x="0" /> 
-    <canvas-panel nested manifest-id="https://digirati-co-uk.github.io/wunder.json" canvas-id="https://digirati-co-uk.github.io/wunder/canvases/9" x="2411" />
-</layout-container>
-```
-
-<layout-container width="800" preset="zoom">
-    <canvas-panel nested manifest-id="https://digirati-co-uk.github.io/wunder.json" canvas-id="https://digirati-co-uk.github.io/wunder/canvases/8" x="0" /> 
-    <canvas-panel nested manifest-id="https://digirati-co-uk.github.io/wunder.json" canvas-id="https://digirati-co-uk.github.io/wunder/canvases/9" x="2411" />
-</layout-container>
+<CodeBlock
+  language="html"
+  title="Bookreader 2-up viewer"
+  showLineNumbers>
+    {source}
+</CodeBlock>
 
 
 <GitHubIssue ghid="64" />

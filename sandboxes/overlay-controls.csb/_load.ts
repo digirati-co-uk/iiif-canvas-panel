@@ -3,11 +3,13 @@ import { parseFiles } from "@site/Sandbox";
 
 const config: SandpackProps = {
   // @ts-ignore
-  files: parseFiles(require.context('!!raw-loader!./', true, /\.(ts|tsx|js|html|css)$/)),
-  template: 'vanilla',
+  files: parseFiles(
+    require.context("!!raw-loader!./", true, /\.(ts|tsx|js|html|css)$/)
+  ),
+  template: "vanilla",
   options: {
-    openPaths: ['/index.html', '/src/index.js'],
-    activePath: '/src/index.js',
+    openPaths: ["/index.html", "/src/index.js", "/src/styles.css"],
+    activePath: "/index.html",
     wrapContent: false,
     editorHeight: 513,
     showTabs: true,
@@ -16,8 +18,8 @@ const config: SandpackProps = {
     editorWidthPercentage: 60,
   },
   customSetup: {
-    dependencies: require('./package.json').dependencies,
-  }
+    dependencies: require("./package.json").dependencies,
+  },
 };
 
 export default config;

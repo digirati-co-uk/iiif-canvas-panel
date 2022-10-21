@@ -6,6 +6,7 @@ sidebar_position: 20
 
 import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
 import opacity from '@site/sandboxes/20-styling/opacity.csb/_load';
+import opacity2 from '@site/sandboxes/20-styling/opacity2.csb/_load';
 import flexbox from '@site/sandboxes/01-show-canvas/flexbox.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
@@ -162,22 +163,15 @@ styles.
 
 ## Styling with FlexBox
 
+To demonstrate how canvas panel can flex to fill its container, it's best to open this demo in the code sandbox and then open the preview in a new window.
+
 <Sandbox project={flexbox} />
-
-## Making Canvas Panel fit its container
-
-(TODO)
 
 ## Opacity
 
 You can set the opacity of resources via their `id`. In this case, the `id` of the image resource that is the body of the painting annotation:
 
-```javascript
-cp.applyStyles(
-  'https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-xray/full/max/0/default.jpg', {
-    opacity: 0.5,
-});
-```
+<Sandbox project={opacity2} />
 
 You can also set the opacity of a particular item within a Choice:
 
@@ -189,6 +183,8 @@ You can also set the opacity of a particular item within a Choice:
 ```
 
 <Sandbox project={opacity} />
+
+Tile rendering is not as optimised when applying opacity. Canvas Panel does not layer multiple tiles when zooming - just one layer of tiles, so no nice blending, otherwise you'd see through to the fallback layers with the opacity.
 
 
 

@@ -4,6 +4,8 @@ sidebar_position: 4
 
 # Accessibility
 
+<img src="https://cdn.pixabay.com/photo/2018/09/24/08/37/pixel-3699343_960_720.png" />
+
 import zoomDemo from '@site/sandboxes/04-accessibility/user-events.csb/_load';
 import moreZoom from '@site/sandboxes/04-accessibility/more-zoom.csb/_load';
 import { Sandbox } from '@site/Sandbox';

@@ -9,6 +9,6 @@
   	<button class="osd" onClick="cp.zoomIn()">🔍+</button>
     <button class="osd" onClick="cp.zoomOut()">🔍–</button>
     <button class="osd" onClick="cp.goHome()">🏠</button>
-    <button class="osd" onClick="cp.requestFullscreen()">🗖</button>
+    <button class="osd" onClick="(cp.requestFullscreen || cp.webkitRequestFullscreen).call(cp)">⤢</button>
   </div>
 </canvas-panel>

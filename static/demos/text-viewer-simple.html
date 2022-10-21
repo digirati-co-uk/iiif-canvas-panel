@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Canvas Panel - simple</title>
+    <title>Text Viewer - simple</title>
     <style>
         #manifest { width: 50vw; }
         #th { width:12vw; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
@@ -17,11 +17,14 @@
     <div>    
         <input id="manifest" type="text" value="https://iiif.wellcomecollection.org/presentation/b18035723" />
         <input id="go" type="button" value="Go" />
+        
+        <br/>
+        <input id="toggleText" type="button" value="Enable text selection" data-mode="off">
     </div>    
     <div>    
         <div id="th"></div>
         <div id="main">
-            <canvas-panel id="cp" height="600"></canvas-panel> <!--height="95%" -->
+            <canvas-panel id="cp" height="600" text-enabled="true"></canvas-panel>
             <p id="cvLabel"></p>
         </div>
     </div>
@@ -63,6 +66,16 @@
             cp.setCanvas(cvId);
             $("cvLabel").innerText = this.getAttribute("data-label");
         }
+        
+        $("toggleText").addEventListener("click", () => {
+            if(cp.getAttribute("text-selection-enabled") == "false"){
+                cp.disableTextSelection();
+                $("toggleText").value = "Enable text selection";
+            } else {                
+                cp.enableTextSelection();
+                $("toggleText").value = "Disable text selection";
+            }
+        });
 
      </script>
 </body>

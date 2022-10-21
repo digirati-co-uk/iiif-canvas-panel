@@ -43,7 +43,7 @@ The goal is to know where the viewport is. So in Atlas there are smooth transiti
 * `granular-move-events="true"` - this will enable granular (requires above too)
 
 Since there are so many events, the firing of them is completely opt-in*. The new event is:
-```
+```js
 el.addEventListener('move', e => {
   e.detail.x;
   e.detail.y;
@@ -62,11 +62,11 @@ el.addEventListener('move', e => {
  - Clicking a particular point that is the target of an annotation that the component has rendered 
  
  Clicking on the canvas:
- ```
+ ```js
  cp.applyHTMLProperties(canvas, { onClick: () => void });
  ```
  or..
- ```
+ ```js
  cp.events.addEventListener(canvas, 'onClick', () => {
      // event.
  })

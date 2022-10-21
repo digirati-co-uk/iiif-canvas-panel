@@ -50,7 +50,10 @@ This can still be rendered as a static image, even though it's a composite scene
    manifest-id="https://gist.githubusercontent.com/stephenwf/19e61dac5c329c77db8cf22fe0366dad/raw/04971529e364063ac88de722db786c97e2df0e6b/manifest.json">
 </canvas-panel>
 
-> The default value of `preset` is "zoom" - this can be set explicitly but is not usually required. See [Responsive Images and rendering modes](./rendering-modes).
+
+:::info
+The default value of `preset` is "zoom" - this can be set explicitly but is not usually required. See [Responsive Images and rendering modes](./rendering-modes).
+:::
 
 The other likely rendering option is `responsive` - which on its own will cause canvas panel to render the region, without a viewport:
 
