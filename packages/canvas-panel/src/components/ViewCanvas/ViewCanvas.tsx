@@ -17,6 +17,7 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
 import { serialiseContentState } from '../../helpers/content-state/content-state';
 import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
 import { targetToPixels } from '../../helpers/target-to-pixels';
+import { RenderAllCanvases } from '../RenderAllCanvases';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -71,8 +72,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
 
   useVaultSelector((state) => (ctx.canvas ? state.iiif.entities.Canvas[ctx.canvas] : null), []);
 
-  const displayOptions = useMemo(() => {
-    const { width, height, homePosition: _, ...rest } = props.displayOptions;
+  const [displayOptions, containerProps] = useMemo(() => {
+    const { width, height, homePosition: _, containerProps, ...rest } = props.displayOptions;
     const homePosition =
       props.displayOptions.homePosition && canvas
         ? targetToPixels(props.displayOptions.homePosition as any, canvas)
@@ -90,7 +91,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
       (rest as any).height = height;
     }
 
-    return rest as typeof props.displayOptions;
+    return [rest as typeof props.displayOptions, containerProps];
   }, [props.displayOptions, canvas]);
 
   const onKeyDownContainer = (e: any) => {
@@ -98,6 +99,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
       setAnnoMode(true);
     }
   };
+
+  const Component = props.renderMultiple ? RenderAllCanvases : AtlasCanvas;
 
   // To centre: containerStyle={{ margin: '0 auto' }}
   return (
@@ -112,15 +115,17 @@ export function ViewCanvas(props: ViewCanvasProps) {
       )}
     >
       <NestedAtlas
+        key={props.renderMultiple ? '' : canvas?.id}
         aspectRatio={aspectRatio}
         containerProps={{
           onKeyDown: onKeyDownContainer,
+          ...(containerProps || {}),
         }}
         className={props.className}
         {...displayOptions}
         mode={annoMode ? 'sketch' : props.mode}
       >
-        <AtlasCanvas
+        <Component
           isStatic={!props.interactive}
           debug={props.debug}
           virtualSizes={props.virtualSizes}
@@ -146,6 +151,9 @@ export function ViewCanvas(props: ViewCanvasProps) {
           }}
           x={props.x}
           y={props.y}
+          textSelectionEnabled={props.textSelectionEnabled}
+          textEnabled={props.textEnabled}
+          margin={props.margin}
         />
 
         {props.children}

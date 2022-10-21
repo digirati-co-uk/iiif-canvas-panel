@@ -5,10 +5,11 @@ import { RenderAnnotation } from '../RenderAnnotation/RenderAnnotation';
 import { useStyles, useVaultSelector } from 'react-iiif-vault';
 import { BoxStyle } from '@atlas-viewer/atlas';
 
-export const RenderAnnotationPage: FC<{ page: AnnotationPage | AnnotationPageNormalized; className?: string }> = ({
-  className,
-  page,
-}) => {
+export const RenderAnnotationPage: FC<{
+  page: AnnotationPage | AnnotationPageNormalized;
+  className?: string;
+  textSelectionEnabled?: boolean;
+}> = ({ className, page, textSelectionEnabled }) => {
   const style = useStyles<BoxStyle>(page, 'atlas');
   const html = useStyles<{ className?: string }>(page, 'html');
 
@@ -23,6 +24,7 @@ export const RenderAnnotationPage: FC<{ page: AnnotationPage | AnnotationPageNor
             id={annotation.id}
             style={style}
             className={html?.className || className}
+            textSelectionEnabled={textSelectionEnabled}
           />
         );
       })}

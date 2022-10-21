@@ -63,7 +63,7 @@ export function DrawingBoxes1() {
       {/*/>*/}
       {/*<canvas-panel*/}
       {/*  preset="zoom"*/}
-      {/*  iiif-content='{"id": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116#1000,1500,1500,1000", "type": "Canvas", "partOf": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"}'*/}
+      {/*  iiif-content='{"id": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123#1000,1500,1500,1000", "type": "Canvas", "partOf": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"}'*/}
       {/*  highlight="1250,1780,400,400"*/}
       {/*  highlight-css-class="example-annotation"*/}
       {/*  style-id="my-style"*/}
@@ -75,7 +75,7 @@ export function DrawingBoxes1() {
       {/*  // viewport={false}*/}
       {/*  // interactive={false}*/}
       {/*  // height={512}*/}
-      {/*  canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"*/}
+      {/*  canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"*/}
       {/*  manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"*/}
       {/*  region="1000,1500,1500,1000"*/}
       {/*  highlight="1250,1780,400,400"*/}
@@ -87,7 +87,7 @@ export function DrawingBoxes1() {
       {/*  id="cp2"*/}
       {/*  width={512}*/}
       {/*  height={512}*/}
-      {/*  canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"*/}
+      {/*  canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"*/}
       {/*  manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"*/}
       {/*  region="1000,1500,1000,1000"*/}
       {/*  highlight="1250,1780,400,400"*/}
@@ -101,7 +101,7 @@ export function DrawingBoxes1() {
       {/*  class="custom"*/}
       {/*  width={512}*/}
       {/*  height={512}*/}
-      {/*  canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/116"*/}
+      {/*  canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"*/}
       {/*  manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"*/}
       {/*  region="1000,1500,1000,1000"*/}
       {/*  highlight="1250,1780,400,400"*/}

@@ -1,0 +1,20 @@
+<canvas-panel
+  id="cp"
+  manifest-id="https://digirati-co-uk.github.io/wunder.json" 
+  canvas-id="https://digirati-co-uk.github.io/wunder/canvases/0"
+/>
+
+<script>
+    
+  const cp = document.getElementById("cp");
+
+  cp.withAtlas((atlas) => {
+    console.log("atlas", atlas);
+  });
+
+  cp.enableContentStateSelection((selection) => {
+    console.log(selection);
+  });
+
+    
+</script>

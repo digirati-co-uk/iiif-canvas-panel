@@ -10,6 +10,7 @@ export function ErrorFallback({
   width,
 }: Partial<FallbackProps> & { aspectRatio?: number; height?: number; width?: number }) {
   const style = aspectRatio ? { paddingTop: `${aspectRatio * 100}%` } : { height, width };
+  const Img = 'img' as any;
 
   useEffect(() => {
     console.error(error);
@@ -31,8 +32,9 @@ export function ErrorFallback({
         }}
       >
         <div style={{ padding: '1em', textAlign: 'center' }}>
-          <img
+          <Img
             className="img-oops"
+            part="image-oops"
             width={11 * 3}
             height={8 * 3}
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAICAYAAAAvOAWIAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAC6ADAAQAAAABAAAACAAAAADGHiDWAAAAO0lEQVQYGWP4DwQMQACjQWxkABOH0TgVwjRhKIQLwFRAaZg4jEaTphKXEWYOPmsYgQCmjnQPwnXiYQAAP/M3zvinPKAAAAAASUVORK5CYII="
@@ -54,16 +56,7 @@ export function ErrorFallback({
             </button>
           ) : null}
           <style>
-            {`
-          .img-oops {
-            border: 3px solid white;
-            padding: 15px;
-            image-rendering: auto;
-            image-rendering: crisp-edges;
-            image-rendering: pixelated;
-            margin-bottom: 10px;
-          }
-        `}
+            {`.img-oops { border: 3px solid white; padding: 15px; image-rendering: auto; image-rendering: crisp-edges; image-rendering: pixelated; margin-bottom: 10px; }`}
           </style>
         </div>
       </div>

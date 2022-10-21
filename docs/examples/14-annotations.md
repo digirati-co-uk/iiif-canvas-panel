@@ -9,9 +9,10 @@ import vaultLoading from '@site/sandboxes/14-annotations/vaultLoading.csb/_load'
 import annoPages from '@site/sandboxes/14-annotations/annoPages.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
+
 <!-- NB the original version of this doc ument has been moved to notes/14-annotations-hidden.md -->
 <!-- It describes an internal Vault normalised annotation approach, which is not the same as v1 below. -->
-The underlying [Vault](../components/vault) library is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
+The underlying [Vault](../api-reference/vault) library is opinionated about IIIF: it enables you to code directly against the IIIF Presentation 3.0 data model. To enable this, it provides helper functions and normalisation services, so that even if you load IIIF 2.1 resources, you can code against them as if they were version 3 resources. Vault gives you access to a managed, normalised IIIF 3 world, as if everyone's IIIF was perfectly on-spec and version 3.
 
 In IIIF, content is associated with canvases through [Annotations](https://iiif.io/api/presentation/3.0/#56-annotation), using the [W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/). This model has a wider scope than IIIF, and unlike the Presentation 3.0 specification it allows the same intention to be expressed in different ways. It's also JSON-LD 1.0, not 1.1 like IIIF. With annotations, there's no further specification to normalise the data to.
 
@@ -84,27 +85,6 @@ cp.annotations.get(id);
 cp.annotations.getSource(id); // returns the original ID, not display annotation
 ```
 
-### Honorary annotations - METS-ALTO, hOCR and WebVTT
-
-:::danger
-
-This feature is still under development, it is not available in released versions.
-
-:::
-
-It's common for IIIF canvases to link to non-IIIF formats containing text. 
-
-Vault allows you to load these _as if they were annotations_ and program against them through the Annotation/Target/Body classes for consistency. If it finds it linked from the Canvas, Canvas Panel will expose WebVTT to `<video>` and `<audio>` tags, but you might want to do additional things with the text, without parsing WebVTT yourself, instead parsing as W3C annotations for consistency.
-
-You can also add external text formats as annotations, using a Vault helper:
-
-```js
-const annoPage = helper.importWebVTTAsAnnotations('https://example.org/web-vtt', {target: 'https://example.org/canvas-id' });
-```
-
-See [Text Handling](./handling-text) for further information.
-
-
 ## AnnotationDisplay details
 
 One major role of Canvas Panel is simply rendering scenes - passing a canvas in and relying on Canvas Panel to render all the painting annotations. Occasionally that requires some user interaction - when the painting anno has a Choice body - but usually, the point of Canvas Panel is to forget about this.
@@ -124,7 +104,7 @@ If you allowed all of the annotations that come referenced from a manifest to be
   myDisplayAnno.resizable = true; // Canvas Panel renders handles, allows resizing
 -->
 
-Canvas Panel won't draw annotations on the Canvas unless you tell it to, apart from the `painting` motivation annotations which it must draw because they are part of the scene. Any other annotations are _not_ part of the scene, but may still be rendered on the canvas surface - e.g., a [highlight](./drawing-boxes) or a [link](rendering-links).
+Canvas Panel won't draw annotations on the Canvas unless you tell it to, apart from the `painting` motivation annotations which it must draw because they are part of the scene. Any other annotations are _not_ part of the scene, but may still be rendered on the canvas surface - e.g., a [highlight](./highlighting-regions) or a [link](../future/rendering-links).
 
 :::info
 Turning linked annotations into displayed annotations is mostly done via code rather than attributes, with the exception of helpers for simple scenarios such as highlighting. It's more flexible to do this in code.
@@ -162,11 +142,6 @@ These annotations can still be styled, but not by picking up your CSS directly (
 Instead, they can use a subset of styling information set in a CSS-like syntax:
 
 This approach is explained in more detail in [Working with Annotation Pages](./annotations-in-bulk).
-
-```js
-// TODO - example of loading a whole anno page (also needed for previous section)
-// Also wire up some mouse over and click handlers here.
-```
 
 It is possible to create DisplayAnnotations as before, but style them using the optimised, non-HTML technique. This way they do not become HTML elements:
 

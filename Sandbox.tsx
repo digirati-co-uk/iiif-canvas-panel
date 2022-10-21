@@ -23,12 +23,20 @@ export function Sandbox(
   } & SandpackProps
 ) {
   const ctx = useDocusaurusContext();
-  console.log(ctx.siteConfig.themeConfig);
-  // const {isDarkTheme} = useThemeContext();
   const { project, label, ...props } = _props;
   const isDarkTheme = false;
 
   const options = { editorHeight: 542, ...project.options, ...props.options };
+
+  if (
+    project.customSetup &&
+    project.customSetup.dependencies &&
+    project.customSetup.dependencies["@digirati/canvas-panel-web-components"] &&
+    ctx.siteConfig.customFields.canvasPanelVersion
+  ) {
+    project.customSetup.dependencies["@digirati/canvas-panel-web-components"] =
+      (ctx.siteConfig.customFields.canvasPanelVersion as string) || "*";
+  }
 
   return (
     <div

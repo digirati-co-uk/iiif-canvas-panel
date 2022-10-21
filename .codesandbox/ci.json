@@ -1,10 +1,40 @@
 {
   "installCommand": "custom-install",
-  "buildCommand": false,
-  "packages": ["packages/canvas-panel"],
+  "buildCommand": "custom-build",
+  "packages": [
+    "packages/canvas-panel"
+  ],
   "sandboxes": [
     "new",
-    "canvas-panel-web-component-demo-image-service-forked-174cgb"
+    "canvas-panel-web-component-demo-image-service-forked-174cgb",
+    "/sandboxes/vue-sandbox.csb",
+    "/sandboxes/vue-carousel.csb",
+    "/sandboxes/external-stylesheet.csb",
+    "/sandboxes/example-sandbox.csb",
+    "/sandboxes/custom-preset.csb",
+    "/sandboxes/choices-react.csb",
+    "/sandboxes/17-reacting-to-the-user/content-state.csb",
+    "/sandboxes/15-annotations-in-bulk/annoPage.csb",
+    "/sandboxes/14-annotations/annoPages.csb",
+    "/sandboxes/14-annotations/vaultLoading.csb",
+    "/sandboxes/12-boxes/annoDisplay.csb",
+    "/sandboxes/12-boxes/highlight1.csb",
+    "/sandboxes/10-choices/choice1.csb",
+    "/sandboxes/10-choices/simpleChoice.csb",
+    "/sandboxes/07-more-regions/more2.csb",
+    "/sandboxes/07-more-regions/more3.csb",
+    "/sandboxes/05-regions/region1.csb",
+    "/sandboxes/05-regions/region2.csb",
+    "/sandboxes/05-regions/region3.csb",
+    "/sandboxes/05-regions/region4.csb",
+    "/sandboxes/05-regions/region5.csb",
+    "/sandboxes/05-regions/region6.csb",
+    "/sandboxes/02-responsive/custom-preset-1.csb",
+    "/sandboxes/02-responsive/custom-preset-2.csb",
+    "/sandboxes/01-show-canvas/canvas-attributes.csb",
+    "/sandboxes/01-show-canvas/canvas-content-state.csb",
+    "/sandboxes/01-show-canvas/flexbox.csb",
+    "/sandboxes/00-intro/intro-script.csb"
   ],
   "node": "16"
 }

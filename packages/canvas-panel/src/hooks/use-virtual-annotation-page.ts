@@ -1,15 +1,27 @@
-import { AnnotationPageNormalized } from '@iiif/presentation-3';
+import { Annotation, AnnotationNormalized, AnnotationPageNormalized } from '@iiif/presentation-3';
 import { useStyleHelper, useVault, useVirtualAnnotationPage as useVirtualAnnotationPageBase } from 'react-iiif-vault';
-import { useRef } from 'preact/compat';
+import { useMemo, useRef } from 'preact/compat';
 import { useRegisterPublicApi } from './use-register-public-api';
 import { BoxStyle } from '@atlas-viewer/atlas';
+import { createEventsHelper } from '@iiif/vault-helpers';
+import { VaultActivatedAnnotation } from 'react-iiif-vault/.build/types/hooks/useVirtualAnnotationPage';
 
-export function useVirtualAnnotationPage() {
+export function useVirtualAnnotationPage(): readonly [
+  AnnotationPageNormalized | null,
+  {
+    readonly addAnnotation: (
+      id: string | Annotation | VaultActivatedAnnotation | AnnotationNormalized,
+      atIndex?: number
+    ) => void;
+    readonly removeAnnotation: (id: string | Annotation | VaultActivatedAnnotation | AnnotationNormalized) => void;
+  }
+] {
   const [fullPage, { addAnnotation, removeAnnotation }] = useVirtualAnnotationPageBase();
   const vault = useVault();
   const styles = useStyleHelper();
   const sources = useRef<Record<any, any>>([]);
   const virtualId = fullPage?.id;
+  const eventsHelper = useMemo(() => createEventsHelper(vault as any), [vault]);
 
   useRegisterPublicApi(() => {
     return {
@@ -41,6 +53,11 @@ export function useVirtualAnnotationPage() {
         applyStyles(style: BoxStyle) {
           if (virtualId) {
             styles.applyStyles(virtualId, 'atlas', style);
+          }
+        },
+        addEventListener(event: string, cb: () => void): any {
+          if (virtualId) {
+            return eventsHelper.addEventListener({ id: virtualId, type: 'AnnotationPage' }, event, cb);
           }
         },
         applyHTMLProperties(

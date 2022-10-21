@@ -1,6 +1,27 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
+const isPr =
+  process.env.PULL_REQUEST === "true" || process.env.PREVIEW_BUILD === "true";
+
+function getPreview() {
+  try {
+    const commit = require("child_process")
+      .execSync("git rev-parse HEAD")
+      .toString()
+      .trim()
+      .slice(0, 8);
+
+    if (commit) {
+      return `https://pkg.csb.dev/digirati-co-uk/iiif-canvas-panel/commit/${commit}/@digirati/canvas-panel-web-components`;
+    }
+  } catch (e) {
+    //
+  }
+
+  return "*";
+}
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: "Canvas Panel",
@@ -19,6 +40,12 @@ module.exports = {
   // clientModules: [
   //   require.resolve('./packages/canvas-panel/dist/bundle.js'),
   // ],
+  customFields: {
+    canvasPanelVersion:
+      isPr && !process.env.CANVAS_PANEL_VERSION
+        ? getPreview()
+        : process.env.CANVAS_PANEL_VERSION || "*",
+  },
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "digirati-co-uk", // Usually your GitHub org/user name.
@@ -39,6 +66,7 @@ module.exports = {
         },
         { to: "/about", label: "About", position: "left" },
         { to: "/glossary", label: "Glossary", position: "left" },
+        { to: "/all-sandboxes", label: "Sandboxes", position: "left" },
         {
           href: "https://github.com/digirati-co-uk/iiif-canvas-panel",
           label: "GitHub",

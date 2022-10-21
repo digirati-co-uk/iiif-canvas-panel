@@ -12,6 +12,23 @@ async function show(){
     // you can also move the viewport later, e.g., in a narrative view:
     // ...time passes, handle a user action:  
     setTimeout(() => cp.setAttribute("region", "2000,1200,456,987"), 2000);
+
+    // You can also set up an animation
+    setTimeout(() => {
+      cp.transition(tm => {
+        tm.goToRegion({
+          height: 965,
+          width: 1695,
+          x: 2449,
+          y: 1062,
+        }, {
+          transition: {
+            easing: cp.easingFunctions().easeOutExpo,
+            duration: 2000,
+          },
+        });
+      });
+    }, 5000);
 }
 
 show();

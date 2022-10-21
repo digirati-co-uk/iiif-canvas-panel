@@ -1,0 +1,8 @@
+html, body { margin: 0; }
+button.osd {
+    color:white;
+    background:transparent;
+    border:1px solid white;
+    padding:0.4em;
+    min-width:3em;
+}

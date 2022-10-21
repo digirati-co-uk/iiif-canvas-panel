@@ -12,6 +12,7 @@ export const TileSet: FC<{
   width: number;
   height: number;
   style?: any;
+  tileFormat?: string;
 }> = (props) => {
   const scale = props.width / props.tiles.width;
   const tiles = props.tiles.imageService.tiles || [];
@@ -94,16 +95,19 @@ export const TileSet: FC<{
           );
         })}
         {tiles.map((tile: any) =>
-          (tile.scaleFactors || []).map((size: number) => (
-            <TiledImage
-              key={`${tile}-${size}`}
-              uri={canonicalId}
-              display={{ width: props.tiles.width, height: props.tiles.height }}
-              tile={tile}
-              scaleFactor={size}
-              style={props.style}
-            />
-          ))
+          (tile.scaleFactors || []).map((size: number) => {
+            return (
+              <TiledImage
+                key={`${tile}-${size}`}
+                uri={canonicalId}
+                display={{ width: props.tiles.width, height: props.tiles.height }}
+                tile={tile}
+                scaleFactor={size}
+                style={props.style}
+                format={props.tileFormat}
+              />
+            );
+          })
         )}
       </CompositeResource>
     </WorldObject>

@@ -1,7 +1,7 @@
 {
-  "name": "react",
+  "name": "react-choices-example",
   "version": "1.0.0",
-  "description": "React example starter project",
+  "description": "React choices example",
   "keywords": [
     "react",
     "starter"

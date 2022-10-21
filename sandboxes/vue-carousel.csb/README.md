@@ -1,4 +1,4 @@
-# t
+# Vue 3 - Example carousel
 
 ## Project setup
 ```

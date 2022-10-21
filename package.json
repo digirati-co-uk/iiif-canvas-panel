@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "custom-install": "cd packages/canvas-panel && yarn install",
+    "custom-build": "cd packages/canvas-panel && yarn prepublishOnly",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",

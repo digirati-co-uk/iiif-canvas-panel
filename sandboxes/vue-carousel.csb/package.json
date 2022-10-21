@@ -1,5 +1,6 @@
 {
-  "name": "vue-3",
+  "name": "vue-3-carousel",
+  "description": "Vue 3 Example Carousel",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -42,6 +43,5 @@
     "last 2 versions",
     "not dead"
   ],
-  "keywords": [],
-  "description": ""
+  "keywords": []
 }

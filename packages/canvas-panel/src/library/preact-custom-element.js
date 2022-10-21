@@ -19,7 +19,7 @@ export default function register(Component, tagName, propNames, options) {
       } else {
         inst.addEventListener('ready', callback);
       }
-    }
+    };
 
     return inst;
   }
@@ -49,6 +49,7 @@ export default function register(Component, tagName, propNames, options) {
       },
       set(v) {
         if (this._vdom) {
+          this._props[name] = v;
           this.attributeChangedCallback(name, null, v);
         } else {
           if (!this._props) {
@@ -106,7 +107,7 @@ function connectedCallback() {
   (this.hasAttribute('hydrate') ? hydrate : render)(this._vdom, this._root);
   if (!this.ready) {
     this.ready = true;
-    this.dispatchEvent(new CustomEvent('ready', {detail: {}, bubbles: false, cancelable: false}));
+    this.dispatchEvent(new CustomEvent('ready', { detail: {}, bubbles: false, cancelable: false }));
   }
 }
 

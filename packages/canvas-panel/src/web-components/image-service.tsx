@@ -8,6 +8,7 @@ import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { ErrorBoundary as _ErrorBoundary } from 'react-error-boundary';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
+import { parseBool } from '../helpers/parse-attributes';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -21,6 +22,8 @@ export type ImageServiceProps = GenericAtlasComponent<
     nested?: string;
     x?: number;
     y?: number;
+    tileFormat?: string;
+    children?: any;
   },
   ImageServiceApi
 >;
@@ -46,11 +49,17 @@ export function ImageService(props: ImageServiceProps) {
   } = useGenericAtlasProps(props);
 
   const [src] = useProp('src');
+  const [nested] = useProp('nested', { parse: parseBool });
+  const [tileFormat, setTileFormat] = useProp('tileFormat');
   const [loadImageService, status] = useLoadImageService();
-
   const statusOf = status[src];
   const image = useMemo(() => {
     const service = loadImageService({ id: src } as any, {} as any);
+
+    if (service && (service as any).preferredFormats && (service as any).preferredFormats.length === 1) {
+      setTileFormat((service as any).preferredFormats[0]);
+    }
+
     if (service && service.height && service.width && statusOf !== 'loading') {
       return {
         id: src,
@@ -80,7 +89,7 @@ export function ImageService(props: ImageServiceProps) {
     }
 
     return null;
-  }, [status]);
+  }, [loadImageService, src, status]);
 
   if (!image || !image.height || !image.width || isConfigBlocking) {
     return null;
@@ -106,6 +115,7 @@ export function ImageService(props: ImageServiceProps) {
           viewport={true}
           aspectRatio={aspectRatio}
           className={className}
+          nested={nested}
           {...atlasProps}
         >
           <RenderImage
@@ -116,24 +126,58 @@ export function ImageService(props: ImageServiceProps) {
             virtualSizes={virtualSizes}
             x={x}
             y={y}
+            tileFormat={tileFormat}
           />
         </NestedAtlas>
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
       {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}
+      {props.children ? <slot>{props.children}</slot> : null}
     </ErrorBoundary>
   );
 }
 
 if (typeof window !== 'undefined') {
-  register(ImageService, 'image-service', [], {
-    shadow: true,
-    onConstruct(instance: any) {
-      instance._props = {
-        __registerPublicApi: (api: any) => {
-          Object.assign(instance, api(instance));
-        },
-      };
-    },
-  } as any);
+  register(
+    ImageService,
+    'image-service',
+    [
+      'src',
+      'nested',
+      'x',
+      'y',
+      'width',
+      'height',
+      'target',
+      'region',
+      'highlight',
+      'highlight-css-class',
+      'text-selection-enabled',
+      'disable-keyboard-navigation',
+      'click-to-enable-zoom',
+      'preferred-formats',
+      'atlas-mode',
+      'style-id',
+      'debug',
+      'preset',
+      'responsive',
+      'interactive',
+      'iiif-content',
+      'class',
+      'choice-id',
+      'move-events',
+      'granular-move-events',
+      'tile-format',
+    ],
+    {
+      shadow: true,
+      onConstruct(instance: any) {
+        instance._props = {
+          __registerPublicApi: (api: any) => {
+            Object.assign(instance, api(instance));
+          },
+        };
+      },
+    } as any
+  );
 }

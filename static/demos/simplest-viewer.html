@@ -4,7 +4,7 @@
     <style>
         #manifest { width: 50vw; }
         #th { width:12vw; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
-        #main { width:84vw; margin-top:30px; margin-left:10px; float:left; height:90%;} 
+        #main { width:78vw; margin-top:30px; margin-left:10px; float:left; height:90%;} 
         .tc { display: inline-block; padding:5px; cursor: pointer; }
         #cp { height:100% }
     </style>
@@ -26,21 +26,24 @@
         </div>
     </div>
     <script>    
+
         function $(id) { return document.getElementById(id); }
-        const cp = $("cp");
-        const thumbHelper = IIIFVaultHelpers.createThumbnailHelper(cp.vault);
+        const cp = $("cp"); 
+        const thumbHelper = VaultHelpers.createThumbnailHelper(cp.vault);
 
         async function loadManifest(){
             const manifestUri = $("manifest").value;
             if(manifestUri){
                 const manifest = await cp.vault.loadManifest(manifestUri);       
-                $("manifestLabel").innerText = IIIFVaultHelpers.getValue(manifest.label);      
+                $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);      
                 let thumbsHtml = "";
-                for(const canvas of cp.vault.get(manifest.items)){              
-                    const label = IIIFVaultHelpers.getValue(canvas.label);
-                    const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {maxWidth:100, maxHeight:200});
-                    thumbsHtml += '<div class="tc">' + label + '<br/>';
-                    thumbsHtml += '<img data-uri="' + canvas.id + '" data-label="' + label + '" src="' + cvThumb.best.id + '" />';
+                // A real viewer could use <sequence-panel> for thumbnails, too.
+                // To keep this minimal we''' make thumbnail links by hand.
+                for(const canvasRef of cp.vault.get(manifest.items)){     
+                    const canvas = cp.vault.get(canvasRef);         
+                    const label = VaultHelpers.getValue(canvas.label);
+                    thumbsHtml += `<div class="tc">${label}<br/>`;
+                    thumbsHtml += `<img data-uri="${canvas.id}" data-label="${label}" src="${canvas.thumbnail[0].id}" />`;
                     thumbsHtml += '</div>';   
                 }
                 $('th').innerHTML = thumbsHtml;    

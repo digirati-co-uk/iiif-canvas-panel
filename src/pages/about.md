@@ -52,7 +52,7 @@ Digirati's work with the Getty Research Institute on the [Florentine Codex](http
 
 You can use Canvas Panel a declarative way, just as HTML tags, for simply showing a canvas. For more control, you can drive it from JavaScript code, have more control of the IIIF loading process, and respond to events as the user interacts with the canvas.
 
-It works with [Vault](../docs/components/vault), a library for loading and managing IIIF resources that normalises everything to IIIF Presentation 3.
+It works with [Vault](../docs/api-reference/vault), a library for loading and managing IIIF resources that normalises everything to IIIF Presentation 3.
 
 This site shows Canvas Panel, Vault and helper components being used to solve a wide range of typical use cases for presenting and interacting with digital objects.
 

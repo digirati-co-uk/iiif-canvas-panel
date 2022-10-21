@@ -9,6 +9,7 @@ import { Sandbox } from '@site/Sandbox';
 
 ## What is Canvas Panel?
 
+
 Canvas Panel is a [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) that renders a [IIIF Canvas](https://iiif.io/api/presentation/3.0/#53-canvas) and the annotations on it. If you already know what Canvases and Annotations are you are ready to get started. If not, [here's a brief introduction](../about) with links to more learning resources.
 
 Canvas Panel is not a IIIF Viewer, like Mirador or Universal Viewer. It's not a full application - it's a component of _your_ application. On its own, Canvas Panel doesn't render a IIIF Manifest - but it can be used as the _rendering surface_ in any kind of IIIF application you want to build. You can see Canvas Panel used this way in some of the [demo applications](../docs/applications/simple-viewer). It also provides a powerful API for drawing annotations on the canvas and responding to user interaction with the canvas.
@@ -17,7 +18,7 @@ You can see how to use Canvas Panel to build a [Manifest Viewer](../../docs/appl
 
 ## How do I get Canvas Panel?
 
-An easy way to try things out is to simply include a reference to Canvas Panel on (CDN).
+An easy way to try things out is to simply include a reference to Canvas Panel on (CDN). See [Installation](./installation) for more options.
 
 ```html
 <html>
@@ -71,7 +72,7 @@ Canvas Panel is also an IIIF-aware alternative to image tags, and can be automat
     manifest-id="https://digirati-co-uk.github.io/wunder.json">
 </canvas-panel>
 
-These behaviours are explained in more detail in [Responsive Images and rendering modes](../docs/examples/responsive-image).
+These behaviours are explained in more detail in [Responsive Images and rendering modes](./examples/rendering-modes).
 
 Canvas Panel generally fills up the available width, with a default height. You can use this to adjust the size of canvas panel on the page:
 
@@ -219,11 +220,11 @@ You can also work with the Canvas from script. This is more typical in client-si
 
 ## What is Vault?
 
-By default, all `canvas-panel` elements on the page share a common instance of a [Vault](../../docs/components/vault). The Vault library is used to load and manage IIIF resources, rather than passing them directly to Canvas Panel as JSON blobs. In the example above, we load a IIIF Manifest into the same vault, which we can obtain from Canvas Panel. Then we tell Canvas Panel to display a canvas from this manifest. This is simpler and safer than loading the manifest yourself, as JSON via `fetch()`, determining its version and traversing it. 
+By default, all `canvas-panel` elements on the page share a common instance of a [Vault](./api-reference/vault). The Vault library is used to load and manage IIIF resources, rather than passing them directly to Canvas Panel as JSON blobs. In the example above, we load a IIIF Manifest into the same vault, which we can obtain from Canvas Panel. Then we tell Canvas Panel to display a canvas from this manifest. This is simpler and safer than loading the manifest yourself, as JSON via `fetch()`, determining its version and traversing it. 
 
 Under the hood, Vault manages the HTTP fetch operations and optimises internal storage of all the IIIF resources in use on a page. Vault normalises all IIIF to the Presentation 3 specification, allowing you to take advantage of a consistent programming interface regardless of the source IIIF. Vault also has the advantage of making your IIIF strongly-typed when used via TypeScript.
 
-[Read more about Vault here](../../docs/components/vault). Vault is now part of [IIIF Commons](https://github.com/IIIF-Commons/vault).
+[Read more about Vault here](./api-reference/vault). Vault is now part of [IIIF Commons](https://github.com/IIIF-Commons/vault).
 
 
 ## Getting started with making a Viewer
@@ -255,21 +256,16 @@ It takes most of the same attributes, but has a `src` property that points to an
 </image-service>
 ```
 
-Read more about this component at in [Responsive Images and rendering modes](../docs/examples/responsive-image).
+Read more about this component at in [Responsive Images and rendering modes](./examples/rendering-modes).
 
 A further component is available to help with layout: positioning more than one image service or canvas next to each other:
 
 ```html
-<atlas-viewer width="800" preset="zoom">
+<layout-container width="800" preset="zoom">
     <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0" /> 
     <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" />
-</atlas-viewer>
+</layout-container>
 ```
 
-Read more about this component at in [Atlas](../docs/components/atlas).
+Read more about this component in [Layout Container](./api-reference/layout-container).
 
-:::info
-
-We'll be providing more articles about using Canvas Panel in a wider application context.
-
-:::

@@ -10,11 +10,11 @@ import { parseContentState, serialiseContentState } from '../helpers/content-sta
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { useState } from 'react';
+import { useState } from 'preact/compat';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
-import { DrawBox, easingFunctions, Projection } from '@atlas-viewer/atlas';
+import { DrawBox, easingFunctions, Projection, useAtlas } from '@atlas-viewer/atlas';
 import { ContentState } from '@iiif/vault-helpers';
 
 export type CanvasPanelProps = GenericAtlasComponent<
@@ -249,7 +249,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     <CanvasContext canvas={canvasId}>
       <ViewCanvas
         // Escape hatch for bugs - to be improved.
-        key={`${viewport ? 'v1' : 'v0'}`}
+        key={`${canvasId}-${viewport ? 'v1' : 'v0'}`}
         interactive={interactive}
         defaultChoices={defaultChoices}
         followAnnotations={followAnnotations}
@@ -264,6 +264,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         mode={mode}
         x={x}
         y={y}
+        textEnabled={textEnabled}
+        textSelectionEnabled={textSelectionEnabled}
       >
         <slot name="atlas" />
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}
@@ -314,10 +316,20 @@ if (typeof window !== 'undefined') {
       'iiif-content',
       'class',
       'choice-id',
+      'move-events',
+      'granular-move-events',
     ],
     {
       shadow: true,
       onConstruct(instance: any) {
+        Object.defineProperty(instance, 'vault', {
+          get(): any {
+            return instance._props.vault;
+          },
+          set(v): any {
+            instance._props.vault = v;
+          },
+        });
         instance._props = {
           __registerPublicApi: (api: any) => {
             Object.assign(instance, api(instance));

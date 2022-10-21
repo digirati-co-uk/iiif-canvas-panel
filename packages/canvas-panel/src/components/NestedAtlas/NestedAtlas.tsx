@@ -1,4 +1,4 @@
-import { Atlas, AtlasAuto, AtlasProps, useAtlas } from '@atlas-viewer/atlas';
+import { Atlas, AtlasAuto, AtlasContext, AtlasProps, useAtlas } from '@atlas-viewer/atlas';
 import { Fragment, h } from 'preact';
 import { createContext, useContext, useEffect, useState } from 'preact/compat';
 import { AtlasDisplayOptions } from '../ViewCanvas/ViewCanvas.types';
@@ -28,12 +28,12 @@ export function NestedAtlas({
   const [isCreated, setIsCreated] = useState(false);
   const inAtlas = useContext(InAtlasContext);
 
-  if (inAtlas || nested) {
+  if (nested || inAtlas) {
     return (
-      <Fragment>
+      <>
         {onCreated ? <OnCreated onCreated={onCreated} /> : null}
         {children}
-      </Fragment>
+      </>
     );
   }
 
@@ -50,7 +50,7 @@ export function NestedAtlas({
         }}
         unstable_noReconciler
       >
-        {isCreated ? children : null}
+        <InAtlasContext.Provider value={true}>{isCreated ? children : null}</InAtlasContext.Provider>
       </AtlasAuto>
     </InAtlasContext.Provider>
   );
