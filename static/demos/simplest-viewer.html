@@ -27,12 +27,18 @@
     </div>
     <script>    
 
-        function getThumbnail(canvas){
-            
-        }
         function $(id) { return document.getElementById(id); }
-        const cp = $("cp");
+        const cp = $("cp"); 
         const thumbHelper = VaultHelpers.createThumbnailHelper(cp.vault);
+
+        function getThumbnail(canvas){
+            // This should just call:
+            // const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {maxWidth:100, maxHeight:200, dereference: false});
+            // return cvThumb.best.id
+            // but there are some issues with deref optimsation so for now:
+            return canvas.thumbnail[0].id;
+        }
+
 
         async function loadManifest(){
             const manifestUri = $("manifest").value;
@@ -40,11 +46,11 @@
                 const manifest = await cp.vault.loadManifest(manifestUri);       
                 $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);      
                 let thumbsHtml = "";
-                for(const canvas of cp.vault.get(manifest.items)){              
+                for(const canvasRef of cp.vault.get(manifest.items)){     
+                    const canvas = cp.vault.get(canvasRef);         
                     const label = VaultHelpers.getValue(canvas.label);
-                    const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {maxWidth:100, maxHeight:200, dereference: false});
-                    thumbsHtml += '<div class="tc">' + label + '<br/>';
-                    thumbsHtml += '<img data-uri="' + canvas.id + '" data-label="' + label + '" src="' + cvThumb.best.id + '" />';
+                    thumbsHtml += `<div class="tc">${label}<br/>`;
+                    thumbsHtml += `<img data-uri="${canvas.id}" data-label="${label}" src="${canvas.thumbnail[0].id}" />`;
                     thumbsHtml += '</div>';   
                 }
                 $('th').innerHTML = thumbsHtml;    
