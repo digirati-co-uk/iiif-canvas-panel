@@ -34,7 +34,14 @@
         <div id="th"></div>
         <div id="main">
             <div id="viewportContainer">
-
+                <layout-container width="800" preset="zoom">
+                    <canvas-panel nested="true" 
+                        manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" 
+                        canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0003.JP2"></canvas-panel>
+                    <canvas-panel nested="true" 
+                        manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" 
+                        canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"></canvas-panel>
+                </layout-container>
             </div>
             <p id="cvLabel"></p>
         </div>
@@ -92,7 +99,7 @@
         
 
         $("go").addEventListener('click', loadManifest);
-        loadManifest();
+        // loadManifest();
         
 
         // Unused.

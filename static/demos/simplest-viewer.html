@@ -38,7 +38,7 @@
                 let thumbsHtml = "";
                 for(const canvas of cp.vault.get(manifest.items)){              
                     const label = VaultHelpers.getValue(canvas.label);
-                    const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {maxWidth:100, maxHeight:200});
+                    const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {maxWidth:100, maxHeight:200, dereference: false});
                     thumbsHtml += '<div class="tc">' + label + '<br/>';
                     thumbsHtml += '<img data-uri="' + canvas.id + '" data-label="' + label + '" src="' + cvThumb.best.id + '" />';
                     thumbsHtml += '</div>';   
