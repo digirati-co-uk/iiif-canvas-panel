@@ -12,37 +12,66 @@ Canvas Panel can listen for most kinds of browser DOM events on the canvas surfa
 
 Raised events supply arguments that typically give you the position at which the event occurred, and references to the Vault data relevant to the event (e.g., a click on an annotation).
 
-<!-- Stephen: list events that reflect browser DOM events -->
-<!-- get point relative to canvas (actually atlas world but...) -->
-<!-- imperative version of box selector -- https://digirati.slack.com/archives/C9U6T4G92/p1646305168578719 -->
 
-:::danger
+## Reacting to Zoom
 
-The features on this page are still in development, this list is a work in progress.
+Atlas has some internal events that it fires when changes occur in the viewer. The first thing that was done was a bridge to these. As such there are 2 new events (normal addEventListener + detail handling):
+* `go-home`
+* `zoom-to`  (in, out, scroll)
 
-:::
+Additionally there is a 3rd event: `zoom` . The problem is that when the zoom-to event is fired, the viewport has only just started it's transition. It's very much a notification that "recently a zoom was initiated" more than a precise tracker. For this reason the zoom event.
 
-## Movement
+This will fire once the current transitioning zoom has completed. It contains information on the max/min zoom and booleans for if we have reached the max/min (isMax, isMin). The zoom event also fires when you call zoom-to . It does not fire when a user creates a custom transition.
 
-Movement - panning and zooming
+```
+el.addEventListener('zoom', ev => {
+  ev.detail.scaleFactor; // 0.123456
+  ev.details.max; // 1
+  ev.details.min; // 0.123456
+  ev.details.isMin; // true
+  ev.details.isMax; // false
+  ev.details.factor; // if user initiated a zoom - the factor scaled
+})
+```
 
-**TODO: IMPLEMENT THIS API:**
+There is also `getZoom()` , `getMaxZoom()`  and `getMinZoom()`  on the web component too, in addition to `getZoomInformation()`  which returns them all (max/min/current).
 
-```js
-cp.addMovementListener(bounds => {
-    console.log(bounds.x, bounds.y, bounds.width, bounds.height);
-}, /* Poll rate */ 150);
+## Reacting to Movement
+
+The goal is to know where the viewport is. So in Atlas there are smooth transitions, and as such when something is transitioning there will be a lot of changes in where the viewport is. There are 2 separate attributes covering this:
+* `move-events="true"` - this attribute will enable the move event, since it is noisy
+* `granular-move-events="true"` - this will enable granular (requires above too)
+
+Since there are so many events, the firing of them is completely opt-in*. The new event is:
+```
+el.addEventListener('move', e => {
+  e.detail.x;
+  e.detail.y;
+  e.detail.width;
+  e.detail.height;
+  e.detail.lastX;
+  e.detail.lastY;
+  e.detail.points;
+});
 ```
 
 
 ## Selecting
 
- - Clicking a particular point (SF: Clicking on the canvas itself to get the x/y points?)
- - Clicking a particular point that is the target of an annotation that the component has rendered (SF: This can be achieved with adding an Annotation.onClick)
+ - Clicking a particular point
+ - Clicking a particular point that is the target of an annotation that the component has rendered 
  
  Clicking on the canvas:
- 
+ ```
  cp.applyHTMLProperties(canvas, { onClick: () => void });
+ ```
+ or..
+ ```
+ cp.events.addEventListener(canvas, 'onClick', () => {
+     // event.
+ })
+ ```
+ 
  
  Clicking on an annotation:
  

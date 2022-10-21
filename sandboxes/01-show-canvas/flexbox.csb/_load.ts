@@ -3,21 +3,23 @@ import { parseFiles } from "@site/Sandbox";
 
 const config: SandpackProps = {
   // @ts-ignore
-  files: parseFiles(require.context('!!raw-loader!./', true, /\.(ts|tsx|js|html|css)$/)),
-  template: 'vanilla',
+  files: parseFiles(
+    require.context("!!raw-loader!./", true, /\.(ts|tsx|js|html|css)$/)
+  ),
+  template: "vanilla",
   options: {
-    openPaths: ['/src/styles.css'],
-    activePath: '/src/styles.css',
+    openPaths: ["/src/styles.css", "/index.html"],
+    activePath: "/src/styles.css",
     wrapContent: false,
     editorHeight: 700,
-    showTabs: false,
+    showTabs: true,
     showLineNumbers: false,
     autorun: true,
     editorWidthPercentage: 40,
   },
   customSetup: {
-    dependencies: require('./package.json').dependencies,
-  }
+    dependencies: require("./package.json").dependencies,
+  },
 };
 
 export default config;

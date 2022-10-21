@@ -6,6 +6,7 @@ sidebar_position: 20
 
 import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
 import opacity from '@site/sandboxes/20-styling/opacity.csb/_load';
+import flexbox from '@site/sandboxes/01-show-canvas/flexbox.csb/_load';
 import { Sandbox } from '@site/Sandbox';
 
 <!-- Stephen
@@ -158,6 +159,14 @@ styles.
 ```
 
 <Sandbox project={externalStylesheet} />
+
+## Styling with FlexBox
+
+<Sandbox project={flexbox} />
+
+## Making Canvas Panel fit its container
+
+(TODO)
 
 ## Opacity
 

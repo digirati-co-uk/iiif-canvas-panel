@@ -30,7 +30,7 @@ This is fired only in `<sequence-panel />` when a sequence is changed (one or mo
 
 This is fired when a sequence has been loaded and is available - or subsequently changes, if a range is selected for example.
 
-### zoom-to
+### zoom-to
 
 This is fired when the users zoom changes - either from calling a zoom method or scroll-zooming. This is not called when the user
 calls the `goHome()` method or when a transition is manually created.
