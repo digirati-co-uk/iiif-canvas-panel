@@ -170,7 +170,7 @@ This is an example of using Canvas Panel as a component of _some other piece of 
 
 ### Using content state
 
-In the following, `https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json` is a content state at a URL. This will have been made by an editor at content-creation time, using a [Content State Selector](../../docs/applications/content-state-selector). It's a full JSON content state that looks like this:
+In the following, `https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json` is a content state at a URL. This will have been made by an editor at content-creation time, using a [Content State Selector](../future/content-state-selector). It's a full JSON content state that looks like this:
 
 ```json
 {

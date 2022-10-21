@@ -51,7 +51,7 @@ There are several different scenarios to consider here.
 
 ## Adding links to the Canvas
 
-One is similar to explicit highlighting, as [Drawing boxes](./highlighting-regions) - the only difference being that the target on the canvas is a clickable link. 
+One is similar to explicit highlighting, as [Drawing boxes](../examples/highlighting-regions) - the only difference being that the target on the canvas is a clickable link. 
 
 Here we are adding a linking annotation to the canvas:
 

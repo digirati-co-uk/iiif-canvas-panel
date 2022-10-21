@@ -104,7 +104,7 @@ If you allowed all of the annotations that come referenced from a manifest to be
   myDisplayAnno.resizable = true; // Canvas Panel renders handles, allows resizing
 -->
 
-Canvas Panel won't draw annotations on the Canvas unless you tell it to, apart from the `painting` motivation annotations which it must draw because they are part of the scene. Any other annotations are _not_ part of the scene, but may still be rendered on the canvas surface - e.g., a [highlight](./highlighting-regions) or a [link](rendering-links).
+Canvas Panel won't draw annotations on the Canvas unless you tell it to, apart from the `painting` motivation annotations which it must draw because they are part of the scene. Any other annotations are _not_ part of the scene, but may still be rendered on the canvas surface - e.g., a [highlight](./highlighting-regions) or a [link](../future/rendering-links).
 
 :::info
 Turning linked annotations into displayed annotations is mostly done via code rather than attributes, with the exception of helpers for simple scenarios such as highlighting. It's more flexible to do this in code.
