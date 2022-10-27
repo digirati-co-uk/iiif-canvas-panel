@@ -1,28 +1,32 @@
 <html>
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport'
-        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
-  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-  <title>Document</title>
-  <style>
-      canvas-panel::part(my-class) {
-          background: rgba(50, 0, 200, 0.4);
-      }
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <style>
+        canvas-panel::part(my-class) {
+            background: rgba(50, 0, 200, 0.4);
+        }
 
-      canvas-panel::part(my-link-class) {
-          border: 2px solid lightgreen;
-      }
+        canvas-panel::part(my-link-class) {
+            border: 2px solid lightgreen;
+        }
 
-      canvas-panel::part(text-line-segment)::selection {
-          fill: #fff;
-          background: blue;
-      }
+        canvas-panel::part(text-line-segment)::selection {
+            fill: #fff;
+            background: blue;
+        }
 
-      html {
-          height: 200vh;
-      }
-  </style>
+        html {
+            height: 200vh;
+        }
+
+        metadata-panel {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        }
+    </style>
 </head>
 <body>
 <script type='module' src='./src/index.ts'></script>
@@ -34,57 +38,69 @@
 <button id='transition'>Transition</button>
 <div>Zoom: <span id='zoom'></span>
 
-  <button id='zoomIn'>Zoom in</button>
-  <button id='zoomOut'>Zoom out</button>
-  <button id='home'>Home</button>
+    <button id='zoomIn'>Zoom in</button>
+    <button id='zoomOut'>Zoom out</button>
+    <button id='home'>Home</button>
 
-  <div id='media' style='display: none'>
-    <div style='display: flex; align-items: center;'>
-      <button id="playpause">play</button>
-<!--      <div style='padding: 0px 20px;'>0:00</div>-->
-<!--      <div style='flex: 1 1 0px; height: 6px; display: flex; position: relative; padding: 15px 0px;'>-->
-<!--        <div-->
-<!--          id='progress'-->
-<!--          style='height: 6px; pointer-events: none; position: absolute; top: 13px; left: 0px; right: 0px; border-radius: 3px; transition: width 200ms ease 0s; background: rgb(249, 249, 249);'></div>-->
-<!--        <div-->
-<!--          style='position: absolute; top: 13px; left: 0px; height: 6px; border-radius: 3px; background: cornflowerblue; width: 0%; pointer-events: none;'></div>-->
-<!--      </div>-->
-<!--      <div style='padding: 0px 20px;'>33:05</div>-->
-<!--      <div style='display: flex;'><input type='range' id='audio-slider' role='slider' min='0' max='100' value='100'>-->
-<!--        <button>Unmute</button>-->
-<!--      </div>-->
+    <div id='media' style='display: none'>
+        <div style='display: flex; align-items: center;'>
+            <button id="playpause">play</button>
+            <!--      <div style='padding: 0px 20px;'>0:00</div>-->
+            <!--      <div style='flex: 1 1 0px; height: 6px; display: flex; position: relative; padding: 15px 0px;'>-->
+            <!--        <div-->
+            <!--          id='progress'-->
+            <!--          style='height: 6px; pointer-events: none; position: absolute; top: 13px; left: 0px; right: 0px; border-radius: 3px; transition: width 200ms ease 0s; background: rgb(249, 249, 249);'></div>-->
+            <!--        <div-->
+            <!--          style='position: absolute; top: 13px; left: 0px; height: 6px; border-radius: 3px; background: cornflowerblue; width: 0%; pointer-events: none;'></div>-->
+            <!--      </div>-->
+            <!--      <div style='padding: 0px 20px;'>33:05</div>-->
+            <!--      <div style='display: flex;'><input type='range' id='audio-slider' role='slider' min='0' max='100' value='100'>-->
+            <!--        <button>Unmute</button>-->
+            <!--      </div>-->
+        </div>
     </div>
-  </div>
 
-  <div>
-    <button id='enable-text'>enable text</button>
-    <button id='enable-move'>enable move</button>
-    move: <span id='move'></span>
-  </div>
+    <div>
+        <button id='enable-text'>enable text</button>
+        <button id='enable-move'>enable move</button>
+        move: <span id='move'></span>
+    </div>
 </div>
 <pre id='selection'></pre>
 
+<!-- variation: table | list -->
+<!-- label-style: 'muted' | 'bold' | 'caps' | 'small-caps' -->
+<metadata-panel
+        manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723"
+        size="lg"
+        variation="list"
+        label-style="bold"
+        label-width="250"
+        allow-html="true"
+        bordered="true"
+        separator="<br/>"
+></metadata-panel>
+
 
 <layout-container preset='zoom'>
-  <canvas-panel nested='true'
-                canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0003.JP2'
-                manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723'></canvas-panel>
-  <canvas-panel nested='true'
-                id='left'
-                canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2'
-                manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723' x='2421'></canvas-panel>
+    <canvas-panel nested='true'
+                  canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0003.JP2'
+                  manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723'></canvas-panel>
+    <canvas-panel nested='true'
+                  id='left'
+                  canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2'
+                  manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723' x='2421'></canvas-panel>
 </layout-container>
 
 
-
 <sequence-panel
-  id='sequence'
-  text-enabled='true'
-  text-selection-enabled='true'
-              start-canvas="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"
-              canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2'
-              manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723'
-  margin='30'
+        id='sequence'
+        text-enabled='true'
+        text-selection-enabled='true'
+        start-canvas="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"
+        canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2'
+        manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723'
+        margin='30'
 ></sequence-panel>
 
 <button id='prev'>prev</button>
@@ -92,7 +108,6 @@
 
 <script type='module'>
   import { AnnotationDisplay } from './src/index.ts';
-
 
 
   const seq = document.getElementById('sequence');
@@ -116,7 +131,7 @@
     } else {
       prev.removeAttribute('disabled');
     }
-    if (e.detail.total -1 <= e.detail.index) {
+    if (e.detail.total - 1 <= e.detail.index) {
       next.setAttribute('disabled', 'true');
     } else {
       next.removeAttribute('disabled');
@@ -143,14 +158,12 @@
   const progress = document.getElementById('progress');
 
 
-
   const el = document.createElement('canvas-panel');
   console.log('We are here.')
   console.log(el.vault);
   el.whenReady(() => {
     console.log(el.vault)
   })
-
 
 
   // Set our attributes
