@@ -47,6 +47,7 @@ metadata-panel[variation="list"] .metadata-key {
     padding: 0 0 0.25em;
 }
 metadata-panel[variation="list"][bordered="true"] .metadata-key {
+    border-right: none;
     border-bottom: 1px solid #eee;
 }
 
