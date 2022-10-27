@@ -3,6 +3,10 @@ sidebar_position: 4.2
 title: <metadata-panel />
 ---
 
+import metadata_panel from '@site/sandboxes/metadata-panel.csb/_load';
+import { Sandbox } from '@site/Sandbox';
+
+
 # Metadata panel
 
 Simple Web component to display the Metadata of a IIIF Manifest into markup.
@@ -36,3 +40,11 @@ The following attributes are supported:
 * `allow-html` - Will render IIIF values as HTML if they are present
 * `bordered` - Show border/line between label and value
 * `separator` - When there are multiple IIIF values or labels, what should be used to separate them
+
+
+If you want the built-in CSS you can import it or embed it:
+```js
+import "@digirati/canvas-panel-web-components/dist/bundle.css";
+```
+
+<Sandbox project={metadata_panel} />

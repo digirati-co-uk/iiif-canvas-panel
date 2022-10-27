@@ -13,7 +13,8 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "sandbox": "node cli.mjs"
   },
   "resolutions": {
     "react": "^17",
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "raw-loader": "^4.0.2"
+    "raw-loader": "^4.0.2",
+    "yargs": "*"
   }
 }
