@@ -6,7 +6,7 @@ import { Fragment, h } from 'preact';
 import { RangeDisplay } from '../components/RangeDisplay/RangeDisplay';
 import { useLayoutEffect, useRef, useState } from 'preact/compat';
 import { RangeNormalized } from '@iiif/presentation-3';
-import register from 'preact-custom-element';
+import register from '../library/preact-custom-element';
 
 export interface RangePanelProps {
   vault?: Vault;
