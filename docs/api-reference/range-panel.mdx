@@ -13,13 +13,53 @@ import { Sandbox } from '@site/Sandbox';
 The range panel component can show all the ranges within a Manifest, allowing you to style them and
 add interactive events that can update other canvas panel components.
 
+The following CSS class names are available:
 
 
+* `ul.range-item-container` - a `<ul />` element containing a list of ranges
+* `li.range-split` - a `<li />` element containing a single range
+* `.range-label` - a `<span />` element within a li for the range label
+* `.range-nested-container` - The outer container for a nested range (div)
 
 
+The `.range-item-container` may have any of the following data-attributes for styling:
+* `[data-leaf="true"]` - if this is set, the range is a left-node (no nested ranges)
+* `[data-with-selector="true"]` - if this is set, then the target of this range contains selectors (not just canvases)
+* `[data-range-id="..."]` - this is a data attribute with the range identifier
 
 
+There is a change event available on this component:
+```js
+const $rp = document.getElementById('range-panel');
+const $cp = document.getElementById('canvas-panel');
 
+$rp.addEventListener('range-change', e => {
+  const {
+    range, // The full range from Vault
+    isLeaf, // If the range click is a left
+    fragment, // e.g. `t=10,20` if there was a fragment
+    selector, // raw selector for the range item
+    parsedSelector, // parsed version of the selector
+    canvasId, // If the range targets a canvas, this will be the ID
+  } = e.detail;
+
+  // This can be used to drive other web components.
+  $cp.setAttribute('canvas-id', canvasId);
+  if (fragment && fragment.startsWith('xywh=')) {
+    $cp.setAttribute('target', fragment.slice(5)); // slice(5) to remove xywh=
+  }
+
+  // You can also set a `selected-range` on the <range-panel />
+  $rp.setAttribute('selected-range', e.detail.range.id);
+})
+
+```
+
+:::tip
+The value of `e.detail.parsedSelector` is a "Supported target".
+
+You can read more about this in the [Vault helpers](https://iiif-commons.netlify.app/docs/vault-helpers/annotation-targets#supported-targets) documentation.
+:::
 
 
 <Sandbox project={range_panel} />
