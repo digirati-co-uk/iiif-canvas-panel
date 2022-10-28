@@ -1,0 +1,12 @@
+
+<range-panel
+  id="range"
+  manifest-id="https://stephenwf.github.io/bl-manifests/tvdc_100005114854.json"
+></range-panel>
+
+<script>
+  document.getElementById('range').addEventListener('range-change', e => {
+    console.log(e.detail);
+    document.getElementById('range').setAttribute('selected-range', e.detail.range?.id);
+  })
+</script>
