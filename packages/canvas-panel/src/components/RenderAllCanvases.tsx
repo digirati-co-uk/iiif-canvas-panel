@@ -2,6 +2,7 @@ import {
   CanvasContext as _CanvasContext,
   ChoiceDescription,
   StrategyActions,
+  useRange,
   useSimpleViewer,
   useVisibleCanvases,
 } from 'react-iiif-vault';
@@ -32,6 +33,7 @@ interface RenderAllCanvasesProps {
 export function RenderAllCanvases(props: RenderAllCanvasesProps) {
   const canvases = useVisibleCanvases();
   const sequence = useSimpleViewer();
+  const range = useRange();
   const hasSequence = useRef(false);
   const webComponent = useRef<HTMLElement>();
 
@@ -61,7 +63,7 @@ export function RenderAllCanvases(props: RenderAllCanvasesProps) {
         })
       );
     }
-  }, [sequence.currentSequenceIndex]);
+  }, [sequence.currentSequenceIndex, range]);
 
   let acc = 0;
   const canvasComponents = canvases.map((canvas, i) => {

@@ -1,0 +1,22 @@
+html {
+    font-family: sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.container range-panel {
+    max-width: 400px;
+}
+
+.container canvas-panel {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+
+    --atlas-container-display: flex;
+    --atlas-container-flex: 1;
+}

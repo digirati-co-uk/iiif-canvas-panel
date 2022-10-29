@@ -16,6 +16,7 @@ import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-
 import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
 import { DrawBox, easingFunctions, Projection, useAtlas } from '@atlas-viewer/atlas';
 import { ContentState } from '@iiif/vault-helpers';
+import { baseAttributes } from '../helpers/base-attributes';
 
 export type CanvasPanelProps = GenericAtlasComponent<
   {
@@ -29,6 +30,17 @@ export type CanvasPanelProps = GenericAtlasComponent<
   },
   UseRegisterPublicApi['properties']
 >;
+
+const canvasPanelAttributes = [
+  ...baseAttributes,
+  'manifest-id',
+  'canvas-id',
+  'choice-id',
+  'text-selection-enabled',
+  'text-enabled',
+  'follow-annotations',
+  'iiif-content',
+];
 
 export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const {
@@ -289,53 +301,22 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
 };
 
 if (typeof window !== 'undefined') {
-  register(
-    CanvasPanel,
-    'canvas-panel',
-    [
-      'manifest-id',
-      'canvas-id',
-      'width',
-      'height',
-      'follow-annotations',
-      'target',
-      'region',
-      'highlight',
-      'highlight-css-class',
-      'text-selection-enabled',
-      'disable-keyboard-navigation',
-      'click-to-enable-zoom',
-      'text-enabled',
-      'preferred-formats',
-      'atlas-mode',
-      'style-id',
-      'debug',
-      'preset',
-      'responsive',
-      'interactive',
-      'iiif-content',
-      'class',
-      'choice-id',
-      'move-events',
-      'granular-move-events',
-    ],
-    {
-      shadow: true,
-      onConstruct(instance: any) {
-        Object.defineProperty(instance, 'vault', {
-          get(): any {
-            return instance._props.vault;
-          },
-          set(v): any {
-            instance._props.vault = v;
-          },
-        });
-        instance._props = {
-          __registerPublicApi: (api: any) => {
-            Object.assign(instance, api(instance));
-          },
-        };
-      },
-    } as any
-  );
+  register(CanvasPanel, 'canvas-panel', canvasPanelAttributes, {
+    shadow: true,
+    onConstruct(instance: any) {
+      Object.defineProperty(instance, 'vault', {
+        get(): any {
+          return instance._props.vault;
+        },
+        set(v): any {
+          instance._props.vault = v;
+        },
+      });
+      instance._props = {
+        __registerPublicApi: (api: any) => {
+          Object.assign(instance, api(instance));
+        },
+      };
+    },
+  } as any);
 }
