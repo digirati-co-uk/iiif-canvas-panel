@@ -2,21 +2,36 @@ html {
     font-family: sans-serif;
 }
 
+html, body {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
 .container {
     display: flex;
     flex-direction: row;
     width: 100%;
 }
 
-.container range-panel {
-    max-width: 400px;
+range-panel {
+    overflow-y: auto;
+    max-width: 300px;
 }
 
-.container canvas-panel {
+.container range-panel {
+    max-width: 300px;
+}
+
+.container sequence-panel {
     flex: 1;
     min-width: 0;
     width: 100%;
 
     --atlas-container-display: flex;
     --atlas-container-flex: 1;
+    --atlas-container-height: 100vh;
 }
