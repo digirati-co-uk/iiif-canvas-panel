@@ -34,7 +34,7 @@ module.exports = {
   ],
   scripts: [
     // 'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest',
-    "https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.52",
+    "https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.56",
     // 'https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js'
   ],
   // clientModules: [
