@@ -1,0 +1,8 @@
+{
+  "name": "metadata-panel",
+  "description": "metadata-panel sandbox",
+  "main": "./src/index.js",
+  "dependencies": {
+    "@digirati/canvas-panel-web-components": "*"
+  }
+}

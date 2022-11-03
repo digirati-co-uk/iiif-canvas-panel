@@ -1,0 +1,76 @@
+range-panel {
+    --range-color: #333;
+    --range-background-hover: #f9f9f9;
+    --range-active-background: #e2ecff;
+    --range-active-color: #000;
+
+    position: relative;
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+    padding: 1em;
+}
+
+range-panel .range-item-container {
+    width: 100%;
+    color: var(--range-color);
+    border-radius: 3px;
+    margin: 0;
+    padding: 0;
+}
+range-panel .range-item-container[data-leaf="true"] {
+    cursor: pointer;
+}
+range-panel .range-item-container[data-leaf="true"]:hover {
+    background: var(--range-background-hover);
+}
+
+range-panel .range-item-container[data-leaf="true"][data-selected="true"]:not([data-with-selector="true"]) {
+    background: var(--range-active-background);
+    color: var(--range-active-color);
+}
+range-panel .range-item-container[data-leaf="true"][data-selected="true"]:not([data-with-selector="true"]):hover {
+    background: var(--range-active-background);
+}
+
+range-panel .range-item-container[data-leaf="true"][data-selected="true"][data-with-selector="true"],
+range-panel .range-item-container[data-leaf="true"][data-selected="true"][data-with-selector="true"]:hover {
+    background: var(--range-active-background);
+    color: var(--range-active-color);
+}
+
+
+range-panel .range-split {
+    display: flex;
+}
+
+range-panel .range-label {
+    white-space: nowrap;
+    font-size: 0.9em;
+    overflow: hidden;
+    padding: 0.5em 1em;
+    flex: 1;
+    text-overflow: ellipsis;
+}
+range-panel .range-item-container:not([data-leaf="true"]) > .range-split > .range-label {
+    font-weight: bold;
+}
+
+range-panel .range-label[data-unwrap="true"] {
+    white-space: normal;
+}
+
+range-panel .range-nested-container {
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+}
+
+range-panel .range-current {
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid #fff;
+    position: sticky;
+    top: 0px;
+    backdrop-filter: blur(4px);
+    padding: 1em;
+}

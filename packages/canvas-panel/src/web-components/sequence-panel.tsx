@@ -8,6 +8,7 @@ import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-
 import { h } from 'preact';
 import { parseBool, parseNumber } from '../helpers/parse-attributes';
 import { useCallback } from 'preact/compat';
+import { baseAttributes } from '../helpers/base-attributes';
 
 export type SequencePanelProps = GenericAtlasComponent<{
   manifestId: string;
@@ -20,6 +21,18 @@ export type SequencePanelProps = GenericAtlasComponent<{
   followAnnotations?: 'true' | 'false' | boolean;
   margin?: number;
 }>;
+
+const sequencePanelAttributes = [
+  ...baseAttributes,
+  'manifest-id',
+  'range-id',
+  'start-canvas',
+  'paging-enabled',
+  'text-selection-enabled',
+  'text-enabled',
+  'follow-annotations',
+  'margin',
+];
 
 export function SequencePanel(props: SequencePanelProps) {
   const {
@@ -158,5 +171,5 @@ if (typeof window !== 'undefined') {
     },
   } as any;
 
-  register(SequencePanel, 'sequence-panel', [], config);
+  register(SequencePanel, 'sequence-panel', sequencePanelAttributes, config);
 }

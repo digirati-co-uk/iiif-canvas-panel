@@ -16,11 +16,12 @@ import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
 import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
 import { useEffect } from 'preact/compat';
+import { globalVault } from '@iiif/vault';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
   const existingVault = useExistingVault();
-  const vault = props.vault || existingVault;
+  const vault = props.vault || existingVault || globalVault();
   const loader = useImageServiceLoader();
   const mediaEventQueue = useRef<Record<string, any>>({});
   const { isReady, isConfigBlocking, setIsReady, internalConfig } = usePresetConfig<GenericAtlasComponent<T>>(

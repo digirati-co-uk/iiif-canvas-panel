@@ -1,0 +1,50 @@
+---
+sidebar_position: 4.2
+title: <metadata-panel />
+---
+
+import metadata_panel from '@site/sandboxes/metadata-panel.csb/_load';
+import { Sandbox } from '@site/Sandbox';
+
+
+# Metadata panel
+
+Simple Web component to display the Metadata of a IIIF Manifest into markup.
+
+```html
+<metadata-panel
+  manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723"
+  variation="table"
+  label-style="small-caps"
+  label-width="250"
+  allow-html="true"
+  bordered="false"
+  separator="<br/>"
+></metadata-panel>
+```
+
+The metadata panel is rendered as a table with 2 columns, one for the label and one for the value.
+
+The following CSS class names are available:
+
+* `metadata-panel` - wrapping component for table
+* `.metadata-key` - metadata key cell (`<td />`)
+* `.metadata-value` - metadata value cell (`<td />`)
+
+The following attributes are supported:
+
+* `manifest-id` - Valid IIIF Manifest URL (2 or 3)
+* `variation` - "table" or "list"
+* `label-style` - 'muted', 'bold', 'caps' or 'small-caps' label styling
+* `label-width` - custom width in pixels for the label (in table variation)
+* `allow-html` - Will render IIIF values as HTML if they are present
+* `bordered` - Show border/line between label and value
+* `separator` - When there are multiple IIIF values or labels, what should be used to separate them
+
+
+If you want the built-in CSS you can import it or embed it:
+```js
+import "@digirati/canvas-panel-web-components/dist/bundle.css";
+```
+
+<Sandbox project={metadata_panel} />

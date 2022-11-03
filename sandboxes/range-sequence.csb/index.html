@@ -1,0 +1,22 @@
+<div class="container">
+    <div style="width: 300px">
+        <div style="display: flex; padding: 1em">
+            <button id="prev" onClick="seq.sequence.previousCanvas()">Prev</button>
+            <div id="total" style="margin: 0 20px; flex: 1; text-align: center"></div>
+            <button id="next" onClick="seq.sequence.nextCanvas()">Next</button>
+        </div>
+
+        <range-panel
+            id="range"
+            manifest-id="https://wellcomelibrary.org/iiif/b19646045/manifest"
+        >
+        </range-panel>
+    </div>
+
+    <sequence-panel
+        id="seq"
+        height="500"
+        manifest-id="https://wellcomelibrary.org/iiif/b19646045/manifest"
+    >
+    </sequence-panel>
+</div>
