@@ -2,13 +2,19 @@ import { h } from 'preact';
 import register from '../library/preact-custom-element';
 import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
 import { RenderImage } from '../components/RenderImage/RenderImage';
-import { ImageWithOptionalService, useLoadImageService, VaultProvider } from 'react-iiif-vault';
+import {
+  ImageServiceLoaderContext,
+  ImageWithOptionalService,
+  useLoadImageService,
+  VaultProvider,
+} from 'react-iiif-vault';
 import { useMemo } from 'preact/compat';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { ErrorBoundary as _ErrorBoundary } from 'react-error-boundary';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { parseBool } from '../helpers/parse-attributes';
+import { ImageServiceLoader } from '@atlas-viewer/iiif-image-api';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -137,9 +143,20 @@ export function ImageService(props: ImageServiceProps) {
   );
 }
 
+function WrappedImageService(props: ImageServiceProps) {
+  const loader = useMemo(() => {
+    return new ImageServiceLoader();
+  }, []);
+  return (
+    <ImageServiceLoaderContext.Provider value={loader}>
+      <ImageService {...props} />
+    </ImageServiceLoaderContext.Provider>
+  );
+}
+
 if (typeof window !== 'undefined') {
   register(
-    ImageService,
+    WrappedImageService,
     'image-service',
     [
       'src',

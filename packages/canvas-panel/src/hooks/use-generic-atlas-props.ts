@@ -148,6 +148,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     if (rt && tm && isReady) {
       // Add world subscribers?
       let isPending = false;
+
+      let minZoomCount = 0;
       return rt.world.addLayoutSubscriber(async (ev, data) => {
         if (ev !== 'repaint' && webComponent.current) {
           webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
@@ -164,6 +166,12 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             }
 
             const minZoom = getMinZoom();
+            const isMin = Math.abs(minZoom - rt._lastGoodScale) < 0.0002;
+            if (isMin) {
+              minZoomCount++;
+            } else {
+              minZoomCount = 0;
+            }
             webComponent.current.dispatchEvent(
               new CustomEvent('zoom', {
                 detail: {
@@ -171,7 +179,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
                   scaleFactor: runtime.current?._lastGoodScale,
                   max: runtime.current?.maxScaleFactor,
                   min: minZoom,
-                  isMin: Math.abs(minZoom - rt._lastGoodScale) < 0.0002,
+                  minZoomCount,
+                  isMin,
                   isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
                   ...((data as any) || {}),
                 },
