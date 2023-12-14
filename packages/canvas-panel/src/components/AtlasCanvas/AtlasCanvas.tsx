@@ -43,6 +43,7 @@ interface AtlasCanvasProps {
   children?: any;
   margin?: number;
   textEnabled?: boolean;
+  disableThumbnail?: boolean;
 }
 
 export function AtlasCanvas({
@@ -60,6 +61,7 @@ export function AtlasCanvas({
   isStatic,
   textSelectionEnabled,
   textEnabled,
+  disableThumbnail,
 }: AtlasCanvasProps) {
   const manifest = useManifest();
   const canvas = useCanvas();
@@ -216,7 +218,7 @@ export function AtlasCanvas({
                 key={image.id}
                 image={image}
                 id={image.id}
-                thumbnail={idx === 0 ? (thumbnail as any) : undefined}
+                thumbnail={idx === 0 && !disableThumbnail ? (thumbnail as any) : undefined}
                 virtualSizes={virtualSizes}
                 annotations={annotations}
               />

@@ -137,6 +137,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
           registerActions={(newActions) => {
             actions.current = newActions;
           }}
+          disableThumbnail={props.disableThumbnail}
           onCreated={(e: any) => {
             if (manifest && canvas && e) {
               navigator.clipboard.writeText(

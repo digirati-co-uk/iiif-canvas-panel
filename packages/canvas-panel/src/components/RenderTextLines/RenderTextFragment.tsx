@@ -27,6 +27,10 @@ export function RenderTextFragment({
 
   const target = (annotation.target as any).selector as BoxSelector;
 
+  if (!target) {
+    return null;
+  }
+
   return (
     <Fragment>
       <rect

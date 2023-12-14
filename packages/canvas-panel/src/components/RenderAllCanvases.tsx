@@ -28,6 +28,7 @@ interface RenderAllCanvasesProps {
   textSelectionEnabled?: boolean;
   children?: any;
   margin?: number;
+  disableThumbnail?: boolean;
 }
 
 export function RenderAllCanvases(props: RenderAllCanvasesProps) {

@@ -32,4 +32,5 @@ export type ViewCanvasProps = {
   margin?: number;
   textEnabled?: boolean;
   textSelectionEnabled?: boolean;
+  disableThumbnail?: boolean;
 };
