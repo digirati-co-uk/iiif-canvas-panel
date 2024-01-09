@@ -142,6 +142,8 @@ export function SequencePanel(props: SequencePanelProps) {
               <slot name="atlas" />
               {/*{contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}*/}
             </ViewCanvas>
+            {/* Default slot. */}
+            <slot />
           </SimpleViewerProvider>
         </VirtualAnnotationProvider>
       </VaultProvider>
