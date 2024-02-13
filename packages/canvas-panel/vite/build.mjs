@@ -35,8 +35,8 @@ import chalk from 'chalk';
   //       '@atlas-viewer/iiif-image-api',
   //       '@iiif/presentation-2',
   //       '@iiif/presentation-3',
-  //       '@iiif/vault',
-  //       '@iiif/vault-helpers',
+  //       '@iiif/helpers/vault',
+  //       '@iiif/helpers',
   //       '@preact/compat',
   //       '@react-hook/media-query',
   //       'preact',
@@ -46,8 +46,7 @@ import chalk from 'chalk';
   //   })
   // );
 
-  console.log('')
-
+  console.log('');
 
   function buildMsg(name) {
     console.log(chalk.grey(`\n\nBuilding ${chalk.blue(name)}\n`));

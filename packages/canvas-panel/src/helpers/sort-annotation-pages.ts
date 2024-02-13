@@ -1,4 +1,4 @@
-import { Vault } from '@iiif/vault';
+import { Vault } from '@iiif/helpers/vault';
 
 export function sortAnnotationPages(availablePageIds: string[], vault: Vault) {
   const pagesWithTypes = [];

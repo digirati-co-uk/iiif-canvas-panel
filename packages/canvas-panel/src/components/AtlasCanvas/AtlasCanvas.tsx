@@ -6,12 +6,11 @@ import {
   useThumbnail,
   StrategyActions,
   useVault,
-  ChoiceDescription,
   useVaultSelector,
   useAnnotationPageManager,
   useManifest,
 } from 'react-iiif-vault';
-import { createStylesHelper } from '@iiif/vault-helpers';
+import { createStylesHelper } from '@iiif/helpers';
 import { Fragment, h } from 'preact';
 import { WorldObject, SingleImage } from '../../atlas-components';
 import { RenderAnnotationPage } from '../RenderAnnotationPage/RenderAnnotationPage';
@@ -34,7 +33,7 @@ interface AtlasCanvasProps {
   highlightCssClass?: string;
   debug?: boolean;
   annoMode?: boolean;
-  onChoiceChange?: (choice?: ChoiceDescription) => void;
+  onChoiceChange?: (choice?: any) => void;
   defaultChoices?: Array<{ id: string; opacity?: number }>;
   onCreated?: any;
   registerActions?: (actions: StrategyActions) => void;

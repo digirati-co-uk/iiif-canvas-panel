@@ -9,10 +9,9 @@
 </template>
 
 <script>
-import { globalVault } from "@iiif/vault";
 import Manifest from "./components/Manifest";
 import ManifestThumbnailList from "./components/ManifestThumbnailList";
-import { createThumbnailHelper } from "@iiif/vault-helpers";
+import { createThumbnailHelper, globalVault } from "@iiif/helpers";
 
 export default {
   name: "App",
@@ -37,7 +36,8 @@ export default {
 </script>
 
 <style>
-:root html, :root  body {
+:root html,
+:root body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

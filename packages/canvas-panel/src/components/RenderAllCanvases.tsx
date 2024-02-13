@@ -1,6 +1,5 @@
 import {
   CanvasContext as _CanvasContext,
-  ChoiceDescription,
   StrategyActions,
   useRange,
   useSimpleViewer,
@@ -11,6 +10,7 @@ import { SizeParameter } from '../helpers/size-parameter';
 import { h } from 'preact';
 import { Fragment, useEffect, useRef } from 'preact/compat';
 import { useRegisterPublicApi } from '../hooks/use-register-public-api';
+import { ChoiceDescription } from '@iiif/helpers';
 
 const CanvasContext = _CanvasContext as any;
 

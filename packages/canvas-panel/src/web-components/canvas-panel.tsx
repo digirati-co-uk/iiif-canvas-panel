@@ -1,7 +1,8 @@
 import { h } from 'preact';
 import { FC, useCallback, useEffect, useLayoutEffect, useRef } from 'preact/compat';
 import register from '../library/preact-custom-element';
-import { CanvasContext, VaultProvider, ChoiceDescription } from 'react-iiif-vault';
+import { CanvasContext, VaultProvider } from 'react-iiif-vault';
+import { ChoiceDescription } from '@iiif/helpers';
 import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-public-api';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { ManifestLoader } from '../components/manifest-loader';
@@ -15,7 +16,7 @@ import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
 import { DrawBox, easingFunctions, Projection, useAtlas } from '@atlas-viewer/atlas';
-import { ContentState } from '@iiif/vault-helpers';
+import { ContentState } from '@iiif/helpers';
 import { baseAttributes } from '../helpers/base-attributes';
 
 export type CanvasPanelProps = GenericAtlasComponent<

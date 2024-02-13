@@ -1,5 +1,6 @@
 import { FC } from 'preact/compat';
-import { AnnotationPage, AnnotationPageNormalized } from '@iiif/presentation-3';
+import { AnnotationPage } from '@iiif/presentation-3';
+import { AnnotationPageNormalized } from '@iiif/presentation-3-normalized';
 import { Fragment, h } from 'preact';
 import { RenderAnnotation } from '../RenderAnnotation/RenderAnnotation';
 import { useStyles, useVaultSelector } from 'react-iiif-vault';
