@@ -1,5 +1,5 @@
-import { ContentState, NormalisedContentState } from '@iiif/vault-helpers';
-import { BoxSelector } from '@iiif/vault-helpers/.build/types/annotation-targets/selector-types';
+import { ContentState, NormalisedContentState } from '@iiif/helpers';
+import { BoxSelector } from '@iiif/helpers';
 
 export interface ContentStateEvent {
   contentState: ContentState;

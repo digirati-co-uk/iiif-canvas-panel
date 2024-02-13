@@ -1,173 +1,206 @@
 <html>
-<head>
+  <head>
     <title>Bookreader</title>
     <style>
-        #manifest { width: 50vw; }
-        #th { width:240px; border-right: 1px solid #999; margin: 5px; float:left; height:90%; overflow-y:scroll; }        
-        #main { width:72vw; margin-top:30px; margin-left:10px; float:left; height:90%;} 
-        .tc { display: inline-block; padding:5px; cursor: pointer; min-width: 100; }
-        #viewportContainer { height:80%; background-color: black; display: flex }
-        sequence-panel {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            min-width: 0; /* Required for downsizing */
+      #manifest {
+        width: 50vw;
+      }
+      #th {
+        width: 240px;
+        border-right: 1px solid #999;
+        margin: 5px;
+        float: left;
+        height: 90%;
+        overflow-y: scroll;
+      }
+      #main {
+        width: 72vw;
+        margin-top: 30px;
+        margin-left: 10px;
+        float: left;
+        height: 90%;
+      }
+      .tc {
+        display: inline-block;
+        padding: 5px;
+        cursor: pointer;
+        min-width: 100;
+      }
+      #viewportContainer {
+        height: 80%;
+        background-color: black;
+        display: flex;
+      }
+      sequence-panel {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0; /* Required for downsizing */
 
-            --atlas-container-flex: 1 1 0px;
-            --atlas-background: #000;
-        }
+        --atlas-container-flex: 1 1 0px;
+        --atlas-background: #000;
+      }
 
-        /* #cp { height:100% } */
+      /* #cp { height:100% } */
     </style>
     <script src="https://pkg.csb.dev/digirati-co-uk/iiif-canvas-panel/commit/b239c900/@digirati/canvas-panel-web-components/dist/bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
-</head>
-<body>
+    <script src="https://cdn.jsdelivr.net/npm/@iiif/helpers@latest/dist/index.umd.js"></script>
+  </head>
+  <body>
     <h1>A bookreader using Canvas Panel and Layout Container</h1>
     <h2 id="manifestLabel"></h2>
-    <div>    
-        <input id="manifest" type="text" value="https://iiif.wellcomecollection.org/presentation/b18035723" />
-        <input id="go" type="button" value="Go" />
-    </div>    
-    <div>    
-        <div id="th"></div>
-        <div id="main">
-            <div id="viewportContainer">
-
-            </div>
-            <p id="cvLabel"></p>
-        </div>
+    <div>
+      <input
+        id="manifest"
+        type="text"
+        value="https://iiif.wellcomecollection.org/presentation/b18035723"
+      />
+      <input id="go" type="button" value="Go" />
+    </div>
+    <div>
+      <div id="th"></div>
+      <div id="main">
+        <div id="viewportContainer"></div>
+        <p id="cvLabel"></p>
+      </div>
     </div>
 
-    <script>    
-        function $(id) { return document.getElementById(id); }
-        const vault = new IIIFVault.Vault();
-        const thumbHelper = VaultHelpers.createThumbnailHelper(vault);
-        let manifest;
+    <script>
+      function $(id) {
+        return document.getElementById(id);
+      }
+      const vault = new IIIFHelpers.Vault();
+      const thumbHelper = IIIFHelpers.createThumbnailHelper(vault);
+      let manifest;
 
-        async function loadManifest(){
-            const manifestUri = $("manifest").value;
-            if(manifestUri){
-                manifest = await vault.loadManifest(manifestUri);     
-                
-                const viewportContainer = $("viewportContainer");
-                viewportContainer.innerHTML = '';
-                // New component.
-                const sequencePanel = document.createElement('sequence-panel');
-                sequencePanel.vault = vault;
-                sequencePanel.setAttribute('manifest-id', manifestUri);
-                sequencePanel.setAttribute('margin', '20');
-                // sequencePanel.setAttribute('text-enabled', 'true');
-                // sequencePanel.setAttribute('text-selection-enabled', 'true');
-                viewportContainer.appendChild(sequencePanel);
-                
-                $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);      
-                let thumbsHtml = "";
-                let counter = 1;
-                // for brevity we will assume that the manifest is "paged", the viewingDirection is left-to-right.
-                thumbsHtml += '<div class="tc"></div>';
-                for(const canvasRef of vault.get(manifest.items)){  
-                    const canvas = vault.get(canvasRef);            
-                    const label = VaultHelpers.getValue(canvas.label);
-                    thumbsHtml += `<div class="tc">${label}<br/>`;
-                    thumbsHtml += `<img data-uri="${canvas.id}" data-label="${label}" src="${canvas.thumbnail[0].id}" data-index="${counter}" />`;
-                    thumbsHtml += '</div>';   
-                    counter++;
-                }
-                $('th').innerHTML = thumbsHtml;    
-                const thumbs = document.querySelectorAll('#th img');      
-                for(const thumb of thumbs){
-                    // thumb.addEventListener('click', selectCanvas);
-                    thumb.addEventListener('click', () => {
-                        // Change the canvas.
-                        if (sequencePanel.sequence) {
-                            sequencePanel.sequence.setCurrentCanvasId(thumb.getAttribute('data-uri'));                        
-                        }
-                    });
-                }  
-                sequencePanel.addEventListener("sequence-change", () => {
-                    const sequence = sequencePanel.sequence; // reacquire
-                    const itemIndexes = sequence.sequence[sequence.currentSequenceIndex]; 
-                    const canvasRefs = itemIndexes.map(idx => sequence.items[idx]);
-                    const canvases = vault.get(canvasRefs);
-                    const labels = canvases.map(canvas => VaultHelpers.getValue(canvas.label));
-                    $("cvLabel").innerText = labels.join(" | ");  
-                });
-                thumbs[0].click();
-            }
+      async function loadManifest() {
+        const manifestUri = $("manifest").value;
+        if (manifestUri) {
+          manifest = await vault.loadManifest(manifestUri);
+
+          const viewportContainer = $("viewportContainer");
+          viewportContainer.innerHTML = "";
+          // New component.
+          const sequencePanel = document.createElement("sequence-panel");
+          sequencePanel.vault = vault;
+          sequencePanel.setAttribute("manifest-id", manifestUri);
+          sequencePanel.setAttribute("margin", "20");
+          // sequencePanel.setAttribute('text-enabled', 'true');
+          // sequencePanel.setAttribute('text-selection-enabled', 'true');
+          viewportContainer.appendChild(sequencePanel);
+
+          $("manifestLabel").innerText = IIIFHelpers.getValue(manifest.label);
+          let thumbsHtml = "";
+          let counter = 1;
+          // for brevity we will assume that the manifest is "paged", the viewingDirection is left-to-right.
+          thumbsHtml += '<div class="tc"></div>';
+          for (const canvasRef of vault.get(manifest.items)) {
+            const canvas = vault.get(canvasRef);
+            const label = IIIFHelpers.getValue(canvas.label);
+            thumbsHtml += `<div class="tc">${label}<br/>`;
+            thumbsHtml += `<img data-uri="${canvas.id}" data-label="${label}" src="${canvas.thumbnail[0].id}" data-index="${counter}" />`;
+            thumbsHtml += "</div>";
+            counter++;
+          }
+          $("th").innerHTML = thumbsHtml;
+          const thumbs = document.querySelectorAll("#th img");
+          for (const thumb of thumbs) {
+            // thumb.addEventListener('click', selectCanvas);
+            thumb.addEventListener("click", () => {
+              // Change the canvas.
+              if (sequencePanel.sequence) {
+                sequencePanel.sequence.setCurrentCanvasId(
+                  thumb.getAttribute("data-uri")
+                );
+              }
+            });
+          }
+          sequencePanel.addEventListener("sequence-change", () => {
+            const sequence = sequencePanel.sequence; // reacquire
+            const itemIndexes =
+              sequence.sequence[sequence.currentSequenceIndex];
+            const canvasRefs = itemIndexes.map((idx) => sequence.items[idx]);
+            const canvases = vault.get(canvasRefs);
+            const labels = canvases.map((canvas) =>
+              IIIFHelpers.getValue(canvas.label)
+            );
+            $("cvLabel").innerText = labels.join(" | ");
+          });
+          thumbs[0].click();
         }
-        
-        $("go").addEventListener('click', loadManifest);
-        loadManifest();
-        
+      }
 
-        // Unused.
-        function selectCanvas(){
-            var clickedCanvas = vault.get(this.getAttribute("data-uri"));
-            const viewportContainer = $("viewportContainer");
-            // var layout = document.createElement("atlas-viewer");
-            var layout = document.createElement("sequence-panel");
-            layout.setAttribute("preset", "zoom");
-            layout.setAttribute("manifest-id", manif);
-            viewportContainer.replaceChildren();            
-            viewportContainer.appendChild(layout);
+      $("go").addEventListener("click", loadManifest);
+      loadManifest();
 
-            let leftCanvas, rightCanvas, otherCanvas;
-            let cpLeft, cpRight, cpOther;
-            let leftLabel, rightLabel, otherLabel;
+      // Unused.
+      function selectCanvas() {
+        var clickedCanvas = vault.get(this.getAttribute("data-uri"));
+        const viewportContainer = $("viewportContainer");
+        // var layout = document.createElement("atlas-viewer");
+        var layout = document.createElement("sequence-panel");
+        layout.setAttribute("preset", "zoom");
+        layout.setAttribute("manifest-id", manif);
+        viewportContainer.replaceChildren();
+        viewportContainer.appendChild(layout);
 
-            const index = parseInt(this.getAttribute("data-index"));
-            let otherIndex;
+        let leftCanvas, rightCanvas, otherCanvas;
+        let cpLeft, cpRight, cpOther;
+        let leftLabel, rightLabel, otherLabel;
 
-            if(index % 2 == 0){
-                cpLeft = createNestedCanvasPanelElement(clickedCanvas.id);           
-                leftLabel = this.getAttribute("data-label");
-                otherIndex = index + 1;             
-            } else {
-                cpRight = createNestedCanvasPanelElement(clickedCanvas.id);                         
-                rightLabel = this.getAttribute("data-label");
-                otherIndex = index - 1;  
-            }
-            const otherThumb = document.querySelector(`[data-index="${otherIndex}"]`);
-            if(otherThumb){
-                otherCanvas = vault.get(otherThumb.getAttribute("data-uri"));
-                cpOther = createNestedCanvasPanelElement(otherCanvas.id); 
-                otherLabel = otherThumb.getAttribute("data-label");
-            }
-            offsetCanvas = clickedCanvas;
-            if(cpLeft){
-                cpRight = cpOther;
-            } else {
-                cpLeft = cpOther;
-                if(otherCanvas){
-                    offsetCanvas = otherCanvas;
-                }
-            }
-            if(cpLeft){
-                layout.appendChild(cpLeft);
-            }
-            if(cpRight){
-                cpRight.setAttribute("x", offsetCanvas.width + 10);
-                layout.appendChild(cpRight);
-            }
-            let label;
-            if(leftLabel){
-                label = `${leftLabel} | ${otherLabel}`;
-            } else {
-                label = `${otherLabel} | ${rightLabel}`;
-            }
-            $("cvLabel").innerText = label;            
+        const index = parseInt(this.getAttribute("data-index"));
+        let otherIndex;
+
+        if (index % 2 == 0) {
+          cpLeft = createNestedCanvasPanelElement(clickedCanvas.id);
+          leftLabel = this.getAttribute("data-label");
+          otherIndex = index + 1;
+        } else {
+          cpRight = createNestedCanvasPanelElement(clickedCanvas.id);
+          rightLabel = this.getAttribute("data-label");
+          otherIndex = index - 1;
         }
-
-        function createNestedCanvasPanelElement(canvasId){
-            const cp = document.createElement("canvas-panel");
-            cp.setAttribute("nested", "true");
-            cp.setAttribute("canvas-id", canvasId);  
-            cp.setAttribute("manifest-id", manifest.id);  // not needed?
-            cp.vault = vault;  
-            return cp;
+        const otherThumb = document.querySelector(
+          `[data-index="${otherIndex}"]`
+        );
+        if (otherThumb) {
+          otherCanvas = vault.get(otherThumb.getAttribute("data-uri"));
+          cpOther = createNestedCanvasPanelElement(otherCanvas.id);
+          otherLabel = otherThumb.getAttribute("data-label");
         }
-     </script>
-</body>
+        offsetCanvas = clickedCanvas;
+        if (cpLeft) {
+          cpRight = cpOther;
+        } else {
+          cpLeft = cpOther;
+          if (otherCanvas) {
+            offsetCanvas = otherCanvas;
+          }
+        }
+        if (cpLeft) {
+          layout.appendChild(cpLeft);
+        }
+        if (cpRight) {
+          cpRight.setAttribute("x", offsetCanvas.width + 10);
+          layout.appendChild(cpRight);
+        }
+        let label;
+        if (leftLabel) {
+          label = `${leftLabel} | ${otherLabel}`;
+        } else {
+          label = `${otherLabel} | ${rightLabel}`;
+        }
+        $("cvLabel").innerText = label;
+      }
+
+      function createNestedCanvasPanelElement(canvasId) {
+        const cp = document.createElement("canvas-panel");
+        cp.setAttribute("nested", "true");
+        cp.setAttribute("canvas-id", canvasId);
+        cp.setAttribute("manifest-id", manifest.id); // not needed?
+        cp.vault = vault;
+        return cp;
+      }
+    </script>
+  </body>
 </html>

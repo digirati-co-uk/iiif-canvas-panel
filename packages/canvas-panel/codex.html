@@ -1,0 +1,93 @@
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <style>
+        canvas-panel::part(my-class) {
+            background: rgba(50, 0, 200, 0.4);
+        }
+
+        canvas-panel::part(my-link-class) {
+            border: 2px solid lightgreen;
+        }
+
+        canvas-panel::part(text-line-segment)::selection {
+            fill: #fff;
+            background: blue;
+        }
+
+        html {
+            height: 200vh;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<script type='module' src='./src/index.ts'></script>
+
+
+<sequence-panel
+        id='sequence'
+        text-enabled='false'
+        text-selection-enabled='false'
+        manifest-id='https://dfc-django-backend.getty.digirati.io/iiif/iiif/manifest/9c45d6f2-8cba-4e49-a205-f86203c67d82/'
+        margin='30'
+        height="900"
+></sequence-panel>
+
+<div style="display: flex">
+    <div style="flex: 1">
+        <image-service src="https://media.getty.edu/iiif/image/d915e1a9-8dab-49de-8be1-c29b2228e0bf" image-width="5537" image-height="7630"></image-service>
+    </div>
+    <div style="flex: 1">
+        <image-service src="https://media.getty.edu/iiif/image/2efd825f-41fe-4f93-b928-f25644c67b23" image-width="5262" image-height="7488"></image-service>
+    </div>
+    <div style="flex: 1">
+        <image-service src="https://media.getty.edu/iiif/image/90049c0d-bfd0-4ee9-8b32-70e45597bf5c" image-width="5209" image-height="7397"></image-service>
+    </div>
+    <div style="flex: 1">
+        <image-service src="https://media.getty.edu/iiif/image/f21dbf12-d3b0-4019-814a-61962df5ca77"></image-service>
+    </div>
+</div>
+
+<button id='prev'>prev</button>
+<button id='next'>next</button>
+
+<script type="module">
+    const seq = document.getElementById('sequence');
+    const next = document.getElementById('next');
+    const prev = document.getElementById('prev');
+
+    seq.addEventListener('sequence', () => {
+        console.log('sequence', seq.sequence);
+    })
+
+    next.addEventListener('click', () => {
+        seq.sequence.nextCanvas();
+    })
+    prev.addEventListener('click', () => {
+        seq.sequence.previousCanvas();
+    })
+
+    seq.addEventListener('sequence-change', (e) => {
+        if (e.detail.index === 0) {
+            prev.setAttribute('disabled', 'true');
+        } else {
+            prev.removeAttribute('disabled');
+        }
+        if (e.detail.total - 1 <= e.detail.index) {
+            next.setAttribute('disabled', 'true');
+        } else {
+            next.removeAttribute('disabled');
+        }
+    })
+</script>
+
+</body>
+</html>

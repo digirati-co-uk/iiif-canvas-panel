@@ -1,11 +1,11 @@
 import { useSyncedState } from '../hooks/use-synced-state';
 import { parseBool } from '../helpers/parse-attributes';
 import { ManifestContext, useExistingVault, useExternalManifest, VaultProvider } from 'react-iiif-vault';
-import { globalVault, Vault } from '@iiif/vault';
+import { globalVault, Vault } from '@iiif/helpers/vault';
 import { Fragment, h } from 'preact';
 import { RangeDisplay } from '../components/RangeDisplay/RangeDisplay';
 import { useLayoutEffect, useRef, useState } from 'preact/compat';
-import { RangeNormalized } from '@iiif/presentation-3';
+import { RangeNormalized } from '@iiif/presentation-3-normalized';
 import register from '../library/preact-custom-element';
 
 export interface RangePanelProps {

@@ -1,6 +1,6 @@
 {
   "name": "@digirati/canvas-panel-web-components",
-  "version": "1.0.57",
+  "version": "1.0.58",
   "typings": "./dist/types/index.d.ts",
   "main": "./dist/bundle.js",
   "files": [
@@ -15,22 +15,21 @@
   "resolutions": {
     "@atlas-viewer/iiif-image-api": "^2.1.1",
     "@iiif/presentation-3": ">=1.0.6",
-    "@iiif/vault": "^0.9.18",
-    "@iiif/parser": "1.*",
     "nanoid": "3.1.25"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "https://pkg.csb.dev/atlas-viewer/atlas/commit/9fc143d3/@atlas-viewer/atlas",
+    "@atlas-viewer/atlas": "https://pkg.csb.dev/atlas-viewer/atlas/commit/d74749b3/@atlas-viewer/atlas",
     "@atlas-viewer/iiif-image-api": "^2.1.1",
     "@iiif/presentation-2": "^1.0.4",
-    "@iiif/presentation-3": "^1.1.3",
-    "@iiif/vault": "^0.9.22",
-    "@iiif/vault-helpers": "^0.9.11",
+    "@iiif/presentation-3": "^2.1.3",
+    "@iiif/presentation-3-normalized": "^0.9.7",
+    "@iiif/helpers": "^1.0.6",
+    "@iiif/parser": "^2.0.2",
     "@preact/compat": "17.*",
     "@react-hook/media-query": "^1.1.1",
     "preact": "^10.*",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "^0.9.21"
+    "react-iiif-vault": "^1.0.8"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.3.0",
@@ -50,7 +49,7 @@
     "preact-render-to-string": "^5.2.0",
     "prettier": "^2.5.1",
     "ts-jest": "^28.0.5",
-    "typescript": "^4.6.2",
+    "typescript": "^5.3.3",
     "vite": "^2.9.5",
     "vitest": "^0.18.0"
   },

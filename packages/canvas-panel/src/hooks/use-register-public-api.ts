@@ -1,19 +1,11 @@
-import {
-  ChoiceBody,
-  Annotation,
-  AnnotationNormalized,
-  CanvasNormalized,
-  ManifestNormalized,
-  Reference,
-  Selector,
-} from '@iiif/presentation-3';
-import { Vault } from '@iiif/vault';
+import { ChoiceBody, Annotation, Reference, Selector } from '@iiif/presentation-3';
+import { AnnotationNormalized, CanvasNormalized, ManifestNormalized } from '@iiif/presentation-3-normalized';
+import { Vault } from '@iiif/helpers/vault';
 import { createContext } from 'preact';
-import {useContext, useEffect, useRef} from 'preact/compat';
+import { useContext, useRef } from 'preact/compat';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ParsedSelector } from 'react-iiif-vault';
 import { BoxStyle } from '@atlas-viewer/atlas';
-import {useLayoutEffect} from "react";
 
 type TBC = any;
 
