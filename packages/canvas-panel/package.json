@@ -14,7 +14,7 @@
   },
   "resolutions": {
     "@atlas-viewer/iiif-image-api": "^2.1.1",
-    "@iiif/presentation-3": ">=1.0.6",
+    "@iiif/presentation-3": "^2.1.3",
     "nanoid": "3.1.25"
   },
   "dependencies": {
