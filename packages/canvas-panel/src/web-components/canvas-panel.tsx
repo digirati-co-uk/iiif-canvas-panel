@@ -148,15 +148,10 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       },
 
       getContentState() {
-        const _x = runtime.current?.target[1];
-        const _y = runtime.current?.target[2];
-        const width = runtime.current?.target[3]; 
-        const height = runtime.current?.target[4];
-
         const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
         const _canvasId = canvasIdRef?.current ? canvasIdRef?.current : canvasId;
         const contentState: ContentState = {
-          id: `${_canvasId}#xywh=${_x},${_y},${width},${height}`,
+          id: `${_canvasId}#xywh=${runtime.current?.x},${runtime.current?.y},${runtime.current?.width},${runtime.current?.height}`,
           type: 'Canvas',
           partOf: [{ id: _manifestId, type: 'Manifest' }],
         };
@@ -166,9 +161,18 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           encodedContentState: serialiseContentState(contentState),
         };
 
-        console.log(runtime.current)
         return ContentStateEvent;
       },
+
+      getPosition() {
+        return {
+          x: runtime.current?.x,
+          y: runtime.current?.y,
+          width: runtime.current?.width,
+          height: runtime.current?.height
+        }
+      },
+
       getManifestId() {
         return manifestIdRef.current;
       },
