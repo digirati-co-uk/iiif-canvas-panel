@@ -2,13 +2,17 @@ import register from '../library/preact-custom-element';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { ChoiceDescription, SimpleViewerProvider, VaultProvider } from 'react-iiif-vault';
+import { ContentState } from '@iiif/vault-helpers';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { RegisterPublicApi } from '../hooks/use-register-public-api';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { h } from 'preact';
-import { parseBool, parseNumber } from '../helpers/parse-attributes';
-import { useCallback } from 'preact/compat';
+import { parseBool, parseNumber, parseContentStateParameter } from '../helpers/parse-attributes';
+import { useCallback, useLayoutEffect } from 'preact/compat';
 import { baseAttributes } from '../helpers/base-attributes';
+import { parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
+import { normaliseContentState } from '../helpers/content-state/content-state';
+import { useState } from 'preact/compat';
 
 export type SequencePanelProps = GenericAtlasComponent<{
   manifestId: string;
@@ -59,15 +63,23 @@ export function SequencePanel(props: SequencePanelProps) {
     useRegisterWebComponentApi,
     setMode,
   } = useGenericAtlasProps(props);
-  const [manifestId, , , manifestIdRef] = useProp('manifestId');
+  const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
   const [rangeId, , , rangeIdRef] = useProp('rangeId');
-  const [startCanvas] = useProp('startCanvas');
+  const [startCanvas, setStartCanvas, , startCanvasRef] = useProp('startCanvas');
   const [margin] = useProp('margin', { parse: parseNumber, defaultValue: 0 });
   const [pagingEnabled] = useProp('pagingEnabled', { parse: parseBool, defaultValue: true });
   const [textSelectionEnabled] = useProp('textSelectionEnabled', { parse: parseBool, defaultValue: true });
   const [textEnabled] = useProp('textEnabled', { parse: parseBool, defaultValue: false });
   const [followAnnotations] = useProp('followAnnotations', { parse: parseBool, defaultValue: true });
-
+  const [unknownContentState, , setParsedContentState] = useProp('iiifContent', {
+    parse: parseContentStateParameter,
+  });
+const contentState =
+    unknownContentState && unknownContentState.type !== 'remote-content-state' ? unknownContentState : null;
+  const contentStateToLoad =
+    unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
+const [error, setError] = useState<Error | null>();
+  
   const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
     if (webComponent.current) {
       webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
@@ -86,6 +98,33 @@ export function SequencePanel(props: SequencePanelProps) {
       getRangeId() {
         return rangeIdRef.current;
       },
+
+      getContentState() {
+        const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
+        // not sure if there's a better way to get at this?
+        const sequenceInfo = webComponent.current?.sequence;
+        const _canvasId = sequenceInfo.items[sequenceInfo.sequence[sequenceInfo.currentSequenceIndex][0]].id;
+
+        const contentState: ContentState = {
+          id: `${_canvasId}#xywh=${runtime.current?.x},${runtime.current?.y},${runtime.current?.width},${runtime.current?.height}`,
+          type: 'Canvas',
+          partOf: [{ id: _manifestId, type: 'Manifest' }],
+        };
+        const ContentStateEvent = {
+          contentState,
+          normalisedContentState: normaliseContentState(contentState),
+          encodedContentState: serialiseContentState(contentState),
+        };
+
+        return ContentStateEvent;
+      },
+
+      setContentStateFromText(text: string) {
+        const contentState = normaliseContentState(parseContentState(text));
+        setParsedContentState(contentState);
+      },
+
+
       getManifestId() {
         return manifestIdRef.current;
       },
@@ -106,6 +145,41 @@ export function SequencePanel(props: SequencePanelProps) {
       },
     };
   });
+  
+  useLayoutEffect(() => {
+    if (contentStateToLoad && !error) {
+      fetch(contentStateToLoad)
+        .then((r) => r.json())
+        .then((rawState) => {
+          setParsedContentState(parseContentStateParameter(rawState));
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(new Error(`Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`));
+        });
+    }
+  }, [contentStateToLoad, error]);
+
+  useLayoutEffect(() => {
+    if (contentState) {
+      if (contentState.target.length) {
+        const firstTarget = contentState.target[0];
+        if (firstTarget.type === 'SpecificResource' && firstTarget.source.type === 'Canvas') {
+          const manifestSource = (firstTarget.source.partOf || []).find((s) => s.type === 'Manifest');
+          // not sure if there's a better way to get at this?
+          webComponent.current.sequence.setCurrentCanvasId(firstTarget.source.id);
+
+          // problem: if there's a zoom, once the page changes, the viewport info (zoom / x / y ) do not reset
+          if (manifestSource) {
+            setManifestId(manifestSource.id);
+          }
+          if (firstTarget.selector) {
+            setParsedTarget(firstTarget);
+          }
+        }
+      }
+    }
+  }, [contentState]);
 
   if (!manifestId || isConfigBlocking) {
     return null;
