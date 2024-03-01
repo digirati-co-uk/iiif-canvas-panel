@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+      /* 
+      html,
+      body {
+        display: flex;
+        flex: 1;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      } */
+
+      /* .container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+      } */
+
+      /* .container range-panel {
+        max-width: 400px;
+      } */
+
+      /* .container sequence-panel {
+        flex: 1;
+        min-width: 0;
+        width: 800px;
+        height: 700px;
+
+        --atlas-container-display: flex;
+        --atlas-container-flex: 1;
+        --atlas-container-height: 100%;
+      } */
+    </style>
+  </head>
+  <body>
+    <script type="module" src="./src/index.ts"></script>
+
+    <div class="container">
+      <sequence-panel id="sp" manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" render="static">
+        <div>
+          <button id="next">+</button>
+          <button id="fs">fullscreen</button>
+        </div>
+      </sequence-panel>
+    </div>
+
+    <script type="module">
+      const btn = document.getElementById('fs');
+      btn.addEventListener('click', () => {
+        document.querySelector('sequence-panel').webkitRequestFullScreen.call(document.querySelector('sequence-panel'));
+      });
+
+      const next = document.getElementById('next');
+      next.addEventListener('click', () => {
+        document.querySelector('sequence-panel').sequence.nextCanvas();
+
+        document.querySelector('sequence-panel').withAtlas((atlas) => {
+          console.log(atlas);
+        });
+      });
+    </script>
+  </body>
+</html>
