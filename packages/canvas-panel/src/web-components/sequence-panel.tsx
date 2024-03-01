@@ -18,6 +18,7 @@ export type SequencePanelProps = GenericAtlasComponent<{
   manifestId: string;
   rangeId?: string;
   startCanvas?: string;
+  iiifContent?: string;
   pagingEnabled?: boolean;
   canvasIds?: string;
   textSelectionEnabled?: 'true' | 'false' | boolean;
@@ -74,12 +75,12 @@ export function SequencePanel(props: SequencePanelProps) {
   const [unknownContentState, , setParsedContentState] = useProp('iiifContent', {
     parse: parseContentStateParameter,
   });
-const contentState =
+  const contentState =
     unknownContentState && unknownContentState.type !== 'remote-content-state' ? unknownContentState : null;
   const contentStateToLoad =
     unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
-const [error, setError] = useState<Error | null>();
-  
+  const [error, setError] = useState<Error | null>();
+
   const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
     if (webComponent.current) {
       webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
@@ -102,7 +103,9 @@ const [error, setError] = useState<Error | null>();
       getContentState() {
         const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
         // not sure if there's a better way to get at this?
-        const sequenceInfo = webComponent.current?.sequence;
+        const el = webComponent.current;
+        const sequenceInfo = (el as any).sequence;
+
         const _canvasId = sequenceInfo.items[sequenceInfo.sequence[sequenceInfo.currentSequenceIndex][0]].id;
 
         const contentState: ContentState = {
@@ -145,7 +148,7 @@ const [error, setError] = useState<Error | null>();
       },
     };
   });
-  
+
   useLayoutEffect(() => {
     if (contentStateToLoad && !error) {
       fetch(contentStateToLoad)
@@ -166,9 +169,12 @@ const [error, setError] = useState<Error | null>();
         const firstTarget = contentState.target[0];
         if (firstTarget.type === 'SpecificResource' && firstTarget.source.type === 'Canvas') {
           const manifestSource = (firstTarget.source.partOf || []).find((s) => s.type === 'Manifest');
-          // not sure if there's a better way to get at this?
-          webComponent.current.sequence.setCurrentCanvasId(firstTarget.source.id);
 
+          // not sure if there's a better way to get at this?
+          const el = webComponent.current;
+          const sequenceInfo = (el as any).sequence;
+
+          sequenceInfo.setCurrentCanvasId(firstTarget.source.id);
           // problem: if there's a zoom, once the page changes, the viewport info (zoom / x / y ) do not reset
           if (manifestSource) {
             setManifestId(manifestSource.id);
@@ -198,7 +204,7 @@ const [error, setError] = useState<Error | null>();
             <ViewCanvas
               renderMultiple={true}
               // Escape hatch for bugs - to be improved.
-              key={`${viewport ? 'v1' : 'v0'}`}
+              key={`${startCanvas}-${viewport ? 'v1' : 'v0'}`}
               interactive={interactive}
               followAnnotations={followAnnotations}
               onChoiceChange={onChoiceChange}
