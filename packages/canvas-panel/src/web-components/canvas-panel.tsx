@@ -149,6 +149,32 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         return canvasIdRef.current;
       },
 
+      getContentState() {
+        const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
+        const _canvasId = canvasIdRef?.current ? canvasIdRef?.current : canvasId;
+        const contentState: ContentState = {
+          id: `${_canvasId}#xywh=${runtime.current?.x},${runtime.current?.y},${runtime.current?.width},${runtime.current?.height}`,
+          type: 'Canvas',
+          partOf: [{ id: _manifestId, type: 'Manifest' }],
+        };
+        const ContentStateEvent = {
+          contentState,
+          normalisedContentState: normaliseContentState(contentState),
+          encodedContentState: serialiseContentState(contentState),
+        };
+
+        return ContentStateEvent;
+      },
+
+      getPosition() {
+        return {
+          x: runtime.current?.x,
+          y: runtime.current?.y,
+          width: runtime.current?.width,
+          height: runtime.current?.height
+        }
+      },
+
       getManifestId() {
         return manifestIdRef.current;
       },

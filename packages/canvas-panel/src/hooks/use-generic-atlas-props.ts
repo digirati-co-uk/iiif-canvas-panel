@@ -335,6 +335,15 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         htmlComponent.setAttribute('choice-id', choiceIds.join(','));
       },
 
+      getPosition() {
+        return {
+          x: runtime.current?.x,
+          y: runtime.current?.y,
+          width: runtime.current?.width,
+          height: runtime.current?.height
+        }
+      },
+
       getMaxZoom() {
         return runtime.current?.maxScaleFactor || 1;
       },
