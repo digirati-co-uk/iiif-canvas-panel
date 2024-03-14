@@ -13,17 +13,22 @@ export const TileSet: FC<{
   height: number;
   style?: any;
   tileFormat?: string;
+  skipSizes?: boolean;
+  skipThumbnail?: boolean;
 }> = (props) => {
   const scale = props.width / props.tiles.width;
   const tiles = props.tiles.imageService.tiles || [];
   const sizes = props.tiles.imageService.sizes || [];
+  const skipSizes = props.skipSizes || false;
+  const skipThumbnail = props.skipThumbnail || false;
+  const imageServiceId = props.tiles.imageService.id || (props.tiles.imageService['@id'] as string);
   const canonicalId = useMemo(() => {
-    const id = props.tiles.imageService.id || (props.tiles.imageService['@id'] as string);
+    const id = imageServiceId;
     if (id && id.endsWith('/info.json')) {
       return id.slice(0, -1 * '/info.json'.length);
     }
     return id;
-  }, [props.tiles.imageService.id]);
+  }, [imageServiceId]);
 
   const hasOpacity = props.style && typeof props.style.opacity !== 'undefined' && props.style.opacity !== 1;
 
@@ -37,7 +42,7 @@ export const TileSet: FC<{
       y={props.y}
     >
       <CompositeResource
-        key={canonicalId}
+        key={'composite-' + canonicalId}
         id={canonicalId}
         width={props.tiles.width}
         height={props.tiles.height}
@@ -59,7 +64,7 @@ export const TileSet: FC<{
         }
       >
         {props.children}
-        {props.tiles.thumbnail && !hasOpacity ? (
+        {props.tiles.thumbnail && !hasOpacity && !skipThumbnail ? (
           <SingleImage
             uri={props.tiles.thumbnail.id}
             target={{ width: props.tiles.width, height: props.tiles.height }}
@@ -67,33 +72,35 @@ export const TileSet: FC<{
             style={props.style}
           />
         ) : null}
-        {sizes.map((size, n) => {
-          const { prefix, server, scheme, path } = parseImageServiceUrl(canonicalId);
-          return (
-            <SingleImage
-              key={n}
-              uri={imageServiceRequestToString(
-                {
-                  scheme,
-                  server,
-                  prefix,
-                  identifier: path,
-                  originalPath: '',
-                  type: 'image',
-                  region: { full: true },
-                  size: { max: false, upscaled: false, confined: false, width: size.width, height: size.height },
-                  rotation: { angle: 0, mirror: false },
-                  format: 'jpg',
-                  quality: 'default',
-                },
-                props.tiles.imageService
-              )}
-              target={{ width: props.tiles.width, height: props.tiles.height }}
-              display={{ width: size.width, height: size.height }}
-              style={props.style}
-            />
-          );
-        })}
+        {skipSizes
+          ? null
+          : sizes.map((size, n) => {
+              const { prefix, server, scheme, path } = parseImageServiceUrl(canonicalId);
+              return (
+                <SingleImage
+                  key={n}
+                  uri={imageServiceRequestToString(
+                    {
+                      scheme,
+                      server,
+                      prefix,
+                      identifier: path,
+                      originalPath: '',
+                      type: 'image',
+                      region: { full: true },
+                      size: { max: false, upscaled: false, confined: false, width: size.width, height: size.height },
+                      rotation: { angle: 0, mirror: false },
+                      format: 'jpg',
+                      quality: 'default',
+                    },
+                    props.tiles.imageService
+                  )}
+                  target={{ width: props.tiles.width, height: props.tiles.height }}
+                  display={{ width: size.width, height: size.height }}
+                  style={props.style}
+                />
+              );
+            })}
         {tiles.map((tile: any) =>
           (tile.scaleFactors || []).map((size: number) => {
             return (
