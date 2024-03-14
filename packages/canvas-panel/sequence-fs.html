@@ -47,9 +47,14 @@
     <script type="module" src="./src/index.ts"></script>
 
     <div class="container">
-      <sequence-panel id="sp" manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" render="static">
+      <sequence-panel
+        id="sp"
+        skip-sizes="true"
+        manifest-id="https://media.getty.edu/iiif/manifest/1e0ed47e-5a5b-4ff0-aea0-45abee793a1c"
+      >
         <div>
-          <button id="next">+</button>
+          <button id="prev">Prev</button>
+          <button id="next">Next</button>
           <button id="fs">fullscreen</button>
         </div>
       </sequence-panel>
@@ -64,10 +69,11 @@
       const next = document.getElementById('next');
       next.addEventListener('click', () => {
         document.querySelector('sequence-panel').sequence.nextCanvas();
+      });
 
-        document.querySelector('sequence-panel').withAtlas((atlas) => {
-          console.log(atlas);
-        });
+      const prev = document.getElementById('prev');
+      prev.addEventListener('click', () => {
+        document.querySelector('sequence-panel').sequence.previousCanvas()();
       });
     </script>
   </body>

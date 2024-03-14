@@ -25,6 +25,7 @@ export type CanvasPanelProps = GenericAtlasComponent<
     choiceId?: string | string[];
     textSelectionEnabled?: 'true' | 'false' | boolean;
     disableThumbnail?: 'true' | 'false' | boolean;
+    skipSizes?: 'true' | 'false' | boolean;
     textEnabled?: 'true' | 'false' | boolean;
     followAnnotations?: boolean;
     iiifContent?: string;
@@ -81,6 +82,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const [defaultChoices, , , defaultChoiceIdsRef] = useProp('choiceId', { parse: parseChoices });
   const [textSelectionEnabled] = useProp('textSelectionEnabled', { parse: parseBool, defaultValue: true });
   const [disableThumbnail] = useProp('disableThumbnail', { parse: parseBool, defaultValue: false });
+  const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
   const [textEnabled] = useProp('textEnabled', { parse: parseBool, defaultValue: false });
   const contentState =
     unknownContentState && unknownContentState.type !== 'remote-content-state' ? unknownContentState : null;
@@ -282,6 +284,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         textEnabled={textEnabled}
         textSelectionEnabled={textSelectionEnabled}
         disableThumbnail={disableThumbnail}
+        skipSizes={skipSizes}
       >
         <slot name="atlas" />
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}

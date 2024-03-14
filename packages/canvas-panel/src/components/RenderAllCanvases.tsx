@@ -29,6 +29,7 @@ interface RenderAllCanvasesProps {
   children?: any;
   margin?: number;
   disableThumbnail?: boolean;
+  skipSizes?: boolean;
 }
 
 export function RenderAllCanvases(props: RenderAllCanvasesProps) {
