@@ -108,17 +108,29 @@ export function SequencePanel(props: SequencePanelProps) {
 
         const _canvasId = sequenceInfo.items[sequenceInfo.sequence[sequenceInfo.currentSequenceIndex][0]].id;
 
+        // why do I have to cast this as any in order to get x/y/width/height(?)
+        // eslint-disable-next-line prefer-const
+        let { x, y, width, height } = runtime?.current as any;
+
+        // if we set x or y to less than 0, then normaliseContentState will turn it into an absolute value... this feels weird
+        if (x < 0) {
+          x = 0;
+        }
+        if (y < 0) {
+          y = 0;
+        }
+
         const contentState: ContentState = {
-          id: `${_canvasId}#xywh=${runtime.current?.x},${runtime.current?.y},${runtime.current?.width},${runtime.current?.height}`,
+          id: `${_canvasId}#xywh=${x},${y},${width},${height}`,
           type: 'Canvas',
           partOf: [{ id: _manifestId, type: 'Manifest' }],
         };
+
         const ContentStateEvent = {
           contentState,
           normalisedContentState: normaliseContentState(contentState),
           encodedContentState: serialiseContentState(contentState),
         };
-
         return ContentStateEvent;
       },
 
@@ -175,12 +187,18 @@ export function SequencePanel(props: SequencePanelProps) {
           const sequenceInfo = (el as any).sequence;
 
           sequenceInfo.setCurrentCanvasId(firstTarget.source.id);
-          // problem: if there's a zoom, once the page changes, the viewport info (zoom / x / y ) do not reset
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
           if (firstTarget.selector) {
-            setParsedTarget(firstTarget);
+            // weird that I have to cast here
+            const { x, y, width, height } = firstTarget.selector.spatial as any;
+            runtime?.current?.world.gotoRegion({
+              x,
+              y,
+              width,
+              height,
+            });
           }
         }
       }
