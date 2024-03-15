@@ -28,6 +28,20 @@ export type NormalisedContentState = {
   extensions: Record<string, any>;
 };
 
+/**
+ * if we set x or y to less than 0, then this is invalid for the web annotation (off canvas), so we set them to 0
+ *
+ * @param x the dimension information
+ *
+ * @returns {number}
+ */
+export function normaliseAxis(x?: number) {
+  if (x == undefined || x < 0) {
+    return 0;
+  }
+  return x;
+}
+
 type ValidationResponse = readonly [false, { reason?: string }] | readonly [true];
 
 export function validateContentState(annotation: ContentState, strict = false): ValidationResponse {

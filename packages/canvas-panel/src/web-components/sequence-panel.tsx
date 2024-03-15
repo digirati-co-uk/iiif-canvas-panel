@@ -10,7 +10,7 @@ import { h } from 'preact';
 import { parseBool, parseNumber, parseContentStateParameter } from '../helpers/parse-attributes';
 import { useCallback, useLayoutEffect } from 'preact/compat';
 import { baseAttributes } from '../helpers/base-attributes';
-import { parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
+import { normaliseAxis, parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { useState } from 'preact/compat';
 
@@ -108,20 +108,11 @@ export function SequencePanel(props: SequencePanelProps) {
 
         const _canvasId = sequenceInfo.items[sequenceInfo.sequence[sequenceInfo.currentSequenceIndex][0]].id;
 
-        // why do I have to cast this as any in order to get x/y/width/height(?)
         // eslint-disable-next-line prefer-const
-        let { x, y, width, height } = runtime?.current as any;
-
-        // if we set x or y to less than 0, then normaliseContentState will turn it into an absolute value... this feels weird
-        if (x < 0) {
-          x = 0;
-        }
-        if (y < 0) {
-          y = 0;
-        }
+        let { x, y, width, height } = runtime?.current || {};
 
         const contentState: ContentState = {
-          id: `${_canvasId}#xywh=${x},${y},${width},${height}`,
+          id: `${_canvasId}#xywh=${normaliseAxis(x)},${normaliseAxis(y)},${width},${height}`,
           type: 'Canvas',
           partOf: [{ id: _manifestId, type: 'Manifest' }],
         };
@@ -190,9 +181,8 @@ export function SequencePanel(props: SequencePanelProps) {
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
-          if (firstTarget.selector) {
-            // weird that I have to cast here
-            const { x, y, width, height } = firstTarget.selector.spatial as any;
+          if (firstTarget.selector && firstTarget.selector.type === 'BoxSelector') {
+            const { x, y, width, height } = firstTarget.selector.spatial;
             runtime?.current?.world.gotoRegion({
               x,
               y,
