@@ -30,6 +30,8 @@ export type ImageServiceProps = GenericAtlasComponent<
     y?: number;
     tileFormat?: string;
     children?: any;
+    skipSizes?: boolean | 'true' | 'false';
+    disableThumbnail?: boolean | 'true' | 'false';
   },
   ImageServiceApi
 >;
@@ -57,6 +59,8 @@ export function ImageService(props: ImageServiceProps) {
   const [src] = useProp('src');
   const [nested] = useProp('nested', { parse: parseBool });
   const [tileFormat, setTileFormat] = useProp('tileFormat');
+  const [skipSizes] = useProp('skipSizes', { parse: parseBool });
+  const [disableThumbnail] = useProp('disableThumbnail', { parse: parseBool });
   const [loadImageService, status] = useLoadImageService();
   const statusOf = status[src];
   const image = useMemo(() => {
@@ -130,6 +134,8 @@ export function ImageService(props: ImageServiceProps) {
             id={image.id}
             isStatic={!interactive}
             virtualSizes={virtualSizes}
+            skipSizes={skipSizes}
+            skipThumbnail={disableThumbnail}
             x={x}
             y={y}
             tileFormat={tileFormat}
