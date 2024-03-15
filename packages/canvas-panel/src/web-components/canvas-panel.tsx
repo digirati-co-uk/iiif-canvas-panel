@@ -25,6 +25,7 @@ export type CanvasPanelProps = GenericAtlasComponent<
     choiceId?: string | string[];
     textSelectionEnabled?: 'true' | 'false' | boolean;
     disableThumbnail?: 'true' | 'false' | boolean;
+    skipSizes?: 'true' | 'false' | boolean;
     textEnabled?: 'true' | 'false' | boolean;
     followAnnotations?: boolean;
     iiifContent?: string;
@@ -81,6 +82,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const [defaultChoices, , , defaultChoiceIdsRef] = useProp('choiceId', { parse: parseChoices });
   const [textSelectionEnabled] = useProp('textSelectionEnabled', { parse: parseBool, defaultValue: true });
   const [disableThumbnail] = useProp('disableThumbnail', { parse: parseBool, defaultValue: false });
+  const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
   const [textEnabled] = useProp('textEnabled', { parse: parseBool, defaultValue: false });
   const contentState =
     unknownContentState && unknownContentState.type !== 'remote-content-state' ? unknownContentState : null;
@@ -146,6 +148,32 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
 
       getCanvasId() {
         return canvasIdRef.current;
+      },
+
+      getContentState() {
+        const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
+        const _canvasId = canvasIdRef?.current ? canvasIdRef?.current : canvasId;
+        const contentState: ContentState = {
+          id: `${_canvasId}#xywh=${runtime.current?.x},${runtime.current?.y},${runtime.current?.width},${runtime.current?.height}`,
+          type: 'Canvas',
+          partOf: [{ id: _manifestId, type: 'Manifest' }],
+        };
+        const ContentStateEvent = {
+          contentState,
+          normalisedContentState: normaliseContentState(contentState),
+          encodedContentState: serialiseContentState(contentState),
+        };
+
+        return ContentStateEvent;
+      },
+
+      getPosition() {
+        return {
+          x: runtime.current?.x,
+          y: runtime.current?.y,
+          width: runtime.current?.width,
+          height: runtime.current?.height
+        }
       },
 
       getManifestId() {
@@ -283,6 +311,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         textEnabled={textEnabled}
         textSelectionEnabled={textSelectionEnabled}
         disableThumbnail={disableThumbnail}
+        skipSizes={skipSizes}
       >
         <slot name="atlas" />
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}

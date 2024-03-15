@@ -51,7 +51,8 @@ export type UseRegisterPublicApi = {
     getCanvasId(): string | undefined;
     getManifest(): ManifestNormalized | undefined;
     getManifestId(): string | undefined;
-
+    getContentState(): object | undefined;
+    getPosition(): object | undefined;
     // Proposed helpers
     getDefaultChoiceIds(): string[];
     setDefaultChoiceIds(ids: string[] | ((prev: string[]) => string[])): void;

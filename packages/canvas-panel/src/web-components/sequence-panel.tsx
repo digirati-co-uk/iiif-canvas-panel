@@ -24,6 +24,7 @@ export type SequencePanelProps = GenericAtlasComponent<{
   textSelectionEnabled?: 'true' | 'false' | boolean;
   textEnabled?: 'true' | 'false' | boolean;
   followAnnotations?: 'true' | 'false' | boolean;
+  skipSizes?: 'true' | 'false' | boolean;
   margin?: number;
 }>;
 
@@ -80,6 +81,7 @@ export function SequencePanel(props: SequencePanelProps) {
   const contentStateToLoad =
     unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
   const [error, setError] = useState<Error | null>();
+  const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
 
   const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
     if (webComponent.current) {
@@ -224,6 +226,7 @@ export function SequencePanel(props: SequencePanelProps) {
               displayOptions={atlasProps}
               mode={mode}
               textEnabled={textEnabled}
+              skipSizes={skipSizes}
               textSelectionEnabled={textSelectionEnabled}
               margin={margin}
             >

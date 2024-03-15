@@ -17,6 +17,8 @@ export function RenderImage({
   y = 0,
   annotations,
   tileFormat,
+  skipSizes,
+  skipThumbnail,
 }: {
   id: string;
   image: ImageWithOptionalService;
@@ -27,6 +29,8 @@ export function RenderImage({
   y?: number;
   annotations?: JSX.Element;
   tileFormat?: string;
+  skipSizes?: boolean;
+  skipThumbnail?: boolean;
 }) {
   // For image resources, we may not support everything.. but we do support opacity.
   const style = useStyles({ id, type: 'ContentResource' }, 'atlas');
@@ -59,8 +63,10 @@ export function RenderImage({
               height: (image.height !== image.service.height ? image.service.height : image.height) as number,
               width: (image.width !== image.service.width ? image.service.width : image.width) as number,
               imageService: image.service as any,
-              thumbnail: thumbnail && thumbnail.type === 'fixed' ? thumbnail : undefined,
+              thumbnail: !skipThumbnail && thumbnail && thumbnail.type === 'fixed' ? thumbnail : undefined,
             }}
+            skipSizes={skipSizes}
+            skipThumbnail={skipThumbnail}
             x={image.target?.spatial.x + x}
             y={image.target?.spatial.y + y}
             width={image.target?.spatial.width}

@@ -56,6 +56,7 @@ interface PublicAPI {
     withAtlas(callback: (rt: Runtime) => void);
     goHome(immediate = false);
     getZoom();
+    getContentState();
     getScaleInformation();
     goToTarget(
       target: {
