@@ -6,7 +6,7 @@ import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-p
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { ManifestLoader } from '../components/manifest-loader';
 import { parseBool, parseChoices, parseContentStateParameter } from '../helpers/parse-attributes';
-import { parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
+import { normaliseAxis, parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
@@ -104,8 +104,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const onDrawBox = useCallback(
     (e: Projection) => {
       if (contentStateCallback) {
+
         const contentState: ContentState = {
-          id: `${canvasId}#xywh=${e.x},${e.y},${e.width},${e.height}`,
+          id: `${canvasId}#xywh=${normaliseAxis(e.x)},${normaliseAxis(e.y)},${e.width},${e.height}`,
           type: 'Canvas',
           partOf: [{ id: manifestId, type: 'Manifest' }],
         };
