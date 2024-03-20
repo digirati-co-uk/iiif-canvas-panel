@@ -20,6 +20,8 @@ import { globalVault } from '@iiif/vault';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
+  const ZOOM_OUT_FACTOR = 0.75;
+  const ZOOM_IN_FACTOR = 1.0 / 0.75;
   const existingVault = useExistingVault();
   const vault = props.vault || existingVault || globalVault();
   const loader = useImageServiceLoader();
@@ -166,6 +168,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             }
 
             const minZoom = getMinZoom();
+            const canZoomOut = rt._lastGoodScale > minZoom || rt._lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
+            const canZoomIn = rt._lastGoodScale * ZOOM_IN_FACTOR < 1;
+
             const isMin = Math.abs(minZoom - rt._lastGoodScale) < 0.0002;
             if (isMin) {
               minZoomCount++;
@@ -180,6 +185,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
                   max: runtime.current?.maxScaleFactor,
                   min: minZoom,
                   minZoomCount,
+                  canZoomIn,
+                  canZoomOut,
                   isMin,
                   isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
                   ...((data as any) || {}),
@@ -203,6 +210,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       let pending = false;
       return rt.registerHook('useAfterFrame', async () => {
         if (webComponent.current && (rt.target[1] !== lastX || rt.target[2] !== lastY)) {
+
           if (!granularMoveEvents && tm) {
             if (pending) {
               return;
@@ -347,7 +355,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         if (runtime.current) {
           runtime.current.world.trigger('zoom-to', {
             point,
-            factor: 0.75,
+            factor: ZOOM_OUT_FACTOR,
           });
         }
       },
@@ -356,7 +364,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         if (runtime.current) {
           runtime.current.world.trigger('zoom-to', {
             point,
-            factor: 1 / 0.75,
+            factor: ZOOM_IN_FACTOR,
           });
         }
       },
@@ -404,10 +412,14 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       },
 
       getScaleInformation() {
+        const rt = runtime.current;
+        const lastGoodScale = rt?._lastGoodScale || 1;
         return {
-          current: runtime.current?._lastGoodScale,
-          max: runtime.current?.maxScaleFactor,
+          current: rt?._lastGoodScale,
+          max: rt?.maxScaleFactor,
           min: getMinZoom(),
+          canZoomOut: lastGoodScale > getMinZoom() || lastGoodScale * ZOOM_OUT_FACTOR > getMinZoom(),
+          canZoomIn: lastGoodScale * ZOOM_IN_FACTOR < 1,
         };
       },
 
