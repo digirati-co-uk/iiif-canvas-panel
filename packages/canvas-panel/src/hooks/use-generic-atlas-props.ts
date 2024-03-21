@@ -206,6 +206,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
   function calculateZoomInformation(rt?: Runtime) {
     if (rt) {
+      console.log('zoom');
       const minZoom = getMinZoom();
       const canZoomOut = rt._lastGoodScale > minZoom || rt._lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
       const canZoomIn = rt._lastGoodScale * ZOOM_IN_FACTOR < 1;

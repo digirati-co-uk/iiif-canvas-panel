@@ -26,6 +26,40 @@ export const CanvasWithNavigator = () => {
 }
 
 
+
+export const CanvasWithSkipSizes = () => {
+
+
+  const manifestUrl = 'https://media.getty.edu/iiif/manifest/1e0ed47e-5a5b-4ff0-aea0-45abee793a1c'
+  const [canvases, setCanvses] = useState([]);
+  const [cvindex, setCvindex] = useState(0);
+  let panel;
+  useEffect(() => {
+    panel = document.querySelector("canvas-panel");
+    setTimeout(() => {
+      setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
+      (panel as any).addEventListener("zoom", (e) => { console.log(e.detail) });
+     }, 100);
+    panel.addEventListener("ready", (e) => {
+      // set the initial state based on the image that's loaded into the canvas
+    console.log("ready", e);
+    setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
+    (panel as any).addEventListener("zoom", (e)=> {console.log(e.detail)});
+    })
+  }, [document.querySelector("canvas-panel")]);
+  {/* @ts-ignore */ }
+
+  return <>
+    {cvindex}
+    <button onClick={()=>setCvindex(c => (cvindex - 1) % canvases.length)}>Prev Canvas</button>
+    <button onClick={()=>setCvindex(c => (cvindex + 1) % canvases.length)}>Next Canvas</button>
+    {/* @ts-ignore */ }
+    <canvas-panel manifest-id={manifestUrl} skip-sizes='true' canvas-id={canvases[Math.abs(cvindex)] } />;
+  </>
+
+}
+
+
 export const CanvasWithZoomOptions = () => {
 
   const [cv, setCv] = useState(canvases[0]);
@@ -67,7 +101,8 @@ export const SequencePanel = () => {
   {/* @ts-ignore */ }
   return <>
   <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.previousCanvas()}>Prev</button>
-  <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.nextCanvas()}>Next</button>
+    <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.nextCanvas()}>Next</button>
+    {/* @ts-ignore */ }
   <sequence-panel manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" start-canvas={canvases[0]} />
   </>
 
