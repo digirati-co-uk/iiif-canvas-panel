@@ -148,14 +148,22 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     const rt = runtime.current;
     const tm = runtime.current?.transitionManager;
     if (rt && tm && isReady) {
+      if (webComponent.current) {
+        webComponent.current.dispatchEvent(
+          new CustomEvent('ready', {
+            detail: {
+              ...calculateZoomInformation(rt),
+            },
+          })
+        );
+      }
       // Add world subscribers?
       let isPending = false;
 
       let minZoomCount = 0;
       return rt.world.addLayoutSubscriber(async (ev, data) => {
         if (ev !== 'repaint' && webComponent.current) {
-          webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
-          if (ev === 'zoom-to' || ev === 'go-home') {
+          if (['recalculate-world-size', 'zoom-to', 'go-home'].includes(ev)) {
             if (tm.hasPending()) {
               if (isPending) {
                 return;
@@ -168,9 +176,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             }
 
             const minZoom = getMinZoom();
-            const canZoomOut = rt._lastGoodScale > minZoom || rt._lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
-            const canZoomIn = rt._lastGoodScale * ZOOM_IN_FACTOR < 1;
-
             const isMin = Math.abs(minZoom - rt._lastGoodScale) < 0.0002;
             if (isMin) {
               minZoomCount++;
@@ -181,25 +186,40 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
               new CustomEvent('zoom', {
                 detail: {
                   source: ev,
-                  scaleFactor: runtime.current?._lastGoodScale,
-                  max: runtime.current?.maxScaleFactor,
-                  min: minZoom,
                   minZoomCount,
-                  canZoomIn,
-                  canZoomOut,
+                  ...calculateZoomInformation(rt),
                   isMin,
                   isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
                   ...((data as any) || {}),
                 },
               })
             );
+            return;
           }
+          webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
         }
       });
     }
 
     return () => void 0;
   }, [isReady]);
+
+  function calculateZoomInformation(rt?: Runtime) {
+    if (rt) {
+      const minZoom = getMinZoom();
+      const canZoomOut = rt._lastGoodScale > minZoom || rt._lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
+      const canZoomIn = rt._lastGoodScale * ZOOM_IN_FACTOR < 1;
+      return {
+        canZoomIn,
+        canZoomOut,
+        scaleFactor: runtime.current?._lastGoodScale,
+        current: rt._lastGoodScale,
+        max: rt?.maxScaleFactor,
+        min: minZoom,
+      };
+    }
+    return {};
+  }
 
   useEffect(() => {
     const rt = runtime.current;
@@ -423,11 +443,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         const rt = runtime.current;
         const lastGoodScale = rt?._lastGoodScale || 1;
         return {
-          current: rt?._lastGoodScale,
-          max: rt?.maxScaleFactor,
-          min: getMinZoom(),
-          canZoomOut: lastGoodScale > getMinZoom() || lastGoodScale * ZOOM_OUT_FACTOR > getMinZoom(),
-          canZoomIn: lastGoodScale * ZOOM_IN_FACTOR < 1,
+          ...calculateZoomInformation(rt),
         };
       },
 

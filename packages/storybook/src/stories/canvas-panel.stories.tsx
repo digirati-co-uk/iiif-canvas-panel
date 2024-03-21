@@ -43,11 +43,10 @@ export const CanvasWithZoomOptions = () => {
   useEffect(() => {
     const panel = document.querySelector("canvas-panel");
     // set the initial state based on the image that's loaded into the canvas
-    setTimeout(() => {
-      const scaleInfo = (panel as any).getScaleInformation();
-      setCanZoomIn(scaleInfo.canZoomIn);
-      setCanZoomOut(scaleInfo.canZoomOut);
-    },100)
+    panel?.addEventListener("ready", (e) => {
+      setCanZoomIn((e as any).detail.canZoomIn);
+      setCanZoomOut((e as any).detail.canZoomOut);
+    });
     // set the event listener
     panel?.addEventListener("zoom", eventListener);
     
