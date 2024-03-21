@@ -60,3 +60,13 @@ export const CanvasWithZoomOptions = () => {
   </>
 }
 
+
+export const SequencePanel = () => {
+  {/* @ts-ignore */ }
+  return <>
+  <button onClick={() => document.querySelector("sequence-panel").sequence.previousCanvas()}>Prev</button>
+  <button onClick={() => document.querySelector("sequence-panel").sequence.nextCanvas()}>Next</button>
+  <sequence-panel manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" start-canvas={canvases[0]}  />
+  </>
+
+}
