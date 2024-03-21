@@ -117,6 +117,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   const [inlineStyles, setInlineStyles] = useState('');
   const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
   const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
+  const [runtimeVersion, setRuntimeVersion] = useState('');
 
   function useProp<K extends keyof T, V = T[K]>(
     prop: K,
@@ -202,11 +203,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     }
 
     return () => void 0;
-  }, [isReady]);
+  }, [isReady, runtimeVersion]);
 
   function calculateZoomInformation(rt?: Runtime) {
     if (rt) {
-      console.log('zoom');
       const minZoom = getMinZoom();
       const canZoomOut = rt._lastGoodScale > minZoom || rt._lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
       const canZoomIn = rt._lastGoodScale * ZOOM_IN_FACTOR < 1;
@@ -642,6 +642,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       onCreated: (rt: { runtime: Runtime }) => {
         // @todo this means ready, but does not mean first item is in the world.
         setIsReady(true);
+        setRuntimeVersion(rt.runtime.id);
         runtime.current = rt.runtime;
       },
       homePosition:

@@ -104,7 +104,6 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const onDrawBox = useCallback(
     (e: Projection) => {
       if (contentStateCallback) {
-
         const contentState: ContentState = {
           id: `${canvasId}#xywh=${normaliseAxis(e.x)},${normaliseAxis(e.y)},${e.width},${e.height}`,
           type: 'Canvas',
@@ -172,8 +171,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           x: runtime.current?.x,
           y: runtime.current?.y,
           width: runtime.current?.width,
-          height: runtime.current?.height
-        }
+          height: runtime.current?.height,
+        };
       },
 
       getManifestId() {
