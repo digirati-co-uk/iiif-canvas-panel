@@ -33,24 +33,25 @@ export const CanvasWithZoomOptions = () => {
   const [canZoomIn, setCanZoomIn] = useState(false);
   const [canZoomOut, setCanZoomOut] = useState(false);
 
+  const eventListener = function (e) {
+    const detail = (e as any).detail;
+    setZoomInfo(detail);
+    setCanZoomIn(detail.canZoomIn);
+    setCanZoomOut(detail.canZoomOut);
+    }
+  
   setTimeout(() => {
-    
     const panel = document.querySelector("canvas-panel");
-    const scaleInfo = panel?.getScaleInformation();
+    const scaleInfo = (panel as any).getScaleInformation();
+    // set the initial state based on the image that's loaded into the canvas
     setCanZoomIn(scaleInfo.canZoomIn);
     setCanZoomOut(scaleInfo.canZoomOut);
-    panel?.addEventListener("zoom", (e) => {
-      const detail = (e as any).detail;
-      // console.log(zoomInfo);
-      setZoomInfo(detail);
-      setCanZoomIn(detail.canZoomIn == false);
-      setCanZoomOut(detail.canZoomOut == false);
-
-    });
-  }, 1000);
+    // set the event listener
+    panel?.addEventListener("zoom", eventListener);
+  }, 100);
   return <>
-    <button disabled={canZoomIn != true} onClick={() => document?.querySelector("canvas-panel")?.zoomIn()}>Zoom In</button>
-    <button disabled={canZoomOut != true} onClick={() => document?.querySelector("canvas-panel")?.zoomOut()}>Zoom Out</button>
+    <button disabled={!canZoomIn} onClick={() => (document?.querySelector("canvas-panel") as any).zoomIn()}>Zoom In</button> 
+    <button disabled={!canZoomOut} onClick={() => (document?.querySelector("canvas-panel") as any).zoomOut()}>Zoom Out</button>
     <br/>
     { JSON.stringify(zoomInfo) }
 
