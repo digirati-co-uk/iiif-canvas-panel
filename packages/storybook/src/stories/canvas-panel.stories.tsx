@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default {title: 'Canvas panel'}
 
@@ -40,15 +40,18 @@ export const CanvasWithZoomOptions = () => {
     setCanZoomOut(detail.canZoomOut);
     }
   
-  setTimeout(() => {
+  useEffect(() => {
     const panel = document.querySelector("canvas-panel");
-    const scaleInfo = (panel as any).getScaleInformation();
     // set the initial state based on the image that's loaded into the canvas
-    setCanZoomIn(scaleInfo.canZoomIn);
-    setCanZoomOut(scaleInfo.canZoomOut);
+    setTimeout(() => {
+      const scaleInfo = (panel as any).getScaleInformation();
+      setCanZoomIn(scaleInfo.canZoomIn);
+      setCanZoomOut(scaleInfo.canZoomOut);
+    },100)
     // set the event listener
     panel?.addEventListener("zoom", eventListener);
-  }, 100);
+    
+  }, [document.querySelector("canvas-panel")])
   return <>
     <button disabled={!canZoomIn} onClick={() => (document?.querySelector("canvas-panel") as any).zoomIn()}>Zoom In</button> 
     <button disabled={!canZoomOut} onClick={() => (document?.querySelector("canvas-panel") as any).zoomOut()}>Zoom Out</button>
@@ -64,9 +67,9 @@ export const CanvasWithZoomOptions = () => {
 export const SequencePanel = () => {
   {/* @ts-ignore */ }
   return <>
-  <button onClick={() => document.querySelector("sequence-panel").sequence.previousCanvas()}>Prev</button>
-  <button onClick={() => document.querySelector("sequence-panel").sequence.nextCanvas()}>Next</button>
-  <sequence-panel manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" start-canvas={canvases[0]}  />
+  <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.previousCanvas()}>Prev</button>
+  <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.nextCanvas()}>Next</button>
+  <sequence-panel manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" start-canvas={canvases[0]} />
   </>
 
 }

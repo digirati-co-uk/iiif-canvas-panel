@@ -210,7 +210,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       let pending = false;
       return rt.registerHook('useAfterFrame', async () => {
         if (webComponent.current && (rt.target[1] !== lastX || rt.target[2] !== lastY)) {
-
           if (!granularMoveEvents && tm) {
             if (pending) {
               return;
@@ -348,8 +347,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
           x: runtime.current?.x,
           y: runtime.current?.y,
           width: runtime.current?.width,
-          height: runtime.current?.height
-        }
+          height: runtime.current?.height,
+        };
       },
 
       getMaxZoom() {
