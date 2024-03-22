@@ -53,7 +53,7 @@ export const CanvasWithSkipSizes = () => {
     <button onClick={()=>setCvindex(c => (cvindex - 1) % canvases.length)}>Prev Canvas</button>
     <button onClick={()=>setCvindex(c => (cvindex + 1) % canvases.length)}>Next Canvas</button>
     {/* @ts-ignore */ }
-    <canvas-panel manifest-id={manifestUrl} skip-sizes='true' canvas-id={canvases[Math.abs(cvindex)] } />;
+    <canvas-panel manifest-id={manifestUrl} skip-sizes='true' canvas-id={canvases[Math.abs(cvindex)] } />
   </>
 
 }
