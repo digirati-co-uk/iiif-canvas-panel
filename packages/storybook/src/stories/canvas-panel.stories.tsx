@@ -32,7 +32,7 @@ export const CanvasWithSkipSizes = () => {
 
 
   const manifestUrl = 'https://media.getty.edu/iiif/manifest/1e0ed47e-5a5b-4ff0-aea0-45abee793a1c'
-  const [canvases, setCanvses] = useState([]);
+  const [canvases, setCanvses] = useState(['https://media.getty.edu/iiif/manifest/canvas/bb72d5f1-e230-4797-a7dc-262bf948b256']);
   const [cvindex, setCvindex] = useState(0);
   const [zoomInfo, setZoomInfo] = useState({});
   const [canZoomIn, setCanZoomIn] = useState(false);
@@ -42,21 +42,19 @@ export const CanvasWithSkipSizes = () => {
   let panel;
   useEffect(() => {
     panel = document.querySelector("canvas-panel,sequence-panel");
-    setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
-
-
+    
+    
     panel.addEventListener("worldReady", (e) => {
+      setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
       // set the initial state based on the image that's loaded into the canvas
       const detail = (e as any).detail;
       setZoomInfo(detail);
       setCanZoomIn(detail.canZoomIn);
       setCanZoomOut(detail.canZoomOut);
-      action(e.type)(e.detail);
 
     })
 
     panel.addEventListener("zoom", (e) => {
-      action(e.type)(e.detail);
       const detail = (e as any).detail;
       setZoomInfo(detail);
       setCanZoomIn(detail.canZoomIn);
@@ -66,7 +64,7 @@ export const CanvasWithSkipSizes = () => {
       panel.addEventListener(type, (e) => { action(type)(e) });
     })
 
-  }, [document.querySelector("canvas-panel") !== undefined]);
+  }, [document.querySelector("canvas-panel,sequence-panel") !== undefined]);
   {/* @ts-ignore */ }
 
   return <>
@@ -75,8 +73,9 @@ export const CanvasWithSkipSizes = () => {
     <button disabled={!canZoomIn} onClick={() => (document?.querySelector("canvas-panel,sequence-panel") as any).zoomIn()}>Zoom In</button> 
     <button disabled={!canZoomOut} onClick={() => (document?.querySelector("canvas-panel,sequence-panel") as any).zoomOut()}>Zoom Out</button>
 
-    {/* @ts-ignore */ }
-    <canvas-panel manifest-id={manifestUrl} skip-sizes='true' canvas-id={canvases[Math.abs(cvindex)] } />
+    {/* @ts-ignore */}
+    { canvases[Math.abs(cvindex)] }
+    <canvas-panel manifest-id={manifestUrl} skip-sizes='true' canvas-id={canvases[Math.abs(cvindex)]  } />
   </>
 
 }
