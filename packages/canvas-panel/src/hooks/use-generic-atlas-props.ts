@@ -147,22 +147,17 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
   // fire a 'worldReady' event when we have a scale factor which is not undefined and not 1
   useEffect(() => {
-    if (webComponent.current && runtime.current && runtime.current._lastGoodScale) {
+    const detail = {
+      ...calculateZoomInformation(runtime.current),
+    };
+    if (webComponent.current && detail && detail?.scaleFactor && detail.scaleFactor < 1 && detail.scaleFactor > 0) {
       webComponent.current.dispatchEvent(
         new CustomEvent('worldReady', {
-          detail: {
-            ...calculateZoomInformation(runtime.current),
-          },
+          detail,
         })
       );
     }
-  }, [
-    isReady,
-    runtimeVersion,
-    runtime?.current?._lastGoodScale,
-    runtime?.current?._lastGoodScale || 0 > 0,
-    runtime?.current?._lastGoodScale || 1 < 1,
-  ]);
+  }, [isReady, runtimeVersion]);
 
   useEffect(() => {
     const rt = runtime.current;
