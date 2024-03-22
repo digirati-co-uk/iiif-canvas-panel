@@ -37,16 +37,15 @@ export const CanvasWithSkipSizes = () => {
   useEffect(() => {
     panel = document.querySelector("canvas-panel");
     setTimeout(() => {
-      setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
       (panel as any).addEventListener("zoom", (e) => { console.log(e.detail) });
+      setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
      }, 100);
     panel.addEventListener("ready", (e) => {
       // set the initial state based on the image that's loaded into the canvas
     console.log("ready", e);
     setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
-    (panel as any).addEventListener("zoom", (e)=> {console.log(e.detail)});
     })
-  }, [document.querySelector("canvas-panel")]);
+  }, [document.querySelector("canvas-panel") !== undefined]);
   {/* @ts-ignore */ }
 
   return <>

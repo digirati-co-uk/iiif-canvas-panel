@@ -183,22 +183,23 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             } else {
               minZoomCount = 0;
             }
-            webComponent.current.dispatchEvent(
-              new CustomEvent('zoom', {
-                detail: {
-                  source: ev,
-                  minZoomCount,
-                  ...calculateZoomInformation(rt),
-                  isMin,
-                  isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
-                  ...((data as any) || {}),
-                },
-              })
-            );
+            const event = {
+              detail: {
+                source: ev,
+                minZoomCount,
+                ...calculateZoomInformation(rt),
+                isMin,
+                isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
+                ...((data as any) || {}),
+              },
+            };
+
+            webComponent.current.dispatchEvent(new CustomEvent('zoom', event));
             return;
           }
           webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
         }
+        return;
       });
     }
 
