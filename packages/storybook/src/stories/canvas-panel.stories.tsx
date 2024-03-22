@@ -33,25 +33,42 @@ export const CanvasWithSkipSizes = () => {
   const manifestUrl = 'https://media.getty.edu/iiif/manifest/1e0ed47e-5a5b-4ff0-aea0-45abee793a1c'
   const [canvases, setCanvses] = useState([]);
   const [cvindex, setCvindex] = useState(0);
+  const [zoomInfo, setZoomInfo] = useState({});
+  const [canZoomIn, setCanZoomIn] = useState(false);
+  const [canZoomOut, setCanZoomOut] = useState(false);
+
+
   let panel;
   useEffect(() => {
-    panel = document.querySelector("canvas-panel");
-    setTimeout(() => {
-      (panel as any).addEventListener("zoom", (e) => { console.log(e.detail) });
-      setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
-     }, 100);
-    panel.addEventListener("ready", (e) => {
-      // set the initial state based on the image that's loaded into the canvas
-    console.log("ready", e);
+    panel = document.querySelector("canvas-panel,sequence-panel");
     setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
+
+
+    panel.addEventListener("worldReady", (e) => {
+      // set the initial state based on the image that's loaded into the canvas
+      const detail = (e as any).detail;
+      setZoomInfo(detail);
+      setCanZoomIn(detail.canZoomIn);
+      setCanZoomOut(detail.canZoomOut);
+
     })
+
+    panel.addEventListener("zoom", (e) => {
+      console.log(e.type, e.detail)
+      const detail = (e as any).detail;
+      setZoomInfo(detail);
+      setCanZoomIn(detail.canZoomIn);
+      setCanZoomOut(detail.canZoomOut);
+    });
   }, [document.querySelector("canvas-panel") !== undefined]);
   {/* @ts-ignore */ }
 
   return <>
-    {cvindex}
     <button onClick={()=>setCvindex(c => (cvindex - 1) % canvases.length)}>Prev Canvas</button>
-    <button onClick={()=>setCvindex(c => (cvindex + 1) % canvases.length)}>Next Canvas</button>
+    <button onClick={() => setCvindex(c => (cvindex + 1) % canvases.length)}>Next Canvas</button>
+    <button disabled={!canZoomIn} onClick={() => (document?.querySelector("canvas-panel,sequence-panel") as any).zoomIn()}>Zoom In</button> 
+    <button disabled={!canZoomOut} onClick={() => (document?.querySelector("canvas-panel,sequence-panel") as any).zoomOut()}>Zoom Out</button>
+
     {/* @ts-ignore */ }
     <canvas-panel manifest-id={manifestUrl} skip-sizes='true' canvas-id={canvases[Math.abs(cvindex)] } />
   </>
@@ -74,7 +91,7 @@ export const CanvasWithZoomOptions = () => {
     }
   
   useEffect(() => {
-    const panel = document.querySelector("canvas-panel");
+    const panel = document.querySelector("canvas-panel,sequence-panel");
     // set the initial state based on the image that's loaded into the canvas
     panel?.addEventListener("ready", (e) => {
       setCanZoomIn((e as any).detail.canZoomIn);
@@ -85,8 +102,8 @@ export const CanvasWithZoomOptions = () => {
     
   }, [document.querySelector("canvas-panel")])
   return <>
-    <button disabled={!canZoomIn} onClick={() => (document?.querySelector("canvas-panel") as any).zoomIn()}>Zoom In</button> 
-    <button disabled={!canZoomOut} onClick={() => (document?.querySelector("canvas-panel") as any).zoomOut()}>Zoom Out</button>
+    <button disabled={!canZoomIn} onClick={() => (document?.querySelector("canvas-panel,sequence-panel") as any).zoomIn()}>Zoom In</button> 
+    <button disabled={!canZoomOut} onClick={() => (document?.querySelector("canvas-panel,sequence-panel") as any).zoomOut()}>Zoom Out</button>
     <br/>
     { JSON.stringify(zoomInfo) }
 
@@ -97,12 +114,45 @@ export const CanvasWithZoomOptions = () => {
 
 
 export const SequencePanel = () => {
+  const manifestUrl = 'https://iiif.wellcomecollection.org/presentation/b18035723';
+  const [canvases, setCanvses] = useState([]);
+  const [cvindex, setCvindex] = useState(0);
+  const [zoomInfo, setZoomInfo] = useState({});
+  const [canZoomIn, setCanZoomIn] = useState(false);
+  const [canZoomOut, setCanZoomOut] = useState(false);
+
+
+  let panel;
+  useEffect(() => {
+    panel = document.querySelector("canvas-panel,sequence-panel");
+    panel.addEventListener("ready", (e) => { 
+      setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
+    });
+
+    panel.addEventListener("worldReady", (e) => {
+      // set the initial state based on the image that's loaded into the canvas
+      const detail = (e as any).detail;
+      setZoomInfo(detail);
+      setCanZoomIn(detail.canZoomIn);
+      setCanZoomOut(detail.canZoomOut);
+    });
+    panel.addEventListener("zoom", (e) => {
+      console.log(e.type, e.detail)
+      const detail = (e as any).detail;
+      setZoomInfo(detail);
+      setCanZoomIn(detail.canZoomIn);
+      setCanZoomOut(detail.canZoomOut);
+    });
+  }, [document.querySelector("canvas-panel,sequence-panel") !== undefined]);
   {/* @ts-ignore */ }
   return <>
-  <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.previousCanvas()}>Prev</button>
+    <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.previousCanvas()}>Prev</button>
     <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.nextCanvas()}>Next</button>
+    <button disabled={!canZoomIn} onClick={() => (document?.querySelector("sequence-panel,canvas-panel") as any).zoomIn()}>Zoom In</button> 
+    <button disabled={!canZoomOut} onClick={() => (document?.querySelector("sequence-panel,canvas-panel") as any).zoomOut()}>Zoom Out</button>
+
     {/* @ts-ignore */ }
-  <sequence-panel manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723" start-canvas={canvases[0]} />
+    <sequence-panel manifest-id={manifestUrl} start-canvas={canvases[0]} />
   </>
 
 }

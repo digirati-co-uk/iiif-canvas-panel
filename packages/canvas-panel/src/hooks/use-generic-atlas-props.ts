@@ -145,19 +145,23 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return -1;
   }
 
+  // fire a 'worldReady' event when we have a scale factor which is not undefined and not 1
+  useEffect(() => {
+    if (webComponent.current && runtime.current) {
+      webComponent.current.dispatchEvent(
+        new CustomEvent('worldReady', {
+          detail: {
+            ...calculateZoomInformation(runtime.current),
+          },
+        })
+      );
+    }
+  }, [isReady, runtimeVersion, runtime?.current?._lastGoodScale != undefined, runtime.current?._lastGoodScale !== 1]);
+
   useEffect(() => {
     const rt = runtime.current;
     const tm = runtime.current?.transitionManager;
     if (rt && tm && isReady) {
-      if (webComponent.current) {
-        webComponent.current.dispatchEvent(
-          new CustomEvent('ready', {
-            detail: {
-              ...calculateZoomInformation(rt),
-            },
-          })
-        );
-      }
       // Add world subscribers?
       let isPending = false;
 
