@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { action } from '@storybook/addon-actions';
 
 export default {title: 'Canvas panel'}
 
@@ -50,11 +51,12 @@ export const CanvasWithSkipSizes = () => {
       setZoomInfo(detail);
       setCanZoomIn(detail.canZoomIn);
       setCanZoomOut(detail.canZoomOut);
+      action(e.type)(e.detail);
 
     })
 
     panel.addEventListener("zoom", (e) => {
-      console.log(e.type, e.detail)
+      action(e.type)(e.detail);
       const detail = (e as any).detail;
       setZoomInfo(detail);
       setCanZoomIn(detail.canZoomIn);
@@ -85,6 +87,7 @@ export const CanvasWithZoomOptions = () => {
 
   const eventListener = function (e) {
     const detail = (e as any).detail;
+    action(e.type)(e.detail);
     setZoomInfo(detail);
     setCanZoomIn(detail.canZoomIn);
     setCanZoomOut(detail.canZoomOut);
@@ -93,7 +96,8 @@ export const CanvasWithZoomOptions = () => {
   useEffect(() => {
     const panel = document.querySelector("canvas-panel,sequence-panel");
     // set the initial state based on the image that's loaded into the canvas
-    panel?.addEventListener("ready", (e) => {
+    panel?.addEventListener("worldReady", (e) => {
+      action(e.type)((e as any).detail);
       setCanZoomIn((e as any).detail.canZoomIn);
       setCanZoomOut((e as any).detail.canZoomOut);
     });
@@ -126,18 +130,20 @@ export const SequencePanel = () => {
   useEffect(() => {
     panel = document.querySelector("canvas-panel,sequence-panel");
     panel.addEventListener("ready", (e) => { 
+      action(e.type)((e as any).detail);
       setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
     });
 
     panel.addEventListener("worldReady", (e) => {
       // set the initial state based on the image that's loaded into the canvas
       const detail = (e as any).detail;
+      action(e.type)((e as any).detail);
       setZoomInfo(detail);
       setCanZoomIn(detail.canZoomIn);
       setCanZoomOut(detail.canZoomOut);
     });
     panel.addEventListener("zoom", (e) => {
-      console.log(e.type, e.detail)
+      action(e.type)((e as any).detail);
       const detail = (e as any).detail;
       setZoomInfo(detail);
       setCanZoomIn(detail.canZoomIn);
