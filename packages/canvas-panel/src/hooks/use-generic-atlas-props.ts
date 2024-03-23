@@ -150,13 +150,15 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     const detail = {
       ...calculateZoomInformation(runtime.current),
     };
-    if (webComponent.current && detail && detail?.scaleFactor && detail.scaleFactor < 1 && detail.scaleFactor > 0) {
-      webComponent.current.dispatchEvent(
-        new CustomEvent('worldReady', {
-          detail,
-        })
-      );
-    }
+    setTimeout(() => {
+      if (webComponent.current && detail && detail?.scaleFactor && detail.scaleFactor < 1 && detail.scaleFactor > 0) {
+        webComponent.current.dispatchEvent(
+          new CustomEvent('worldReady', {
+            detail,
+          })
+        );
+      }
+    }, 100);
   }, [isReady, runtimeVersion]);
 
   useEffect(() => {
