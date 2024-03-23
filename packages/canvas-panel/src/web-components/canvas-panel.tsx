@@ -268,7 +268,17 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
             setManifestId(manifestSource.id);
           }
           if (firstTarget.selector) {
-            setParsedTarget(firstTarget);
+            if (firstTarget.selector.type === 'BoxSelector') {
+              const { x, y, width, height } = firstTarget.selector.spatial;
+              runtime?.current?.world.gotoRegion({
+                x,
+                y,
+                width,
+                height,
+              });
+            } else {
+              setParsedTarget(firstTarget);
+            }
           }
         }
       }
