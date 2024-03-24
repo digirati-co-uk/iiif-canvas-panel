@@ -174,6 +174,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       let minZoomCount = 0;
       return rt.world.addLayoutSubscriber(async (ev, data) => {
         if (ev !== 'repaint' && webComponent.current) {
+          // all of these events can 'change' the zoom logic, so we want to report that to the parent
           if (['recalculate-world-size', 'zoom-to', 'go-home', 'goto-region'].includes(ev)) {
             if (tm.hasPending()) {
               if (isPending) {
@@ -224,7 +225,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     if (
       rt.maxScaleFactor - minZoom < lastGoodScale &&
       // compare the current target to the target for the next level out, if there's little difference
-      // then you're zoomed out
+      // then you're zoomed out, this could benefit from more thought / consideration as we move forward
+      // to figure out if there's a more elegant way to identify that next zoom out logic
       Math.abs(rt.target[4] - rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]) > 0.2
     ) {
       canZoomOut = true;

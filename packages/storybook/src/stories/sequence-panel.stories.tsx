@@ -9,11 +9,12 @@ const canvases = [
   "https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0003.JP2",
 ]
 
+const allEvents = ['zoom', 'world-ready', 'choice', 'move', 'canvas-change', 'sequence-change', 'media', 'ready', 'range-change', 'click'];
+const selector = "canvas-panel,sequence-panel";
 
 export const SequencePanel = () => {
   const manifestUrl = 'https://iiif.wellcomecollection.org/presentation/b18035723';
   const [canvases, setCanvses] = useState([]);
-  const [cvindex, setCvindex] = useState(0);
   const [zoomInfo, setZoomInfo] = useState({});
   const [canZoomIn, setCanZoomIn] = useState(false);
   const [canZoomOut, setCanZoomOut] = useState(false);
@@ -21,7 +22,7 @@ export const SequencePanel = () => {
 
   let panel;
   useEffect(() => {
-    panel = document.querySelector("canvas-panel,sequence-panel");
+    panel = document.querySelector(selector);
     panel.addEventListener("ready", (e) => { 
       action(e.type)((e as any).detail);
       setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
@@ -41,16 +42,16 @@ export const SequencePanel = () => {
       setCanZoomOut(detail.canZoomOut);
     });
 
-    ['zoom', 'world-ready', 'choice', 'move', 'sequence-change', 'media', 'ready', 'zoom', 'range-change','click'].forEach(type => {
+    allEvents.forEach(type => {
       panel.addEventListener(type, (e) => { action(type)(e) });
     })
-  }, [document.querySelector("canvas-panel,sequence-panel") !== undefined]);
+  }, [document.querySelector(selector) !== undefined]);
   {/* @ts-ignore */ }
   return <>
-    <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.previousCanvas()}>Prev</button>
-    <button onClick={() => (document.querySelector("sequence-panel") as any).sequence.nextCanvas()}>Next</button>
-    <button disabled={!canZoomIn} onClick={() => (document?.querySelector("sequence-panel,canvas-panel") as any).zoomIn()}>Zoom In</button> 
-    <button disabled={!canZoomOut} onClick={() => (document?.querySelector("sequence-panel,canvas-panel") as any).zoomOut()}>Zoom Out</button>
+    <button onClick={() => (document.querySelector(selector) as any).sequence.previousCanvas()}>Prev</button>
+    <button onClick={() => (document.querySelector(selector) as any).sequence.nextCanvas()}>Next</button>
+    <button disabled={!canZoomIn} onClick={() => (document?.querySelector(selector) as any).zoomIn()}>Zoom In</button> 
+    <button disabled={!canZoomOut} onClick={() => (document?.querySelector(selector) as any).zoomOut()}>Zoom Out</button>
 
     {/* @ts-ignore */ }
     <sequence-panel manifest-id={manifestUrl} start-canvas={canvases[0]} />

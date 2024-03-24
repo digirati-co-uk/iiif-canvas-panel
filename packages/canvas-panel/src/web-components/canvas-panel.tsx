@@ -223,6 +223,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       },
 
       setContentStateFromText(text: string) {
+        if (text == undefined || text.trim() === '') {
+          return;
+        }
         const contentState = normaliseContentState(parseContentState(text));
         const firstTarget = contentState.target[0];
 
@@ -267,10 +270,10 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
-          if (firstTarget.selector) {
+          if (firstTarget.selector && runtime.current && webComponent.current) {
             if (firstTarget.selector.type === 'BoxSelector') {
               const { x, y, width, height } = firstTarget.selector.spatial;
-              runtime?.current?.world.gotoRegion({
+              runtime.current.world.gotoRegion({
                 x,
                 y,
                 width,

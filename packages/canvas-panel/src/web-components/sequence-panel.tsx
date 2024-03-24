@@ -128,6 +128,9 @@ export function SequencePanel(props: SequencePanelProps) {
       },
 
       setContentStateFromText(text: string) {
+        if (text == undefined || text.trim() === '') {
+          return;
+        }
         const contentState = normaliseContentState(parseContentState(text));
         setParsedContentState(contentState);
       },
