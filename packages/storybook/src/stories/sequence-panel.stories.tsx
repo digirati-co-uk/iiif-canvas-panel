@@ -27,7 +27,7 @@ export const SequencePanel = () => {
       setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
     });
 
-    panel.addEventListener("worldReady", (e) => {
+    panel.addEventListener("world-ready", (e) => {
       // set the initial state based on the image that's loaded into the canvas
       const detail = (e as any).detail;
       setZoomInfo(detail);
@@ -41,7 +41,7 @@ export const SequencePanel = () => {
       setCanZoomOut(detail.canZoomOut);
     });
 
-    ['zoom', 'worldReady', 'choice', 'move', 'sequence-change', 'media', 'ready', 'zoom', 'range-change','click'].forEach(type => {
+    ['zoom', 'world-ready', 'choice', 'move', 'sequence-change', 'media', 'ready', 'zoom', 'range-change','click'].forEach(type => {
       panel.addEventListener(type, (e) => { action(type)(e) });
     })
   }, [document.querySelector("canvas-panel,sequence-panel") !== undefined]);

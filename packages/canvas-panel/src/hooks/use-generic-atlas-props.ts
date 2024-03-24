@@ -36,6 +36,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       }
     }
   );
+
   const events = useMemo(() => createEventsHelper(vault as any), [vault]);
   const styles = useMemo(() => createStylesHelper(vault), [vault]);
   const thumbs = useMemo(() => createThumbnailHelper(vault, { imageServiceLoader: loader }), [vault, loader]);
@@ -145,20 +146,22 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return -1;
   }
 
-  // fire a 'worldReady' event when we have a scale factor which is not undefined and not 1
+  // fire a 'world-ready' event when we have a scale factor which is not undefined and not 1
   useEffect(() => {
-    const detail = {
-      ...calculateZoomInformation(runtime.current),
-    };
-    setTimeout(() => {
+    if (runtime.current) {
+      const detail = {
+        ...calculateZoomInformation(runtime.current),
+      };
       if (webComponent.current && detail && detail?.scaleFactor && detail.scaleFactor < 1 && detail.scaleFactor > 0) {
+        console.log('worldReady', detail);
         webComponent.current.dispatchEvent(
-          new CustomEvent('worldReady', {
+          new CustomEvent('world-ready', {
             detail,
           })
         );
       }
-    }, 100);
+    }
+    // }, 100);
   }, [isReady, runtimeVersion]);
 
   useEffect(() => {
@@ -171,7 +174,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       let minZoomCount = 0;
       return rt.world.addLayoutSubscriber(async (ev, data) => {
         if (ev !== 'repaint' && webComponent.current) {
-          if (['recalculate-world-size', 'zoom-to', 'go-home'].includes(ev)) {
+          if (['recalculate-world-size', 'zoom-to', 'go-home', 'goto-region'].includes(ev)) {
             if (tm.hasPending()) {
               if (isPending) {
                 return;
@@ -200,7 +203,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
                 ...((data as any) || {}),
               },
             };
-
             webComponent.current.dispatchEvent(new CustomEvent('zoom', event));
             return;
           }
@@ -213,21 +215,32 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return () => void 0;
   }, [isReady, runtimeVersion]);
 
-  function calculateZoomInformation(rt?: Runtime) {
-    if (rt) {
-      const minZoom = getMinZoom();
-      const canZoomOut = rt._lastGoodScale > minZoom || rt._lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
-      const canZoomIn = rt._lastGoodScale * ZOOM_IN_FACTOR < 1;
-      return {
-        canZoomIn,
-        canZoomOut,
-        scaleFactor: runtime.current?._lastGoodScale,
-        current: rt._lastGoodScale,
-        max: rt?.maxScaleFactor,
-        min: minZoom,
-      };
+  function calculateZoomInformation(rt: Runtime) {
+    const lastGoodScale = rt._lastGoodScale;
+    const minZoom = getMinZoom();
+    let canZoomOut = lastGoodScale > minZoom || lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
+
+    // for very small canvases, this should allow us to always zoom out to home
+    if (
+      rt.maxScaleFactor - minZoom < lastGoodScale &&
+      // compare the current target to the target for the next level out, if there's little difference
+      // then you're zoomed out
+      Math.abs(rt.target[4] - rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]) > 0.2
+    ) {
+      canZoomOut = true;
     }
-    return {};
+    const canZoomIn = lastGoodScale * ZOOM_IN_FACTOR < 1;
+    const detail = {
+      canZoomIn,
+      canZoomOut,
+      scaleFactor: rt.getScaleFactor(),
+      current: lastGoodScale,
+      max: rt.maxScaleFactor,
+      min: minZoom,
+      worldHeight: rt.world.height,
+      worldWidth: rt.world.width,
+    };
+    return detail;
   }
 
   useEffect(() => {
@@ -450,7 +463,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
       getScaleInformation() {
         const rt = runtime.current;
-        const lastGoodScale = rt?._lastGoodScale || 1;
+        if (rt == undefined) {
+          return;
+        }
         return {
           ...calculateZoomInformation(rt),
         };
