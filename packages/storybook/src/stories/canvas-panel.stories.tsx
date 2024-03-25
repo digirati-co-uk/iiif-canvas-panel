@@ -86,7 +86,6 @@ export const CanvasWithSkipSizes = () => {
     panel.vault.loadManifest(manifestUrl).then((_manifest) => {
       manifest = _manifest;
       setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
-      console.log('hi')
     })
 
     
@@ -145,7 +144,6 @@ export const CanvasWithContentState = () => {
     panel.vault.loadManifest(manifestUrl).then((_manifest) => {
       manifest = _manifest;
       setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
-      console.log('hi')
     })
 
     

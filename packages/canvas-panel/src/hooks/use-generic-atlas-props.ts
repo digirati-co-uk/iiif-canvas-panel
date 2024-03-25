@@ -115,6 +115,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     }
   );
   const [mode, setMode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
+  const [isWorldReady, setIsWorldReady] = useState(false);
   const [inlineStyles, setInlineStyles] = useState('');
   const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
   const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
@@ -152,7 +153,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       const detail = {
         ...calculateZoomInformation(runtime.current),
       };
-      if (detail && detail?.scaleFactor < 1 && detail.scaleFactor > 0) {
+      if (isWorldReady == false && detail && detail?.scaleFactor < 1 && detail.scaleFactor > 0) {
+        setIsWorldReady(true);
         setTimeout(() => {
           if (webComponent.current) {
             webComponent.current.dispatchEvent(
@@ -164,7 +166,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         }, 100);
       }
     }
-  }, [isReady, webComponent.current, runtimeVersion]);
+  }, [isReady, webComponent.current, runtimeVersion, runtime.current?._lastGoodScale]);
 
   useEffect(() => {
     const rt = runtime.current;
@@ -668,6 +670,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       // Defaults for now.
       onCreated: (rt: { runtime: Runtime }) => {
         // @todo this means ready, but does not mean first item is in the world.
+        setIsWorldReady(false);
         setIsReady(true);
         setRuntimeVersion(rt.runtime.id);
         runtime.current = rt.runtime;
