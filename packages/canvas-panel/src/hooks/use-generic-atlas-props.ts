@@ -146,23 +146,13 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return -1;
   }
 
-  function isBetween(min: number, max: number, num?: number) {
-    if (num == undefined) {
-      return false;
-    }
-    if (num > min && num < max) {
-      return true;
-    }
-    return false;
-  }
-
   // fire a 'world-ready' event when we have a scale factor which is not undefined and not 1
   useEffect(() => {
     if (runtime.current && webComponent.current) {
       const detail = {
         ...calculateZoomInformation(runtime.current),
       };
-      if (detail && detail?.scaleFactor) {
+      if (detail && detail?.scaleFactor < 1 && detail.scaleFactor > 0) {
         setTimeout(() => {
           if (webComponent.current) {
             webComponent.current.dispatchEvent(
@@ -174,7 +164,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         }, 100);
       }
     }
-  }, [isReady, webComponent.current, runtimeVersion, isBetween(0, 1, runtime?.current?.getScaleFactor())]);
+  }, [isReady, webComponent.current, runtimeVersion]);
 
   useEffect(() => {
     const rt = runtime.current;
