@@ -115,7 +115,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     }
   );
   const [mode, setMode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
-  const [isWorldReady, setIsWorldReady] = useState(false);
+  const [isWorldReady, setIsWorldReady] = useState('');
   const [inlineStyles, setInlineStyles] = useState('');
   const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
   const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
@@ -155,12 +155,13 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       };
       console.log(isWorldReady, detail?.scaleFactor, webComponent.current);
       if (
-        isWorldReady == false &&
+        isWorldReady == 'queued' &&
         detail &&
         detail?.scaleFactor < 1 &&
         detail.scaleFactor > 0 &&
-        webComponent.current
+        webComponent.current != undefined
       ) {
+        setIsWorldReady('fired');
         setTimeout(() => {
           console.log('fired');
           webComponent.current?.dispatchEvent(
@@ -186,7 +187,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
           // all of these events can 'change' the zoom logic, so we want to report that to the parent
           if (['recalculate-world-size', 'zoom-to', 'go-home', 'goto-region'].includes(ev)) {
             if (ev == 'recalculate-world-size') {
-              setIsWorldReady(true);
+              setIsWorldReady('queued');
             }
             if (tm.hasPending()) {
               if (isPending) {
