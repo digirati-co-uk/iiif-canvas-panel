@@ -155,7 +155,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       };
       console.log(isWorldReady, detail?.scaleFactor);
       if (isWorldReady == false && detail && detail?.scaleFactor < 1 && detail.scaleFactor > 0) {
-        setIsWorldReady(true);
         setTimeout(() => {
           if (webComponent.current) {
             console.log('fired');
@@ -168,7 +167,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         }, 100);
       }
     }
-  }, [isReady, webComponent.current, runtimeVersion, runtime.current?._lastGoodScale, isWorldReady]);
+  }, [isReady, webComponent.current, runtimeVersion, isWorldReady]);
 
   useEffect(() => {
     const rt = runtime.current;
@@ -182,6 +181,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         if (ev !== 'repaint' && webComponent.current) {
           // all of these events can 'change' the zoom logic, so we want to report that to the parent
           if (['recalculate-world-size', 'zoom-to', 'go-home', 'goto-region'].includes(ev)) {
+            if (ev == 'recalculate-world-size') {
+              setIsWorldReady(true);
+            }
             if (tm.hasPending()) {
               if (isPending) {
                 return;
