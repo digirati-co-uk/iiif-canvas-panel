@@ -104,7 +104,6 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const onDrawBox = useCallback(
     (e: Projection) => {
       if (contentStateCallback) {
-
         const contentState: ContentState = {
           id: `${canvasId}#xywh=${normaliseAxis(e.x)},${normaliseAxis(e.y)},${e.width},${e.height}`,
           type: 'Canvas',
@@ -172,8 +171,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           x: runtime.current?.x,
           y: runtime.current?.y,
           width: runtime.current?.width,
-          height: runtime.current?.height
-        }
+          height: runtime.current?.height,
+        };
       },
 
       getManifestId() {
@@ -224,6 +223,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       },
 
       setContentStateFromText(text: string) {
+        if (text == undefined || text.trim() === '') {
+          return;
+        }
         const contentState = normaliseContentState(parseContentState(text));
         const firstTarget = contentState.target[0];
 
@@ -268,8 +270,18 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
-          if (firstTarget.selector) {
-            setParsedTarget(firstTarget);
+          if (firstTarget.selector && runtime.current && webComponent.current) {
+            if (firstTarget.selector.type === 'BoxSelector') {
+              const { x, y, width, height } = firstTarget.selector.spatial;
+              runtime.current.world.gotoRegion({
+                x,
+                y,
+                width,
+                height,
+              });
+            } else {
+              setParsedTarget(firstTarget);
+            }
           }
         }
       }

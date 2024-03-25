@@ -20,6 +20,8 @@ import { globalVault } from '@iiif/vault';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
+  const ZOOM_OUT_FACTOR = 0.75;
+  const ZOOM_IN_FACTOR = 1.0 / 0.75;
   const existingVault = useExistingVault();
   const vault = props.vault || existingVault || globalVault();
   const loader = useImageServiceLoader();
@@ -34,6 +36,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       }
     }
   );
+
   const events = useMemo(() => createEventsHelper(vault as any), [vault]);
   const styles = useMemo(() => createStylesHelper(vault), [vault]);
   const thumbs = useMemo(() => createThumbnailHelper(vault, { imageServiceLoader: loader }), [vault, loader]);
@@ -112,9 +115,11 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     }
   );
   const [mode, setMode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
+  const [isWorldReady, setIsWorldReady] = useState('');
   const [inlineStyles, setInlineStyles] = useState('');
   const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
   const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
+  const [runtimeVersion, setRuntimeVersion] = useState('');
 
   function useProp<K extends keyof T, V = T[K]>(
     prop: K,
@@ -142,6 +147,31 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return -1;
   }
 
+  // fire a 'world-ready' event when we have a scale factor which is not undefined and not 1
+  useEffect(() => {
+    if (runtime.current && webComponent.current) {
+      const detail = {
+        ...calculateZoomInformation(runtime.current),
+      };
+      if (
+        isWorldReady == 'queued' &&
+        detail &&
+        detail?.scaleFactor < 1 &&
+        detail.scaleFactor > 0 &&
+        webComponent.current != undefined
+      ) {
+        setIsWorldReady('fired');
+        setTimeout(() => {
+          webComponent.current?.dispatchEvent(
+            new CustomEvent('world-ready', {
+              detail,
+            })
+          );
+        }, 100);
+      }
+    }
+  }, [isReady, webComponent.current, runtimeVersion, isWorldReady]);
+
   useEffect(() => {
     const rt = runtime.current;
     const tm = runtime.current?.transitionManager;
@@ -152,8 +182,11 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       let minZoomCount = 0;
       return rt.world.addLayoutSubscriber(async (ev, data) => {
         if (ev !== 'repaint' && webComponent.current) {
-          webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
-          if (ev === 'zoom-to' || ev === 'go-home') {
+          // all of these events can 'change' the zoom logic, so we want to report that to the parent
+          if (['recalculate-world-size', 'zoom-to', 'go-home', 'goto-region'].includes(ev)) {
+            if (ev == 'recalculate-world-size') {
+              setIsWorldReady('queued');
+            }
             if (tm.hasPending()) {
               if (isPending) {
                 return;
@@ -172,27 +205,56 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             } else {
               minZoomCount = 0;
             }
-            webComponent.current.dispatchEvent(
-              new CustomEvent('zoom', {
-                detail: {
-                  source: ev,
-                  scaleFactor: runtime.current?._lastGoodScale,
-                  max: runtime.current?.maxScaleFactor,
-                  min: minZoom,
-                  minZoomCount,
-                  isMin,
-                  isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
-                  ...((data as any) || {}),
-                },
-              })
-            );
+            const event = {
+              detail: {
+                source: ev,
+                minZoomCount,
+                ...calculateZoomInformation(rt),
+                isMin,
+                isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
+                ...((data as any) || {}),
+              },
+            };
+            webComponent.current.dispatchEvent(new CustomEvent('zoom', event));
+            return;
           }
+          webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
         }
+        return;
       });
     }
 
     return () => void 0;
-  }, [isReady]);
+  }, [isReady, runtimeVersion]);
+
+  function calculateZoomInformation(rt: Runtime) {
+    const lastGoodScale = rt._lastGoodScale;
+    const minZoom = getMinZoom();
+    let canZoomOut = lastGoodScale > minZoom || lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
+
+    // for very small canvases, this should allow us to always zoom out to home
+    if (
+      rt.maxScaleFactor - minZoom < lastGoodScale &&
+      // compare the current target to the target for the next level out, if there's little difference
+      // then you're zoomed out, this could benefit from more thought / consideration as we move forward
+      // to figure out if there's a more elegant way to identify that next zoom out logic
+      Math.abs(rt.target[4] - rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]) > 0.2
+    ) {
+      canZoomOut = true;
+    }
+    const canZoomIn = lastGoodScale * ZOOM_IN_FACTOR < 1;
+    const detail = {
+      canZoomIn,
+      canZoomOut,
+      scaleFactor: rt.getScaleFactor(),
+      current: lastGoodScale,
+      max: rt.maxScaleFactor,
+      min: minZoom,
+      worldHeight: rt.world.height,
+      worldWidth: rt.world.width,
+    };
+    return detail;
+  }
 
   useEffect(() => {
     const rt = runtime.current;
@@ -340,8 +402,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
           x: runtime.current?.x,
           y: runtime.current?.y,
           width: runtime.current?.width,
-          height: runtime.current?.height
-        }
+          height: runtime.current?.height,
+        };
       },
 
       getMaxZoom() {
@@ -356,7 +418,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         if (runtime.current) {
           runtime.current.world.trigger('zoom-to', {
             point,
-            factor: 0.75,
+            factor: ZOOM_OUT_FACTOR,
           });
         }
       },
@@ -365,7 +427,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         if (runtime.current) {
           runtime.current.world.trigger('zoom-to', {
             point,
-            factor: 1 / 0.75,
+            factor: ZOOM_IN_FACTOR,
           });
         }
       },
@@ -413,10 +475,12 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       },
 
       getScaleInformation() {
+        const rt = runtime.current;
+        if (rt == undefined) {
+          return;
+        }
         return {
-          current: runtime.current?._lastGoodScale,
-          max: runtime.current?.maxScaleFactor,
-          min: getMinZoom(),
+          ...calculateZoomInformation(rt),
         };
       },
 
@@ -613,7 +677,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       // Defaults for now.
       onCreated: (rt: { runtime: Runtime }) => {
         // @todo this means ready, but does not mean first item is in the world.
+        setIsWorldReady('');
         setIsReady(true);
+        setRuntimeVersion(rt.runtime.id);
         runtime.current = rt.runtime;
       },
       homePosition:
