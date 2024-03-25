@@ -6,16 +6,20 @@ export function MakingChoice() {
   const viewer = useRef()
   const [toggle,setToggle] = useState();
   const [choices, setChoices] = useState();
-
+  const [disabled, setDisabled] = useState();
   useEffect(() => {
     const handleChoice = (e) => {
       if (e.detail?.choice?.type == "single-choice") {
         setChoices(e.detail.choice.items.map(e => e.id))
       }
+
+      let currentIndex = viewer.current.sequence.currentSequenceIndex
+      setDisabled(!viewer.current.sequence.sequence[currentIndex].includes(11))
     }
     viewer.current.addEventListener('choice', handleChoice)
     return () => viewer.current.removeEventListener('choice', handleChoice)
-  },[choices])
+  },[choices, disabled])
+
   return <>
     <sequence-panel ref={viewer} manifest-id={bayard} />
     <button onClick={() => viewer.current.sequence.setCurrentCanvasIndex(3)}>Go to: Canvas Index 3</button>
@@ -26,7 +30,16 @@ export function MakingChoice() {
       setToggle(!toggle);
       viewer.current.makeChoice(choices?.[toggle ? 1 : 0])
      }
-    }>Toggle Choice</button>
+    }>Toggle Current Choice</button>
+    <label htmlFor="choices">All choice ids for canvas index 11: </label>
+    <select  id="choices" disabled={disabled} onInput={ (e) => {
+      viewer.current.makeChoice(e.target.value)
+    }}>
+      <option value="https://media.getty.edu/iiif/image/a252552f-c7ba-4024-aa04-2b31e3185aa0/full/full/None/default.jpg">L (verso)</option>
+      <option value="https://media.getty.edu/iiif/image/4dbbc329-d20a-486d-a52b-622d53b5795f/full/full/None/default.jpg">L (recto</option>
+      <option value="https://media.getty.edu/iiif/image/d2fcc68f-d0fb-47b8-8187-bbd9e7c2c693/full/full/None/default.jpg">R (verso)</option>
+      <option value="https://media.getty.edu/iiif/image/98c207ba-38e0-473f-949c-3de2ac9b9c7e/full/full/None/default.jpg">R (recto)</option>
+    </select >
     </>
 }
 
