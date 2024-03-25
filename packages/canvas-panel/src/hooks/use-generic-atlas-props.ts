@@ -153,7 +153,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       const detail = {
         ...calculateZoomInformation(runtime.current),
       };
-      console.log(isWorldReady, detail?.scaleFactor);
+      console.log(isWorldReady, detail?.scaleFactor, webComponent.current);
       if (
         isWorldReady == false &&
         detail &&
