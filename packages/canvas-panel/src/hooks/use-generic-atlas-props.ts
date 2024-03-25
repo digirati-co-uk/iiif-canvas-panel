@@ -154,16 +154,20 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         ...calculateZoomInformation(runtime.current),
       };
       console.log(isWorldReady, detail?.scaleFactor);
-      if (isWorldReady == false && detail && detail?.scaleFactor < 1 && detail.scaleFactor > 0) {
+      if (
+        isWorldReady == false &&
+        detail &&
+        detail?.scaleFactor < 1 &&
+        detail.scaleFactor > 0 &&
+        webComponent.current
+      ) {
         setTimeout(() => {
-          if (webComponent.current) {
-            console.log('fired');
-            webComponent.current.dispatchEvent(
-              new CustomEvent('world-ready', {
-                detail,
-              })
-            );
-          }
+          console.log('fired');
+          webComponent.current?.dispatchEvent(
+            new CustomEvent('world-ready', {
+              detail,
+            })
+          );
         }, 100);
       }
     }
