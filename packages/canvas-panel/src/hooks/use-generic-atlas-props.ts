@@ -153,10 +153,12 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       const detail = {
         ...calculateZoomInformation(runtime.current),
       };
+      console.log(isWorldReady, detail?.scaleFactor);
       if (isWorldReady == false && detail && detail?.scaleFactor < 1 && detail.scaleFactor > 0) {
         setIsWorldReady(true);
         setTimeout(() => {
           if (webComponent.current) {
+            console.log('fired');
             webComponent.current.dispatchEvent(
               new CustomEvent('world-ready', {
                 detail,
@@ -166,7 +168,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         }, 100);
       }
     }
-  }, [isReady, webComponent.current, runtimeVersion, runtime.current?._lastGoodScale]);
+  }, [isReady, webComponent.current, runtimeVersion, runtime.current?._lastGoodScale, isWorldReady]);
 
   useEffect(() => {
     const rt = runtime.current;
