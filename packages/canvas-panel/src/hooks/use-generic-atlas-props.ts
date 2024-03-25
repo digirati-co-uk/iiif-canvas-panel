@@ -153,7 +153,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       const detail = {
         ...calculateZoomInformation(runtime.current),
       };
-      console.log(isWorldReady, detail?.scaleFactor, webComponent.current);
       if (
         isWorldReady == 'queued' &&
         detail &&
@@ -163,7 +162,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       ) {
         setIsWorldReady('fired');
         setTimeout(() => {
-          console.log('fired');
           webComponent.current?.dispatchEvent(
             new CustomEvent('world-ready', {
               detail,
