@@ -679,7 +679,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       // Defaults for now.
       onCreated: (rt: { runtime: Runtime }) => {
         // @todo this means ready, but does not mean first item is in the world.
-        setIsWorldReady(false);
+        setIsWorldReady('');
         setIsReady(true);
         setRuntimeVersion(rt.runtime.id);
         runtime.current = rt.runtime;
