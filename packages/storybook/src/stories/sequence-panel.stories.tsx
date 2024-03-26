@@ -66,7 +66,6 @@ const bayard="https://gist.githubusercontent.com/danieltbrennan/183d6cbb09489484
 
 export const MakingChoice = () => {
   const viewer = useRef()
-  const [toggle, setToggle] = useState();
   const [choices, setChoices] = useState<any[]>([]);
   let currentSequenceIndex = 0;
 
@@ -96,7 +95,6 @@ export const MakingChoice = () => {
     action(e.type)((e as any).detail);
     if (e.detail?.choice?.type == "single-choice") {
       const groupkey = e.detail.choice.items[0].id + '-' + e.detail.choice.items[1].id;
-      console.log(groupkey);
       newChoices.forEach(choice => {
         if (choice.groupkey == groupkey) {
           newChoices.delete(choice);
@@ -135,20 +133,14 @@ export const MakingChoice = () => {
     <button onClick={() => viewer.current.sequence.setCurrentCanvasIndex(11)}>Go to: Canvas Index 11</button>
     <button onClick={() => viewer.current.sequence.previousCanvas()}>Prev</button>
     <button onClick={() => viewer.current.sequence.nextCanvas()}>Next</button>
-    <button onClick={() => {
-      setToggle(!toggle);
-      viewer.current.makeChoice(choices.current?.[toggle ? 1 : 0])
-    }
-  }>Toggle Current Choice</button>
       
-    <label htmlFor="choices">All choice ids for canvas index 11: </label>
+    <label htmlFor="choices">Choices: </label>
         {choices.map(item => (
           <label>
           <input type='radio' key={item.id} checked={item.selected} onChange={makeChoice} name={item.groupkey} value={item.id} ></input>
           { item.label} ({String(item.selected)})</label>
         )
         )}
-    {JSON.stringify(choices)}
     
      {/* @ts-ignore */ }
       <sequence-panel ref={viewer} manifest-id={bayard} />
