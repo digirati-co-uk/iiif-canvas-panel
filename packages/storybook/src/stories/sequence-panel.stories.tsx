@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
 import { action } from '@storybook/addon-actions';
 
 export default {title: 'Sequence Panel'}
@@ -57,4 +58,100 @@ export const SequencePanel = () => {
     <sequence-panel manifest-id={manifestUrl} start-canvas={canvases[0]} />
   </>
 
+}
+
+
+
+const bayard="https://gist.githubusercontent.com/danieltbrennan/183d6cbb0948948413394cf116e5844a/raw/11fdda729f0c2960ee1d971902cdf0badd7f31df/bayard_w_choices.json"
+
+export const MakingChoice = () => {
+  const viewer = useRef()
+  const [toggle, setToggle] = useState();
+  const [choices, setChoices] = useState<any[]>([]);
+  let currentSequenceIndex = 0;
+
+  let newChoices = new Set<any>();
+  const makeChoice = (e) => {
+    viewer.current.makeChoice(e.target.value);
+    action('makeChoice')(e.target.value);
+  }
+
+  function clearChoiceState() {
+      choices.length = 0;
+      setChoices([]);
+      newChoices.clear();
+  }
+  const handleChoice = (e) => {
+
+    if (currentSequenceIndex != viewer.current.sequence.currentSequenceIndex) {
+      console.log('resetting', currentSequenceIndex, viewer.current.sequence.currentSequenceIndex);
+      currentSequenceIndex = viewer.current.sequence.currentSequenceIndex;
+      clearChoiceState();
+    } else {
+      choices.forEach(opt => { 
+        newChoices.add(opt);
+      });
+
+    }
+    action(e.type)((e as any).detail);
+    if (e.detail?.choice?.type == "single-choice") {
+      const groupkey = e.detail.choice.items[0].id + '-' + e.detail.choice.items[1].id;
+      console.log(groupkey);
+      newChoices.forEach(choice => {
+        if (choice.groupkey == groupkey) {
+          newChoices.delete(choice);
+        }
+      })
+      e.detail.choice.items.map(item => {
+        newChoices.add({ id: item.id, groupkey : groupkey, label: item.label.en[0] , selected: item.selected});
+      });
+
+      const choiceList = Array.from(newChoices).sort((a, b) => {
+        if (a.groupkey < b.groupkey) {
+          return -1;
+        }
+        if (a.groupkey > b.groupkey) {
+          return 1;
+        }
+        return 0;
+      })
+
+      setChoices(choiceList);
+    }
+  };
+
+
+  useEffect(() => { 
+    viewer.current.addEventListener('choice', handleChoice)
+    return () => viewer.current.removeEventListener('choice', handleChoice)
+
+  }, [document.querySelector(selector) !== undefined]);
+
+
+
+  return <>
+    <div>
+    <button onClick={() => viewer.current.sequence.setCurrentCanvasIndex(3)}>Go to: Canvas Index 3</button>
+    <button onClick={() => viewer.current.sequence.setCurrentCanvasIndex(11)}>Go to: Canvas Index 11</button>
+    <button onClick={() => viewer.current.sequence.previousCanvas()}>Prev</button>
+    <button onClick={() => viewer.current.sequence.nextCanvas()}>Next</button>
+    <button onClick={() => {
+      setToggle(!toggle);
+      viewer.current.makeChoice(choices.current?.[toggle ? 1 : 0])
+    }
+  }>Toggle Current Choice</button>
+      
+    <label htmlFor="choices">All choice ids for canvas index 11: </label>
+        {choices.map(item => (
+          <label>
+          <input type='radio' key={item.id} checked={item.selected} onChange={makeChoice} name={item.groupkey} value={item.id} ></input>
+          { item.label} ({String(item.selected)})</label>
+        )
+        )}
+    {JSON.stringify(choices)}
+    
+     {/* @ts-ignore */ }
+      <sequence-panel ref={viewer} manifest-id={bayard} />
+      </div>
+    </>
 }

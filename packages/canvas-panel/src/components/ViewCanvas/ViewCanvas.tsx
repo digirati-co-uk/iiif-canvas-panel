@@ -27,7 +27,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const canvas = useCanvas();
   const manifest = useManifest();
   const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
-  const actions = useRef<StrategyActions>();
+  const actions = useRef<StrategyActions[]>([]);
   const [annoMode, setAnnoMode] = useState(false);
   const aspectRatio =
     !props.displayOptions.viewport && canvas
@@ -44,10 +44,9 @@ export function ViewCanvas(props: ViewCanvasProps) {
     if (!(el as any).annotationPageManager) {
       (el as any).annotationPageManager = {};
     }
-
     (el as any).makeChoice = (id: string, options: any) => {
       if (actions.current) {
-        actions.current.makeChoice(id, options);
+        actions.current.forEach((action) => action.makeChoice(id, options));
       }
     };
 
@@ -135,7 +134,10 @@ export function ViewCanvas(props: ViewCanvasProps) {
           annoMode={annoMode}
           defaultChoices={props.defaultChoices}
           registerActions={(newActions) => {
-            actions.current = newActions;
+            if (actions.current) {
+              // note this will end up with lots of listeners... even if the component is destroyed
+              actions.current.push(newActions);
+            }
           }}
           disableThumbnail={props.disableThumbnail}
           skipSizes={props.skipSizes}

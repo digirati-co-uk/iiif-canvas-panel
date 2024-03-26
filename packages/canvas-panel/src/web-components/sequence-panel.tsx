@@ -1,7 +1,7 @@
 import register from '../library/preact-custom-element';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { ChoiceDescription, SimpleViewerProvider, VaultProvider } from 'react-iiif-vault';
+import { ChoiceDescription, SimpleViewerProvider, SingleChoice, VaultProvider } from 'react-iiif-vault';
 import { ContentState } from '@iiif/vault-helpers';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { RegisterPublicApi } from '../hooks/use-register-public-api';
@@ -12,7 +12,7 @@ import { useCallback, useLayoutEffect } from 'preact/compat';
 import { baseAttributes } from '../helpers/base-attributes';
 import { normaliseAxis, parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
-import { useState } from 'preact/compat';
+import { useState, useRef, useEffect } from 'preact/compat';
 
 export type SequencePanelProps = GenericAtlasComponent<{
   manifestId: string;
@@ -83,8 +83,37 @@ export function SequencePanel(props: SequencePanelProps) {
   const [error, setError] = useState<Error | null>();
   const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
 
+  const seenChoices = useRef<object>({});
+  const currentSequenceIndex = useRef<number>();
+
   const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
-    if (webComponent.current) {
+    // sort the choices by ID in order to help with de-duping
+    if (currentSequenceIndex.current != (webComponent?.current as any).sequence?.currentSequenceIndex) {
+      currentSequenceIndex.current = (webComponent?.current as any).sequence?.currentSequenceIndex;
+      seenChoices.current = {};
+    }
+    if (webComponent.current && choice?.items) {
+      // sort the keys by id first to make a consistent order
+      const items: any[] = choice.items as any[];
+      (items as any[]).sort((a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const key: string = items.map((item) => item.id).join('');
+      const value: string = items.map((item) => item.selected).join('');
+      // if the key is defined & set to the value, then skip firing again
+      if ((seenChoices.current as any)[key] && (seenChoices.current as any)[key] == value) {
+        return;
+      }
+      // otherwise fire again
+      (seenChoices.current as any)[key] = value;
+      // move this outside the IF if we want to fire on every page
       webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
     }
   }, []);
@@ -134,7 +163,6 @@ export function SequencePanel(props: SequencePanelProps) {
         const contentState = normaliseContentState(parseContentState(text));
         setParsedContentState(contentState);
       },
-
 
       getManifestId() {
         return manifestIdRef.current;

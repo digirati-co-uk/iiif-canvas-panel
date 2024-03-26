@@ -89,8 +89,33 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const contentStateToLoad =
     unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
 
+  const seenChoices = useRef<object>({});
+
   const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
-    if (webComponent.current) {
+    // sort the choices by ID in order to help with de-duping
+    if (webComponent.current && choice?.items) {
+      // sort the keys by id first to make a consistent order
+      const items: any[] = choice.items as any[];
+      (items as any[]).sort((a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const key: string = items.map((item) => item.id).join('');
+      const value: string = items.map((item) => item.selected).join('');
+      // if the key is defined & set to the value, then skip firing again
+      if ((seenChoices.current as any)[key] && (seenChoices.current as any)[key] == value) {
+        return;
+      }
+      // otherwise fire again
+      (seenChoices.current as any)[key] = value;
+      // move this outside the IF if we want to fire on every page
+
       webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
     }
   }, []);
@@ -290,6 +315,8 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
 
   useEffect(() => {
     onCanvasChange(canvasId);
+    // reset choices
+    seenChoices.current = {};
   }, [canvasId]);
 
   // Waiting for config.
