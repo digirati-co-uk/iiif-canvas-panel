@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { FC, useCallback, useEffect, useLayoutEffect, useRef } from 'preact/compat';
 import register from '../library/preact-custom-element';
-import { CanvasContext, VaultProvider, ChoiceDescription } from 'react-iiif-vault';
+import { CanvasContext, VaultProvider } from 'react-iiif-vault';
 import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-public-api';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { ManifestLoader } from '../components/manifest-loader';
@@ -14,9 +14,10 @@ import { useState } from 'preact/compat';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
-import { DrawBox, easingFunctions, Projection, useAtlas } from '@atlas-viewer/atlas';
+import { DrawBox, easingFunctions, Projection } from '@atlas-viewer/atlas';
 import { ContentState } from '@iiif/vault-helpers';
 import { baseAttributes } from '../helpers/base-attributes';
+import { choiceEventChannel } from 'src/helpers/eventbus';
 
 export type CanvasPanelProps = GenericAtlasComponent<
   {
@@ -89,43 +90,12 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const contentStateToLoad =
     unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
 
-  const seenChoices = useRef<object>({});
-
-  const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
-    // sort the choices by ID in order to help with de-duping
-    if (webComponent.current && choice?.items) {
-      // sort the keys by id first to make a consistent order
-      const items: any[] = choice.items as any[];
-      (items as any[]).sort((a, b) => {
-        if (a.id < b.id) {
-          return -1;
-        }
-        if (a.id > b.id) {
-          return 1;
-        }
-        return 0;
-      });
-
-      const key: string = items.map((item) => item.id).join('');
-      const value: string = items.map((item) => item.selected).join('');
-      // if the key is defined & set to the value, then skip firing again
-      if ((seenChoices.current as any)[key] && (seenChoices.current as any)[key] == value) {
-        return;
-      }
-      // otherwise fire again
-      (seenChoices.current as any)[key] = value;
-      // move this outside the IF if we want to fire on every page
-
-      webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
-    }
-  }, []);
-
   const onCanvasChange = useCallback((canvas: string | undefined) => {
     if (webComponent.current) {
+      choiceEventChannel.emit('onResetSeen');
       webComponent.current.dispatchEvent(new CustomEvent('canvas-change', { detail: { canvas } }));
     }
   }, []);
-
   const onDrawBox = useCallback(
     (e: Projection) => {
       if (contentStateCallback) {
@@ -315,8 +285,6 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
 
   useEffect(() => {
     onCanvasChange(canvasId);
-    // reset choices
-    seenChoices.current = {};
   }, [canvasId]);
 
   // Waiting for config.
@@ -336,7 +304,6 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         interactive={interactive}
         defaultChoices={defaultChoices}
         followAnnotations={followAnnotations}
-        onChoiceChange={onChoiceChange}
         className={className}
         highlight={highlight}
         debug={debug}

@@ -1,7 +1,7 @@
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
 import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
-import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
+import { useImageServiceLoader, useExistingVault, ChoiceDescription } from 'react-iiif-vault';
 import { BoxStyle, Runtime, AtlasProps, Preset, easingFunctions } from '@atlas-viewer/atlas';
 import { useSyncedState } from './use-synced-state';
 import {
@@ -17,6 +17,7 @@ import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
 import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
 import { useEffect } from 'preact/compat';
 import { globalVault } from '@iiif/vault';
+import { choiceEventChannel, eventbus } from '../helpers/eventbus';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
@@ -146,6 +147,40 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
     return -1;
   }
+  const seenChoices = useRef<object>({});
+  choiceEventChannel.on('onResetSeen', () => {
+    seenChoices.current = {};
+  });
+
+  choiceEventChannel.on('onChoiceChange', (payload: { choice?: ChoiceDescription }) => {
+    const choice = payload?.choice;
+    // sort the choices by ID in order to help with de-duping
+    if (webComponent?.current && choice?.items) {
+      // sort the keys by id first to make a consistent order
+      const items: any[] = choice.items as any[];
+      (items as any[]).sort((a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const key: string = items.map((item) => item.id).join('');
+      const value: string = items.map((item) => item.selected).join('');
+      // if the key is defined & set to the value, then skip firing again
+      if ((seenChoices.current as any)[key] && (seenChoices.current as any)[key] == value) {
+        return;
+      }
+      // otherwise fire again
+      (seenChoices.current as any)[key] = value;
+      // move this outside the IF if we want to fire on every page
+
+      webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
+    }
+  });
 
   // fire a 'world-ready' event when we have a scale factor which is not undefined and not 1
   useEffect(() => {
@@ -412,6 +447,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
       getMinZoom() {
         return getMinZoom() || 0;
+      },
+
+      makeChoice(id: string, options: any) {
+        choiceEventChannel.emit('onMakeChoice', { id, options });
       },
 
       zoomIn(point?: { x: number; y: number }) {

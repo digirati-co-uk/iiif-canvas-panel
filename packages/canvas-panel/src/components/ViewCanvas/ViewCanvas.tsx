@@ -19,6 +19,7 @@ import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
 import { targetToPixels } from '../../helpers/target-to-pixels';
 import { RenderAllCanvases } from '../RenderAllCanvases';
 
+
 const ErrorBoundary = _ErrorBoundary as any;
 
 export function ViewCanvas(props: ViewCanvasProps) {
@@ -44,11 +45,6 @@ export function ViewCanvas(props: ViewCanvasProps) {
     if (!(el as any).annotationPageManager) {
       (el as any).annotationPageManager = {};
     }
-    (el as any).makeChoice = (id: string, options: any) => {
-      if (actions.current) {
-        actions.current.forEach((action) => action.makeChoice(id, options));
-      }
-    };
 
     // Update?
     (el as any).annotationPageManager.availablePageIds = manager.availablePageIds;
@@ -129,16 +125,9 @@ export function ViewCanvas(props: ViewCanvasProps) {
           debug={props.debug}
           virtualSizes={props.virtualSizes}
           highlight={props.highlight}
-          onChoiceChange={props.onChoiceChange}
           highlightCssClass={props.highlightCssClass}
           annoMode={annoMode}
           defaultChoices={props.defaultChoices}
-          registerActions={(newActions) => {
-            if (actions.current) {
-              // note this will end up with lots of listeners... even if the component is destroyed
-              actions.current.push(newActions);
-            }
-          }}
           disableThumbnail={props.disableThumbnail}
           skipSizes={props.skipSizes}
           onCreated={(e: any) => {

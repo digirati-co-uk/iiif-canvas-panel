@@ -1,7 +1,7 @@
 import register from '../library/preact-custom-element';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { ChoiceDescription, SimpleViewerProvider, SingleChoice, VaultProvider } from 'react-iiif-vault';
+import { SimpleViewerProvider, VaultProvider } from 'react-iiif-vault';
 import { ContentState } from '@iiif/vault-helpers';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { RegisterPublicApi } from '../hooks/use-register-public-api';
@@ -82,41 +82,6 @@ export function SequencePanel(props: SequencePanelProps) {
     unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
   const [error, setError] = useState<Error | null>();
   const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
-
-  const seenChoices = useRef<object>({});
-  const currentSequenceIndex = useRef<number>();
-
-  const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
-    // sort the choices by ID in order to help with de-duping
-    if (currentSequenceIndex.current != (webComponent?.current as any).sequence?.currentSequenceIndex) {
-      currentSequenceIndex.current = (webComponent?.current as any).sequence?.currentSequenceIndex;
-      seenChoices.current = {};
-    }
-    if (webComponent.current && choice?.items) {
-      // sort the keys by id first to make a consistent order
-      const items: any[] = choice.items as any[];
-      (items as any[]).sort((a, b) => {
-        if (a.id < b.id) {
-          return -1;
-        }
-        if (a.id > b.id) {
-          return 1;
-        }
-        return 0;
-      });
-
-      const key: string = items.map((item) => item.id).join('');
-      const value: string = items.map((item) => item.selected).join('');
-      // if the key is defined & set to the value, then skip firing again
-      if ((seenChoices.current as any)[key] && (seenChoices.current as any)[key] == value) {
-        return;
-      }
-      // otherwise fire again
-      (seenChoices.current as any)[key] = value;
-      // move this outside the IF if we want to fire on every page
-      webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
-    }
-  }, []);
 
   useRegisterWebComponentApi((htmlComponent: HTMLElement) => {
     return {
@@ -248,7 +213,6 @@ export function SequencePanel(props: SequencePanelProps) {
               key={`${startCanvas}-${viewport ? 'v1' : 'v0'}`}
               interactive={interactive}
               followAnnotations={followAnnotations}
-              onChoiceChange={onChoiceChange}
               className={className}
               highlight={highlight}
               debug={debug}

@@ -20,7 +20,6 @@ export type ViewCanvasProps = {
   followAnnotations?: boolean;
   virtualSizes: SizeParameter[];
   displayOptions: AtlasDisplayOptions;
-  onChoiceChange?: (choice?: ChoiceDescription) => void;
   children?: any;
   debug?: boolean;
   mode?: 'sketch' | 'explore';

@@ -80,6 +80,9 @@ export const MakingChoice = () => {
       setChoices([]);
       newChoices.clear();
   }
+  const handleSequenceChange = (e) => {
+    clearChoiceState();
+  }
   const handleChoice = (e) => {
 
     if (currentSequenceIndex != viewer.current.sequence.currentSequenceIndex) {
@@ -121,6 +124,7 @@ export const MakingChoice = () => {
 
   useEffect(() => { 
     viewer.current.addEventListener('choice', handleChoice)
+    viewer.current.addEventListener('sequence-change', handleSequenceChange);
     return () => viewer.current.removeEventListener('choice', handleChoice)
 
   }, [document.querySelector(selector) !== undefined]);
