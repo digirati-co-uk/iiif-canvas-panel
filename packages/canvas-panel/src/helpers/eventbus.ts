@@ -1,4 +1,4 @@
-import { ChoiceDescription } from 'react-iiif-vault/*';
+import { ChoiceDescription } from 'react-iiif-vault';
 
 type EventKey = string | symbol;
 type EventHandler<T = any> = (payload: T) => void;
@@ -17,8 +17,25 @@ interface EventBusConfig {
 }
 
 export const choiceEventChannel = eventbus<{
+  /**
+   * When the `makeChoice` api is called
+   *
+   * @param payload - the id and options for the choice
+   *
+   */
   onMakeChoice: (payload: { id: string; options: any }) => void;
+  /**
+   * When the system identifies that a choice is available
+   *
+   * @param payload - the id and options for the choice
+   *
+   */
   onChoiceChange: (payload: { choice?: ChoiceDescription }) => void;
+  /**
+   * When a canvas is changed, or a sequence is changed, this signals that
+   * the current set of choices should be reset
+   *
+   */
   onResetSeen: () => void;
 }>();
 

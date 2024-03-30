@@ -10,7 +10,6 @@ import {
   useAnnotationPageManager,
   useManifest,
   useVault,
-  StrategyActions,
 } from 'react-iiif-vault';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
@@ -28,7 +27,6 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const canvas = useCanvas();
   const manifest = useManifest();
   const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
-  const actions = useRef<StrategyActions[]>([]);
   const [annoMode, setAnnoMode] = useState(false);
   const aspectRatio =
     !props.displayOptions.viewport && canvas

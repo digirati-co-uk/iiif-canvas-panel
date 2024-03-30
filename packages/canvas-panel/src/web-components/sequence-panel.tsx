@@ -8,11 +8,10 @@ import { RegisterPublicApi } from '../hooks/use-register-public-api';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { h } from 'preact';
 import { parseBool, parseNumber, parseContentStateParameter } from '../helpers/parse-attributes';
-import { useCallback, useLayoutEffect } from 'preact/compat';
+import { useState, useLayoutEffect } from 'preact/compat';
 import { baseAttributes } from '../helpers/base-attributes';
 import { normaliseAxis, parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
-import { useState, useRef, useEffect } from 'preact/compat';
 
 export type SequencePanelProps = GenericAtlasComponent<{
   manifestId: string;

@@ -4,9 +4,7 @@ import {
   useResourceEvents,
   useRenderingStrategy,
   useThumbnail,
-  StrategyActions,
   useVault,
-  ChoiceDescription,
   useVaultSelector,
   useAnnotationPageManager,
   useManifest,
@@ -85,9 +83,12 @@ export function AtlasCanvas({
   const firstTextLines = hasTextLines ? pageTypes.pageMapping.supplementing[0] : null;
 
   useEffect(() => {
-    choiceEventChannel.on('onMakeChoice', (payload: { id: any; options: any }) => {
+    const unsubscribeOnMakeChoice = choiceEventChannel.on('onMakeChoice', (payload: { id: any; options: any }) => {
       actions.makeChoice(payload.id, payload.options);
     });
+    return () => {
+      unsubscribeOnMakeChoice();
+    };
   }, [actions]);
 
   useEffect(() => {

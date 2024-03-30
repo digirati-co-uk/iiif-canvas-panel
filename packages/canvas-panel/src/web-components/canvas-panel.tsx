@@ -17,7 +17,7 @@ import { ContentStateCallback, ContentStateEvent } from '../types/content-state'
 import { DrawBox, easingFunctions, Projection } from '@atlas-viewer/atlas';
 import { ContentState } from '@iiif/vault-helpers';
 import { baseAttributes } from '../helpers/base-attributes';
-import { choiceEventChannel } from 'src/helpers/eventbus';
+import { choiceEventChannel } from '../helpers/eventbus';
 
 export type CanvasPanelProps = GenericAtlasComponent<
   {

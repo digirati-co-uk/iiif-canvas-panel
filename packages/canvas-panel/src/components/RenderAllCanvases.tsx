@@ -1,16 +1,10 @@
-import {
-  CanvasContext as _CanvasContext,
-  StrategyActions,
-  useRange,
-  useSimpleViewer,
-  useVisibleCanvases,
-} from 'react-iiif-vault';
+import { CanvasContext as _CanvasContext, useRange, useSimpleViewer, useVisibleCanvases } from 'react-iiif-vault';
 import { AtlasCanvas } from './AtlasCanvas/AtlasCanvas';
 import { SizeParameter } from '../helpers/size-parameter';
 import { h } from 'preact';
 import { Fragment, useEffect, useRef } from 'preact/compat';
 import { useRegisterPublicApi } from '../hooks/use-register-public-api';
-import { choiceEventChannel } from 'src/helpers/eventbus';
+import { choiceEventChannel } from '../helpers/eventbus';
 
 const CanvasContext = _CanvasContext as any;
 

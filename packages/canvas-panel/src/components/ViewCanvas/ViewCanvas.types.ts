@@ -1,5 +1,5 @@
 import { AtlasProps } from '@atlas-viewer/atlas';
-import { ChoiceDescription, ParsedSelector } from 'react-iiif-vault';
+import { ParsedSelector } from 'react-iiif-vault';
 import { SizeParameter } from '../../helpers/size-parameter';
 
 export type AtlasDisplayOptions = AtlasProps & {
