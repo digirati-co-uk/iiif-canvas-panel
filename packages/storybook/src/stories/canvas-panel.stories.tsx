@@ -117,9 +117,17 @@ export const CanvasWithSkipSizes = () => {
     <button disabled={!canZoomIn} onClick={() => (document?.querySelector(selector) as any).zoomIn()}>Zoom In</button> 
     <button disabled={!canZoomOut} onClick={() => (document?.querySelector(selector) as any).zoomOut()}>Zoom Out</button>
 
-    { canvases[Math.abs(cvindex)] }
-    {/* @ts-ignore */}
-    <canvas-panel manifest-id={manifestUrl} skip-sizes='true' canvas-id={canvases[Math.abs(cvindex)]  } />
+    {canvases[Math.abs(cvindex)]}
+    <div style={{height:'1000px',border:'1px solid blue', width:'100%',display: 'flex', 'flexDirection': 'column'}}>
+      {/* @ts-ignore */}
+      <canvas-panel manifest-id={manifestUrl} skip-sizes='true' canvas-id={canvases[Math.abs(cvindex)]} style={{ 
+        '--atlas-background': 'red',
+        'backgroundColor': 'red',
+        '--atlas-container-display': 'flex',
+        '--atlas-container-flex':' 1 1 auto',
+        '--atlas-container-width': '100%'
+        }} />
+      </div>
   </>
 
 }
