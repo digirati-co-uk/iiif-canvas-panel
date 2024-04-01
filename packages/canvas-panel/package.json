@@ -20,7 +20,7 @@
     "nanoid": "3.1.25"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "https://pkg.csb.dev/atlas-viewer/atlas/commit/82fec522/@atlas-viewer/atlas/_pkg.tgz",
+    "@atlas-viewer/atlas": "https://pkg.csb.dev/atlas-viewer/atlas/commit/5fb9d637/@atlas-viewer/atlas/_pkg.tgz",
     "@atlas-viewer/iiif-image-api": "2.1.1",
     "@iiif/presentation-2": "^1.0.4",
     "@iiif/presentation-3": "1.1.3",

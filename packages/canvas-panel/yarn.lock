@@ -25,9 +25,9 @@
     react-use-measure "^2.0.1"
     scheduler "^0.21.0"
 
-"@atlas-viewer/atlas@https://pkg.csb.dev/atlas-viewer/atlas/commit/82fec522/@atlas-viewer/atlas/_pkg.tgz":
+"@atlas-viewer/atlas@https://pkg.csb.dev/atlas-viewer/atlas/commit/5fb9d637/@atlas-viewer/atlas/_pkg.tgz":
   version "2.1.0"
-  resolved "https://pkg.csb.dev/atlas-viewer/atlas/commit/82fec522/@atlas-viewer/atlas/_pkg.tgz#7d551864734069fde31e40c6a12a1806536bb146"
+  resolved "https://pkg.csb.dev/atlas-viewer/atlas/commit/5fb9d637/@atlas-viewer/atlas/_pkg.tgz#21528e60eefda302de6467c9ef3080c381dc1988"
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
     "@atlas-viewer/iiif-image-api" "^2.0.5"
