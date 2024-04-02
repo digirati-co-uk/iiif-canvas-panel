@@ -44,6 +44,7 @@ const canvasPanelAttributes = [
   'text-enabled',
   'follow-annotations',
   'iiif-content',
+  'home-cover',
 ];
 
 export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
@@ -64,6 +65,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     interactive,
     x,
     y,
+    homeCover,
     className,
     inlineStyles,
     inlineStyleSheet,
@@ -318,6 +320,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         textSelectionEnabled={textSelectionEnabled}
         disableThumbnail={disableThumbnail}
         skipSizes={skipSizes}
+        homeCover={homeCover}
       >
         <slot name="atlas" />
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}

@@ -15,6 +15,7 @@ import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { parseBool } from '../helpers/parse-attributes';
 import { ImageServiceLoader } from '@atlas-viewer/iiif-image-api';
+import { World } from '../atlas-components';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -54,6 +55,7 @@ export function ImageService(props: ImageServiceProps) {
     interactive,
     x,
     y,
+    homeCover,
   } = useGenericAtlasProps(props);
 
   const [src] = useProp('src');
@@ -126,6 +128,8 @@ export function ImageService(props: ImageServiceProps) {
           aspectRatio={aspectRatio}
           className={className}
           nested={nested}
+          homeCover={homeCover}
+          homeOnResize={!!homeCover}
           {...atlasProps}
         >
           <RenderImage
@@ -190,6 +194,7 @@ if (typeof window !== 'undefined') {
       'choice-id',
       'move-events',
       'granular-move-events',
+      'home-cover',
       'tile-format',
     ],
     {

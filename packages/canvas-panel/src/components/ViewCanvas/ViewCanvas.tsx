@@ -18,7 +18,6 @@ import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
 import { targetToPixels } from '../../helpers/target-to-pixels';
 import { RenderAllCanvases } from '../RenderAllCanvases';
 
-
 const ErrorBoundary = _ErrorBoundary as any;
 
 export function ViewCanvas(props: ViewCanvasProps) {
@@ -117,6 +116,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
         className={props.className}
         {...displayOptions}
         mode={annoMode ? 'sketch' : props.mode}
+        homeCover={props.homeCover}
+        homeOnResize={!!props.homeCover}
       >
         <Component
           isStatic={!props.interactive}

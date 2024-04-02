@@ -9,10 +9,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@atlas-viewer/atlas@2.0.9", "@atlas-viewer/atlas@^2.0.0-alpha.19":
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.9.tgz#5177126c94b9bf859756707fee42662220e0aa2d"
-  integrity sha512-HJLQ3raHXFppLAVPzxtKr58UxBkOuOX3Ph3++gLqpkNOMCJL1T3Xi51fhMj5SObck8TfmNKI8/sDaL2QfU9gwQ==
+"@atlas-viewer/atlas@2.0.10", "@atlas-viewer/atlas@^2.0.0-alpha.19":
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.10.tgz#911adcd31e45150ff13702b74c7a410fcbdcdef5"
+  integrity sha512-ziyXUrQ2XlQQ7WQT9ssIgkM/bWiYpRxvBOk6aZ1nqHuOkPtSObUTyBqxLBFimE+D3+0+72pcP+eBx4B8Hc8IWg==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
     "@atlas-viewer/iiif-image-api" "^2.0.5"

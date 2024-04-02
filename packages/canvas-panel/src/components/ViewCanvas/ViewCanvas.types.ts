@@ -33,4 +33,5 @@ export type ViewCanvasProps = {
   textSelectionEnabled?: boolean;
   disableThumbnail?: boolean;
   skipSizes?: boolean;
+  homeCover?: boolean | 'start' | 'end';
 };
