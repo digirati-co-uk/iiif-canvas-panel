@@ -10,7 +10,6 @@ import {
   useAnnotationPageManager,
   useManifest,
   useVault,
-  StrategyActions,
 } from 'react-iiif-vault';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
@@ -18,6 +17,7 @@ import { serialiseContentState } from '../../helpers/content-state/content-state
 import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
 import { targetToPixels } from '../../helpers/target-to-pixels';
 import { RenderAllCanvases } from '../RenderAllCanvases';
+
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -27,7 +27,6 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const canvas = useCanvas();
   const manifest = useManifest();
   const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
-  const actions = useRef<StrategyActions>();
   const [annoMode, setAnnoMode] = useState(false);
   const aspectRatio =
     !props.displayOptions.viewport && canvas
@@ -44,12 +43,6 @@ export function ViewCanvas(props: ViewCanvasProps) {
     if (!(el as any).annotationPageManager) {
       (el as any).annotationPageManager = {};
     }
-
-    (el as any).makeChoice = (id: string, options: any) => {
-      if (actions.current) {
-        actions.current.makeChoice(id, options);
-      }
-    };
 
     // Update?
     (el as any).annotationPageManager.availablePageIds = manager.availablePageIds;
@@ -130,13 +123,9 @@ export function ViewCanvas(props: ViewCanvasProps) {
           debug={props.debug}
           virtualSizes={props.virtualSizes}
           highlight={props.highlight}
-          onChoiceChange={props.onChoiceChange}
           highlightCssClass={props.highlightCssClass}
           annoMode={annoMode}
           defaultChoices={props.defaultChoices}
-          registerActions={(newActions) => {
-            actions.current = newActions;
-          }}
           disableThumbnail={props.disableThumbnail}
           skipSizes={props.skipSizes}
           onCreated={(e: any) => {

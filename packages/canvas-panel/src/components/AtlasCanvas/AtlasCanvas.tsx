@@ -4,9 +4,7 @@ import {
   useResourceEvents,
   useRenderingStrategy,
   useThumbnail,
-  StrategyActions,
   useVault,
-  ChoiceDescription,
   useVaultSelector,
   useAnnotationPageManager,
   useManifest,
@@ -25,6 +23,7 @@ import { RenderAudio } from '../RenderAudio/RenderAudio';
 import { RenderVideo } from '../RenderVideo/RenderVideo';
 import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
 import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
+import { choiceEventChannel } from '../../helpers/eventbus';
 
 interface AtlasCanvasProps {
   x?: number;
@@ -34,10 +33,8 @@ interface AtlasCanvasProps {
   highlightCssClass?: string;
   debug?: boolean;
   annoMode?: boolean;
-  onChoiceChange?: (choice?: ChoiceDescription) => void;
   defaultChoices?: Array<{ id: string; opacity?: number }>;
   onCreated?: any;
-  registerActions?: (actions: StrategyActions) => void;
   isStatic?: boolean;
   textSelectionEnabled?: boolean;
   children?: any;
@@ -55,9 +52,7 @@ export function AtlasCanvas({
   onCreated,
   debug,
   virtualSizes,
-  onChoiceChange,
   highlightCssClass,
-  registerActions,
   defaultChoices,
   isStatic,
   textSelectionEnabled,
@@ -88,10 +83,13 @@ export function AtlasCanvas({
   const firstTextLines = hasTextLines ? pageTypes.pageMapping.supplementing[0] : null;
 
   useEffect(() => {
-    if (registerActions) {
-      registerActions(actions);
-    }
-  }, [strategy.annotations]);
+    const unsubscribeOnMakeChoice = choiceEventChannel.on('onMakeChoice', (payload: { id: any; options: any }) => {
+      actions.makeChoice(payload.id, payload.options);
+    });
+    return () => {
+      unsubscribeOnMakeChoice();
+    };
+  }, [actions]);
 
   useEffect(() => {
     if (textEnabled) {
@@ -117,9 +115,7 @@ export function AtlasCanvas({
   }, [defaultChoices]);
 
   useLayoutEffect(() => {
-    if (onChoiceChange) {
-      onChoiceChange(choice);
-    }
+    choiceEventChannel.emit('onChoiceChange', { choice });
   }, [choice]);
 
   const thumbnail = useThumbnail({ maxWidth: 256, maxHeight: 256 });

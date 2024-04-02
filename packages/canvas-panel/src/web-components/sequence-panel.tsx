@@ -1,18 +1,17 @@
 import register from '../library/preact-custom-element';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { ChoiceDescription, SimpleViewerProvider, VaultProvider } from 'react-iiif-vault';
+import { SimpleViewerProvider, VaultProvider } from 'react-iiif-vault';
 import { ContentState } from '@iiif/vault-helpers';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { RegisterPublicApi } from '../hooks/use-register-public-api';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { h } from 'preact';
 import { parseBool, parseNumber, parseContentStateParameter } from '../helpers/parse-attributes';
-import { useCallback, useLayoutEffect } from 'preact/compat';
+import { useState, useLayoutEffect } from 'preact/compat';
 import { baseAttributes } from '../helpers/base-attributes';
 import { normaliseAxis, parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
-import { useState } from 'preact/compat';
 
 export type SequencePanelProps = GenericAtlasComponent<{
   manifestId: string;
@@ -83,12 +82,6 @@ export function SequencePanel(props: SequencePanelProps) {
   const [error, setError] = useState<Error | null>();
   const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
 
-  const onChoiceChange = useCallback((choice?: ChoiceDescription) => {
-    if (webComponent.current) {
-      webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
-    }
-  }, []);
-
   useRegisterWebComponentApi((htmlComponent: HTMLElement) => {
     return {
       vault,
@@ -134,7 +127,6 @@ export function SequencePanel(props: SequencePanelProps) {
         const contentState = normaliseContentState(parseContentState(text));
         setParsedContentState(contentState);
       },
-
 
       getManifestId() {
         return manifestIdRef.current;
@@ -220,7 +212,6 @@ export function SequencePanel(props: SequencePanelProps) {
               key={`${startCanvas}-${viewport ? 'v1' : 'v0'}`}
               interactive={interactive}
               followAnnotations={followAnnotations}
-              onChoiceChange={onChoiceChange}
               className={className}
               highlight={highlight}
               debug={debug}
