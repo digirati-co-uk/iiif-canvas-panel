@@ -9,6 +9,23 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
+"@atlas-viewer/atlas@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.9.tgz#5177126c94b9bf859756707fee42662220e0aa2d"
+  integrity sha512-HJLQ3raHXFppLAVPzxtKr58UxBkOuOX3Ph3++gLqpkNOMCJL1T3Xi51fhMj5SObck8TfmNKI8/sDaL2QfU9gwQ==
+  dependencies:
+    "@atlas-viewer/dna" "^0.5.0"
+    "@atlas-viewer/iiif-image-api" "^2.0.5"
+    "@iiif/helpers" "^1.0.3"
+    "@iiif/parser" "2.0.1"
+    "@iiif/presentation-3" ">=2"
+    lru-cache "^7.17.0"
+    nanoid "^3.1.9"
+    normalize-wheel "^1.0.1"
+    react-reconciler "^0.29.0"
+    react-use-measure "^2.0.1"
+    scheduler "^0.21.0"
+
 "@atlas-viewer/atlas@^2.0.0-alpha.19":
   version "2.0.0-alpha.20"
   resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.0-alpha.20.tgz#b909ceaab086b3cfea84eb90d2050efae2f63393"
@@ -22,23 +39,6 @@
     nanoid "^3.1.9"
     normalize-wheel "^1.0.1"
     react-reconciler "^0.26.2"
-    react-use-measure "^2.0.1"
-    scheduler "^0.21.0"
-
-"@atlas-viewer/atlas@^2.0.9":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.1.0.tgz#37b3274750dcdcccc4026bf3aecb56e84291b36e"
-  integrity sha512-ZOQiFnB/jOUiHDA4BEHBizMc48Z1QxjY8fi1TkMGyJmCxoWpmNWh9u4/AKh4dY+uIp+V6h+/wc4rCC6DyLu9PQ==
-  dependencies:
-    "@atlas-viewer/dna" "^0.5.0"
-    "@atlas-viewer/iiif-image-api" "^2.0.5"
-    "@iiif/helpers" "^1.0.3"
-    "@iiif/parser" "2.0.1"
-    "@iiif/presentation-3" ">=2"
-    lru-cache "^7.17.0"
-    nanoid "^3.1.9"
-    normalize-wheel "^1.0.1"
-    react-reconciler "^0.29.0"
     react-use-measure "^2.0.1"
     scheduler "^0.21.0"
 
