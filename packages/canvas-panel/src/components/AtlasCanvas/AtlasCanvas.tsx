@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useLayoutEffect, useMemo } from 'preact/compat';
 import {
   useCanvas,
+  useResources,
+  parseSpecificResource,
   useResourceEvents,
   useRenderingStrategy,
   useThumbnail,
@@ -9,7 +11,8 @@ import {
   useAnnotationPageManager,
   useManifest,
 } from 'react-iiif-vault';
-import { createStylesHelper } from '@iiif/vault-helpers';
+import { createStylesHelper, SingleChoice } from '@iiif/vault-helpers';
+import { createPaintingAnnotationsHelper } from '@iiif/vault-helpers';
 import { Fragment, h } from 'preact';
 import { WorldObject, SingleImage } from '../../atlas-components';
 import { RenderAnnotationPage } from '../RenderAnnotationPage/RenderAnnotationPage';
@@ -24,6 +27,7 @@ import { RenderVideo } from '../RenderVideo/RenderVideo';
 import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
 import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
 import { choiceEventChannel } from '../../helpers/eventbus';
+import { AnnotationPageNormalized, ContentResource } from '@iiif/presentation-3';
 
 interface AtlasCanvasProps {
   x?: number;
@@ -70,6 +74,7 @@ export function AtlasCanvas({
     strategies: ['images', 'media'],
     defaultChoices: defaultChoices?.map(({ id }) => id),
   });
+
   const choice = strategy.type === 'images' ? strategy.choice : undefined;
   const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
   const fullPages = useVaultSelector(
@@ -78,6 +83,66 @@ export function AtlasCanvas({
     },
     [...manager.availablePageIds]
   );
+
+  useEffect(() => {
+    // this is all hoisted from https://github.com/IIIF-Commons/iiif-helpers/blob/0f582fbcf4a8899258b7a71d2216ffeb56275de4/src/painting-annotations/helper.ts#L38
+    // BUT... it doesn't work there because it assumes there's a single choice per page
+    const vaulthelper = createPaintingAnnotationsHelper(vault);
+    // get all painting annotations for a canvas
+    if (canvas?.id) {
+      const enabledChoices = defaultChoices?.map(({ id }) => id) || [];
+      const vaultAnnotations = vaulthelper.getAllPaintingAnnotations(canvas.id);
+      // Extract choices (if any) from a canvas
+
+      for (const annotation of vaultAnnotations) {
+        if (annotation.type !== 'Annotation') {
+          throw new Error(`getPaintables() accept either a canvas or list of annotations`);
+        }
+
+        const references = Array.from(Array.isArray(annotation.body) ? annotation.body : [annotation.body]);
+        for (const reference of references) {
+          const [ref, { selector }] = parseSpecificResource(reference as any);
+          const body = vault.get(ref) as any;
+          const type = (body.type || 'unknown').toLowerCase();
+          // Choice
+          if (type === 'choice') {
+            const extra = { parent: body.id };
+            const nestedBodies = vault.get(body.items) as ContentResource[];
+            console.log(nestedBodies);
+            // // Which are active? By default, the first, but we could push multiple here.
+
+            // this doesn't respect current selections... 
+            const selected = enabledChoices.length
+              ? enabledChoices.map((cid) => nestedBodies.find((b) => b.id === cid)).filter(Boolean)
+              : [nestedBodies[0]];
+
+            if (selected.length === 0) {
+              selected.push(nestedBodies[0]);
+            }
+
+            // Store choice.
+            const choice: SingleChoice = {
+              type: 'single-choice',
+              items: nestedBodies.map((b) => ({
+                id: b.id,
+                label: (b as any).label as any,
+                selected: selected.indexOf(b) !== -1,
+              })) as any[],
+              label: (ref as any).label,
+            };
+            choiceEventChannel.emit('onChoiceChange', { choice });
+            // // @todo insert in the right order.
+            // references.push(...(selected as any[]));
+
+            continue;
+          }
+        }
+      }
+      // this returns 1 choice
+      const choices = vaulthelper.extractChoices(canvas.id);
+    }
+  }, [canvas?.id, defaultChoices]);
+
   const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
   const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;
   const firstTextLines = hasTextLines ? pageTypes.pageMapping.supplementing[0] : null;
@@ -114,9 +179,6 @@ export function AtlasCanvas({
     }
   }, [defaultChoices]);
 
-  useLayoutEffect(() => {
-    choiceEventChannel.emit('onChoiceChange', { choice });
-  }, [choice]);
 
   const thumbnail = useThumbnail({ maxWidth: 256, maxHeight: 256 });
 

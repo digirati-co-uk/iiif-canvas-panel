@@ -62,7 +62,7 @@ export const SequencePanel = () => {
 
 
 
-const bayard="https://gist.githubusercontent.com/danieltbrennan/183d6cbb0948948413394cf116e5844a/raw/11fdda729f0c2960ee1d971902cdf0badd7f31df/bayard_w_choices.json"
+const bayard="https://data.getty.edu/media/manifest/bayard-custom"
 
 export const MakingChoice = () => {
   const viewer = useRef()
@@ -135,6 +135,7 @@ export const MakingChoice = () => {
     <div>
     <button onClick={() => viewer.current.sequence.setCurrentCanvasIndex(3)}>Go to: Canvas Index 3</button>
     <button onClick={() => viewer.current.sequence.setCurrentCanvasIndex(11)}>Go to: Canvas Index 11</button>
+    <button onClick={() => viewer.current.sequence.setCurrentCanvasIndex(28)}>Go to: Canvas Index 28</button>
     <button onClick={() => viewer.current.sequence.previousCanvas()}>Prev</button>
     <button onClick={() => viewer.current.sequence.nextCanvas()}>Next</button>
       
