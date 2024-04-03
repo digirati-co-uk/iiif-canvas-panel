@@ -125,8 +125,14 @@ export function AtlasCanvas({
             })) as any[],
             label: (ref as any).label,
           };
-          choiceEventChannel.emit('onChoiceChange', { choice });
-
+          choiceEventChannel.emit('onChoiceChange', {
+            choice,
+            partOf: {
+              canvasId: canvas.id,
+              choiceId: body.id,
+              manifestId: manifest?.id,
+            },
+          });
         }
       }
       // this returns 1 choice

@@ -155,7 +155,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       seenChoices.current = {};
     });
 
-    const onChoiceChange = (payload: { choice?: ChoiceDescription }) => {
+    const onChoiceChange = (payload: { choice?: ChoiceDescription, partOf?: any }) => {
       const choice = payload.choice;
       // sort the choices by ID in order to help with de-duping
       if (webComponent?.current && choice && choice.items) {
@@ -181,6 +181,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         (seenChoices.current as any)[key] = value;
         // move this outside the IF if we want to fire on every page
 
+        (choice as any).partOf = payload.partOf;
         webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
       }
     };
