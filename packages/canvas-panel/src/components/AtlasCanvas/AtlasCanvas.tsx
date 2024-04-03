@@ -105,43 +105,36 @@ export function AtlasCanvas({
           const body = vault.get(ref) as any;
           const type = (body.type || 'unknown').toLowerCase();
           // Choice
-          if (type === 'choice') {
-            const extra = { parent: body.id };
-            const nestedBodies = vault.get(body.items) as ContentResource[];
-            console.log(nestedBodies);
-            // // Which are active? By default, the first, but we could push multiple here.
-
-            // this doesn't respect current selections... 
-            const selected = enabledChoices.length
-              ? enabledChoices.map((cid) => nestedBodies.find((b) => b.id === cid)).filter(Boolean)
-              : [nestedBodies[0]];
-
-            if (selected.length === 0) {
-              selected.push(nestedBodies[0]);
-            }
-
-            // Store choice.
-            const choice: SingleChoice = {
-              type: 'single-choice',
-              items: nestedBodies.map((b) => ({
-                id: b.id,
-                label: (b as any).label as any,
-                selected: selected.indexOf(b) !== -1,
-              })) as any[],
-              label: (ref as any).label,
-            };
-            choiceEventChannel.emit('onChoiceChange', { choice });
-            // // @todo insert in the right order.
-            // references.push(...(selected as any[]));
-
+          if (type !== 'choice') {
             continue;
           }
+          const nestedBodies = vault.get(body.items) as ContentResource[];
+
+          // if the enabledChoices has the id, then turn it on, otherwise choose the 1st item
+          const selected = enabledChoices.length
+            ? enabledChoices.map((cid) => nestedBodies.find((b) => b.id === cid)).filter(Boolean)
+            : [nestedBodies[0]];
+
+          if (selected.length === 0) {
+            selected.push(nestedBodies[0]);
+          }
+          const choice: SingleChoice = {
+            type: 'single-choice',
+            items: nestedBodies.map((b) => ({
+              id: b.id,
+              label: (b as any).label as any,
+              selected: selected.indexOf(b) !== -1,
+            })) as any[],
+            label: (ref as any).label,
+          };
+          choiceEventChannel.emit('onChoiceChange', { choice });
+
         }
       }
       // this returns 1 choice
       const choices = vaulthelper.extractChoices(canvas.id);
     }
-  }, [canvas?.id, defaultChoices]);
+  }, [canvas?.id, actions, defaultChoices]);
 
   const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
   const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;
@@ -178,7 +171,6 @@ export function AtlasCanvas({
       }
     }
   }, [defaultChoices]);
-
 
   const thumbnail = useThumbnail({ maxWidth: 256, maxHeight: 256 });
 
