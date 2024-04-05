@@ -22,6 +22,7 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   granularMoveEvents?: boolean;
   disableKeyboardNavigation?: boolean;
   clickToEnableZoom?: boolean;
+  homeCover?: 'true' | 'false' | 'start' | 'end';
   viewport?: boolean;
   debug?: boolean;
   media?: Record<string, Partial<GenericAtlasComponent<T>>>;

@@ -115,6 +115,23 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       parse: parseCSV,
     }
   );
+  const [homeCover] = useSyncedState(props.homeCover, {
+    parse: (value) => {
+      if (value === 'false') {
+        return false;
+      }
+      if (value === 'true') {
+        return true;
+      }
+      if (value === 'start') {
+        return 'start' as const;
+      }
+      if (value === 'end') {
+        return 'end' as const;
+      }
+      return false;
+    },
+  });
   const [mode, setMode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
   const [isWorldReady, setIsWorldReady] = useState('');
   const [inlineStyles, setInlineStyles] = useState('');
@@ -784,6 +801,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     nested,
     x,
     y,
+    homeCover,
     useProp,
     useRegisterWebComponentApi,
     runtime,
