@@ -30,7 +30,14 @@ export const choiceEventChannel = eventbus<{
    * @param payload - the id and options for the choice
    *
    */
-  onChoiceChange: (payload: { choice?: ChoiceDescription }) => void;
+  onChoiceChange: (payload: {
+    choice?: ChoiceDescription;
+    partOf?: {
+      choiceId?: string;
+      canvasId?: string;
+      manifestId?: string;
+    };
+  }) => void;
   /**
    * When a canvas is changed, or a sequence is changed, this signals that
    * the current set of choices should be reset
