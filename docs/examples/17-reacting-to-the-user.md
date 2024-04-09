@@ -56,8 +56,9 @@ tracker.
 
 This will fire once the current transitioning zoom has completed. It contains
 information on the max/min zoom and booleans for if we have reached the max/min
-(isMax, isMin). The zoom event also fires when you call zoom-to . It does not
-fire when a user creates a custom transition.
+(isMax, isMin). The zoom event also fires when you call `zoom-to`,
+`goto-region`, `go-home`, or when `recalculate-world-size` is called by the
+system. It does not fire when a user creates a custom transition.
 
 ```
 el.addEventListener('zoom', ev => {
