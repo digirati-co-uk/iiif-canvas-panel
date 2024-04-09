@@ -52,7 +52,7 @@ events (normal addEventListener + detail handling):
 Additionally there is a 3rd event: `zoom` . The problem is that when the zoom-to
 event is fired, the viewport has only just started it's transition. It's very
 much a notification that "recently a zoom was initiated" more than a precise
-tracker. For this reason the zoom event.
+tracker.
 
 This will fire once the current transitioning zoom has completed. It contains
 information on the max/min zoom and booleans for if we have reached the max/min
