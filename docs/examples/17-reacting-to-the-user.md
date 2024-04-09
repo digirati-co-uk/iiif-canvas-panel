@@ -54,14 +54,10 @@ event is fired, the viewport has only just started it's transition. It's very
 much a notification that "recently a zoom was initiated" more than a precise
 tracker.
 
-This will fire once the current transitioning zoom has completed. It contains
-information on the max/min zoom and booleans for if we have reached the max/min
-(isMax, isMin). The zoom event also fires when you call `zoom-to`,
-`goto-region`, `go-home`, or when `recalculate-world-size` is called by the
-system. It does not fire when a user creates a custom transition.
+Below is an example of a Zoom Event:
 
-```
-el.addEventListener('zoom', ev => {
+```javascript
+el.addEventListener("zoom", (ev) => {
   ev.detail.scaleFactor; // 0.123456
   ev.details.max; // 1
   ev.details.min; // 0.123456
@@ -70,7 +66,35 @@ el.addEventListener('zoom', ev => {
   ev.details.factor; // if user initiated a zoom - the factor scaled
   ev.detail.canZoomIn; // whether the user can zoom in or not using the zoomIn() method,
   ev.detail.canZoomOut; // whether the user can zoom out or not using the zoomOut() method,
-})
+});
+```
+
+This will fire once the current transitioning zoom has completed. It contains
+information on the max/min zoom and booleans for if we have reached the max/min
+(isMax, isMin). The zoom event also fires when you call `zoom-to`,
+`goto-region`, `go-home`, or when `recalculate-world-size` is called by the
+system. It does not fire when a user creates a custom transition.
+
+Below is an example of a custom transition:
+
+```javascript
+// an example of a custom transition
+cp.transition((tm) => {
+  tm.goToRegion(
+    {
+      height: 200,
+      width: 200,
+      x: 200,
+      y: 200,
+    },
+    {
+      transition: {
+        easing: cp.easingFunctions().easeOutExpo,
+        duration: 2000,
+      },
+    }
+  );
+});
 ```
 
 There is also `getZoom()` , `getMaxZoom()`, `getMinZoom()`, on the web component
