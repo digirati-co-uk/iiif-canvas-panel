@@ -293,30 +293,11 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   function calculateZoomInformation(rt: Runtime) {
     const lastGoodScale = rt._lastGoodScale;
     const minZoom = getMinZoom();
-    let canZoomOut = lastGoodScale > minZoom || lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
-    // for very small canvases, this should allow us to always zoom out to home
-    if (
-      rt.maxScaleFactor - minZoom < lastGoodScale &&
-      // compare the current target to the target for the next level out, if there's little difference
-      // then you're zoomed out, this could benefit from more thought / consideration as we move forward
-      // to figure out if there's a more elegant way to identify that next zoom out logic
-      Math.abs(rt.target[4] - rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]) > 0.2
-    ) {
-      canZoomOut = true;
-    }
+    // rt.target[4] represents the longest side of the image in the space of the world...
+    // rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4] represents the longest side of the image if we were to zoom out one button press
+    // if they're the same then you can't zoom out
+    const canZoomOut = Math.round(rt.target[4]) < Math.round(rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]);
     const canZoomIn = lastGoodScale * ZOOM_IN_FACTOR < 1;
-    console.log({
-      canZoomIn,
-      canZoomOut,
-      lastGoodScale,
-      minZoom,
-      next: lastGoodScale * ZOOM_OUT_FACTOR,
-      worldHeight: rt.world.height,
-      worldWidth: rt.world.width,
-      target: rt.target[4],
-      targetZoomed: rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4],
-      test: Math.abs(rt.target[4] - rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]),
-    });
 
     const detail = {
       canZoomIn,
