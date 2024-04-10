@@ -1,5 +1,4 @@
-//import '@digirati/canvas-panel-web-components';
-import "../../canvas-panel"
+import '@digirati/canvas-panel-web-components';
 import { addParameters } from '@storybook/client-api';
 
 addParameters({
