@@ -68,6 +68,43 @@ export const CanvasWithSmallZoom = () => {
   </>
 }
 
+export const CanvasWithLandscapeZoom = () => {
+
+  const [canZoomIn, setCanZoomIn] = useState(false);
+  const [canZoomOut, setCanZoomOut] = useState(false);
+  let panel;
+  useEffect(() => {
+    panel = document.querySelector(selector);
+    
+    panel.addEventListener("world-ready", (e) => {
+      // set the initial state based on the image that's loaded into the canvas
+      const detail = (e as any).detail;
+      setCanZoomIn(detail.canZoomIn);
+      setCanZoomOut(detail.canZoomOut);
+    })
+
+
+    panel.addEventListener("zoom", (e) => {
+      const detail = (e as any).detail;
+      setCanZoomIn(detail.canZoomIn);
+      setCanZoomOut(detail.canZoomOut);
+    });
+    allEvents.forEach(type => {
+      panel.addEventListener(type, (e) => { action(type)(e) });
+    })
+
+  }, [document.querySelector(selector) !== undefined]);
+
+
+  return <>
+    <button disabled={!canZoomIn} onClick={() => (document?.querySelector(selector) as any).zoomIn()}>Zoom In</button> 
+    <button disabled={!canZoomOut} onClick={() => (document?.querySelector(selector) as any).zoomOut()}>Zoom Out</button>
+    {/* @ts-ignore */}
+    <canvas-panel manifest-id='https://media.getty.edu/iiif/manifest/6a744965-6345-41cf-8885-69dd07e25008' canvas-id='https://media.getty.edu/iiif/manifest/78697a2b-31b0-47d9-b1b6-32d7fd67d12c' />
+  </>
+}
+
+
 export const CanvasWithSkipSizes = () => {
 
 
@@ -123,6 +160,39 @@ export const CanvasWithSkipSizes = () => {
   </>
 
 }
+
+const contentStateNarrowViewport = "JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYud2VsbGNvbWVjb2xsZWN0aW9uLm9yZyUyRnByZXNlbnRhdGlvbiUyRmIxODAzNTcyMyUyRmNhbnZhc2VzJTJGYjE4MDM1NzIzXzAwMDEuSlAyJTIzeHl3aCUzRC0xNTI3LjE4Njg4OTY0ODQzNzUlMkM2MTQuODI0NDYyODkwNjI1JTJDNTE2Ni4wOTA0NTQxMDE1NjI1JTJDMjIzNC4wMzgzMzAwNzgxMjUlMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYud2VsbGNvbWVjb2xsZWN0aW9uLm9yZyUyRnByZXNlbnRhdGlvbiUyRmIxODAzNTcyMyUyMiUyQyUyMnR5cGUlMjIlM0ElMjJNYW5pZmVzdCUyMiU3RCU1RCU3RA";
+const contentStateWideViewport = "JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYud2VsbGNvbWVjb2xsZWN0aW9uLm9yZyUyRnByZXNlbnRhdGlvbiUyRmIxODAzNTcyMyUyRmNhbnZhc2VzJTJGYjE4MDM1NzIzXzAwMDEuSlAyJTIzeHl3aCUzRC04MTQ5JTJDMCUyQzE4ODY3JTJDMzU0MyUyMiUyQyUyMnR5cGUlMjIlM0ElMjJDYW52YXMlMjIlMkMlMjJwYXJ0T2YlMjIlM0ElNUIlN0IlMjJpZCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGaWlpZi53ZWxsY29tZWNvbGxlY3Rpb24ub3JnJTJGcHJlc2VudGF0aW9uJTJGYjE4MDM1NzIzJTIyJTJDJTIydHlwZSUyMiUzQSUyMk1hbmlmZXN0JTIyJTdEJTVEJTdE"
+
+export const CanvasWithMultipleContentStates = () => {
+
+
+  const manifestUrl = welcome;
+
+  let panel;
+  let count = 0;
+  useEffect(() => {
+    panel = document.querySelector(selector);
+    panel.addEventListener("world-ready", (e) => {
+    })
+
+
+    allEvents.forEach(type => {
+      panel.addEventListener(type, (e) => { action(type)(e) });
+    })
+
+  }, [document.querySelector(selector) !== undefined]);
+  {/* @ts-ignore */ }
+
+  return <>
+    <button onClick={()=> panel.setContentStateFromText(contentStateNarrowViewport)} >Narrow</button>
+    <button onClick={()=> panel.setContentStateFromText(contentStateWideViewport)} >Wide</button>
+    {/* @ts-ignore */}
+    <canvas-panel manifest-id={welcome} canvas-id={ canvases[0]} skip-sizes='true' />
+  </>
+
+}
+
 
 
 export const CanvasWithContentState = () => {

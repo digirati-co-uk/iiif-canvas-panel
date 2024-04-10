@@ -234,6 +234,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
             contentState.target[0].selector &&
             contentState.target[0].selector.type === 'BoxSelector'
           ) {
+            console.log('apply selector!', contentState.target[0].selector.spatial);
             runtime.current.world.gotoRegion(contentState.target[0].selector.spatial);
           }
         } else {
@@ -269,13 +270,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           }
           if (firstTarget.selector && runtime.current && webComponent.current) {
             if (firstTarget.selector.type === 'BoxSelector') {
-              const { x, y, width, height } = firstTarget.selector.spatial;
-              runtime.current.world.gotoRegion({
-                x,
-                y,
-                width,
-                height,
-              });
+              runtime.current.world.gotoRegion(firstTarget.selector.spatial);
             } else {
               setParsedTarget(firstTarget);
             }

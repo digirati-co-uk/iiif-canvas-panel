@@ -172,7 +172,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       seenChoices.current = {};
     });
 
-    const onChoiceChange = (payload: { choice?: ChoiceDescription, partOf?: any }) => {
+    const onChoiceChange = (payload: { choice?: ChoiceDescription; partOf?: any }) => {
       const choice = payload.choice;
       // sort the choices by ID in order to help with de-duping
       if (webComponent?.current && choice && choice.items) {
@@ -294,7 +294,6 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     const lastGoodScale = rt._lastGoodScale;
     const minZoom = getMinZoom();
     let canZoomOut = lastGoodScale > minZoom || lastGoodScale * ZOOM_OUT_FACTOR > minZoom;
-
     // for very small canvases, this should allow us to always zoom out to home
     if (
       rt.maxScaleFactor - minZoom < lastGoodScale &&
@@ -306,6 +305,19 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       canZoomOut = true;
     }
     const canZoomIn = lastGoodScale * ZOOM_IN_FACTOR < 1;
+    console.log({
+      canZoomIn,
+      canZoomOut,
+      lastGoodScale,
+      minZoom,
+      next: lastGoodScale * ZOOM_OUT_FACTOR,
+      worldHeight: rt.world.height,
+      worldWidth: rt.world.width,
+      target: rt.target[4],
+      targetZoomed: rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4],
+      test: Math.abs(rt.target[4] - rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]),
+    });
+
     const detail = {
       canZoomIn,
       canZoomOut,
