@@ -293,14 +293,29 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   function calculateZoomInformation(rt: Runtime) {
     const lastGoodScale = rt._lastGoodScale;
     const minZoom = getMinZoom();
-    // rt.target[3] represents the max X
-    // rt.target[4] represents the max Y
     // rt.getZoomedPosition(ZOOM_IN_FACTOR, {}) represents image if we were to zoom out one button press
-    // if they're the same then you can't zoom out
-    const canZoomOut =
-      Math.round(rt.target[4]) < Math.round(rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]) &&
-      Math.round(rt.target[3]) < Math.round(rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[3]);
-    const canZoomIn = lastGoodScale * ZOOM_IN_FACTOR < 1;
+    const nextZoomOut_ = rt.getZoomedPosition(ZOOM_IN_FACTOR, {});
+    const nextZoomIn_ = rt.getZoomedPosition(ZOOM_OUT_FACTOR, {});
+    const nextZoomIn = {
+      width: Math.round(nextZoomIn_[3]),
+      height: Math.round(nextZoomIn_[4]),
+    };
+    const nextZooOut = {
+      width: Math.round(nextZoomOut_[3]),
+      height: Math.round(nextZoomOut_[4]),
+    };
+    const current = {
+      width: Math.round(rt.target[3]),
+      height: Math.round(rt.target[4]),
+    };
+    const WIGGLE = 2; // there are a couple corner cases (see Gines) http://localhost:6006/?path=/story/canvas-panel--canvas-with-skip-sizes where the
+    // zoom out can be 'very' close and effectively the full zoom
+
+    // if current + a tiny bit is > the next zoom, then don't allow zooming out
+    const canZoomOut = current.height + WIGGLE < nextZooOut.height && current.width + WIGGLE < nextZooOut.width;
+
+    // if the current < the next zoom then don't allow zooming in
+    const canZoomIn = current.height > nextZoomIn.height && current.width > nextZoomIn.width;
 
     const detail = {
       canZoomIn,
