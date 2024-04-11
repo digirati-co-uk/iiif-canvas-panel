@@ -293,10 +293,13 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   function calculateZoomInformation(rt: Runtime) {
     const lastGoodScale = rt._lastGoodScale;
     const minZoom = getMinZoom();
-    // rt.target[4] represents the longest side of the image in the space of the world...
-    // rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4] represents the longest side of the image if we were to zoom out one button press
+    // rt.target[3] represents the max X
+    // rt.target[4] represents the max Y
+    // rt.getZoomedPosition(ZOOM_IN_FACTOR, {}) represents image if we were to zoom out one button press
     // if they're the same then you can't zoom out
-    const canZoomOut = Math.round(rt.target[4]) < Math.round(rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]);
+    const canZoomOut =
+      Math.round(rt.target[4]) < Math.round(rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[4]) &&
+      Math.round(rt.target[3]) < Math.round(rt.getZoomedPosition(ZOOM_IN_FACTOR, {})[3]);
     const canZoomIn = lastGoodScale * ZOOM_IN_FACTOR < 1;
 
     const detail = {
