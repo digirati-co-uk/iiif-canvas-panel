@@ -173,6 +173,9 @@ export const AnnotationListeners = () => {
       displayAnnotation = viewer.current.createAnnotationDisplay(displayAnnotation)
       displayAnnotation.className = 'display-annotation'
       displayAnnotation.title = `anno-${a.body[0].id}`
+      displayAnnotation.applyStyle({
+        outline: "2px solid cyan"
+      });
       displayAnnotation.addEventListener('onClick', handleChoiceClick)
       viewer.current.annotations.add(displayAnnotation)
     }
@@ -182,7 +185,7 @@ export const AnnotationListeners = () => {
     viewer.current.addEventListener('world-ready', handleWorldReady);
   }, [document.querySelector(selector) !== undefined]);
 
-  return <>
+return <>
      {/* @ts-ignore */ }
       <sequence-panel ref={viewer} manifest-id={bayard} start-canvas={baseUrl + startCanvas} />
     </>
