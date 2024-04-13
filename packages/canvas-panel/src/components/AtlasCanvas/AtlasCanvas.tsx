@@ -274,6 +274,7 @@ export function AtlasCanvas({
                 key={image.id}
                 image={image}
                 id={image.id}
+                annotationId={image.annotationId}
                 thumbnail={idx === 0 && !disableThumbnail ? (thumbnail as any) : undefined}
                 virtualSizes={virtualSizes}
                 annotations={annotations}
