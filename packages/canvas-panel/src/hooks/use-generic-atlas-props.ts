@@ -650,7 +650,11 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       ): ((e: any, resource: T) => void) | undefined {
         return events.addEventListener(resource, event, listener, scope);
       },
-      removeEventListener<T>(resource: Reference<any>, event: string, listener: (e: any, resource: T) => void): void {
+      removeVaultEventListener<T>(
+        resource: Reference<any>,
+        event: string,
+        listener: (e: any, resource: T) => void
+      ): void {
         events.removeEventListener(resource, event, listener);
       },
       getListenersAsProps(resourceOrId: string | Reference<any>, scope?: string[]): any {
