@@ -152,42 +152,119 @@ export const MakingChoice = () => {
       </div>
     </>
 }
+export const AnnotationListenersWithHook = () => {
+  const viewer = useRef<any>();
+  const baseUrl = "https://data.getty.edu/media/manifest/bayard-custom/";
+  const startCanvas = "canvas/11";
+  const annotations = [
+    "annotation/choice/c5b5b117-a94f-4105-8f38-4b2a6546bdd8",
+    "annotation/choice/d2fcc68f-d0fb-47b8-8187-bbd9e7c2c693",
+  ];
+
+  useLayoutEffect(() => {
+    return viewer.current.addVaultEventListener(
+      {
+        id: "https://data.getty.edu/media/manifest/bayard-custom/annotation/choice/c5b5b117-a94f-4105-8f38-4b2a6546bdd8",
+        type: "Annotation",
+      },
+      "onClick",
+      (e) => {
+        console.log("Clicked first annotation");
+      }
+    );
+  }, []);
+
+  useLayoutEffect(() => {
+    return viewer.current.addVaultEventListener(
+      {
+        id: "https://data.getty.edu/media/manifest/bayard-custom/annotation/choice/d2fcc68f-d0fb-47b8-8187-bbd9e7c2c693",
+        type: "Annotation",
+      },
+      "onClick",
+      (e) => {
+        console.log("Clicked second annotation");
+      }
+    );
+  }, []);
+
+  return (
+    <>
+      {/* @ts-ignore */}
+      <sequence-panel
+        ref={viewer}
+        manifest-id={bayard}
+        start-canvas={baseUrl + startCanvas}
+      />
+    </>
+  );
+};
 
 export const AnnotationListeners = () => {
-  const viewer = useRef()
-  const baseUrl = "https://data.getty.edu/media/manifest/bayard-custom/"
-  const startCanvas = "canvas/11"
-  const annotations = ["annotation/choice/c5b5b117-a94f-4105-8f38-4b2a6546bdd8", "annotation/choice/d2fcc68f-d0fb-47b8-8187-bbd9e7c2c693"]
+  const viewer = useRef<any>();
+  const baseUrl = "https://data.getty.edu/media/manifest/bayard-custom/";
+  const startCanvas = "canvas/11";
+  const annotations = [
+    "annotation/choice/c5b5b117-a94f-4105-8f38-4b2a6546bdd8",
+    "annotation/choice/d2fcc68f-d0fb-47b8-8187-bbd9e7c2c693",
+  ];
 
   const handleChoiceClick = (anno, target) => {
-    console.log(anno, target)
-  }
+    console.log(anno, target);
+  };
   const handleWorldReady = async (e) => {
-    let choiceAnnotations = annotations.map( annotation => viewer.current.vault.get(baseUrl + annotation))
+    const v = viewer.current;
+    if (!v) return;
+
+    let choiceAnnotations = annotations.map((annotation) =>
+      v.vault.get(baseUrl + annotation)
+    );
+    const colors = [
+      "red",
+      "blue",
+      "green",
+      "yellow",
+      "purple",
+      "orange",
+      "pink",
+      "brown",
+      "black",
+      "white",
+    ];
+    let x = 0;
     for (let a of choiceAnnotations) {
-      let displayAnnotation = {
+      let displayAnnotation: any = {
         type: "Annotation",
         motivation: ["tagging"],
         target: a.target,
-      }
-      displayAnnotation = await viewer.current.vault.load(`anno-${a.body[0].id}`, displayAnnotation)
-      displayAnnotation = viewer.current.createAnnotationDisplay(displayAnnotation)
-      displayAnnotation.className = 'display-annotation'
-      displayAnnotation.title = `anno-${a.body[0].id}`
+      };
+      displayAnnotation = await v.vault.load(
+        `anno-${a.body[0].id}`,
+        displayAnnotation
+      );
+      displayAnnotation = v.createAnnotationDisplay(displayAnnotation);
+      displayAnnotation.className = "display-annotation";
+      displayAnnotation.title = `anno-${a.body[0].id}`;
       displayAnnotation.applyStyle({
-        outline: "2px solid cyan"
+        outline: "2px solid " + colors[x],
       });
-      displayAnnotation.addEventListener('onClick', handleChoiceClick)
-      viewer.current.annotations.add(displayAnnotation)
+      displayAnnotation.addEventListener("onClick", handleChoiceClick);
+      v.annotations.add(displayAnnotation);
+      x++;
     }
-  }
+  };
 
   useEffect(() => {
-    viewer.current.addEventListener('world-ready', handleWorldReady);
+    viewer.current.addEventListener("world-ready", handleWorldReady);
   }, [document.querySelector(selector) !== undefined]);
 
-return <>
-     {/* @ts-ignore */ }
-      <sequence-panel ref={viewer} manifest-id={bayard} start-canvas={baseUrl + startCanvas} />
+  return (
+    <>
+      {/* @ts-ignore */}
+      <sequence-panel
+        ref={viewer}
+        manifest-id={bayard}
+        start-canvas={baseUrl + startCanvas}
+      />
     </>
-}
+  );
+};
