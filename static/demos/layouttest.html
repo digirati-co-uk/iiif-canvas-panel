@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Layout test</title>
 
-    <script src="https://pkg.csb.dev/digirati-co-uk/iiif-canvas-panel/commit/b239c900/@digirati/canvas-panel-web-components/dist/bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest/dist/bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
-</head>
-<body>
-    
+  </head>
+  <body>
     <layout-container width="800" preset="zoom">
-        <image-service nested="true" src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0"></image-service> 
-        <image-service nested="true" src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411"></image-service>
+      <image-service
+        nested="true"
+        src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2"
+        x="0"
+      ></image-service>
+      <image-service
+        nested="true"
+        src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2"
+        x="2411"
+      ></image-service>
     </layout-container>
-    
-
-</body>
+  </body>
 </html>
