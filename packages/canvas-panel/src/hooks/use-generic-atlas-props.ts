@@ -653,6 +653,24 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       getThumbnail(input: any, request: ImageCandidateRequest, dereference?: boolean) {
         return thumbs.getBestThumbnailAtSize(input, request, dereference);
       },
+      addVaultEventListener<T>(
+        resource: Reference<any>,
+        event: string,
+        listener: (e: any, resource: T) => void,
+        scope?: string[]
+      ): ((e: any, resource: T) => void) | undefined {
+        return events.addEventListener(resource, event, listener, scope);
+      },
+      removeVaultEventListener<T>(
+        resource: Reference<any>,
+        event: string,
+        listener: (e: any, resource: T) => void
+      ): void {
+        events.removeEventListener(resource, event, listener);
+      },
+      getListenersAsProps(resourceOrId: string | Reference<any>, scope?: string[]): any {
+        return events.getListenersAsProps(resourceOrId, scope);
+      },
     };
   });
 

@@ -15,13 +15,24 @@ export const TileSet: FC<{
   tileFormat?: string;
   skipSizes?: boolean;
   skipThumbnail?: boolean;
-}> = (props) => {
-  const scale = props.width / props.tiles.width;
-  const tiles = props.tiles.imageService.tiles || [];
-  const sizes = props.tiles.imageService.sizes || [];
-  const skipSizes = props.skipSizes || false;
-  const skipThumbnail = props.skipThumbnail || false;
-  const imageServiceId = props.tiles.imageService.id || (props.tiles.imageService['@id'] as string);
+}> = ({
+  height,
+  tiles,
+  width,
+  x,
+  y,
+  style,
+  skipSizes = false,
+  skipThumbnail = false,
+  viewport,
+  tileFormat,
+  children,
+  ...props
+}) => {
+  const scale = width / tiles.width;
+  const serviceTiles = tiles.imageService.tiles || [];
+  const sizes = tiles.imageService.sizes || [];
+  const imageServiceId = tiles.imageService.id || (tiles.imageService['@id'] as string);
   const canonicalId = useMemo(() => {
     const id = imageServiceId;
     if (id && id.endsWith('/info.json')) {
@@ -30,29 +41,30 @@ export const TileSet: FC<{
     return id;
   }, [imageServiceId]);
 
-  const hasOpacity = props.style && typeof props.style.opacity !== 'undefined' && props.style.opacity !== 1;
+  const hasOpacity = style && typeof style.opacity !== 'undefined' && style.opacity !== 1;
 
   return (
     <WorldObject
       key={canonicalId}
       scale={scale}
-      height={props.tiles.height}
-      width={props.tiles.width}
-      x={props.x}
-      y={props.y}
+      height={tiles.height}
+      width={tiles.width}
+      x={x}
+      y={y}
+      {...(props as any)}
     >
       <CompositeResource
         key={'composite-' + canonicalId}
         id={canonicalId}
-        width={props.tiles.width}
-        height={props.tiles.height}
+        width={tiles.width}
+        height={tiles.height}
         renderOptions={
           hasOpacity
             ? {
                 renderLayers: 1,
                 renderSmallestFallback: false,
               }
-            : props.viewport
+            : viewport
             ? {
                 renderLayers: 1,
                 renderSmallestFallback: true,
@@ -63,13 +75,13 @@ export const TileSet: FC<{
               }
         }
       >
-        {props.children}
-        {props.tiles.thumbnail && !hasOpacity && !skipThumbnail ? (
+        {children}
+        {tiles.thumbnail && !hasOpacity && !skipThumbnail ? (
           <SingleImage
-            uri={props.tiles.thumbnail.id}
-            target={{ width: props.tiles.width, height: props.tiles.height }}
-            display={{ width: props.tiles.thumbnail.width, height: props.tiles.thumbnail.height }}
-            style={props.style}
+            uri={tiles.thumbnail.id}
+            target={{ width: tiles.width, height: tiles.height }}
+            display={{ width: tiles.thumbnail.width, height: tiles.thumbnail.height }}
+            style={style}
           />
         ) : null}
         {skipSizes
@@ -93,25 +105,25 @@ export const TileSet: FC<{
                       format: 'jpg',
                       quality: 'default',
                     },
-                    props.tiles.imageService
+                    tiles.imageService
                   )}
-                  target={{ width: props.tiles.width, height: props.tiles.height }}
+                  target={{ width: tiles.width, height: tiles.height }}
                   display={{ width: size.width, height: size.height }}
-                  style={props.style}
+                  style={style}
                 />
               );
             })}
-        {tiles.map((tile: any) =>
+        {serviceTiles.map((tile: any) =>
           (tile.scaleFactors || []).map((size: number) => {
             return (
               <TiledImage
                 key={`${tile}-${size}`}
                 uri={canonicalId}
-                display={{ width: props.tiles.width, height: props.tiles.height }}
+                display={{ width: tiles.width, height: tiles.height }}
                 tile={tile}
                 scaleFactor={size}
-                style={props.style}
-                format={props.tileFormat}
+                style={style}
+                format={tileFormat}
               />
             );
           })

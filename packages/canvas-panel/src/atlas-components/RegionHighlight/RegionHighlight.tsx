@@ -2,7 +2,7 @@ import React, { useCallback } from 'preact/compat';
 import { ResizeWorldItem } from '../ResizeWorldItem';
 import { BoxStyle, useMode } from '@atlas-viewer/atlas';
 import { h } from 'preact';
-import { Box } from '..';
+import { Box, WorldObject } from '..';
 
 type RegionHighlightType = {
   id: any;
@@ -45,20 +45,21 @@ export const RegionHighlight: React.FC<{
       height={region.height}
       resizable={isEditing}
       onSave={saveCallback}
+      onClick={
+        mode === 'explore' && onClick
+          ? (e: any) => {
+              // e.preventDefault();
+              // e.stopPropagation();
+              onClick(region);
+            }
+          : () => void 0
+      }
     >
       <Box
+        html
         className={className}
-        interactive={interactive}
+        interactive={true}
         relativeStyle
-        onClick={
-          mode === 'explore' && onClick
-            ? (e: any) => {
-                // e.preventDefault();
-                // e.stopPropagation();
-                onClick(region);
-              }
-            : () => void 0
-        }
         target={{ x: 0, y: 0, width: region.width, height: region.height }}
         style={style}
         {...(props as any)}

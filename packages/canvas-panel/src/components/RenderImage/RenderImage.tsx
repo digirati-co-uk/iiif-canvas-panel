@@ -1,11 +1,12 @@
 import { SingleImage, TileSet } from '../../atlas-components';
 import React from 'preact/compat';
 import { h } from 'preact';
-import { ImageWithOptionalService, useStyles } from 'react-iiif-vault';
+import { ImageWithOptionalService, useResourceEvents, useStyles } from 'react-iiif-vault';
 import { ImageCandidate } from '@atlas-viewer/iiif-image-api';
 import { SizeParameter } from '../../helpers/size-parameter';
 import { getImageUrl } from '../../helpers/get-image-url';
 import { Fragment } from 'preact/compat';
+import { useMemo } from 'preact/compat';
 
 export function RenderImage({
   id,
@@ -18,6 +19,7 @@ export function RenderImage({
   annotations,
   tileFormat,
   skipSizes,
+  annotationId,
   skipThumbnail,
 }: {
   id: string;
@@ -30,10 +32,15 @@ export function RenderImage({
   annotations?: JSX.Element;
   tileFormat?: string;
   skipSizes?: boolean;
+  annotationId?: string;
   skipThumbnail?: boolean;
 }) {
   // For image resources, we may not support everything.. but we do support opacity.
-  const style = useStyles({ id, type: 'ContentResource' }, 'atlas');
+  const annotationStyles = useStyles(annotationId ? { id: annotationId, type: 'Annotation' } : undefined, 'atlas');
+  const resourceStyle = useStyles({ id, type: 'ContentResource' }, 'atlas');
+  const style = useMemo(() => ({ ...annotationStyles, ...resourceStyle }), [annotationStyles, resourceStyle]);
+  const events = useResourceEvents(annotationId ? { id: annotationId, type: 'Annotation' } : undefined, ['atlas']);
+  const resourceEvents = useResourceEvents({ id, type: 'ContentResource' }, ['atlas']);
 
   return (
     <React.Fragment>
@@ -51,6 +58,8 @@ export function RenderImage({
                   }
                 : undefined
             }
+            {...events}
+            {...resourceEvents}
           />
           {annotations}
         </Fragment>
@@ -73,6 +82,8 @@ export function RenderImage({
             height={image.target?.spatial.height}
             style={style}
             tileFormat={tileFormat}
+            {...events}
+            {...resourceEvents}
           >
             {image.service &&
               virtualSizes.map((size) => {

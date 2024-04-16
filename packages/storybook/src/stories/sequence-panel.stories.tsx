@@ -24,7 +24,7 @@ export const SequencePanel = () => {
   let panel;
   useEffect(() => {
     panel = document.querySelector(selector);
-    panel.addEventListener("ready", (e) => { 
+    panel.addEventListener("ready", (e) => {
       action(e.type)((e as any).detail);
       setCanvses((panel as any).vault.get(manifestUrl).items.map(item => item.id));
     });
@@ -51,7 +51,7 @@ export const SequencePanel = () => {
   return <>
     <button onClick={() => (document.querySelector(selector) as any).sequence.previousCanvas()}>Prev</button>
     <button onClick={() => (document.querySelector(selector) as any).sequence.nextCanvas()}>Next</button>
-    <button disabled={!canZoomIn} onClick={() => (document?.querySelector(selector) as any).zoomIn()}>Zoom In</button> 
+    <button disabled={!canZoomIn} onClick={() => (document?.querySelector(selector) as any).zoomIn()}>Zoom In</button>
     <button disabled={!canZoomOut} onClick={() => (document?.querySelector(selector) as any).zoomOut()}>Zoom Out</button>
 
     {/* @ts-ignore */ }
@@ -90,7 +90,7 @@ export const MakingChoice = () => {
       currentSequenceIndex = viewer.current.sequence.currentSequenceIndex;
       clearChoiceState();
     } else {
-      choices.forEach(opt => { 
+      choices.forEach(opt => {
         newChoices.add(opt);
       });
 
@@ -122,7 +122,7 @@ export const MakingChoice = () => {
   };
 
 
-  useEffect(() => { 
+  useEffect(() => {
     viewer.current.addEventListener('choice', handleChoice)
     viewer.current.addEventListener('sequence-change', handleSequenceChange);
     return () => viewer.current.removeEventListener('choice', handleChoice)
@@ -138,7 +138,7 @@ export const MakingChoice = () => {
     <button onClick={() => viewer.current.sequence.setCurrentCanvasIndex(28)}>Go to: Canvas Index 28</button>
     <button onClick={() => viewer.current.sequence.previousCanvas()}>Prev</button>
     <button onClick={() => viewer.current.sequence.nextCanvas()}>Next</button>
-      
+
     <label htmlFor="choices">Choices: </label>
         {choices.map(item => (
           <label>
@@ -146,9 +146,125 @@ export const MakingChoice = () => {
           { item.label} ({String(item.selected)})</label>
         )
         )}
-    
+
      {/* @ts-ignore */ }
       <sequence-panel ref={viewer} manifest-id={bayard} />
       </div>
     </>
 }
+export const AnnotationListenersWithHook = () => {
+  const viewer = useRef<any>();
+  const baseUrl = "https://data.getty.edu/media/manifest/bayard-custom/";
+  const startCanvas = "canvas/11";
+  const annotations = [
+    "annotation/choice/c5b5b117-a94f-4105-8f38-4b2a6546bdd8",
+    "annotation/choice/d2fcc68f-d0fb-47b8-8187-bbd9e7c2c693",
+  ];
+
+  useLayoutEffect(() => {
+    return viewer.current.addVaultEventListener(
+      {
+        id: "https://data.getty.edu/media/manifest/bayard-custom/annotation/choice/c5b5b117-a94f-4105-8f38-4b2a6546bdd8",
+        type: "Annotation",
+      },
+      "onClick",
+      (e) => {
+        console.log("Clicked first annotation");
+      }
+    );
+  }, []);
+
+  useLayoutEffect(() => {
+    return viewer.current.addVaultEventListener(
+      {
+        id: "https://data.getty.edu/media/manifest/bayard-custom/annotation/choice/d2fcc68f-d0fb-47b8-8187-bbd9e7c2c693",
+        type: "Annotation",
+      },
+      "onClick",
+      (e) => {
+        console.log("Clicked second annotation");
+      }
+    );
+  }, []);
+
+  return (
+    <>
+      {/* @ts-ignore */}
+      <sequence-panel
+        ref={viewer}
+        manifest-id={bayard}
+        start-canvas={baseUrl + startCanvas}
+      />
+    </>
+  );
+};
+
+export const AnnotationListeners = () => {
+  const viewer = useRef<any>();
+  const baseUrl = "https://data.getty.edu/media/manifest/bayard-custom/";
+  const startCanvas = "canvas/11";
+  const annotations = [
+    "annotation/choice/c5b5b117-a94f-4105-8f38-4b2a6546bdd8",
+    "annotation/choice/d2fcc68f-d0fb-47b8-8187-bbd9e7c2c693",
+  ];
+
+  const handleChoiceClick = (anno, target) => {
+    console.log(anno, target);
+  };
+  const handleWorldReady = async (e) => {
+    const v = viewer.current;
+    if (!v) return;
+
+    let choiceAnnotations = annotations.map((annotation) =>
+      v.vault.get(baseUrl + annotation)
+    );
+    const colors = [
+      "red",
+      "blue",
+      "green",
+      "yellow",
+      "purple",
+      "orange",
+      "pink",
+      "brown",
+      "black",
+      "white",
+    ];
+    let x = 0;
+    for (let a of choiceAnnotations) {
+      let displayAnnotation: any = {
+        type: "Annotation",
+        motivation: ["tagging"],
+        target: a.target,
+      };
+      displayAnnotation = await v.vault.load(
+        `anno-${a.body[0].id}`,
+        displayAnnotation
+      );
+      displayAnnotation = v.createAnnotationDisplay(displayAnnotation);
+      displayAnnotation.className = "display-annotation";
+      displayAnnotation.title = `anno-${a.body[0].id}`;
+      displayAnnotation.applyStyle({
+        outline: "2px solid " + colors[x],
+      });
+      displayAnnotation.addEventListener("onClick", handleChoiceClick);
+      v.annotations.add(displayAnnotation);
+      x++;
+    }
+  };
+
+  useEffect(() => {
+    viewer.current.addEventListener("world-ready", handleWorldReady);
+  }, [document.querySelector(selector) !== undefined]);
+
+  return (
+    <>
+      {/* @ts-ignore */}
+      <sequence-panel
+        ref={viewer}
+        manifest-id={bayard}
+        start-canvas={baseUrl + startCanvas}
+      />
+    </>
+  );
+};
