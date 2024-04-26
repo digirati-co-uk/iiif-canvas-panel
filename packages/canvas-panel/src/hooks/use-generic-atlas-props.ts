@@ -58,6 +58,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   const [width] = useSyncedState(props.width || internalConfig.width, {
     parse: parseNumber,
   });
+  const [a11yRole] = useSyncedState(props.a11yRole || undefined);
+  const [a11yTitle] = useSyncedState(props.a11yTitle || undefined);
   const [interactive] = useSyncedState(props.interactive || internalConfig.interactive, {
     parse: parseBool,
     defaultValue: true,
@@ -797,9 +799,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             ],
       width: width ? width : undefined,
       height: height ? height : responsive ? undefined : 512,
+      role: a11yRole,
+      title: a11yTitle,
     } as AtlasProps & { nested?: boolean };
   }, [responsive, viewport, target, render, enableNavigator, internalConfig]);
-
   return {
     atlasProps,
     isReady,

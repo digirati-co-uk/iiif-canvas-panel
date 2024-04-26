@@ -30,6 +30,8 @@ export type CanvasPanelProps = GenericAtlasComponent<
     textEnabled?: 'true' | 'false' | boolean;
     followAnnotations?: boolean;
     iiifContent?: string;
+    a11yRole?: string;
+    a11yTitle?: string;
   },
   UseRegisterPublicApi['properties']
 >;
