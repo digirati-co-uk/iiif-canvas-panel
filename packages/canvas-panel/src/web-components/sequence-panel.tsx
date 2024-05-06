@@ -25,8 +25,6 @@ export type SequencePanelProps = GenericAtlasComponent<{
   followAnnotations?: 'true' | 'false' | boolean;
   skipSizes?: 'true' | 'false' | boolean;
   margin?: number;
-  a11yRole?: string;
-  a11yTitle?: string;
 }>;
 
 const sequencePanelAttributes = [
