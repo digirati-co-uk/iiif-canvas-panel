@@ -17,4 +17,6 @@ export const baseAttributes = [
   'class',
   'move-events',
   'granular-move-events',
+  'a11y-title',
+  'a11y-role',
 ];

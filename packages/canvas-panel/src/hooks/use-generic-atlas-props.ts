@@ -802,7 +802,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       role: a11yRole,
       title: a11yTitle,
     } as AtlasProps & { nested?: boolean };
-  }, [responsive, viewport, target, render, enableNavigator, internalConfig]);
+  }, [responsive, viewport, target, render, enableNavigator, internalConfig, a11yRole, a11yTitle]);
   return {
     atlasProps,
     isReady,
