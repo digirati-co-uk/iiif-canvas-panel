@@ -1,6 +1,6 @@
 {
   "name": "@digirati/canvas-panel-web-components",
-  "version": "1.0.64",
+  "version": "1.0.65",
   "typings": "./dist/types/index.d.ts",
   "main": "./dist/bundle.js",
   "files": [
