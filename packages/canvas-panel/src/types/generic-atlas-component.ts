@@ -28,6 +28,8 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   media?: Record<string, Partial<GenericAtlasComponent<T>>>;
   height?: number | string;
   width?: number | string;
+  a11yRole?: string;
+  a11yTitle?: string;
   class?: string;
   x?: number | string;
   y?: number | string;
