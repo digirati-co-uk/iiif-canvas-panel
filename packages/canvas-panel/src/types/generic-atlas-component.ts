@@ -33,5 +33,9 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   y?: number | string;
   nested?: boolean | string;
   enableNavigator?: boolean;
+  enablePanOnWait?: boolean;
+  ignoreSingleFingerTouch?: boolean;
+  requireMetaKeyForWheelZoom?: boolean;
+  panOnWaitDelay?: number;
   __registerPublicApi?: (api: (host: HTMLElement) => Partial<Props>) => void;
 };

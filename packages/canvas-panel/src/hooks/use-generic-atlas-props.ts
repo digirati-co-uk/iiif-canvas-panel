@@ -90,6 +90,31 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     }
   );
   const [debug] = useSyncedState(props.debug || internalConfig.debug, { parse: parseBool });
+  const [enablePanOnWait] = useSyncedState(props.enablePanOnWait || internalConfig.enablePanOnWait, {
+    parse: parseBool,
+    defaultValue: undefined,
+  });
+  const [ignoreSingleFingerTouch] = useSyncedState(
+    props.ignoreSingleFingerTouch || internalConfig.ignoreSingleFingerTouch,
+    {
+      parse: parseBool,
+      defaultValue: undefined,
+    }
+  );
+
+  const [requireMetaKeyForWheelZoom] = useSyncedState(
+    props.requireMetaKeyForWheelZoom || internalConfig.requireMetaKeyForWheelZoom,
+    {
+      parse: parseBool,
+      defaultValue: false,
+    }
+  );
+
+  const [panOnWaitDelay] = useSyncedState(props.panOnWaitDelay || internalConfig.panOnWaitDelay, {
+    parse: parseNumber,
+    defaultValue: 40,
+  });
+
   const [enableNavigator] = useSyncedState(props.enableNavigator || internalConfig.enableNavigator, {
     parse: parseBool,
   });
@@ -172,7 +197,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       seenChoices.current = {};
     });
 
-    const onChoiceChange = (payload: { choice?: ChoiceDescription, partOf?: any }) => {
+    const onChoiceChange = (payload: { choice?: ChoiceDescription; partOf?: any }) => {
       const choice = payload.choice;
       // sort the choices by ID in order to help with de-duping
       if (webComponent?.current && choice && choice.items) {
@@ -764,6 +789,12 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
               {
                 interactive,
                 unstable_webglRenderer: render === 'webgl',
+                controllerConfig: {
+                  ignoreSingleFingerTouch: ignoreSingleFingerTouch,
+                  enablePanOnWait: enablePanOnWait,
+                  requireMetaKeyForWheelZoom: requireMetaKeyForWheelZoom,
+                  panOnWaitDelay: panOnWaitDelay,
+                },
               },
             ],
       width: width ? width : undefined,

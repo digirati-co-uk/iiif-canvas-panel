@@ -32,6 +32,13 @@ export const CanvasWithNavigator = () => {
 }
 
 
+export const CanvasWithGettyTouchInteractions = () => {
+  {/* @ts-ignore */}
+  return <canvas-panel manifest-id={welcome} canvas-id={canvases[0]}  enable-single-finger-touch='true' enable-pan-on-wait='true' pan-on-wait-delate='40' require-meta-key-for-wheel-zoom='true' />;
+
+}
+
+
 export const CanvasWithSmallZoom = () => {
 
   const [canZoomIn, setCanZoomIn] = useState(false);
