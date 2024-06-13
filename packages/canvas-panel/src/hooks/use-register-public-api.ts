@@ -100,16 +100,13 @@ export type UseRegisterPublicApi = {
     annotations: {
       add(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;
       // Proposed.
-      getAll(): Array<{
-        annotation: AnnotationNormalized;
-        meta: TBC;
-      }>;
+      getAll(): Array<AnnotationNormalized>;
       get(annotationId: string): AnnotationNormalized | null;
       getSource(annotationId: string): string | Annotation | AnnotationDisplay | AnnotationNormalized | null;
       remove(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;
     };
   };
-  attributes: {
+  attributes: { 
     // All of the attributes on the <canvas-panel /> element
     render: 'zoom' | 'static' | 'responsive';
     'canvas-id': string;

@@ -12,6 +12,7 @@ export const defaultExternal = [
   'preact',
   'react-error-boundary',
   'react-iiif-vault',
+  'react-dom/client',
 ];
 
 /**
@@ -23,6 +24,7 @@ export function defineConfig(options) {
       alias: {
         react: 'preact/compat',
         'react-dom': 'preact/compat',
+        'react-dom/client': 'preact/compat',
       },
     },
     build: {

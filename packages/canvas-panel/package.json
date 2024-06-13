@@ -1,14 +1,29 @@
 {
   "name": "@digirati/canvas-panel-web-components",
   "version": "1.0.66",
-  "typings": "./dist/types/index.d.ts",
-  "main": "./dist/bundle.js",
+  "main": "dist/bundle/cjs/index.js",
+  "module": "dist/bundle/esm/index.mjs",
+  "web": "dist/bundle/index.umd.js",
+  "types": "dist/types/index.d.ts",
+  "author": "Stephen Fraser <stephen.fraser@digirati.com>",
+  "license": "MIT",
   "files": [
     "dist"
   ],
-  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/bundle/cjs/index.js"
+      },
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/bundle/esm/index.mjs"
+      }
+    }
+  },
   "scripts": {
-    "build": "node ./esbuild.mjs && yarn run build-types",
+    "build": "node ./vite/build.mjs && yarn run build-types",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "prepublishOnly": "NODE_ENV=production yarn build"
   },
@@ -33,26 +48,21 @@
     "react-iiif-vault": "^1.2.1"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.3.0",
+    "@preact/preset-vite": "^2.8.2",
     "@types/jest": "^28.1.4",
     "@types/preact-custom-element": "^4.0.1",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.13",
-    "@typescript-eslint/eslint-plugin": "^5.14.0",
-    "@typescript-eslint/parser": "^5.14.0",
-    "esbuild": "^0.14.25",
-    "eslint": "^8.10.0",
-    "eslint-plugin-json": "^3.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-unused-imports": "^2.0.0",
+    "esbuild": "^0.21.5",
     "happy-dom": "^6.0.3",
     "jest": "^28.1.2",
     "preact-render-to-string": "^5.2.0",
-    "prettier": "^2.5.1",
+    "prettier": "^3.3.2",
+    "typesafe-actions": "^5.1.0",
     "ts-jest": "^28.0.5",
-    "typescript": "^5.3.3",
-    "vite": "^2.9.5",
-    "vitest": "^0.18.0"
+    "typescript": "^5.4.5",
+    "vite": "^5.3.0",
+    "vitest": "^1.6.0"
   },
   "publishConfig": {
     "access": "public"

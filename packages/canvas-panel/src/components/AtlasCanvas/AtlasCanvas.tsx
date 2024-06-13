@@ -1,7 +1,6 @@
-import React, { FC, useEffect, useLayoutEffect, useMemo } from 'preact/compat';
+import { useEffect, useMemo } from 'preact/compat';
 import {
   useCanvas,
-  useResources,
   parseSpecificResource,
   useResourceEvents,
   useRenderingStrategy,
@@ -27,7 +26,7 @@ import { RenderVideo } from '../RenderVideo/RenderVideo';
 import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
 import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
 import { choiceEventChannel } from '../../helpers/eventbus';
-import { AnnotationPageNormalized, ContentResource } from '@iiif/presentation-3';
+import { ContentResource } from '@iiif/presentation-3';
 
 interface AtlasCanvasProps {
   x?: number;

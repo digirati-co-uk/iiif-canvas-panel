@@ -1,4 +1,4 @@
-import { ChoiceDescription } from 'react-iiif-vault';
+import { ChoiceDescription } from '@iiif/helpers';
 
 type EventKey = string | symbol;
 type EventHandler<T = any> = (payload: T) => void;

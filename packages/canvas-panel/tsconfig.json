@@ -12,14 +12,12 @@
     "importHelpers": true,
     "skipLibCheck": true,
     "noEmitHelpers": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["es2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "target": "ES2022",
     "jsx": "react",
-    "target": "es2015",
-    "module": "es2015",
-    "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -40,13 +38,6 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment"
   },
-  "include": [
-    "./src/**/*",
-    "./src/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "lib",
-  ]
+  "include": ["./src/**/*", "./src/*"],
+  "exclude": ["node_modules", "dist", "lib"]
 }

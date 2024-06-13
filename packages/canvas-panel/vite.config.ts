@@ -1,5 +1,4 @@
 import { defineConfig } from 'vitest/config';
-import preact from '@preact/preset-vite';
 
 export default defineConfig({
   resolve: {
@@ -9,7 +8,6 @@ export default defineConfig({
     },
     dedupe: ['preact', 'preact/compat'],
   },
-  plugins: [preact({ devtoolsInProd: true }) as any],
   test: {
     environment: 'node',
     globals: true,
