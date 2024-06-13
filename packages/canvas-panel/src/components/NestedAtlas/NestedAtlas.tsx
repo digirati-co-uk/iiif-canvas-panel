@@ -1,11 +1,10 @@
-import { Atlas, AtlasAuto, AtlasContext, AtlasProps, useAtlas } from '@atlas-viewer/atlas';
-import { Fragment, h } from 'preact';
+import { AtlasAuto, useAtlas } from '@atlas-viewer/atlas';
 import { createContext, useContext, useEffect, useState } from 'preact/compat';
 import { AtlasDisplayOptions } from '../ViewCanvas/ViewCanvas.types';
 
 const InAtlasContext = createContext(false);
 
-function OnCreated(props: { onCreated: any }) {
+function OnCreated(props: { onCreated: any }): null {
   const atlas = useAtlas();
 
   useEffect(() => {

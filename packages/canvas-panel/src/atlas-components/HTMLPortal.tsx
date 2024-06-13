@@ -1,6 +1,5 @@
 import { FC, forwardRef, useLayoutEffect, useRef, render } from 'preact/compat';
 import { Box, useAfterFrame, useRuntime } from '@atlas-viewer/atlas';
-import { h } from 'preact';
 import { Box as BoxComponent } from '.';
 import { useReducer } from 'preact/compat';
 

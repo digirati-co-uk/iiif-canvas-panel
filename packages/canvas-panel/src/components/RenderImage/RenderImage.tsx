@@ -1,6 +1,5 @@
 import { SingleImage, TileSet } from '../../atlas-components';
 import React from 'preact/compat';
-import { h } from 'preact';
 import { ImageWithOptionalService, useResourceEvents, useStyles } from 'react-iiif-vault';
 import { ImageCandidate } from '@atlas-viewer/iiif-image-api';
 import { SizeParameter } from '../../helpers/size-parameter';
@@ -29,7 +28,7 @@ export function RenderImage({
   virtualSizes?: SizeParameter[];
   x?: number;
   y?: number;
-  annotations?: JSX.Element;
+  annotations?: any;
   tileFormat?: string;
   skipSizes?: boolean;
   annotationId?: string;

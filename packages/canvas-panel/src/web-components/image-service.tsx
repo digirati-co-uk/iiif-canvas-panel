@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import register from '../library/preact-custom-element';
 import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
 import { RenderImage } from '../components/RenderImage/RenderImage';
@@ -15,7 +14,6 @@ import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { parseBool } from '../helpers/parse-attributes';
 import { ImageServiceLoader } from '@atlas-viewer/iiif-image-api';
-import { World } from '../atlas-components';
 
 const ErrorBoundary = _ErrorBoundary as any;
 

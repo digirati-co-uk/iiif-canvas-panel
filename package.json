@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "custom-install": "cd packages/canvas-panel && yarn install",
-    "custom-build": "cd packages/canvas-panel && yarn prepublishOnly",
+    "custom-install": "cd packages/canvas-panel && pnpm i",
+    "custom-build": "cd packages/canvas-panel && pnpm build",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
@@ -21,7 +21,7 @@
     "react-dom": "^17"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "2.0.7",
+    "@atlas-viewer/atlas": "2.0.13",
     "@cmfcmf/docusaurus-search-local": "^0.11.0",
     "@codesandbox/sandpack-react": "^0.14.2",
     "@docusaurus/core": "2.0.0-beta.22",

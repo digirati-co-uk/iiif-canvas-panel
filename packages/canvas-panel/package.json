@@ -1,61 +1,52 @@
 {
   "name": "@digirati/canvas-panel-web-components",
-  "version": "1.0.66",
-  "typings": "./dist/types/index.d.ts",
-  "main": "./dist/bundle.js",
+  "version": "1.0.1",
+  "description": "",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "web": "dist/index.global.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
   "files": [
     "dist"
   ],
-  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "type": "module",
   "scripts": {
-    "build": "node ./esbuild.mjs && yarn run build-types",
-    "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "prepublishOnly": "NODE_ENV=production yarn build"
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "dev": "vite --port 3009 demos",
+    "prepack": "tsup",
+    "lint": "publint"
   },
-  "resolutions": {
-    "@atlas-viewer/iiif-image-api": "^2.1.2",
-    "@iiif/presentation-3": ">=1.0.6",
-    "@iiif/vault": "^0.9.18",
-    "@iiif/parser": "1.*",
-    "@atlas-viewer/atlas": "2.0.12",
-    "nanoid": "3.1.25"
-  },
-  "dependencies": {
-    "@atlas-viewer/atlas": "2.0.12",
-    "@atlas-viewer/iiif-image-api": "^2.1.2",
-    "@iiif/presentation-2": "^1.0.4",
-    "@iiif/presentation-3": "^1.1.3",
-    "@iiif/vault": "^0.9.22",
-    "@iiif/vault-helpers": "^0.9.11",
-    "@preact/compat": "17.*",
-    "@react-hook/media-query": "^1.1.1",
-    "preact": "^10.*",
-    "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "^0.9.21"
-  },
+  "keywords": [],
+  "dependencies": {},
   "devDependencies": {
-    "@preact/preset-vite": "^2.3.0",
-    "@types/jest": "^28.1.4",
-    "@types/preact-custom-element": "^4.0.1",
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.13",
-    "@typescript-eslint/eslint-plugin": "^5.14.0",
-    "@typescript-eslint/parser": "^5.14.0",
-    "esbuild": "^0.14.25",
-    "eslint": "^8.10.0",
-    "eslint-plugin-json": "^3.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-unused-imports": "^2.0.0",
-    "happy-dom": "^6.0.3",
-    "jest": "^28.1.2",
-    "preact-render-to-string": "^5.2.0",
-    "prettier": "^2.5.1",
-    "ts-jest": "^28.0.5",
-    "typescript": "^4.6.2",
-    "vite": "^2.9.5",
-    "vitest": "^0.18.0"
-  },
-  "publishConfig": {
-    "access": "public"
+    "@atlas-viewer/atlas": "^2.2.5",
+    "@atlas-viewer/iiif-image-api": "^2.2.0",
+    "@iiif/helpers": "^1.2.12",
+    "@iiif/presentation-3": "^2.2.3",
+    "@iiif/presentation-3-normalized": "^0.9.7",
+    "preact": "^10.22.0",
+    "react": "npm:@preact/compat",
+    "react-dom": "npm:@preact/compat",
+    "react-error-boundary": "^3.1.4",
+    "react-iiif-vault": "^1.2.1",
+    "prettier": "^3.2.5",
+    "publint": "^0.2.8",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.3.0"
   }
 }

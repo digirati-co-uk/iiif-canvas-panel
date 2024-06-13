@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "@digirati/canvas-panel-web-components": "*",
-    "@iiif/vault": "0.9.14",
-    "@iiif/vault-helpers": "0.9.4",
+    "@iiif/helpers": "^1.0.6",
     "core-js": "^3.6.5",
     "vue": "^3.0.0-0"
   },

@@ -1,7 +1,7 @@
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
 import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
-import { useImageServiceLoader, useExistingVault, ChoiceDescription } from 'react-iiif-vault';
+import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
 import { BoxStyle, Runtime, AtlasProps, easingFunctions } from '@atlas-viewer/atlas';
 import { useSyncedState } from './use-synced-state';
 import {
@@ -14,9 +14,10 @@ import {
 import { Reference, Selector } from '@iiif/presentation-3';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
-import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
+import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/helpers';
 import { useEffect } from 'preact/compat';
-import { globalVault } from '@iiif/vault';
+import { globalVault } from '@iiif/helpers';
+import { ChoiceDescription } from '@iiif/helpers';
 import { choiceEventChannel } from '../helpers/eventbus';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {

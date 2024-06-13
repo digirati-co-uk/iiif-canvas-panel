@@ -1,10 +1,11 @@
-import { Annotation, AnnotationNormalized, AnnotationPageNormalized } from '@iiif/presentation-3';
+import { Annotation } from '@iiif/presentation-3';
+import { AnnotationNormalized, AnnotationPageNormalized } from '@iiif/presentation-3-normalized';
 import { useStyleHelper, useVault, useVirtualAnnotationPage as useVirtualAnnotationPageBase } from 'react-iiif-vault';
 import { useMemo, useRef } from 'preact/compat';
 import { useRegisterPublicApi } from './use-register-public-api';
 import { BoxStyle } from '@atlas-viewer/atlas';
-import { createEventsHelper } from '@iiif/vault-helpers';
-import { VaultActivatedAnnotation } from 'react-iiif-vault/.build/types/hooks/useVirtualAnnotationPage';
+import { createEventsHelper } from '@iiif/helpers';
+import { VaultActivatedAnnotation } from 'react-iiif-vault';
 
 export function useVirtualAnnotationPage(): readonly [
   AnnotationPageNormalized | null,
@@ -14,7 +15,7 @@ export function useVirtualAnnotationPage(): readonly [
       atIndex?: number
     ) => void;
     readonly removeAnnotation: (id: string | Annotation | VaultActivatedAnnotation | AnnotationNormalized) => void;
-  }
+  },
 ] {
   const [fullPage, { addAnnotation, removeAnnotation }] = useVirtualAnnotationPageBase();
   const vault = useVault();

@@ -43,9 +43,8 @@
 
       /* #cp { height:100% } */
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest/dist/bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
+    <script src="https://pkg.csb.dev/digirati-co-uk/iiif-canvas-panel/commit/b239c900/@digirati/canvas-panel-web-components/dist/bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@iiif/helpers@latest/dist/index.umd.js"></script>
   </head>
   <body>
     <h1>A bookreader using Canvas Panel and Layout Container</h1>
@@ -70,8 +69,9 @@
       function $(id) {
         return document.getElementById(id);
       }
-      const vault = new IIIFVault.Vault();
-      const thumbHelper = VaultHelpers.createThumbnailHelper(vault);
+      const vault = new IIIFHelpers.Vault();
+      const thumbHelper = IIIFHelpers.createThumbnailHelper(vault);
+
       let manifest;
 
       async function loadManifest() {
@@ -88,14 +88,14 @@
           sequencePanel.setAttribute("margin", "20");
           viewportContainer.appendChild(sequencePanel);
 
-          $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);
+          $("manifestLabel").innerText = IIIFHelpers.getValue(manifest.label);
           let thumbsHtml = "";
           let counter = 1;
           // for brevity we will assume that the manifest is "paged", the viewingDirection is left-to-right.
           thumbsHtml += '<div class="tc"></div>';
           for (const canvasRef of vault.get(manifest.items)) {
             const canvas = vault.get(canvasRef);
-            const label = VaultHelpers.getValue(canvas.label);
+            const label = IIIFHelpers.getValue(canvas.label);
             thumbsHtml += `<div class="tc">${label}<br/>`;
             thumbsHtml += `<img data-uri="${canvas.id}" data-label="${label}" src="${canvas.thumbnail[0].id}" data-index="${counter}" />`;
             thumbsHtml += "</div>";
@@ -120,7 +120,7 @@
             const canvasRefs = itemIndexes.map((idx) => sequence.items[idx]);
             const canvases = vault.get(canvasRefs);
             const labels = canvases.map((canvas) =>
-              VaultHelpers.getValue(canvas.label)
+              IIIFHelpers.getValue(canvas.label)
             );
             $("cvLabel").innerText = labels.join(" | ");
           });

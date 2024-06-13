@@ -1,7 +1,6 @@
-import React, { FC, useEffect, useLayoutEffect, useMemo } from 'preact/compat';
+import { useEffect, useMemo } from 'preact/compat';
 import {
   useCanvas,
-  useResources,
   parseSpecificResource,
   useResourceEvents,
   useRenderingStrategy,
@@ -11,7 +10,8 @@ import {
   useAnnotationPageManager,
   useManifest,
 } from 'react-iiif-vault';
-import { createStylesHelper, SingleChoice, createPaintingAnnotationsHelper } from '@iiif/vault-helpers';
+
+import { createStylesHelper, SingleChoice, createPaintingAnnotationsHelper } from '@iiif/helpers';
 import { Fragment, h } from 'preact';
 import { WorldObject, SingleImage } from '../../atlas-components';
 import { RenderAnnotationPage } from '../RenderAnnotationPage/RenderAnnotationPage';
@@ -26,7 +26,7 @@ import { RenderVideo } from '../RenderVideo/RenderVideo';
 import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
 import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
 import { choiceEventChannel } from '../../helpers/eventbus';
-import { AnnotationPageNormalized, ContentResource } from '@iiif/presentation-3';
+import { ContentResource } from '@iiif/presentation-3';
 
 interface AtlasCanvasProps {
   x?: number;
@@ -36,6 +36,7 @@ interface AtlasCanvasProps {
   highlightCssClass?: string;
   debug?: boolean;
   annoMode?: boolean;
+  onChoiceChange?: (choice?: any) => void;
   defaultChoices?: Array<{ id: string; opacity?: number }>;
   onCreated?: any;
   isStatic?: boolean;

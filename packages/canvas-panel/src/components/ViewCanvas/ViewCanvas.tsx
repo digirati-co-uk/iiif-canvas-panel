@@ -48,6 +48,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
     (el as any).annotationPageManager.enabledPageIds = manager.enabledPageIds;
     (el as any).annotationPageManager.setPageEnabled = manager.setPageEnabled;
     (el as any).annotationPageManager.setPageDisabled = manager.setPageDisabled;
+
+    el.dispatchEvent(new CustomEvent('annotationPageManager', { detail: (el as any).annotationPageManager }));
     return {};
   }, [manager.availablePageIds, manager.enabledPageIds, manager.setPageEnabled, manager.setPageDisabled].join('/'));
 
