@@ -44,6 +44,27 @@ export const Box = createAtlasWrapper<
   component: Atlas.Box,
 });
 
+export const Shape = createAtlasWrapper<
+  {
+    points: [number, number][];
+    interactive?: boolean;
+    relativeStyle?: boolean;
+    backgroundColor?: string;
+    className?: string;
+    href?: string;
+    html?: boolean;
+    hrefTarget?: string;
+    title?: string;
+    border?: string;
+    target?: { x?: number; y?: number; width: number; height: number };
+    style?: BoxStyle;
+  },
+  Atlas.Geometry
+>({
+  displayName: 'Atlas.Geometry',
+  component: Atlas.Geometry,
+});
+
 export const SingleImage = createAtlasWrapper<{
   uri: string;
   priority?: boolean;
