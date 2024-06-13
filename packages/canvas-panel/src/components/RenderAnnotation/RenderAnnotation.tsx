@@ -4,7 +4,9 @@ import { h } from 'preact';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
 import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas';
 import { RenderTextualContent } from '../RenderTextLines/RenderTextualContent';
-import { HTMLPortal } from '../../atlas-components/HTMLPortal';
+import { Shape } from '../../atlas-components';
+
+const warnings = { targetWarning: false };
 
 export const RenderAnnotation: FC<{
   id: string;
@@ -23,16 +25,43 @@ export const RenderAnnotation: FC<{
     return mergeStyles(defaultStyle, style);
   }, [defaultStyle, style]);
 
-  const isValid =
-    canvas &&
-    annotation &&
-    annotation.target &&
-    (annotation.target as any).selector &&
-    (annotation.target as any).selector.type === 'BoxSelector' &&
-    (annotation.target as any).source &&
-    (annotation.target as any).source.id === canvas.id;
+  const selector = (annotation?.target as any).selector;
+  console.log('selector', annotation?.target);
+
+  const isValid = canvas && annotation && annotation.target && selector;
 
   if (!isValid) {
+    return null;
+  }
+
+  if (annotation && (annotation.target as any).source.id !== canvas?.id) {
+    if (!warnings.targetWarning) {
+      warnings.targetWarning = true;
+      console.log('annotation target source id does not match canvas id', annotation.id, annotation.target, canvas?.id);
+    }
+  }
+
+  if (selector && selector.type === 'SvgSelector' && selector.points) {
+    console.log({ selector });
+    return (
+      <Shape
+        points={selector.points.map((p: any) => [p[0], p[1]])}
+        open={selector.svgShape === 'polyline'}
+        relativeStyle={true}
+        interactive={!!(html?.href || interactive)}
+        style={allStyles}
+        target={{ x: 0, y: 0, width: canvas.width, height: canvas.height }}
+        {...events}
+      />
+    );
+  }
+
+  const isBoxValid =
+    (annotation.target as any).selector &&
+    (annotation.target as any).selector.type === 'BoxSelector' &&
+    (annotation.target as any).source;
+
+  if (!isBoxValid) {
     return null;
   }
 

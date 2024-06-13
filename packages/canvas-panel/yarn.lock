@@ -9,10 +9,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@atlas-viewer/atlas@2.0.12", "@atlas-viewer/atlas@^2.0.0-alpha.19":
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.12.tgz#efd32d06659a3054f20e6a362ce658a8efe84b37"
-  integrity sha512-9BiPGlRMmmSdEvBSeqghHfCB0I1yfaaED/EOpUbaFW0siaraCI+lLoItyf5/4zR3HNs8DK9oIGIsUHjNmX7QMA==
+"@atlas-viewer/atlas@2.0.13", "@atlas-viewer/atlas@^2.0.0-alpha.19":
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.13.tgz#bd501305a5e15334e999c6015e2456bd1cb48899"
+  integrity sha512-ktZvgD7dJs6OiWOQBdkkghjdIBsQsv1ujYB0etMB/00yCzD39qJSQX8q2mShQK01CAaU6nsG20C0kZzF7tZqyw==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
     "@atlas-viewer/iiif-image-api" "^2.0.5"
@@ -704,16 +704,16 @@
     parse-svg-path "^0.1.2"
     svg-arc-to-cubic-bezier "^3.2.0"
 
-"@iiif/parser@1.*", "@iiif/parser@2.0.1", "@iiif/parser@>=v1.0.13", "@iiif/parser@^1.1.2":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@iiif/parser/-/parser-1.0.6.tgz#0f5252b94ba586aade3d6558b5a649fa265fe217"
-  integrity sha512-bIdmqe3JwPopL7qEeZk193YNkGaEkkfSR9i/+B7I3MVXkKGE6G80tOWhfQRs/EY3fMzOS8OUFxzAu+aS6CXvEg==
+"@iiif/parser@1.*", "@iiif/parser@1.1.2", "@iiif/parser@2.0.1", "@iiif/parser@>=v1.0.13", "@iiif/parser@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@iiif/parser/-/parser-1.1.2.tgz#20bb2b0b74756ee6f35db4e9b0b0b54173ae6b0e"
+  integrity sha512-yjbhSWBB+cWHjAgeWlMYgNydMxDGU1BO3JnmgxCclMcfi59JDsKHMXpgZpCNw+svcirBtIMD2u70KPFinr2pUA==
   dependencies:
-    "@iiif/presentation-2" "^1.0.1"
-    "@iiif/presentation-3" "^1.0.4"
+    "@iiif/presentation-2" "^1.0.4"
+    "@iiif/presentation-3" "^1.1.3"
     "@types/geojson" "^7946.0.8"
 
-"@iiif/presentation-2@1.*", "@iiif/presentation-2@^1.0.1":
+"@iiif/presentation-2@1.*":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@iiif/presentation-2/-/presentation-2-1.0.1.tgz#0d76fedfeac65b31afcc30d9a8dc17f2e57041e4"
   integrity sha512-iWF6rgAi9ksSwbH/4uJW1/49DOL1wN2mLKovu0qy1GYtCTg42bryAxYtnBsw6LrJZWykTStv7R3DynChfECmnA==
@@ -730,29 +730,17 @@
   dependencies:
     "@iiif/presentation-3" "^2.0.5"
 
-"@iiif/presentation-3@*", "@iiif/presentation-3@1.*", "@iiif/presentation-3@1.x", "@iiif/presentation-3@2.1.3", "@iiif/presentation-3@>=1.0.6", "@iiif/presentation-3@>=2", "@iiif/presentation-3@^1.0.4", "@iiif/presentation-3@^1.1.2", "@iiif/presentation-3@^1.1.3", "@iiif/presentation-3@^2.0.5":
+"@iiif/presentation-3@*", "@iiif/presentation-3@1.*", "@iiif/presentation-3@1.x", "@iiif/presentation-3@2.1.3", "@iiif/presentation-3@>=1.0.6", "@iiif/presentation-3@>=2", "@iiif/presentation-3@^1.1.2", "@iiif/presentation-3@^1.1.3", "@iiif/presentation-3@^2.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@iiif/presentation-3/-/presentation-3-1.0.6.tgz#bec210e4df2549c363733dc3215b20c4e9160a46"
   integrity sha512-00wzi4ocMe0bvxkYsv+SzWRPeN8ZHN2n86aJ2o2QpZiaVQ2AsewBPCMarGryAZ0x7CQv0yO9HV1xj6jiuhl9dQ==
   dependencies:
     "@types/geojson" "^7946.0.7"
 
-"@iiif/vault-helpers@>=0.9.7":
-  version "0.9.7"
-  resolved "https://registry.yarnpkg.com/@iiif/vault-helpers/-/vault-helpers-0.9.7.tgz#fc3a35ed5e980a8fae13204c3ba4a4744fef3b90"
-  integrity sha512-nMsucZrgLnX5cRGSm1+UFwNRqiWXH4TupqbsnygIUp6wMUTiWeIv3KAh5xbib1keTYdOqENeOploDHRnK5r4Kg==
-  dependencies:
-    "@atlas-viewer/iiif-image-api" "2.*"
-    "@iiif/parser" "1.*"
-    "@iiif/presentation-2" "1.*"
-    "@iiif/presentation-3" "1.*"
-    "@iiif/vault" "0.9.*"
-    tiny-invariant "^1.2.0"
-
-"@iiif/vault-helpers@^0.9.11":
-  version "0.9.11"
-  resolved "https://registry.yarnpkg.com/@iiif/vault-helpers/-/vault-helpers-0.9.11.tgz#43a28e4600d41990997a2225e9272491bddc7d57"
-  integrity sha512-4XuFPvu233mMzfU/mMpAqFY5aCTzwhJ0u7MzPcpN8nSfMwbV5Dyvv0PppjcocvbWMUUXScqerRoB1MAfSFas6w==
+"@iiif/vault-helpers@>=0.9.7", "@iiif/vault-helpers@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@iiif/vault-helpers/-/vault-helpers-0.10.0.tgz#0797dc2a79b3f99bdbb65f16db88358dc4c22593"
+  integrity sha512-gnjTPcZJMIDjwU5K8HYNU8Iix49Awmsr7IhIyxA5ZCqugnLjHvJUOmOvT7q1NRd6ia4+09wxx+EMH0D9mt4cxQ==
   dependencies:
     "@iiif/presentation-2" "1.x"
     "@iiif/presentation-3" "1.x"
@@ -762,7 +750,7 @@
     react-i18next "^11.18.0"
     svg-arc-to-cubic-bezier "^3.2.0"
 
-"@iiif/vault@0.9.*", "@iiif/vault@>=0.9.19", "@iiif/vault@^0.9.18":
+"@iiif/vault@>=0.9.19", "@iiif/vault@^0.9.18":
   version "0.9.18"
   resolved "https://registry.yarnpkg.com/@iiif/vault/-/vault-0.9.18.tgz#07d6a90411f45a764635c95908b5b67c873a8384"
   integrity sha512-714/6X5ZyIuiDGeElUZx1mm8nKFabtxORzfMX7MZyc4IAtASjn1HK68xfTtyolN2cFYDhqFiY3Tz08F7HNIKGQ==
