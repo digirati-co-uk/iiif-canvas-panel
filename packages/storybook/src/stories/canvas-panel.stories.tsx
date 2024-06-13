@@ -52,6 +52,11 @@ export const CanvasWithLandscapeZoom = () => {
   )
 }
 
+ export const CanvasWithGettyTouchInteractions = () => {
+   {/* @ts-ignore */}
+  return <canvas-panel manifest-id={welcome} canvas-id={canvases[0]}  enable-single-finger-touch='false' enable-pan-on-wait='true' pan-on-wait-delay='40' require-meta-key-for-wheel-zoom='true' />;
+ 
+ }
 
 
 function ImageViewer(props) {
