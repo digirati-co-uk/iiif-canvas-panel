@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { FC, useCallback, useEffect, useLayoutEffect, useRef } from 'preact/compat';
 import register from '../library/preact-custom-element';
 import { CanvasContext, VaultProvider } from 'react-iiif-vault';

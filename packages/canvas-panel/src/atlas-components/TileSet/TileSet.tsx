@@ -1,5 +1,4 @@
 import { GetTile } from '@atlas-viewer/atlas';
-import { h } from 'preact';
 import { FC, useMemo } from 'preact/compat';
 import { imageServiceRequestToString, parseImageServiceUrl } from '@atlas-viewer/iiif-image-api';
 import { WorldObject, CompositeResource, SingleImage, TiledImage } from '..';
@@ -65,14 +64,14 @@ export const TileSet: FC<{
                 renderSmallestFallback: false,
               }
             : viewport
-            ? {
-                renderLayers: 1,
-                renderSmallestFallback: true,
-              }
-            : {
-                renderLayers: 2,
-                renderSmallestFallback: true,
-              }
+              ? {
+                  renderLayers: 1,
+                  renderSmallestFallback: true,
+                }
+              : {
+                  renderLayers: 2,
+                  renderSmallestFallback: true,
+                }
         }
       >
         {children}

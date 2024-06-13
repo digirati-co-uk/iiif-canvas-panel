@@ -1,24 +1,39 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Static Template</title>
-  <script type="module" src="./src"></script>
-</head>
-<body>
-<canvas-panel
-  canvas-id="https://iiif-dev.slf.digirati.io/presentation/632173/canvases/632173_0_0010"
-  manifest-id="https://iiif-dev.slf.digirati.io/presentation/632173"
-  text-enabled="true"
-/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./dist/index.global.js"></script>
 
-<!--<div style="width:200px">-->
-<!--  <canvas-panel-->
-<!--    preset="responsive"-->
-<!--    iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMTAlMjN4eXdoJTNEMzI5JTJDMjM1NyUyQzQzNSUyQzQxNSUyMiUyQyUyMnR5cGUlMjIlM0ElMjJDYW52YXMlMjIlMkMlMjJwYXJ0T2YlMjIlM0ElNUIlN0IlMjJpZCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMjJ0eXBlJTIyJTNBJTIyTWFuaWZlc3QlMjIlN0QlNUQlN0Q"-->
-<!--  />-->
-<!--</div>-->
-</body>
+    <canvas-panel
+      id="tablet"
+      manifest-id="https://iiif.ghentcdh.ugent.be/data/cune-iiif-orm/sde/O.0219/manifest.json"
+      canvas-id="https://iiif.ghentcdh.ugent.be/iiif/manifests/cune-iiif-orm:sde:O.0219/canvas/0001"
+      follow-annotations="true"
+    >
+    </canvas-panel>
+
+    <script>
+      const tablet = document.getElementById('tablet');
+      tablet.addEventListener('annotationPageManager', async () => {
+        // Enable the annotation page
+        tablet.annotationPageManager.setPageEnabled(
+          'https://iiif.ghentcdh.ugent.be/data/cune-iiif-orm/sde/O.0219/sign-annotations.json'
+        );
+
+        // Apply styles to the annotation page
+        tablet.applyStyles(
+          {
+            id: 'https://iiif.ghentcdh.ugent.be/data/cune-iiif-orm/sde/O.0219/sign-annotations.json',
+            type: 'AnnotationPage',
+          },
+          {
+            border: '3px solid green',
+          }
+        );
+      });
+    </script>
+  </body>
 </html>

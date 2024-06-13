@@ -56,8 +56,8 @@ export const MetaDataDisplay: React.FC<{
           item
         ) {
           const key = `metadata.${label[0]}`;
-          map[key] = map[key] ? map[key] : [];
-          map[key].push(item);
+          map[key] = map[key] ? map[key]! : [];
+          map[key]!.push(item);
           break;
         }
       }

@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import * as Atlas from '@atlas-viewer/atlas';
 import {
   createContext,

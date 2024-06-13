@@ -6,7 +6,6 @@ import { ContentState } from '@iiif/helpers';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { RegisterPublicApi } from '../hooks/use-register-public-api';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
-import { h } from 'preact';
 import { parseBool, parseNumber, parseContentStateParameter } from '../helpers/parse-attributes';
 import { useState, useLayoutEffect } from 'preact/compat';
 import { baseAttributes } from '../helpers/base-attributes';

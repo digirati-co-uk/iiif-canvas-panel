@@ -32,40 +32,36 @@
     </style>
   </head>
   <body>
-    <script type="module" src="./src/index.ts"></script>
+    <script type="module" src="../src/index.ts"></script>
 
     <canvas-panel
       id="tablet"
       manifest-id="https://iiif.ghentcdh.ugent.be/data/cune-iiif-orm/sde/O.0219/manifest.json"
       canvas-id="https://iiif.ghentcdh.ugent.be/iiif/manifests/cune-iiif-orm:sde:O.0219/canvas/0001"
       follow-annotations="true"
-    ></canvas-panel>
+    >
+    </canvas-panel>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const tablet = document.getElementById('tablet');
-        tablet.whenReady(async () => {
-          await tablet.vault.load({
+      const tablet = document.getElementById('tablet');
+      tablet.addEventListener('annotationPageManager', async () => {
+        // Enable the annotation page
+        tablet.annotationPageManager.setPageEnabled(
+          'https://iiif.ghentcdh.ugent.be/data/cune-iiif-orm/sde/O.0219/sign-annotations.json'
+        );
+
+        // Apply styles to the annotation page
+        tablet.applyStyles(
+          {
             id: 'https://iiif.ghentcdh.ugent.be/data/cune-iiif-orm/sde/O.0219/sign-annotations.json',
             type: 'AnnotationPage',
-          });
-          console.log('available', tablet.annotationPageManager);
-          tablet.annotationPageManager.setPageEnabled(
-            'https://iiif.ghentcdh.ugent.be/data/cune-iiif-orm/sde/O.0219/sign-annotations.json'
-          );
-          tablet.applyStyles(
-            {
-              id: 'https://iiif.ghentcdh.ugent.be/data/cune-iiif-orm/sde/O.0219/sign-annotations.json',
-              type: 'AnnotationPage',
-            },
-            {
-              border: '3px solid green',
-            }
-          );
-        });
+          },
+          {
+            border: '3px solid green',
+          }
+        );
       });
     </script>
-
     <div id="container"></div>
 
     <button id="content-state">Content state</button>
@@ -154,7 +150,7 @@
     </script>
 
     <script type="module">
-      import { AnnotationDisplay } from './src/index.ts';
+      import { AnnotationDisplay } from '../src/index.ts';
 
       const seq = document.getElementById('sequence');
       const next = document.getElementById('next');

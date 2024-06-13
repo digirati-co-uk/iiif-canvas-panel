@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      html,
+      body {
+        display: flex;
+        flex: 1;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+      }
+
+      .container range-panel {
+        max-width: 400px;
+      }
+
+      .container sequence-panel {
+        flex: 1;
+        min-width: 0;
+        width: 100%;
+
+        --atlas-container-display: flex;
+        --atlas-container-flex: 1;
+        --atlas-container-height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module" src="./src/index.ts"></script>
+
+    <div class="container">
+      <div>
+        <div style="display: flex; padding: 1em">
+          <button id="prev" onClick="seq.sequence.previousCanvas()">Prev</button>
+          <div id="total" style="margin: 0 20px; flex: 1; text-align: center"></div>
+          <button id="next" onClick="seq.sequence.nextCanvas()">Next</button>
+        </div>
+
+        <range-panel id="range" manifest-id="https://wellcomelibrary.org/iiif/b19646045/manifest"> </range-panel>
+      </div>
+
+      <sequence-panel id="seq" height="500" manifest-id="https://wellcomelibrary.org/iiif/b19646045/manifest">
+      </sequence-panel>
+    </div>
+
+    <script type="module">
+      import './src/components/RangeDisplay/RangeDisplay.css';
+
+      const seq = document.getElementById('seq');
+      const next = document.getElementById('next');
+      const prev = document.getElementById('prev');
+      const total = document.getElementById('total');
+
+      document.getElementById('range').addEventListener('range-change', (e) => {
+        // seq.setAttribute("canvas-id", e.detail.canvasId);
+        // if (e.detail.fragment && e.detail.fragment.startsWith("xywh=")) {
+        //   seq.setAttribute("target", e.detail.fragment.slice(5));
+        // }
+
+        seq.sequence.setSequenceIndex(0);
+        seq.setAttribute('range-id', e.detail.range.id);
+        seq.setAttribute('canvas-id', e.detail.canvasId);
+
+        document.getElementById('range').setAttribute('selected-range', e.detail.range.id);
+      });
+
+      seq.addEventListener('sequence-change', (e) => {
+        console.log(e.detail, e.detail.total - 1 <= e.detail.index);
+
+        total.innerHTML = `<strong>${e.detail.index + 1}</strong> of <strong>${e.detail.total} items</strong>`;
+
+        if (e.detail.index === 0) {
+          prev.setAttribute('disabled', 'true');
+        } else {
+          prev.removeAttribute('disabled');
+        }
+        if (e.detail.total - 1 <= e.detail.index) {
+          next.setAttribute('disabled', 'true');
+        } else {
+          next.removeAttribute('disabled');
+        }
+      });
+    </script>
+  </body>
+</html>

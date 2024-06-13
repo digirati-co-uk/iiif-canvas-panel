@@ -15,7 +15,7 @@ export function useVirtualAnnotationPage(): readonly [
       atIndex?: number
     ) => void;
     readonly removeAnnotation: (id: string | Annotation | VaultActivatedAnnotation | AnnotationNormalized) => void;
-  }
+  },
 ] {
   const [fullPage, { addAnnotation, removeAnnotation }] = useVirtualAnnotationPageBase();
   const vault = useVault();

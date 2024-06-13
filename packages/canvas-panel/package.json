@@ -1,11 +1,11 @@
 {
   "name": "@digirati/canvas-panel-web-components",
-  "version": "1.0.66",
-  "main": "dist/bundle/cjs/index.js",
-  "module": "dist/bundle/esm/index.mjs",
-  "web": "dist/bundle/index.umd.js",
-  "types": "dist/types/index.d.ts",
-  "author": "Stephen Fraser <stephen.fraser@digirati.com>",
+  "version": "1.0.1",
+  "description": "",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "web": "dist/index.global.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "files": [
     "dist"
@@ -13,58 +13,40 @@
   "exports": {
     ".": {
       "require": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/bundle/cjs/index.js"
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
       },
       "import": {
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/bundle/esm/index.mjs"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       }
     }
   },
+  "type": "module",
   "scripts": {
-    "build": "node ./vite/build.mjs",
-    "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "prepublishOnly": "NODE_ENV=production yarn build"
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "dev": "vite --port 3009 demos",
+    "prepack": "tsup",
+    "lint": "publint"
   },
-  "resolutions": {
-    "@atlas-viewer/iiif-image-api": "^2.2.0",
-    "@iiif/presentation-3": "^2.2.3",
-    "nanoid": "3.1.25"
-  },
-  "dependencies": {
+  "keywords": [],
+  "dependencies": {},
+  "devDependencies": {
     "@atlas-viewer/atlas": "^2.2.5",
     "@atlas-viewer/iiif-image-api": "^2.2.0",
-    "nanoid": "3.1.25",
-    "@iiif/presentation-2": "^1.0.4",
+    "@iiif/helpers": "^1.2.12",
     "@iiif/presentation-3": "^2.2.3",
     "@iiif/presentation-3-normalized": "^0.9.7",
-    "@iiif/helpers": "^1.2.12",
-    "@iiif/parser": "^2.1.2",
-    "@preact/compat": "17.*",
-    "@react-hook/media-query": "^1.1.1",
-    "preact": "^10.*",
+    "preact": "^10.22.0",
+    "react": "npm:@preact/compat",
+    "react-dom": "npm:@preact/compat",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "^1.2.1"
-  },
-  "devDependencies": {
-    "@preact/preset-vite": "^2.8.2",
-    "@types/jest": "^28.1.4",
-    "@types/preact-custom-element": "^4.0.1",
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.13",
-    "esbuild": "^0.21.5",
-    "happy-dom": "^6.0.3",
-    "jest": "^28.1.2",
-    "preact-render-to-string": "^5.2.0",
-    "prettier": "^3.3.2",
-    "typesafe-actions": "^5.1.0",
-    "ts-jest": "^28.0.5",
+    "react-iiif-vault": "^1.2.1",
+    "prettier": "^3.2.5",
+    "publint": "^0.2.8",
+    "tsup": "^8.1.0",
     "typescript": "^5.4.5",
-    "vite": "^5.3.0",
-    "vitest": "^1.6.0"
-  },
-  "publishConfig": {
-    "access": "public"
+    "vite": "^5.3.0"
   }
 }

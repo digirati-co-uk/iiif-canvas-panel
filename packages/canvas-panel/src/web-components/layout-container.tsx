@@ -2,7 +2,6 @@ import register from '../library/preact-custom-element';
 import { useExistingVault, VaultProvider } from 'react-iiif-vault';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
-import { h } from 'preact';
 
 export function LayoutContainer({ children, ...props }: any) {
   const vault = useExistingVault();

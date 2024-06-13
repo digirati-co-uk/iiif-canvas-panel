@@ -1,6 +1,5 @@
-import { useAnnotation, useCanvas, useResourceEvents, useStyles, useVault, VaultProvider } from 'react-iiif-vault';
+import { useAnnotation, useCanvas, useResourceEvents, useStyles } from 'react-iiif-vault';
 import { FC, useMemo } from 'preact/compat';
-import { h } from 'preact';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
 import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas';
 import { RenderTextualContent } from '../RenderTextLines/RenderTextualContent';
@@ -26,7 +25,6 @@ export const RenderAnnotation: FC<{
   }, [defaultStyle, style]);
 
   const selector = (annotation?.target as any).selector;
-  console.log('selector', annotation?.target);
 
   const isValid = canvas && annotation && annotation.target && selector;
 
@@ -34,15 +32,23 @@ export const RenderAnnotation: FC<{
     return null;
   }
 
-  if (annotation && (annotation.target as any).source.id !== canvas?.id) {
+  if (
+    annotation &&
+    canvas &&
+    (annotation.target as any).source.id &&
+    (annotation.target as any).source.id !== canvas.id
+  ) {
     if (!warnings.targetWarning) {
       warnings.targetWarning = true;
-      console.log('annotation target source id does not match canvas id', annotation.id, annotation.target, canvas?.id);
+      console.log('annotation target source id does not match canvas id', {
+        annotationId: annotation.id,
+        canvasId: canvas.id,
+        annotationTargetSourceId: (annotation.target as any).source.id,
+      });
     }
   }
 
   if (selector && selector.type === 'SvgSelector' && selector.points) {
-    console.log({ selector });
     return (
       <Shape
         points={selector.points.map((p: any) => [p[0], p[1]])}
