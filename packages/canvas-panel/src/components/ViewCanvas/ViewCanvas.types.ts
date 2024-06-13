@@ -1,6 +1,5 @@
 import { AtlasProps } from '@atlas-viewer/atlas';
 import { ParsedSelector } from 'react-iiif-vault';
-import { ChoiceDescription } from '@iiif/helpers';
 import { SizeParameter } from '../../helpers/size-parameter';
 
 export type AtlasDisplayOptions = AtlasProps & {
@@ -21,7 +20,6 @@ export type ViewCanvasProps = {
   followAnnotations?: boolean;
   virtualSizes: SizeParameter[];
   displayOptions: AtlasDisplayOptions;
-  onChoiceChange?: (choice?: ChoiceDescription) => void;
   children?: any;
   debug?: boolean;
   mode?: 'sketch' | 'explore';
@@ -34,4 +32,6 @@ export type ViewCanvasProps = {
   textEnabled?: boolean;
   textSelectionEnabled?: boolean;
   disableThumbnail?: boolean;
+  skipSizes?: boolean;
+  homeCover?: boolean | 'start' | 'end';
 };

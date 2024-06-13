@@ -1,6 +1,6 @@
 {
   "name": "@digirati/canvas-panel-web-components",
-  "version": "1.0.58",
+  "version": "1.0.66",
   "typings": "./dist/types/index.d.ts",
   "main": "./dist/bundle.js",
   "files": [
@@ -20,6 +20,7 @@
   "dependencies": {
     "@atlas-viewer/atlas": "^2.2.4",
     "@atlas-viewer/iiif-image-api": "^2.2.0",
+    "nanoid": "3.1.25",
     "@iiif/presentation-2": "^1.0.4",
     "@iiif/presentation-3": "^2.2.3",
     "@iiif/presentation-3-normalized": "^0.9.7",

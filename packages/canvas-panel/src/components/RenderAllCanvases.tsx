@@ -5,12 +5,14 @@ import {
   useSimpleViewer,
   useVisibleCanvases,
 } from 'react-iiif-vault';
+
 import { AtlasCanvas } from './AtlasCanvas/AtlasCanvas';
 import { SizeParameter } from '../helpers/size-parameter';
 import { h } from 'preact';
 import { Fragment, useEffect, useRef } from 'preact/compat';
 import { useRegisterPublicApi } from '../hooks/use-register-public-api';
 import { ChoiceDescription } from '@iiif/helpers';
+import { choiceEventChannel } from '../helpers/eventbus';
 
 const CanvasContext = _CanvasContext as any;
 
@@ -20,15 +22,14 @@ interface RenderAllCanvasesProps {
   highlightCssClass?: string;
   debug?: boolean;
   annoMode?: boolean;
-  onChoiceChange?: (choice?: ChoiceDescription) => void;
   defaultChoices?: Array<{ id: string; opacity?: number }>;
   onCreated?: any;
-  registerActions?: (actions: StrategyActions) => void;
   isStatic?: boolean;
   textSelectionEnabled?: boolean;
   children?: any;
   margin?: number;
   disableThumbnail?: boolean;
+  skipSizes?: boolean;
 }
 
 export function RenderAllCanvases(props: RenderAllCanvasesProps) {
@@ -55,6 +56,7 @@ export function RenderAllCanvases(props: RenderAllCanvasesProps) {
 
   useEffect(() => {
     if (webComponent.current) {
+      choiceEventChannel.emit('onResetSeen');
       webComponent.current.dispatchEvent(
         new CustomEvent('sequence-change', {
           detail: {

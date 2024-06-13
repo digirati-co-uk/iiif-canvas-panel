@@ -1,8 +1,8 @@
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
 import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
-import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
-import { BoxStyle, Runtime, AtlasProps, Preset, easingFunctions } from '@atlas-viewer/atlas';
+import { useImageServiceLoader, useExistingVault, ChoiceDescription } from 'react-iiif-vault';
+import { BoxStyle, Runtime, AtlasProps, easingFunctions } from '@atlas-viewer/atlas';
 import { useSyncedState } from './use-synced-state';
 import {
   parseBool,
@@ -17,9 +17,12 @@ import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
 import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/helpers';
 import { useEffect } from 'preact/compat';
 import { globalVault } from '@iiif/helpers/vault';
+import { choiceEventChannel } from '../helpers/eventbus';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
+  const ZOOM_OUT_FACTOR = 0.75;
+  const ZOOM_IN_FACTOR = 1.0 / 0.75;
   const existingVault = useExistingVault();
   const vault = props.vault || existingVault || globalVault();
   const loader = useImageServiceLoader();
@@ -34,6 +37,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       }
     }
   );
+
   const events = useMemo(() => createEventsHelper(vault as any), [vault]);
   const styles = useMemo(() => createStylesHelper(vault), [vault]);
   const thumbs = useMemo(() => createThumbnailHelper(vault, { imageServiceLoader: loader }), [vault, loader]);
@@ -54,6 +58,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   const [width] = useSyncedState(props.width || internalConfig.width, {
     parse: parseNumber,
   });
+  const [a11yRole] = useSyncedState(props.a11yRole || undefined);
+  const [a11yTitle] = useSyncedState(props.a11yTitle || undefined);
   const [interactive] = useSyncedState(props.interactive || internalConfig.interactive, {
     parse: parseBool,
     defaultValue: true,
@@ -111,10 +117,29 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       parse: parseCSV,
     }
   );
+  const [homeCover] = useSyncedState(props.homeCover, {
+    parse: (value) => {
+      if (value === 'false') {
+        return false;
+      }
+      if (value === 'true') {
+        return true;
+      }
+      if (value === 'start') {
+        return 'start' as const;
+      }
+      if (value === 'end') {
+        return 'end' as const;
+      }
+      return false;
+    },
+  });
   const [mode, setMode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
+  const [isWorldReady, setIsWorldReady] = useState('');
   const [inlineStyles, setInlineStyles] = useState('');
   const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
   const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
+  const [runtimeVersion, setRuntimeVersion] = useState('');
 
   function useProp<K extends keyof T, V = T[K]>(
     prop: K,
@@ -142,6 +167,76 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return -1;
   }
 
+  const seenChoices = useRef<object>({});
+
+  useEffect(() => {
+    const unsubscribeOnResetSeen = choiceEventChannel.on('onResetSeen', () => {
+      seenChoices.current = {};
+    });
+
+    const onChoiceChange = (payload: { choice?: ChoiceDescription; partOf?: any }) => {
+      const choice = payload.choice;
+      // sort the choices by ID in order to help with de-duping
+      if (webComponent?.current && choice && choice.items) {
+        // sort the keys by id first to make a consistent order
+        const items: any[] = choice.items as any[];
+        (items as any[]).sort((a, b) => {
+          if (a.id < b.id) {
+            return -1;
+          }
+          if (a.id > b.id) {
+            return 1;
+          }
+          return 0;
+        });
+
+        const key: string = items.map((item) => item.id).join('');
+        const value: string = items.map((item) => item.selected).join('');
+        // if the key is defined & set to the value, then skip firing again
+        if ((seenChoices.current as any)[key] && (seenChoices.current as any)[key] == value) {
+          return;
+        }
+        // otherwise fire again
+        (seenChoices.current as any)[key] = value;
+        // move this outside the IF if we want to fire on every page
+
+        (choice as any).partOf = payload.partOf;
+        webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
+      }
+    };
+    const unsubscribeOnChoiceChange = choiceEventChannel.on('onChoiceChange', onChoiceChange);
+
+    return () => {
+      unsubscribeOnResetSeen();
+      unsubscribeOnChoiceChange();
+    };
+  }, []);
+
+  // fire a 'world-ready' event when we have a scale factor which is not undefined and not 1
+  useEffect(() => {
+    if (runtime.current && webComponent.current) {
+      const detail = {
+        ...calculateZoomInformation(runtime.current),
+      };
+      if (
+        isWorldReady == 'queued' &&
+        detail &&
+        detail?.scaleFactor < 1 &&
+        detail.scaleFactor > 0 &&
+        webComponent.current != undefined
+      ) {
+        setIsWorldReady('fired');
+        setTimeout(() => {
+          webComponent.current?.dispatchEvent(
+            new CustomEvent('world-ready', {
+              detail,
+            })
+          );
+        }, 100);
+      }
+    }
+  }, [isReady, webComponent.current, runtimeVersion, isWorldReady]);
+
   useEffect(() => {
     const rt = runtime.current;
     const tm = runtime.current?.transitionManager;
@@ -152,8 +247,11 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       let minZoomCount = 0;
       return rt.world.addLayoutSubscriber(async (ev, data) => {
         if (ev !== 'repaint' && webComponent.current) {
-          webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
-          if (ev === 'zoom-to' || ev === 'go-home') {
+          // all of these events can 'change' the zoom logic, so we want to report that to the parent
+          if (['recalculate-world-size', 'zoom-to', 'go-home', 'goto-region'].includes(ev)) {
+            if (ev == 'recalculate-world-size') {
+              setIsWorldReady('queued');
+            }
             if (tm.hasPending()) {
               if (isPending) {
                 return;
@@ -172,27 +270,67 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             } else {
               minZoomCount = 0;
             }
-            webComponent.current.dispatchEvent(
-              new CustomEvent('zoom', {
-                detail: {
-                  source: ev,
-                  scaleFactor: runtime.current?._lastGoodScale,
-                  max: runtime.current?.maxScaleFactor,
-                  min: minZoom,
-                  minZoomCount,
-                  isMin,
-                  isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
-                  ...((data as any) || {}),
-                },
-              })
-            );
+            const event = {
+              detail: {
+                source: ev,
+                minZoomCount,
+                ...calculateZoomInformation(rt),
+                isMin,
+                isMax: Math.abs(rt.maxScaleFactor - rt._lastGoodScale) < 0.0002,
+                ...((data as any) || {}),
+              },
+            };
+            webComponent.current.dispatchEvent(new CustomEvent('zoom', event));
+            return;
           }
+          webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
         }
+        return;
       });
     }
 
     return () => void 0;
-  }, [isReady]);
+  }, [isReady, runtimeVersion]);
+
+  function calculateZoomInformation(rt: Runtime) {
+    const lastGoodScale = rt._lastGoodScale;
+    const minZoom = getMinZoom();
+    // rt.getZoomedPosition(ZOOM_IN_FACTOR, {}) represents image if we were to zoom out one button press
+    const nextZoomOut_ = rt.getZoomedPosition(ZOOM_IN_FACTOR, {});
+    const nextZoomIn_ = rt.getZoomedPosition(ZOOM_OUT_FACTOR, {});
+    const nextZoomIn = {
+      width: Math.round(nextZoomIn_[3]),
+      height: Math.round(nextZoomIn_[4]),
+    };
+    const nextZooOut = {
+      width: Math.round(nextZoomOut_[3]),
+      height: Math.round(nextZoomOut_[4]),
+    };
+    const current = {
+      width: Math.round(rt.target[3]),
+      height: Math.round(rt.target[4]),
+    };
+    const WIGGLE = 2; // there are a couple corner cases (see Gines) http://localhost:6006/?path=/story/canvas-panel--canvas-with-skip-sizes where the
+    // zoom out can be 'very' close and effectively the full zoom
+
+    // if current + a tiny bit is > the next zoom, then don't allow zooming out
+    const canZoomOut = current.height + WIGGLE < nextZooOut.height && current.width + WIGGLE < nextZooOut.width;
+
+    // if the current < the next zoom then don't allow zooming in
+    const canZoomIn = current.height > nextZoomIn.height && current.width > nextZoomIn.width;
+
+    const detail = {
+      canZoomIn,
+      canZoomOut,
+      scaleFactor: rt.getScaleFactor(),
+      current: lastGoodScale,
+      max: rt.maxScaleFactor,
+      min: minZoom,
+      worldHeight: rt.world.height,
+      worldWidth: rt.world.width,
+    };
+    return detail;
+  }
 
   useEffect(() => {
     const rt = runtime.current;
@@ -335,6 +473,15 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         htmlComponent.setAttribute('choice-id', choiceIds.join(','));
       },
 
+      getPosition() {
+        return {
+          x: runtime.current?.x,
+          y: runtime.current?.y,
+          width: runtime.current?.width,
+          height: runtime.current?.height,
+        };
+      },
+
       getMaxZoom() {
         return runtime.current?.maxScaleFactor || 1;
       },
@@ -343,11 +490,15 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         return getMinZoom() || 0;
       },
 
+      makeChoice(id: string, options: any) {
+        choiceEventChannel.emit('onMakeChoice', { id, options });
+      },
+
       zoomIn(point?: { x: number; y: number }) {
         if (runtime.current) {
           runtime.current.world.trigger('zoom-to', {
             point,
-            factor: 0.75,
+            factor: ZOOM_OUT_FACTOR,
           });
         }
       },
@@ -356,7 +507,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         if (runtime.current) {
           runtime.current.world.trigger('zoom-to', {
             point,
-            factor: 1 / 0.75,
+            factor: ZOOM_IN_FACTOR,
           });
         }
       },
@@ -404,10 +555,12 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       },
 
       getScaleInformation() {
+        const rt = runtime.current;
+        if (rt == undefined) {
+          return;
+        }
         return {
-          current: runtime.current?._lastGoodScale,
-          max: runtime.current?.maxScaleFactor,
-          min: getMinZoom(),
+          ...calculateZoomInformation(rt),
         };
       },
 
@@ -501,6 +654,24 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
 
       getThumbnail(input: any, request: ImageCandidateRequest, dereference?: boolean) {
         return thumbs.getBestThumbnailAtSize(input, request, dereference);
+      },
+      addVaultEventListener<T>(
+        resource: Reference<any>,
+        event: string,
+        listener: (e: any, resource: T) => void,
+        scope?: string[]
+      ): ((e: any, resource: T) => void) | undefined {
+        return events.addEventListener(resource, event, listener, scope);
+      },
+      removeVaultEventListener<T>(
+        resource: Reference<any>,
+        event: string,
+        listener: (e: any, resource: T) => void
+      ): void {
+        events.removeEventListener(resource, event, listener);
+      },
+      getListenersAsProps(resourceOrId: string | Reference<any>, scope?: string[]): any {
+        return events.getListenersAsProps(resourceOrId, scope);
       },
     };
   });
@@ -604,7 +775,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       // Defaults for now.
       onCreated: (rt: { runtime: Runtime }) => {
         // @todo this means ready, but does not mean first item is in the world.
+        setIsWorldReady('');
         setIsReady(true);
+        setRuntimeVersion(rt.runtime.id);
         runtime.current = rt.runtime;
       },
       homePosition:
@@ -626,9 +799,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
             ],
       width: width ? width : undefined,
       height: height ? height : responsive ? undefined : 512,
+      role: a11yRole,
+      title: a11yTitle,
     } as AtlasProps & { nested?: boolean };
-  }, [responsive, viewport, target, render, enableNavigator, internalConfig]);
-
+  }, [responsive, viewport, target, render, enableNavigator, internalConfig, a11yRole, a11yTitle]);
   return {
     atlasProps,
     isReady,
@@ -659,6 +833,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     nested,
     x,
     y,
+    homeCover,
     useProp,
     useRegisterWebComponentApi,
     runtime,

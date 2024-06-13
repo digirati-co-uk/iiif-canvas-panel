@@ -1,368 +1,362 @@
 <html>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport'
-          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
-    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <style>
-        canvas-panel::part(my-class) {
-            background: rgba(50, 0, 200, 0.4);
-        }
+      canvas-panel::part(my-class) {
+        background: rgba(50, 0, 200, 0.4);
+      }
 
-        canvas-panel::part(my-link-class) {
-            border: 2px solid lightgreen;
-        }
+      canvas-panel::part(my-link-class) {
+        border: 2px solid lightgreen;
+      }
 
-        canvas-panel::part(text-line-segment)::selection {
-            fill: #fff;
-            background: blue;
-        }
+      canvas-panel::part(text-line-segment)::selection {
+        fill: #fff;
+        background: blue;
+      }
 
-        html {
-            height: 200vh;
-        }
+      html {
+        height: 200vh;
+      }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-        }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+          'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      }
     </style>
-</head>
-<body>
-<script type='module' src='./src/index.ts'></script>
+  </head>
+  <body>
+    <script type="module" src="./src/index.ts"></script>
 
+    <div id="container"></div>
 
-<div id='container'></div>
-
-<button id='content-state'>Content state</button>
-<button id='transition'>Transition</button>
-<div>Zoom: <span id='zoom'></span>
-
-    <button id='zoomIn'>Zoom in</button>
-    <button id='zoomOut'>Zoom out</button>
-    <button id='home'>Home</button>
-
-    <div id='media' style='display: none'>
-        <div style='display: flex; align-items: center;'>
-            <button id="playpause">play</button>
-            <!--      <div style='padding: 0px 20px;'>0:00</div>-->
-            <!--      <div style='flex: 1 1 0px; height: 6px; display: flex; position: relative; padding: 15px 0px;'>-->
-            <!--        <div-->
-            <!--          id='progress'-->
-            <!--          style='height: 6px; pointer-events: none; position: absolute; top: 13px; left: 0px; right: 0px; border-radius: 3px; transition: width 200ms ease 0s; background: rgb(249, 249, 249);'></div>-->
-            <!--        <div-->
-            <!--          style='position: absolute; top: 13px; left: 0px; height: 6px; border-radius: 3px; background: cornflowerblue; width: 0%; pointer-events: none;'></div>-->
-            <!--      </div>-->
-            <!--      <div style='padding: 0px 20px;'>33:05</div>-->
-            <!--      <div style='display: flex;'><input type='range' id='audio-slider' role='slider' min='0' max='100' value='100'>-->
-            <!--        <button>Unmute</button>-->
-            <!--      </div>-->
-        </div>
-    </div>
-
+    <button id="content-state">Content state</button>
+    <button id="transition">Transition</button>
     <div>
-        <button id='enable-text'>enable text</button>
-        <button id='enable-move'>enable move</button>
-        move: <span id='move'></span>
+      Zoom: <span id="zoom"></span>
+
+      <button id="zoomIn">Zoom in</button>
+      <button id="zoomOut">Zoom out</button>
+      <button id="home">Home</button>
+
+      <div id="media" style="display: none">
+        <div style="display: flex; align-items: center">
+          <button id="playpause">play</button>
+          <!--      <div style='padding: 0px 20px;'>0:00</div>-->
+          <!--      <div style='flex: 1 1 0px; height: 6px; display: flex; position: relative; padding: 15px 0px;'>-->
+          <!--        <div-->
+          <!--          id='progress'-->
+          <!--          style='height: 6px; pointer-events: none; position: absolute; top: 13px; left: 0px; right: 0px; border-radius: 3px; transition: width 200ms ease 0s; background: rgb(249, 249, 249);'></div>-->
+          <!--        <div-->
+          <!--          style='position: absolute; top: 13px; left: 0px; height: 6px; border-radius: 3px; background: cornflowerblue; width: 0%; pointer-events: none;'></div>-->
+          <!--      </div>-->
+          <!--      <div style='padding: 0px 20px;'>33:05</div>-->
+          <!--      <div style='display: flex;'><input type='range' id='audio-slider' role='slider' min='0' max='100' value='100'>-->
+          <!--        <button>Unmute</button>-->
+          <!--      </div>-->
+        </div>
+      </div>
+
+      <div>
+        <button id="enable-text">enable text</button>
+        <button id="enable-move">enable move</button>
+        move: <span id="move"></span>
+      </div>
     </div>
-</div>
-<pre id='selection'></pre>
+    <pre id="selection"></pre>
 
-<!-- variation: table | list -->
-<!-- label-style: 'muted' | 'bold' | 'caps' | 'small-caps' -->
-<metadata-panel
+    <!-- variation: table | list -->
+    <!-- label-style: 'muted' | 'bold' | 'caps' | 'small-caps' -->
+    <metadata-panel
+      manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723"
+      size="lg"
+      variation="list"
+      label-style="bold"
+      label-width="250"
+      allow-html="true"
+      bordered="true"
+      separator="<br/>"
+    ></metadata-panel>
+
+    <range-panel id="range" manifest-id="https://stephenwf.github.io/bl-manifests/tvdc_100005114854.json"></range-panel>
+
+    <layout-container preset="zoom">
+      <canvas-panel
+        nested="true"
+        canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0003.JP2"
         manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723"
-        size="lg"
-        variation="list"
-        label-style="bold"
-        label-width="250"
-        allow-html="true"
-        bordered="true"
-        separator="<br/>"
-></metadata-panel>
+      ></canvas-panel>
+      <canvas-panel
+        nested="true"
+        id="left"
+        canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"
+        manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723"
+        x="2421"
+      ></canvas-panel>
+    </layout-container>
 
-<range-panel
-        id="range"
-        manifest-id="https://stephenwf.github.io/bl-manifests/tvdc_100005114854.json"
-></range-panel>
+    <sequence-panel
+      id="sequence"
+      text-enabled="true"
+      text-selection-enabled="true"
+      start-canvas="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"
+      canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"
+      manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723"
+      margin="30"
+    ></sequence-panel>
 
+    <button id="prev">prev</button>
+    <button id="next">next</button>
 
-<layout-container preset='zoom'>
-    <canvas-panel nested='true'
-                  canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0003.JP2'
-                  manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723'></canvas-panel>
-    <canvas-panel nested='true'
-                  id='left'
-                  canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2'
-                  manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723' x='2421'></canvas-panel>
-</layout-container>
-
-
-<sequence-panel
-        id='sequence'
-        text-enabled='true'
-        text-selection-enabled='true'
-        start-canvas="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"
-        canvas-id='https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2'
-        manifest-id='https://iiif.wellcomecollection.org/presentation/b18035723'
-        margin='30'
-></sequence-panel>
-
-<button id='prev'>prev</button>
-<button id='next'>next</button>
-
-<script>
-    document.getElementById('range').addEventListener('range-change', e => {
-      console.log(e.detail);
-      document.getElementById('range').setAttribute('selected-range', e.detail.range?.id);
-    })
-</script>
-
-<script type='module'>
-  import { AnnotationDisplay } from './src/index.ts';
-
-
-  const seq = document.getElementById('sequence');
-  const next = document.getElementById('next');
-  const prev = document.getElementById('prev');
-
-  seq.addEventListener('sequence', () => {
-    console.log('sequence', seq.sequence);
-  })
-
-  next.addEventListener('click', () => {
-    seq.sequence.nextCanvas();
-  })
-  prev.addEventListener('click', () => {
-    seq.sequence.previousCanvas();
-  })
-
-  seq.addEventListener('sequence-change', (e) => {
-    if (e.detail.index === 0) {
-      prev.setAttribute('disabled', 'true');
-    } else {
-      prev.removeAttribute('disabled');
-    }
-    if (e.detail.total - 1 <= e.detail.index) {
-      next.setAttribute('disabled', 'true');
-    } else {
-      next.removeAttribute('disabled');
-    }
-  })
-
-
-  // setTimeout(() => {
-  //   document.getElementById('left').setAttribute('canvas-id', 'https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0005.JP2')
-  //   // document.getElementById('left').setAttribute('x', '3000')
-  // }, 5000)
-
-  const container = document.getElementById('container');
-  const cp = document.createElement('canvas-panel');
-  const zoom = document.getElementById('zoom');
-  const zoomIn = document.getElementById('zoomIn');
-  const zoomOut = document.getElementById('zoomOut');
-  const home = document.getElementById('home');
-  const text = document.getElementById('enable-text');
-  const move = document.getElementById('move');
-  const enableMove = document.getElementById('enable-move');
-  const play = document.getElementById('playpause');
-  const mediaControls = document.getElementById('media');
-  const progress = document.getElementById('progress');
-
-
-  const el = document.createElement('canvas-panel');
-  console.log('We are here.')
-  console.log(el.vault);
-  el.whenReady(() => {
-    console.log(el.vault)
-  })
-
-
-  // Set our attributes
-
-  // cp.setAttribute('disable-keyboard-navigation', "true");
-  cp.setAttribute('click-to-enable-zoom', 'true');
-  cp.setAttribute('text-enabled', 'false');
-  cp.setAttribute('text-selection-enabled', 'true');
-
-  text.addEventListener('click', () => {
-    if (cp.getAttribute('text-enabled') === 'false') {
-      cp.setAttribute('text-enabled', 'true');
-    } else {
-      cp.setAttribute('text-enabled', 'false');
-    }
-  })
-
-  enableMove.addEventListener('click', () => {
-    if (cp.getAttribute('move-events')) {
-      cp.removeAttribute('move-events');
-    } else {
-      cp.setAttribute('move-events', 'true');
-    }
-  });
-
-  zoomIn.addEventListener('click', () => {
-    cp.zoomIn();
-  });
-  zoomOut.addEventListener('click', () => {
-    cp.zoomOut();
-  });
-  home.addEventListener('click', () => {
-    cp.goHome();
-  });
-
-  cp.addEventListener('move', ev => {
-    move.innerText = `x: ${ev.detail.x}, y: ${ev.detail.y}, w: ${ev.detail.width}, h: ${ev.detail.height}`;
-  });
-
-  cp.addEventListener('zoom', ev => {
-    console.log('zoom', ev.detail);
-    zoom.innerText = ev.detail.scaleFactor;
-
-    if (ev.detail.isMax) {
-      zoomIn.setAttribute('disabled', 'disabled');
-    } else {
-      zoomIn.removeAttribute('disabled');
-    }
-    if (ev.detail.isMin) {
-      zoomOut.setAttribute('disabled', 'disabled');
-    } else {
-      zoomOut.removeAttribute('disabled');
-    }
-  });
-
-  cp.addEventListener('canvas-change', (ev) => {
-
-    mediaControls.style.display = 'none';
-    console.log('change-canvas', ev.detail);
-  });
-
-  const $cs = document.getElementById('content-state');
-  const $selection = document.getElementById('selection');
-  const $transition = document.getElementById('transition');
-
-  $cs.addEventListener('click', () => {
-    $cs.disabled = true;
-    cp.enableContentStateSelection(selection => {
-      console.log(selection);
-      $selection.innerText = JSON.stringify(selection, null, 2);
-      cp.disableContentStateSelection();
-      $cs.disabled = false;
-    });
-  });
-
-  $transition.addEventListener('click', () => {
-    cp.transition(tm => {
-      tm.goToRegion({
-        height: 200,
-        width: 200,
-        x: 200,
-        y: 200,
-      }, {
-        transition: {
-          easing: cp.easingFunctions().easeOutExpo,
-          duration: 2000,
-        },
+    <script>
+      document.getElementById('range').addEventListener('range-change', (e) => {
+        console.log(e.detail);
+        document.getElementById('range').setAttribute('selected-range', e.detail.range?.id);
       });
-    });
-  });
+    </script>
 
-  async function demo() {
-    const manifestWithAnnotations = await cp.vault.loadManifest(
-      'https://iiif.wellcomecollection.org/presentation/b2169512x',
-    );
-    const canvas10 = cp.vault.get(manifestWithAnnotations.items[30]);
-    cp.setManifest(manifestWithAnnotations.id);
-    cp.setCanvas(canvas10.id);
-    for (const annoPage of canvas10.annotations) {
-      // the .annotations property is an array of 0..n AnnotationPage resources.
-      // how do we know these are not inline?
-      let embedded = annoPage.items && !cp.vault.requestStatus(annoPage);
-      if (!embedded) {
-        console.log(annoPage.id + ' needs to be loaded');
-        // As a resource external to the manifest, we load annotations specifically, from their id:
-        const loadedAnnoPage = await cp.vault.load(annoPage.id);
-        // These are now loaded into the Vault
-        await showSomeAnnotations(canvas10.id, loadedAnnoPage);
+    <script type="module">
+      import { AnnotationDisplay } from './src/index.ts';
+
+      const seq = document.getElementById('sequence');
+      const next = document.getElementById('next');
+      const prev = document.getElementById('prev');
+
+      seq.addEventListener('sequence', () => {
+        console.log('sequence', seq.sequence);
+      });
+
+      next.addEventListener('click', () => {
+        seq.sequence.nextCanvas();
+      });
+      prev.addEventListener('click', () => {
+        seq.sequence.previousCanvas();
+      });
+
+      seq.addEventListener('sequence-change', (e) => {
+        if (e.detail.index === 0) {
+          prev.setAttribute('disabled', 'true');
+        } else {
+          prev.removeAttribute('disabled');
+        }
+        if (e.detail.total - 1 <= e.detail.index) {
+          next.setAttribute('disabled', 'true');
+        } else {
+          next.removeAttribute('disabled');
+        }
+      });
+
+      // setTimeout(() => {
+      //   document.getElementById('left').setAttribute('canvas-id', 'https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0005.JP2')
+      //   // document.getElementById('left').setAttribute('x', '3000')
+      // }, 5000)
+
+      const container = document.getElementById('container');
+      const cp = document.createElement('canvas-panel');
+      const zoom = document.getElementById('zoom');
+      const zoomIn = document.getElementById('zoomIn');
+      const zoomOut = document.getElementById('zoomOut');
+      const home = document.getElementById('home');
+      const text = document.getElementById('enable-text');
+      const move = document.getElementById('move');
+      const enableMove = document.getElementById('enable-move');
+      const play = document.getElementById('playpause');
+      const mediaControls = document.getElementById('media');
+      const progress = document.getElementById('progress');
+
+      const el = document.createElement('canvas-panel');
+      console.log('We are here.');
+      console.log(el.vault);
+      el.whenReady(() => {
+        console.log(el.vault);
+      });
+
+      // Set our attributes
+
+      // cp.setAttribute('disable-keyboard-navigation', "true");
+      cp.setAttribute('click-to-enable-zoom', 'true');
+      cp.setAttribute('text-enabled', 'false');
+      cp.setAttribute('text-selection-enabled', 'true');
+
+      text.addEventListener('click', () => {
+        if (cp.getAttribute('text-enabled') === 'false') {
+          cp.setAttribute('text-enabled', 'true');
+        } else {
+          cp.setAttribute('text-enabled', 'false');
+        }
+      });
+
+      enableMove.addEventListener('click', () => {
+        if (cp.getAttribute('move-events')) {
+          cp.removeAttribute('move-events');
+        } else {
+          cp.setAttribute('move-events', 'true');
+        }
+      });
+
+      zoomIn.addEventListener('click', () => {
+        cp.zoomIn();
+      });
+      zoomOut.addEventListener('click', () => {
+        cp.zoomOut();
+      });
+      home.addEventListener('click', () => {
+        cp.goHome();
+      });
+
+      cp.addEventListener('move', (ev) => {
+        move.innerText = `x: ${ev.detail.x}, y: ${ev.detail.y}, w: ${ev.detail.width}, h: ${ev.detail.height}`;
+      });
+
+      cp.addEventListener('zoom', (ev) => {
+        console.log('zoom', ev.detail);
+        zoom.innerText = ev.detail.scaleFactor;
+
+        if (ev.detail.isMax) {
+          zoomIn.setAttribute('disabled', 'disabled');
+        } else {
+          zoomIn.removeAttribute('disabled');
+        }
+        if (ev.detail.isMin) {
+          zoomOut.setAttribute('disabled', 'disabled');
+        } else {
+          zoomOut.removeAttribute('disabled');
+        }
+      });
+
+      cp.addEventListener('canvas-change', (ev) => {
+        mediaControls.style.display = 'none';
+        console.log('change-canvas', ev.detail);
+      });
+
+      const $cs = document.getElementById('content-state');
+      const $selection = document.getElementById('selection');
+      const $transition = document.getElementById('transition');
+
+      $cs.addEventListener('click', () => {
+        $cs.disabled = true;
+        cp.enableContentStateSelection((selection) => {
+          console.log(selection);
+          $selection.innerText = JSON.stringify(selection, null, 2);
+          cp.disableContentStateSelection();
+          $cs.disabled = false;
+        });
+      });
+
+      $transition.addEventListener('click', () => {
+        cp.transition((tm) => {
+          tm.goToRegion(
+            {
+              height: 200,
+              width: 200,
+              x: 200,
+              y: 200,
+            },
+            {
+              transition: {
+                easing: cp.easingFunctions().easeOutExpo,
+                duration: 2000,
+              },
+            }
+          );
+        });
+      });
+
+      async function demo() {
+        const manifestWithAnnotations = await cp.vault.loadManifest(
+          'https://iiif.wellcomecollection.org/presentation/b2169512x'
+        );
+        const canvas10 = cp.vault.get(manifestWithAnnotations.items[30]);
+        cp.setManifest(manifestWithAnnotations.id);
+        cp.setCanvas(canvas10.id);
+        for (const annoPage of canvas10.annotations) {
+          // the .annotations property is an array of 0..n AnnotationPage resources.
+          // how do we know these are not inline?
+          let embedded = annoPage.items && !cp.vault.requestStatus(annoPage);
+          if (!embedded) {
+            console.log(annoPage.id + ' needs to be loaded');
+            // As a resource external to the manifest, we load annotations specifically, from their id:
+            const loadedAnnoPage = await cp.vault.load(annoPage.id);
+            // These are now loaded into the Vault
+            await showSomeAnnotations(canvas10.id, loadedAnnoPage);
+          }
+        }
+
+        cp.addEventListener('media-displayed', () => {
+          mediaControls.style.display = 'block';
+          cp.setMediaProgressElement(progress);
+        });
+
+        play.addEventListener('click', () => {
+          if (cp.mediaActions) {
+            cp.mediaActions.playPause();
+          }
+        });
+
+        setTimeout(() => {
+          console.log(cp.mediaActions);
+        }, 3000);
+
+        cp.withAtlas((rt) => {
+          zoom.innerText = rt._lastGoodScale;
+        });
+
+        console.log('events helper ->', cp.events);
+        console.log('styles helper ->', cp.styles);
+        console.log('Image service loader ->', cp.imageServiceLoader);
+        console.log('Thumbnail helper ->', cp.thumbnailHelper);
+        //document.getElementById("output").innerText = msg;
       }
-    }
 
+      async function showSomeAnnotations(canvasId, annoPage) {
+        if (!cp.annotations) {
+          console.log('ERROR NO ANNOTATIONS!');
+        }
 
-    cp.addEventListener('media-displayed', () => {
-      mediaControls.style.display = 'block';
-      cp.setMediaProgressElement(progress);
-    });
+        const w3cAnno = cp.vault.get(annoPage.items[5]);
+        console.log(w3cAnno);
+        const displayAnno = new AnnotationDisplay(w3cAnno);
+        // displayAnno.className = "my-class";
+        displayAnno.applyStyle({
+          background: 'red',
+          color: '#000',
+        });
+        cp.annotations.add(displayAnno);
 
-    play.addEventListener('click', () => {
-      if (cp.mediaActions) {
-        cp.mediaActions.playPause();
+        const newAnno = {
+          type: 'Annotation',
+          motivation: ['tagging'],
+          target: canvasId + '#300,300,500,500',
+        };
+        const annoWithId = await cp.vault.load('fake-id', newAnno);
+        const displayAnno2 = new AnnotationDisplay(annoWithId);
+        displayAnno2.className = 'my-class';
+
+        displayAnno2.addEventListener('onClick', (target, anno) => {
+          console.log('clicked ' + anno.id + ' on ' + JSON.stringify(target));
+        });
+        cp.annotations.add(displayAnno2);
+
+        const linkingAnno = {
+          type: 'Annotation',
+          motivation: ['linking'],
+          target: canvasId + '#300,900,500,500',
+        };
+        const linkingAnnoWithId = await cp.vault.load('fake-id-2', linkingAnno);
+        const displayAnno3 = new AnnotationDisplay(linkingAnnoWithId);
+        displayAnno3.className = 'my-link-class';
+        displayAnno3.href = 'https://iiif.io/';
+        cp.annotations.add(displayAnno3);
       }
-    });
 
-
-    setTimeout(() => {
-      console.log(cp.mediaActions);
-    }, 3000);
-
-
-    cp.withAtlas(rt => {
-      zoom.innerText = rt._lastGoodScale;
-    });
-
-    console.log('events helper ->', cp.events)
-    console.log('styles helper ->', cp.styles)
-    console.log('Image service loader ->', cp.imageServiceLoader)
-    console.log('Thumbnail helper ->', cp.thumbnailHelper)
-    //document.getElementById("output").innerText = msg;
-  }
-
-  async function showSomeAnnotations(canvasId, annoPage) {
-    if (!cp.annotations) {
-      console.log('ERROR NO ANNOTATIONS!');
-    }
-
-
-    const w3cAnno = cp.vault.get(annoPage.items[5]);
-    console.log(w3cAnno);
-    const displayAnno = new AnnotationDisplay(w3cAnno);
-    // displayAnno.className = "my-class";
-    displayAnno.applyStyle({
-      background: 'red',
-      color: '#000',
-    });
-    cp.annotations.add(displayAnno);
-
-    const newAnno = {
-      type: 'Annotation',
-      motivation: ['tagging'],
-      target: canvasId + '#300,300,500,500',
-    };
-    const annoWithId = await cp.vault.load('fake-id', newAnno);
-    const displayAnno2 = new AnnotationDisplay(annoWithId);
-    displayAnno2.className = 'my-class';
-
-    displayAnno2.addEventListener('onClick', (target, anno) => {
-      console.log('clicked ' + anno.id + ' on ' + JSON.stringify(target));
-    });
-    cp.annotations.add(displayAnno2);
-
-    const linkingAnno = {
-      type: 'Annotation',
-      motivation: ['linking'],
-      target: canvasId + '#300,900,500,500',
-    };
-    const linkingAnnoWithId = await cp.vault.load('fake-id-2', linkingAnno);
-    const displayAnno3 = new AnnotationDisplay(linkingAnnoWithId);
-    displayAnno3.className = 'my-link-class';
-    displayAnno3.href = 'https://iiif.io/';
-    cp.annotations.add(displayAnno3);
-  }
-
-
-  cp.whenReady(demo);
-  container.appendChild(cp);
-
-
-</script>
-</body>
+      cp.whenReady(demo);
+      container.appendChild(cp);
+    </script>
+  </body>
 </html>

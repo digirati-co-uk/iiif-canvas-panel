@@ -2,6 +2,17 @@ import { createAtlasWrapper } from './create-atlas-wrapper';
 import * as Atlas from '@atlas-viewer/atlas';
 import { BoxStyle } from '@atlas-viewer/atlas';
 
+export const World = createAtlasWrapper<{
+  height: number;
+  width: number;
+}>({
+  displayName: 'Atlas.World',
+  component: Atlas.World,
+  customConstructor: (props) => {
+    return new Atlas.World(props.width, props.height);
+  },
+});
+
 export const WorldObject = createAtlasWrapper<{
   height: number;
   scale?: number;

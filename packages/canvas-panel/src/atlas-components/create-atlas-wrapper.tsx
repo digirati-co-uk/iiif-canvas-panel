@@ -65,6 +65,10 @@ export function createAtlasWrapper<T = any, C = any>({
           }
         }
 
+        if (instance instanceof Atlas.World) {
+          runtime.world = instance;
+        }
+
         if (!(instance instanceof Atlas.WorldObject)) {
           runtime.pendingUpdate = true;
           if (runtime.world) {

@@ -12,6 +12,7 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   interactive?: boolean;
   atlasMode?: 'sketch' | 'explore';
   virtualSizes?: string | SizeParameter | Array<SizeParameter> | Array<string>;
+  skipSizes?: boolean;
   styleId?: string;
   preset?: string;
   stylesheet?: string;
@@ -21,11 +22,14 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   granularMoveEvents?: boolean;
   disableKeyboardNavigation?: boolean;
   clickToEnableZoom?: boolean;
+  homeCover?: 'true' | 'false' | 'start' | 'end';
   viewport?: boolean;
   debug?: boolean;
   media?: Record<string, Partial<GenericAtlasComponent<T>>>;
   height?: number | string;
   width?: number | string;
+  a11yRole?: string;
+  a11yTitle?: string;
   class?: string;
   x?: number | string;
   y?: number | string;

@@ -15,6 +15,7 @@ import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { parseBool } from '../helpers/parse-attributes';
 import { ImageServiceLoader } from '@atlas-viewer/iiif-image-api';
+import { World } from '../atlas-components';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -30,6 +31,8 @@ export type ImageServiceProps = GenericAtlasComponent<
     y?: number;
     tileFormat?: string;
     children?: any;
+    skipSizes?: boolean | 'true' | 'false';
+    disableThumbnail?: boolean | 'true' | 'false';
   },
   ImageServiceApi
 >;
@@ -52,11 +55,14 @@ export function ImageService(props: ImageServiceProps) {
     interactive,
     x,
     y,
+    homeCover,
   } = useGenericAtlasProps(props);
 
   const [src] = useProp('src');
   const [nested] = useProp('nested', { parse: parseBool });
   const [tileFormat, setTileFormat] = useProp('tileFormat');
+  const [skipSizes] = useProp('skipSizes', { parse: parseBool });
+  const [disableThumbnail] = useProp('disableThumbnail', { parse: parseBool });
   const [loadImageService, status] = useLoadImageService();
   const statusOf = status[src];
   const image = useMemo(() => {
@@ -122,6 +128,8 @@ export function ImageService(props: ImageServiceProps) {
           aspectRatio={aspectRatio}
           className={className}
           nested={nested}
+          homeCover={homeCover}
+          homeOnResize={!!homeCover}
           {...atlasProps}
         >
           <RenderImage
@@ -130,6 +138,8 @@ export function ImageService(props: ImageServiceProps) {
             id={image.id}
             isStatic={!interactive}
             virtualSizes={virtualSizes}
+            skipSizes={skipSizes}
+            skipThumbnail={disableThumbnail}
             x={x}
             y={y}
             tileFormat={tileFormat}
@@ -184,6 +194,7 @@ if (typeof window !== 'undefined') {
       'choice-id',
       'move-events',
       'granular-move-events',
+      'home-cover',
       'tile-format',
     ],
     {

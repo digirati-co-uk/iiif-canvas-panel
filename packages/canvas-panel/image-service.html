@@ -1,0 +1,53 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="module" src="./src/index.ts"></script>
+
+    <div style="display: flex; gap: 20px">
+      <div>
+        <h3>False</h3>
+        <image-service
+          width="512"
+          height="512"
+          preset="static"
+          src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2"
+          home-cover="false"
+        ></image-service>
+      </div>
+      <div>
+        <h3>True</h3>
+        <image-service
+          width="512"
+          height="512"
+          preset="static"
+          src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2"
+          home-cover="true"
+        ></image-service>
+      </div>
+      <div>
+        <h3>Start</h3>
+        <image-service
+          width="512"
+          height="512"
+          preset="static"
+          src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2"
+          home-cover="start"
+        ></image-service>
+      </div>
+      <div>
+        <h3>End</h3>
+        <image-service
+          width="512"
+          height="512"
+          preset="static"
+          src="https://iiif.wellcomecollection.org/image/b18035723_0001.JP2"
+          home-cover="end"
+        ></image-service>
+      </div>
+    </div>
+  </body>
+</html>

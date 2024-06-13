@@ -66,69 +66,86 @@
     </div>
 
     <script>
-      function $(id) {
-        return document.getElementById(id);
-      }
-      const vault = new IIIFHelpers.Vault();
-      const thumbHelper = IIIFHelpers.createThumbnailHelper(vault);
-      let manifest;
+            function $(id) {
+              return document.getElementById(id);
+            }
+      <<<<<<< HEAD
+            const vault = new IIIFHelpers.Vault();
+            const thumbHelper = IIIFHelpers.createThumbnailHelper(vault);
+      =======
+            const vault = new IIIFVault.Vault();
+            const thumbHelper = VaultHelpers.createThumbnailHelper(vault);
+      >>>>>>> main
+            let manifest;
 
-      async function loadManifest() {
-        const manifestUri = $("manifest").value;
-        if (manifestUri) {
-          manifest = await vault.loadManifest(manifestUri);
+            async function loadManifest() {
+              const manifestUri = $("manifest").value;
+              if (manifestUri) {
+                manifest = await vault.loadManifest(manifestUri);
 
-          const viewportContainer = $("viewportContainer");
-          viewportContainer.innerHTML = "";
-          // New component.
-          const sequencePanel = document.createElement("sequence-panel");
-          sequencePanel.vault = vault;
-          sequencePanel.setAttribute("manifest-id", manifestUri);
-          sequencePanel.setAttribute("margin", "20");
-          viewportContainer.appendChild(sequencePanel);
+                const viewportContainer = $("viewportContainer");
+                viewportContainer.innerHTML = "";
+                // New component.
+                const sequencePanel = document.createElement("sequence-panel");
+                sequencePanel.vault = vault;
+                sequencePanel.setAttribute("manifest-id", manifestUri);
+                sequencePanel.setAttribute("margin", "20");
+                viewportContainer.appendChild(sequencePanel);
 
-          $("manifestLabel").innerText = IIIFHelpers.getValue(manifest.label);
-          let thumbsHtml = "";
-          let counter = 1;
-          // for brevity we will assume that the manifest is "paged", the viewingDirection is left-to-right.
-          thumbsHtml += '<div class="tc"></div>';
-          for (const canvasRef of vault.get(manifest.items)) {
-            const canvas = vault.get(canvasRef);
-            const label = IIIFHelpers.getValue(canvas.label);
-            thumbsHtml += `<div class="tc">${label}<br/>`;
-            thumbsHtml += `<img data-uri="${canvas.id}" data-label="${label}" src="${canvas.thumbnail[0].id}" data-index="${counter}" />`;
-            thumbsHtml += "</div>";
-            counter++;
-          }
-          $("th").innerHTML = thumbsHtml;
-          const thumbs = document.querySelectorAll("#th img");
-          for (const thumb of thumbs) {
-            thumb.addEventListener("click", () => {
-              if (sequencePanel.sequence) {
-                sequencePanel.sequence.setCurrentCanvasId(
-                  thumb.getAttribute("data-uri")
-                );
+      <<<<<<< HEAD
+                $("manifestLabel").innerText = IIIFHelpers.getValue(manifest.label);
+      =======
+                $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);
+      >>>>>>> main
+                let thumbsHtml = "";
+                let counter = 1;
+                // for brevity we will assume that the manifest is "paged", the viewingDirection is left-to-right.
+                thumbsHtml += '<div class="tc"></div>';
+                for (const canvasRef of vault.get(manifest.items)) {
+                  const canvas = vault.get(canvasRef);
+      <<<<<<< HEAD
+                  const label = IIIFHelpers.getValue(canvas.label);
+      =======
+                  const label = VaultHelpers.getValue(canvas.label);
+      >>>>>>> main
+                  thumbsHtml += `<div class="tc">${label}<br/>`;
+                  thumbsHtml += `<img data-uri="${canvas.id}" data-label="${label}" src="${canvas.thumbnail[0].id}" data-index="${counter}" />`;
+                  thumbsHtml += "</div>";
+                  counter++;
+                }
+                $("th").innerHTML = thumbsHtml;
+                const thumbs = document.querySelectorAll("#th img");
+                for (const thumb of thumbs) {
+                  thumb.addEventListener("click", () => {
+                    if (sequencePanel.sequence) {
+                      sequencePanel.sequence.setCurrentCanvasId(
+                        thumb.getAttribute("data-uri")
+                      );
+                    }
+                  });
+                }
+                sequencePanel.addEventListener("sequence-change", () => {
+                  // Update the page labels for both visible canvases
+                  const sequence = sequencePanel.sequence;
+                  const itemIndexes =
+                    sequence.sequence[sequence.currentSequenceIndex];
+                  const canvasRefs = itemIndexes.map((idx) => sequence.items[idx]);
+                  const canvases = vault.get(canvasRefs);
+                  const labels = canvases.map((canvas) =>
+      <<<<<<< HEAD
+                    IIIFHelpers.getValue(canvas.label)
+      =======
+                    VaultHelpers.getValue(canvas.label)
+      >>>>>>> main
+                  );
+                  $("cvLabel").innerText = labels.join(" | ");
+                });
+                thumbs[0].click();
               }
-            });
-          }
-          sequencePanel.addEventListener("sequence-change", () => {
-            // Update the page labels for both visible canvases
-            const sequence = sequencePanel.sequence;
-            const itemIndexes =
-              sequence.sequence[sequence.currentSequenceIndex];
-            const canvasRefs = itemIndexes.map((idx) => sequence.items[idx]);
-            const canvases = vault.get(canvasRefs);
-            const labels = canvases.map((canvas) =>
-              IIIFHelpers.getValue(canvas.label)
-            );
-            $("cvLabel").innerText = labels.join(" | ");
-          });
-          thumbs[0].click();
-        }
-      }
+            }
 
-      $("go").addEventListener("click", loadManifest);
-      loadManifest();
+            $("go").addEventListener("click", loadManifest);
+            loadManifest();
     </script>
   </body>
 </html>

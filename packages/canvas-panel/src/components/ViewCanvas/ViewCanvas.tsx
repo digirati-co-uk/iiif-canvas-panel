@@ -10,7 +10,6 @@ import {
   useAnnotationPageManager,
   useManifest,
   useVault,
-  StrategyActions,
 } from 'react-iiif-vault';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
@@ -27,7 +26,6 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const canvas = useCanvas();
   const manifest = useManifest();
   const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
-  const actions = useRef<StrategyActions>();
   const [annoMode, setAnnoMode] = useState(false);
   const aspectRatio =
     !props.displayOptions.viewport && canvas
@@ -44,12 +42,6 @@ export function ViewCanvas(props: ViewCanvasProps) {
     if (!(el as any).annotationPageManager) {
       (el as any).annotationPageManager = {};
     }
-
-    (el as any).makeChoice = (id: string, options: any) => {
-      if (actions.current) {
-        actions.current.makeChoice(id, options);
-      }
-    };
 
     // Update?
     (el as any).annotationPageManager.availablePageIds = manager.availablePageIds;
@@ -124,20 +116,19 @@ export function ViewCanvas(props: ViewCanvasProps) {
         className={props.className}
         {...displayOptions}
         mode={annoMode ? 'sketch' : props.mode}
+        homeCover={props.homeCover}
+        homeOnResize={!!props.homeCover}
       >
         <Component
           isStatic={!props.interactive}
           debug={props.debug}
           virtualSizes={props.virtualSizes}
           highlight={props.highlight}
-          onChoiceChange={props.onChoiceChange}
           highlightCssClass={props.highlightCssClass}
           annoMode={annoMode}
           defaultChoices={props.defaultChoices}
-          registerActions={(newActions) => {
-            actions.current = newActions;
-          }}
           disableThumbnail={props.disableThumbnail}
+          skipSizes={props.skipSizes}
           onCreated={(e: any) => {
             if (manifest && canvas && e) {
               navigator.clipboard.writeText(
