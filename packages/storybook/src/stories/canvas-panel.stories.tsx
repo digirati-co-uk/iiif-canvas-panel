@@ -138,7 +138,7 @@ export const CanvasWithMultipleContentStates = () => {
     manifestUrl: welcome,
     skipSizes: true,
     extra: () => <>
-      <button onClick={()=> (document?.querySelector(selector) as any).setContentStateFromText(contentStateNarrowViewport)} >Narrow</button>
+      <button onClick={()=> (document?.querySelector(selector) as any).setContentStateFromText(contentStateNarrowViewport,true)} >Narrow</button>
       <button onClick={()=> (document?.querySelector(selector) as any).setContentStateFromText(contentStateWideViewport)} >Wide</button>
     </>
   }
