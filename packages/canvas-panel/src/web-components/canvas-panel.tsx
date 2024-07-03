@@ -219,11 +219,12 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         contentStateStack.current = [];
       },
 
-      setContentStateFromText(text: string) {
+      setContentStateFromText(text: string, immediate = false) {
         if (text == undefined || text.trim() === '') {
           return;
         }
         const contentState = normaliseContentState(parseContentState(text));
+        contentState.immediate = immediate;
         const firstTarget = contentState.target[0];
 
         if (canvasIdRef.current === firstTarget.source.id) {
@@ -234,7 +235,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
             contentState.target[0].selector &&
             contentState.target[0].selector.type === 'BoxSelector'
           ) {
-            runtime.current.world.gotoRegion(contentState.target[0].selector.spatial);
+            runtime.current.world.gotoRegion({ ...contentState.target[0].selector.spatial, immediate });
           }
         } else {
           setParsedContentState(contentState);
@@ -275,6 +276,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
                 y,
                 width,
                 height,
+                immediate: contentState.immediate,
               });
             } else {
               setParsedTarget(firstTarget);
