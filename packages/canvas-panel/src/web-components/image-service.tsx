@@ -13,9 +13,8 @@ import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { ErrorBoundary as _ErrorBoundary } from 'react-error-boundary';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
-import { parseBool } from '../helpers/parse-attributes';
+import { parseBool, parseNumber } from '../helpers/parse-attributes';
 import { ImageServiceLoader } from '@atlas-viewer/iiif-image-api';
-import { World } from '../atlas-components';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -29,6 +28,7 @@ export type ImageServiceProps = GenericAtlasComponent<
     nested?: string;
     x?: number;
     y?: number;
+    rotation?: number;
     tileFormat?: string;
     children?: any;
     skipSizes?: boolean | 'true' | 'false';
@@ -60,6 +60,7 @@ export function ImageService(props: ImageServiceProps) {
 
   const [src] = useProp('src');
   const [nested] = useProp('nested', { parse: parseBool });
+  const [rotation] = useProp('rotation', { parse: parseNumber });
   const [tileFormat, setTileFormat] = useProp('tileFormat');
   const [skipSizes] = useProp('skipSizes', { parse: parseBool });
   const [disableThumbnail] = useProp('disableThumbnail', { parse: parseBool });
@@ -130,6 +131,7 @@ export function ImageService(props: ImageServiceProps) {
           nested={nested}
           homeCover={homeCover}
           homeOnResize={!!homeCover}
+          rotation={rotation}
           {...atlasProps}
         >
           <RenderImage
@@ -142,6 +144,7 @@ export function ImageService(props: ImageServiceProps) {
             skipThumbnail={disableThumbnail}
             x={x}
             y={y}
+            rotation={rotation}
             tileFormat={tileFormat}
           />
         </NestedAtlas>
@@ -196,6 +199,7 @@ if (typeof window !== 'undefined') {
       'granular-move-events',
       'home-cover',
       'tile-format',
+      'rotation',
     ],
     {
       shadow: true,

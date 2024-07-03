@@ -127,6 +127,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     }
   );
 
+  const [rotation, setRotation, , rotationRef] = useSyncedState(props.rotation, { parse: parseNumber });
+
   const [highlight, setHighlight, , highlightRef] = useSyncedState(props.highlight || internalConfig.highlight, {
     parse: parseOptionalSelector,
   });
@@ -472,7 +474,12 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       styles,
       thumbnailHelper: thumbs,
       imageServiceLoader: loader,
-
+      getRotation: () => {
+        return rotationRef.current;
+      },
+      setRotation: (newRotation: string | number) => {
+        htmlComponent.setAttribute('rotation', newRotation.toString());
+      },
       getHighlight: () => {
         return highlightRef.current;
       },
@@ -863,6 +870,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     nested,
     x,
     y,
+    rotation,
     homeCover,
     useProp,
     useRegisterWebComponentApi,

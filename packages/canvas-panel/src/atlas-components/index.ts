@@ -19,6 +19,7 @@ export const WorldObject = createAtlasWrapper<{
   width: number;
   x?: number;
   y?: number;
+  rotation?: number;
 }>({
   displayName: 'Atlas.WorldObject',
   component: Atlas.WorldObject,
