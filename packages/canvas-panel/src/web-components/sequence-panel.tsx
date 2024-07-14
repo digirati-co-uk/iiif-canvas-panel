@@ -120,11 +120,12 @@ export function SequencePanel(props: SequencePanelProps) {
         return ContentStateEvent;
       },
 
-      setContentStateFromText(text: string) {
+      setContentStateFromText(text: string, immediate = false) {
         if (text == undefined || text.trim() === '') {
           return;
         }
         const contentState = normaliseContentState(parseContentState(text));
+        contentState.immediate = immediate;
         setParsedContentState(contentState);
       },
 
@@ -185,6 +186,7 @@ export function SequencePanel(props: SequencePanelProps) {
               y,
               width,
               height,
+              immediate: contentState.immediate,
             });
           }
         }

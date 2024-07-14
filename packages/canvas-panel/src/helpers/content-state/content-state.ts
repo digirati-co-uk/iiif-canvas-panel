@@ -26,6 +26,7 @@ export type NormalisedContentState = {
   motivation: ['contentState', ...string[]];
   target: Array<SupportedTarget>;
   extensions: Record<string, any>;
+  immediate?: boolean;
 };
 
 /**
