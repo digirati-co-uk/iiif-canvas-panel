@@ -15,6 +15,7 @@ export const TileSet: FC<{
   tileFormat?: string;
   skipSizes?: boolean;
   skipThumbnail?: boolean;
+  rotation: number;
 }> = ({
   height,
   tiles,
@@ -24,6 +25,7 @@ export const TileSet: FC<{
   style,
   skipSizes = false,
   skipThumbnail = false,
+  rotation = 0,
   viewport,
   tileFormat,
   children,
@@ -50,6 +52,7 @@ export const TileSet: FC<{
       height={tiles.height}
       width={tiles.width}
       x={x}
+      rotation={rotation}
       y={y}
       {...(props as any)}
     >

@@ -8,6 +8,7 @@ export type AtlasDisplayOptions = AtlasProps & {
   aspectRatio?: number;
   viewport?: boolean;
   responsive?: boolean;
+  rotation?: number;
 };
 
 export type ViewCanvasProps = {
@@ -34,4 +35,5 @@ export type ViewCanvasProps = {
   disableThumbnail?: boolean;
   skipSizes?: boolean;
   homeCover?: boolean | 'start' | 'end';
+  rotation?: number;
 };

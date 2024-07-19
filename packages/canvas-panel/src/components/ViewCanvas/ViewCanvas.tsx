@@ -27,6 +27,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const manifest = useManifest();
   const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
   const [annoMode, setAnnoMode] = useState(false);
+  const rotation = props.rotation || 0;
   const aspectRatio =
     !props.displayOptions.viewport && canvas
       ? props.displayOptions.homePosition
@@ -129,6 +130,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
           defaultChoices={props.defaultChoices}
           disableThumbnail={props.disableThumbnail}
           skipSizes={props.skipSizes}
+          rotation={rotation}
           onCreated={(e: any) => {
             if (manifest && canvas && e) {
               navigator.clipboard.writeText(

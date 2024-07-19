@@ -16,6 +16,7 @@ export function RenderImage({
   virtualSizes = [],
   x = 0,
   y = 0,
+  rotation = 0,
   annotations,
   tileFormat,
   skipSizes,
@@ -29,6 +30,7 @@ export function RenderImage({
   virtualSizes?: SizeParameter[];
   x?: number;
   y?: number;
+  rotation?: number;
   annotations?: JSX.Element;
   tileFormat?: string;
   skipSizes?: boolean;
@@ -41,7 +43,6 @@ export function RenderImage({
   const style = useMemo(() => ({ ...annotationStyles, ...resourceStyle }), [annotationStyles, resourceStyle]);
   const events = useResourceEvents(annotationId ? { id: annotationId, type: 'Annotation' } : undefined, ['atlas']);
   const resourceEvents = useResourceEvents({ id, type: 'ContentResource' }, ['atlas']);
-
   return (
     <React.Fragment>
       {!image.service ? (
@@ -78,6 +79,7 @@ export function RenderImage({
             skipThumbnail={skipThumbnail}
             x={image.target?.spatial.x + x}
             y={image.target?.spatial.y + y}
+            rotation={rotation}
             width={image.target?.spatial.width}
             height={image.target?.spatial.height}
             style={style}
