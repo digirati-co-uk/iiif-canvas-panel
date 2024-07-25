@@ -25,6 +25,28 @@ export const ChangingCanvases = () => {
   </>
 }
 
+export const NonInteractiveCanvas = () => {
+
+  const [cv, setCv] = useState(canvases[0]);
+
+  return <>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>before<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    {/* @ts-ignore */}
+    <canvas-panel manifest-id={welcome} interactive='false' canvas-id={cv} />
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>after<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  </>
+}
+
+export const RotateCanvas = () => {
+
+  const [rotation, setRotation] = useState(0);
+  return <>
+    <button onClick={()=>{setRotation((rotation + 90) % 360)}}>Rotate Canvas</button>
+    {/* @ts-ignore */}
+    <canvas-panel manifest-id={welcome} canvas-id={canvases[0]} rotation={rotation} />
+  </>
+}
+
 export const CanvasWithNavigator = () => {
   {/* @ts-ignore */}
   return <canvas-panel manifest-id={welcome} canvas-id={canvases[0]} enable-navigator="true" />;
