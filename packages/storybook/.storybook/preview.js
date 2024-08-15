@@ -1,8 +1,9 @@
-import '@digirati/canvas-panel-web-components';
-import { addParameters } from '@storybook/client-api';
+//import '@digirati/canvas-panel-web-components';
+import "../../canvas-panel";
+import { addParameters } from "@storybook/client-api";
 
 addParameters({
-  viewMode: 'docs',
+  viewMode: "docs",
 });
 
 export const parameters = {
@@ -13,4 +14,4 @@ export const parameters = {
       date: /Date$/,
     },
   },
-}
+};

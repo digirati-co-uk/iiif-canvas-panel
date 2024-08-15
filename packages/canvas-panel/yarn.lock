@@ -26,12 +26,42 @@
     react-use-measure "^2.0.1"
     scheduler "^0.21.0"
 
+"@atlas-viewer/atlas@https://pkg.csb.dev/atlas-viewer/atlas/commit/567c644a/@atlas-viewer/atlas":
+  version "2.2.6"
+  resolved "https://pkg.csb.dev/atlas-viewer/atlas/commit/567c644a/@atlas-viewer/atlas#767a57610e3e32ca8b1721644b56645732c7c034"
+  dependencies:
+    "@atlas-viewer/dna" "^0.5.0"
+    "@atlas-viewer/iiif-image-api" "^2.2.0"
+    "@iiif/helpers" "^1.1.0"
+    "@iiif/parser" "^2.1.0"
+    "@iiif/presentation-3" ">=2"
+    lru-cache "^7.17.0"
+    normalize-wheel "^1.0.1"
+    react-reconciler "^0.29.0"
+    react-use-measure "^2.0.1"
+    scheduler "^0.21.0"
+
+"@atlas-viewer/atlas@https://pkg.csb.dev/atlas-viewer/atlas/commit/68113b2c/@atlas-viewer/atlas":
+  version "2.2.6"
+  resolved "https://pkg.csb.dev/atlas-viewer/atlas/commit/68113b2c/@atlas-viewer/atlas#ecdd05225220ae4492c1736a57c46d1b720abdfe"
+  dependencies:
+    "@atlas-viewer/dna" "^0.5.0"
+    "@atlas-viewer/iiif-image-api" "^2.2.0"
+    "@iiif/helpers" "^1.1.0"
+    "@iiif/parser" "^2.1.0"
+    "@iiif/presentation-3" ">=2"
+    lru-cache "^7.17.0"
+    normalize-wheel "^1.0.1"
+    react-reconciler "^0.29.0"
+    react-use-measure "^2.0.1"
+    scheduler "^0.21.0"
+
 "@atlas-viewer/dna@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@atlas-viewer/dna/-/dna-0.5.0.tgz#aab824540b59dc3897e2ba4cdb51a53e47ed3311"
   integrity sha512-vHyMwXoCFq6ymk+wOVIkMphUo+I+wBRoA2tBf1AIUZWJMsk51cBtO2qzOaZQUh/TmrzrqEY5aEAtgBj52LVRUg==
 
-"@atlas-viewer/iiif-image-api@2.*", "@atlas-viewer/iiif-image-api@^2.0.5", "@atlas-viewer/iiif-image-api@^2.1.2":
+"@atlas-viewer/iiif-image-api@2.*", "@atlas-viewer/iiif-image-api@^2.0.5", "@atlas-viewer/iiif-image-api@^2.1.2", "@atlas-viewer/iiif-image-api@^2.2.0":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@atlas-viewer/iiif-image-api/-/iiif-image-api-2.1.2.tgz#aeca3ac0c0c71f9c89986a22fd1ef50c17090761"
   integrity sha512-PiNSPi8y1Tjgfyy+J2bv/P/CypabeL7/za0qA+urFYRUQ2oEip5JvPoIWpyWVMh7MsXPQ4HdIPOpGzANtxTHXA==
@@ -704,7 +734,21 @@
     parse-svg-path "^0.1.2"
     svg-arc-to-cubic-bezier "^3.2.0"
 
-"@iiif/parser@1.*", "@iiif/parser@2.0.1", "@iiif/parser@>=v1.0.13", "@iiif/parser@^1.1.2":
+"@iiif/helpers@^1.1.0":
+  version "1.2.19"
+  resolved "https://registry.yarnpkg.com/@iiif/helpers/-/helpers-1.2.19.tgz#25e817cde7664774731a9368f48b6875096434eb"
+  integrity sha512-v2NQVHq3Ut1gl66Dap1Qc40nORgC86ebgeV7iuhfxNSfseKMt6yD7r+4jSp0qliWC66kJSyg6d3QM7t4oBsE7A==
+  dependencies:
+    "@iiif/presentation-2" "1.0.4"
+    "@iiif/presentation-3" "2.2.3"
+    "@iiif/presentation-3-normalized" "0.9.7"
+    "@types/geojson" "7946.0.13"
+  optionalDependencies:
+    abs-svg-path "^0.1.1"
+    parse-svg-path "^0.1.2"
+    svg-arc-to-cubic-bezier "^3.2.0"
+
+"@iiif/parser@1.*", "@iiif/parser@2.0.1", "@iiif/parser@>=v1.0.13", "@iiif/parser@^1.1.2", "@iiif/parser@^2.1.0":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@iiif/parser/-/parser-1.0.6.tgz#0f5252b94ba586aade3d6558b5a649fa265fe217"
   integrity sha512-bIdmqe3JwPopL7qEeZk193YNkGaEkkfSR9i/+B7I3MVXkKGE6G80tOWhfQRs/EY3fMzOS8OUFxzAu+aS6CXvEg==
@@ -730,7 +774,7 @@
   dependencies:
     "@iiif/presentation-3" "^2.0.5"
 
-"@iiif/presentation-3@*", "@iiif/presentation-3@1.*", "@iiif/presentation-3@1.x", "@iiif/presentation-3@2.1.3", "@iiif/presentation-3@>=1.0.6", "@iiif/presentation-3@>=2", "@iiif/presentation-3@^1.0.4", "@iiif/presentation-3@^1.1.2", "@iiif/presentation-3@^1.1.3", "@iiif/presentation-3@^2.0.5":
+"@iiif/presentation-3@*", "@iiif/presentation-3@1.*", "@iiif/presentation-3@1.x", "@iiif/presentation-3@2.1.3", "@iiif/presentation-3@2.2.3", "@iiif/presentation-3@>=1.0.6", "@iiif/presentation-3@>=2", "@iiif/presentation-3@^1.0.4", "@iiif/presentation-3@^1.1.2", "@iiif/presentation-3@^1.1.3", "@iiif/presentation-3@^2.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@iiif/presentation-3/-/presentation-3-1.0.6.tgz#bec210e4df2549c363733dc3215b20c4e9160a46"
   integrity sha512-00wzi4ocMe0bvxkYsv+SzWRPeN8ZHN2n86aJ2o2QpZiaVQ2AsewBPCMarGryAZ0x7CQv0yO9HV1xj6jiuhl9dQ==
