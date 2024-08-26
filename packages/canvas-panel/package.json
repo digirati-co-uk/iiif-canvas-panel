@@ -17,11 +17,11 @@
     "@iiif/presentation-3": ">=1.0.6",
     "@iiif/vault": "^0.9.18",
     "@iiif/parser": "1.*",
-    "@atlas-viewer/atlas": "2.0.14",
+    "@atlas-viewer/atlas": "2.2.8",
     "nanoid": "3.1.25"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "2.0.14",
+    "@atlas-viewer/atlas": "^2.2.8",
     "@atlas-viewer/iiif-image-api": "^2.1.2",
     "@iiif/presentation-2": "^1.0.4",
     "@iiif/presentation-3": "^1.1.3",

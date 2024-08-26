@@ -45,6 +45,7 @@ interface AtlasCanvasProps {
   textEnabled?: boolean;
   disableThumbnail?: boolean;
   skipSizes?: boolean;
+  rotation?: number;
 }
 
 export function AtlasCanvas({
@@ -62,6 +63,7 @@ export function AtlasCanvas({
   textEnabled,
   disableThumbnail,
   skipSizes,
+  rotation,
 }: AtlasCanvasProps) {
   const manifest = useManifest();
   const canvas = useCanvas();
@@ -177,7 +179,6 @@ export function AtlasCanvas({
   }, [defaultChoices]);
 
   const thumbnail = useThumbnail({ maxWidth: 256, maxHeight: 256 });
-
   if (!canvas) {
     return null;
   }
@@ -263,7 +264,6 @@ export function AtlasCanvas({
       ) : null}
     </Fragment>
   );
-
   return (
     <WorldObject key={strategy.type} height={canvas.height} width={canvas.width} x={x} y={y} {...elementProps}>
       {strategy.type === 'images'
@@ -274,6 +274,7 @@ export function AtlasCanvas({
                 key={image.id}
                 image={image}
                 id={image.id}
+                rotation={rotation}
                 annotationId={image.annotationId}
                 thumbnail={idx === 0 && !disableThumbnail ? (thumbnail as any) : undefined}
                 virtualSizes={virtualSizes}

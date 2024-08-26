@@ -5,7 +5,7 @@ import { CanvasContext, VaultProvider } from 'react-iiif-vault';
 import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-public-api';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { ManifestLoader } from '../components/manifest-loader';
-import { parseBool, parseChoices, parseContentStateParameter } from '../helpers/parse-attributes';
+import { parseBool, parseChoices, parseContentStateParameter, parseNumber } from '../helpers/parse-attributes';
 import { normaliseAxis, parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
@@ -30,6 +30,7 @@ export type CanvasPanelProps = GenericAtlasComponent<
     textEnabled?: 'true' | 'false' | boolean;
     followAnnotations?: boolean;
     iiifContent?: string;
+    rotation?: number;
   },
   UseRegisterPublicApi['properties']
 >;
@@ -45,6 +46,7 @@ const canvasPanelAttributes = [
   'follow-annotations',
   'iiif-content',
   'home-cover',
+  'rotation',
 ];
 
 export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
@@ -80,6 +82,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     parse: parseContentStateParameter,
   });
   const [canvasId, setCanvasId, , canvasIdRef] = useProp('canvasId');
+  const [rotation, setRotation, , rotationRef] = useProp('rotation', { parse: parseNumber, defaultValue: 0 });
   const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
   const [followAnnotations] = useProp('followAnnotations', { parse: parseBool, defaultValue: true });
   const [defaultChoices, , , defaultChoiceIdsRef] = useProp('choiceId', { parse: parseChoices });
@@ -316,6 +319,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         canvasId={canvasId}
         displayOptions={atlasProps}
         mode={mode}
+        rotation={rotation || 0}
         x={x}
         y={y}
         textEnabled={textEnabled}
