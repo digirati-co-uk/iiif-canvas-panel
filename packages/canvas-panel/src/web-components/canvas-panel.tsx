@@ -47,6 +47,7 @@ const canvasPanelAttributes = [
   'iiif-content',
   'home-cover',
   'rotation',
+  'background',
 ];
 
 export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
@@ -74,6 +75,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     useProp,
     useRegisterWebComponentApi,
     setMode,
+    background,
   } = useGenericAtlasProps(props);
   const [contentStateCallback, setContentStateCallback] = useState<ContentStateCallback | undefined>(undefined);
   const contentStateStack = useRef<ContentStateEvent[]>([]);
@@ -314,6 +316,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         className={className}
         highlight={highlight}
         debug={debug}
+        background={background}
         virtualSizes={virtualSizes}
         highlightCssClass={highlightCssClass}
         canvasId={canvasId}

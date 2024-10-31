@@ -9,10 +9,27 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@atlas-viewer/atlas@2.2.8", "@atlas-viewer/atlas@^2.0.0-alpha.19", "@atlas-viewer/atlas@^2.2.8":
-  version "2.2.8"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.2.8.tgz#01ac0cca64480033c12fa42a09c2ccf6bff89ecf"
-  integrity sha512-53DIi0MrbKQOCp9vQxYhyX2m1ywytFaa/8/2B8vEKRhseYiZ9ZfBo7pzcDEKYHwaWZ9syX6UzFY3puL0enJokQ==
+"@atlas-viewer/atlas@2.0.16", "@atlas-viewer/atlas@^2.0.0-alpha.19":
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.0.16.tgz#353c572a453b9ddd43a70e1cdfeb71ac335c3176"
+  integrity sha512-6GfaPiSYi5DhgT7Lfcl9VJBfeuDW0qRc5icQ7OXTFk/lvTImeFs9mhcPNZ5+o6xxw5F5aoa49lZipXSUNPQc9A==
+  dependencies:
+    "@atlas-viewer/dna" "^0.5.0"
+    "@atlas-viewer/iiif-image-api" "^2.0.5"
+    "@iiif/helpers" "^1.0.3"
+    "@iiif/parser" "2.0.1"
+    "@iiif/presentation-3" ">=2"
+    lru-cache "^7.17.0"
+    nanoid "^3.1.9"
+    normalize-wheel "^1.0.1"
+    react-reconciler "^0.29.0"
+    react-use-measure "^2.0.1"
+    scheduler "^0.21.0"
+
+"@atlas-viewer/atlas@^2.0.16":
+  version "2.2.9"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.2.9.tgz#40ead5b5c23952ac4904e2bbb04dead7401508e6"
+  integrity sha512-UqtyxcfIMx8MbXWTVwBIFOL5Dz9BacBWpUWNkOOefC6/9FWKwitCm7L15ZvosyVwGN+UsexeAuyV5mNh45lTvg==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
     "@atlas-viewer/iiif-image-api" "^2.2.0"
@@ -30,7 +47,7 @@
   resolved "https://registry.yarnpkg.com/@atlas-viewer/dna/-/dna-0.5.0.tgz#aab824540b59dc3897e2ba4cdb51a53e47ed3311"
   integrity sha512-vHyMwXoCFq6ymk+wOVIkMphUo+I+wBRoA2tBf1AIUZWJMsk51cBtO2qzOaZQUh/TmrzrqEY5aEAtgBj52LVRUg==
 
-"@atlas-viewer/iiif-image-api@2.*", "@atlas-viewer/iiif-image-api@^2.1.2", "@atlas-viewer/iiif-image-api@^2.2.0":
+"@atlas-viewer/iiif-image-api@2.*", "@atlas-viewer/iiif-image-api@^2.0.5", "@atlas-viewer/iiif-image-api@^2.1.2", "@atlas-viewer/iiif-image-api@^2.2.0":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@atlas-viewer/iiif-image-api/-/iiif-image-api-2.1.2.tgz#aeca3ac0c0c71f9c89986a22fd1ef50c17090761"
   integrity sha512-PiNSPi8y1Tjgfyy+J2bv/P/CypabeL7/za0qA+urFYRUQ2oEip5JvPoIWpyWVMh7MsXPQ4HdIPOpGzANtxTHXA==
@@ -689,7 +706,7 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@iiif/helpers@^1.1.0":
+"@iiif/helpers@^1.0.3", "@iiif/helpers@^1.1.0":
   version "1.2.19"
   resolved "https://registry.yarnpkg.com/@iiif/helpers/-/helpers-1.2.19.tgz#25e817cde7664774731a9368f48b6875096434eb"
   integrity sha512-v2NQVHq3Ut1gl66Dap1Qc40nORgC86ebgeV7iuhfxNSfseKMt6yD7r+4jSp0qliWC66kJSyg6d3QM7t4oBsE7A==
@@ -703,7 +720,7 @@
     parse-svg-path "^0.1.2"
     svg-arc-to-cubic-bezier "^3.2.0"
 
-"@iiif/parser@1.*", "@iiif/parser@>=v1.0.13", "@iiif/parser@^1.1.2", "@iiif/parser@^2.1.0":
+"@iiif/parser@1.*", "@iiif/parser@2.0.1", "@iiif/parser@>=v1.0.13", "@iiif/parser@^1.1.2", "@iiif/parser@^2.1.0":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@iiif/parser/-/parser-1.0.6.tgz#0f5252b94ba586aade3d6558b5a649fa265fe217"
   integrity sha512-bIdmqe3JwPopL7qEeZk193YNkGaEkkfSR9i/+B7I3MVXkKGE6G80tOWhfQRs/EY3fMzOS8OUFxzAu+aS6CXvEg==
@@ -3381,7 +3398,7 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-nanoid@3.1.25, nanoid@^3.3.1, nanoid@^3.3.4:
+nanoid@3.1.25, nanoid@^3.1.9, nanoid@^3.3.1, nanoid@^3.3.4:
   version "3.1.25"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
   integrity sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==

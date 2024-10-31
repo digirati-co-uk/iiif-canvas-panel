@@ -37,6 +37,7 @@ const sequencePanelAttributes = [
   'text-enabled',
   'follow-annotations',
   'margin',
+  'background',
 ];
 
 export function SequencePanel(props: SequencePanelProps) {
@@ -63,6 +64,7 @@ export function SequencePanel(props: SequencePanelProps) {
     useProp,
     useRegisterWebComponentApi,
     setMode,
+    background,
   } = useGenericAtlasProps(props);
   const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
   const [rangeId, , , rangeIdRef] = useProp('rangeId');
@@ -212,6 +214,7 @@ export function SequencePanel(props: SequencePanelProps) {
               renderMultiple={true}
               // Escape hatch for bugs - to be improved.
               key={`${startCanvas}-${viewport ? 'v1' : 'v0'}`}
+              background={background}
               interactive={interactive}
               followAnnotations={followAnnotations}
               className={className}

@@ -64,6 +64,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     parse: parseBool,
     defaultValue: true,
   });
+  const [background] = useSyncedState(props.background);
   const [viewport] = useSyncedState(props.viewport || internalConfig.viewport, {
     parse: parseBool,
     defaultValue: true,
@@ -842,6 +843,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   }, [responsive, viewport, target, render, enableNavigator, internalConfig, a11yRole, a11yTitle]);
   return {
     atlasProps,
+    background,
     isReady,
     isConfigBlocking,
     setIsReady,

@@ -36,6 +36,8 @@ export function NestedAtlas({
       </>
     );
   }
+  
+  console.log('bg', props.background);
 
   return (
     <InAtlasContext.Provider value={true}>

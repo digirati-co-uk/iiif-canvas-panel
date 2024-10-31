@@ -56,6 +56,7 @@ export function ImageService(props: ImageServiceProps) {
     x,
     y,
     homeCover,
+    background,
   } = useGenericAtlasProps(props);
 
   const [src] = useProp('src');
@@ -130,6 +131,7 @@ export function ImageService(props: ImageServiceProps) {
           className={className}
           nested={nested}
           homeCover={homeCover}
+          background={background}
           homeOnResize={!!homeCover}
           rotation={rotation}
           {...atlasProps}
@@ -200,6 +202,7 @@ if (typeof window !== 'undefined') {
       'home-cover',
       'tile-format',
       'rotation',
+      'background',
     ],
     {
       shadow: true,
