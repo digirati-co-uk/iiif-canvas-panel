@@ -115,6 +115,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
           ...(containerProps || {}),
         }}
         className={props.className}
+        background={props.background}
         {...displayOptions}
         mode={annoMode ? 'sketch' : props.mode}
         homeCover={props.homeCover}

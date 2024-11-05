@@ -105,6 +105,7 @@
       id="sequence"
       text-enabled="true"
       text-selection-enabled="true"
+      background="#0f0"
       start-canvas="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"
       canvas-id="https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0004.JP2"
       manifest-id="https://iiif.wellcomecollection.org/presentation/b18035723"
@@ -119,6 +120,14 @@
         console.log(e.detail);
         document.getElementById('range').setAttribute('selected-range', e.detail.range?.id);
       });
+
+      function randomColor() {
+        return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+      }
+
+      setInterval(() => {
+        document.getElementById('sequence').setAttribute('background', randomColor());
+      }, 1000);
     </script>
 
     <script type="module">
