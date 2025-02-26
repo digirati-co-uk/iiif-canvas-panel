@@ -26,22 +26,6 @@
     react-use-measure "^2.0.1"
     scheduler "^0.21.0"
 
-"@atlas-viewer/atlas@^2.0.16":
-  version "2.2.9"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-2.2.9.tgz#40ead5b5c23952ac4904e2bbb04dead7401508e6"
-  integrity sha512-UqtyxcfIMx8MbXWTVwBIFOL5Dz9BacBWpUWNkOOefC6/9FWKwitCm7L15ZvosyVwGN+UsexeAuyV5mNh45lTvg==
-  dependencies:
-    "@atlas-viewer/dna" "^0.5.0"
-    "@atlas-viewer/iiif-image-api" "^2.2.0"
-    "@iiif/helpers" "^1.1.0"
-    "@iiif/parser" "^2.1.0"
-    "@iiif/presentation-3" ">=2"
-    lru-cache "^7.17.0"
-    normalize-wheel "^1.0.1"
-    react-reconciler "^0.29.0"
-    react-use-measure "^2.0.1"
-    scheduler "^0.21.0"
-
 "@atlas-viewer/atlas@https://pkg.csb.dev/atlas-viewer/atlas/commit/f2dbf380/@atlas-viewer/atlas":
   version "2.2.8"
   resolved "https://pkg.csb.dev/atlas-viewer/atlas/commit/f2dbf380/@atlas-viewer/atlas#d2e5344deaa96c6e01c54ab75c3989caa5a9ec9b"
@@ -1445,11 +1429,6 @@ acorn@^8.7.0:
   version "8.7.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.7.0.tgz#90951fde0f8f09df93549481e5fc141445b791cf"
   integrity sha512-V/LGr1APy+PXIwKebEWrkZPwoeoF+w1jiOBUmuxuiUIaOHtob8Qc9BTrYo7VuI5fR8tqsy+buA2WFooR5olqvQ==
-
-add@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
-  integrity sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==
 
 ajv@^6.10.0, ajv@^6.12.4:
   version "6.12.6"
@@ -4459,8 +4438,3 @@ yargs@^17.3.1:
     string-width "^4.2.3"
     y18n "^5.0.5"
     yargs-parser "^21.0.0"
-
-yarn@^1.22.22:
-  version "1.22.22"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.22.tgz#ac34549e6aa8e7ead463a7407e1c7390f61a6610"
-  integrity sha512-prL3kGtyG7o9Z9Sv8IPfBNrWTDmXB4Qbes8A9rEzt6wkJV8mUvoirjU0Mp3GGAU06Y0XQyA3/2/RQFVuK7MTfg==
