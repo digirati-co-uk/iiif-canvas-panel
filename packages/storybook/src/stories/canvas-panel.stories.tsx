@@ -12,6 +12,7 @@ const allEvents = ['zoom', 'world-ready', 'choice', 'move', 'canvas-change', 'me
 const selector = "canvas-panel,sequence-panel";
 const saintGines = 'https://media.getty.edu/iiif/manifest/1e0ed47e-5a5b-4ff0-aea0-45abee793a1c';
 const welcome = "https://iiif.wellcomecollection.org/presentation/b18035723";
+const ibis = 'https://media.getty.edu/iiif/manifest/b9f50ca1-2a44-4079-ba62-1bcc3cb6575a'
 
 
 export const ChangingCanvases = () => {
@@ -139,7 +140,7 @@ function ImageViewer(props) {
 
     { canvases[Math.abs(cvindex)] }
     {/* @ts-ignore */}
-    <canvas-panel manifest-id={manifestUrl} skip-sizes={props.skipSizes? props.skipSizes : false} canvas-id={props.canvasId ? props.canvasId : canvases[Math.abs(cvindex)]  } />
+    <canvas-panel manifest-id={manifestUrl} skip-sizes={props.skipSizes? props.skipSizes : false} use-floor-calc={props.useFloorCalc ? props.useFloorCalc : false} canvas-id={props.canvasId ? props.canvasId : canvases[Math.abs(cvindex)]  } />
   </>
 
 }
@@ -149,6 +150,13 @@ export const CanvasWithSkipSizes = () => {
 
 
   return ImageViewer({manifestUrl: saintGines, skipSizes: true})
+
+}
+
+export const CanvasWithFloorCalc = () => {
+
+
+  return ImageViewer({manifestUrl: ibis, skipSizes: true, useFloorCalc: true})
 
 }
 

@@ -46,6 +46,7 @@ interface AtlasCanvasProps {
   disableThumbnail?: boolean;
   skipSizes?: boolean;
   rotation?: number;
+  useFloorCalc?: boolean;
 }
 
 export function AtlasCanvas({
@@ -64,6 +65,7 @@ export function AtlasCanvas({
   disableThumbnail,
   skipSizes,
   rotation,
+  useFloorCalc,
 }: AtlasCanvasProps) {
   const manifest = useManifest();
   const canvas = useCanvas();
@@ -281,6 +283,7 @@ export function AtlasCanvas({
                 annotations={annotations}
                 skipSizes={skipSizes}
                 skipThumbnail={disableThumbnail}
+                useFloorCalc={useFloorCalc}
               />
             );
           })

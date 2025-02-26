@@ -132,6 +132,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
           disableThumbnail={props.disableThumbnail}
           skipSizes={props.skipSizes}
           rotation={rotation}
+          useFloorCalc={props.useFloorCalc}
           onCreated={(e: any) => {
             if (manifest && canvas && e) {
               navigator.clipboard.writeText(

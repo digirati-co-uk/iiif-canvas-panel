@@ -22,6 +22,7 @@ export function RenderImage({
   skipSizes,
   annotationId,
   skipThumbnail,
+  useFloorCalc,
 }: {
   id: string;
   image: ImageWithOptionalService;
@@ -36,6 +37,7 @@ export function RenderImage({
   skipSizes?: boolean;
   annotationId?: string;
   skipThumbnail?: boolean;
+  useFloorCalc?: boolean;
 }) {
   // For image resources, we may not support everything.. but we do support opacity.
   const annotationStyles = useStyles(annotationId ? { id: annotationId, type: 'Annotation' } : undefined, 'atlas');
@@ -80,6 +82,7 @@ export function RenderImage({
             x={image.target?.spatial.x + x}
             y={image.target?.spatial.y + y}
             rotation={rotation}
+            useFloorCalc={useFloorCalc}
             width={image.target?.spatial.width}
             height={image.target?.spatial.height}
             style={style}
