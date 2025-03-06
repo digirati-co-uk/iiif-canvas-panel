@@ -13,7 +13,6 @@ const selector = "canvas-panel,sequence-panel";
 const saintGines = 'https://media.getty.edu/iiif/manifest/1e0ed47e-5a5b-4ff0-aea0-45abee793a1c';
 const welcome = "https://iiif.wellcomecollection.org/presentation/b18035723";
 
-
 export const ChangingCanvases = () => {
 
   const [cv, setCv] = useState(canvases[0]);
@@ -91,6 +90,7 @@ function ImageViewer(props) {
   const [zoomInfo, setZoomInfo] = useState({});
   const [canZoomIn, setCanZoomIn] = useState(false);
   const [canZoomOut, setCanZoomOut] = useState(false);
+  const [rotation, setRotation] = useState(0);
 
 
   let panel;
@@ -136,10 +136,11 @@ function ImageViewer(props) {
     <button onClick={() => setCvindex(c => (cvindex + 1) % canvases.length)}>Next Canvas</button>
     <button disabled={!canZoomIn} onClick={() => (document?.querySelector(selector) as any).zoomIn()}>Zoom In</button> 
     <button disabled={!canZoomOut} onClick={() => (document?.querySelector(selector) as any).zoomOut()}>Zoom Out</button>
+    <button onClick={()=>{setRotation((rotation + 90) % 360)}}>Rotate Canvas</button>
 
     { canvases[Math.abs(cvindex)] }
     {/* @ts-ignore */}
-    <canvas-panel manifest-id={manifestUrl} skip-sizes={props.skipSizes? props.skipSizes : false} canvas-id={props.canvasId ? props.canvasId : canvases[Math.abs(cvindex)]  } />
+    <canvas-panel rotation={rotation} manifest-id={manifestUrl} skip-sizes={props.skipSizes? props.skipSizes : false} canvas-id={props.canvasId ? props.canvasId : canvases[Math.abs(cvindex)] } />
   </>
 
 }
