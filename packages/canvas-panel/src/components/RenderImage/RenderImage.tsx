@@ -70,8 +70,12 @@ export function RenderImage({
             viewport={isStatic}
             tiles={{
               id: image.service.id,
-              height: (image.height !== image.service.height ? image.service.height : image.height) as number,
-              width: (image.width !== image.service.width ? image.service.width : image.width) as number,
+              height: (image.height !== image.service.height && image.service.height !== undefined
+                ? image.service.height
+                : image.height) as number,
+              width: (image.width !== image.service.width && image.service.width !== undefined
+                ? image.service.width
+                : image.width) as number,
               imageService: image.service as any,
               thumbnail: !skipThumbnail && thumbnail && thumbnail.type === 'fixed' ? thumbnail : undefined,
             }}
