@@ -37,4 +37,5 @@ export type ViewCanvasProps = {
   skipSizes?: boolean;
   homeCover?: boolean | 'start' | 'end';
   rotation?: number;
+  useFloorCalc?: boolean;
 };

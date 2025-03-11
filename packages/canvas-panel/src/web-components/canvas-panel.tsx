@@ -31,6 +31,7 @@ export type CanvasPanelProps = GenericAtlasComponent<
     followAnnotations?: boolean;
     iiifContent?: string;
     rotation?: number;
+    useFloorCalc?: 'true' | 'false' | boolean
   },
   UseRegisterPublicApi['properties']
 >;
@@ -92,6 +93,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   const [disableThumbnail] = useProp('disableThumbnail', { parse: parseBool, defaultValue: false });
   const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
   const [textEnabled] = useProp('textEnabled', { parse: parseBool, defaultValue: false });
+  const [useFloorCalc] = useProp('useFloorCalc', { parse: parseBool, defaultValue: false });
   const contentState =
     unknownContentState && unknownContentState.type !== 'remote-content-state' ? unknownContentState : null;
   const contentStateToLoad =
@@ -330,6 +332,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         disableThumbnail={disableThumbnail}
         skipSizes={skipSizes}
         homeCover={homeCover}
+        useFloorCalc={useFloorCalc}
       >
         <slot name="atlas" />
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}

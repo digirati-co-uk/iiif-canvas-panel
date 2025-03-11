@@ -16,6 +16,7 @@ export const TileSet: FC<{
   skipSizes?: boolean;
   skipThumbnail?: boolean;
   rotation: number;
+  useFloorCalc?: boolean;
 }> = ({
   height,
   tiles,
@@ -26,6 +27,7 @@ export const TileSet: FC<{
   skipSizes = false,
   skipThumbnail = false,
   rotation = 0,
+  useFloorCalc = false,
   viewport,
   tileFormat,
   children,
@@ -127,6 +129,7 @@ export const TileSet: FC<{
                 scaleFactor={size}
                 style={style}
                 format={tileFormat}
+                useFloorCalc={useFloorCalc}
               />
             );
           })
