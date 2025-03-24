@@ -39,6 +39,13 @@
     "@iiif/presentation-3" "*"
     node-fetch "^3.2.0"
 
+"@atlas-viewer/iiif-image-api@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/iiif-image-api/-/iiif-image-api-2.2.2.tgz#eed8c78b587ed4c98ee316372d2ccc96b9acfb97"
+  integrity sha512-MicA6fkWOJSWZ4fuOmh57ETVcCdnMaNhjzNtM29Xf6deGPtk8V4Vd46SWy3dM/cdo8gdHQdsvoJNkzzKo9CsXA==
+  dependencies:
+    "@iiif/presentation-3" "*"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.16.7.tgz#44416b6bd7624b998f5b1af5d470856c40138789"
