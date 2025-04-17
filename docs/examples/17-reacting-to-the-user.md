@@ -157,6 +157,11 @@ Extra DEMO:
 - select an annotation and display a sidebar
 - Click on the canvas and display simple coordinates.
 
+## Error(s)
+
+If CanvasPanel has an issue loading a canvas, it should fire a `cp-error` event
+with a `message` and `error` property.
+
 ## Content State
 
 Canvas Panel provides some basic methods for getting and setting the current
