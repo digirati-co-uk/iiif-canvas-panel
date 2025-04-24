@@ -8,7 +8,7 @@ const canvases = [
   "https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0002.JP2",
   "https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0003.JP2",
 ]
-const allEvents = ['zoom', 'world-ready', 'choice', 'move', 'canvas-change', 'media', 'ready', 'zoom', 'range-change', 'click','cp-error'];
+const allEvents = ['zoom', 'world-ready', 'choice', 'move', 'canvas-change', 'media', 'ready', 'zoom', 'range-change', 'click','cp-load-error'];
 const selector = "canvas-panel,sequence-panel";
 const saintGines = 'https://media.getty.edu/iiif/manifest/1e0ed47e-5a5b-4ff0-aea0-45abee793a1c';
 const welcome = "https://iiif.wellcomecollection.org/presentation/b18035723";
