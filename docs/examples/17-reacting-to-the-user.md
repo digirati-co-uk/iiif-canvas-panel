@@ -159,8 +159,8 @@ Extra DEMO:
 
 ## Error(s)
 
-If CanvasPanel has an issue loading a canvas, it should fire a `cp-error` event
-with a `message` and `error` property.
+If CanvasPanel has an issue loading a canvas, it should fire a `cp-load-error`
+event with a `message` and `error` property.
 
 ## Content State
 

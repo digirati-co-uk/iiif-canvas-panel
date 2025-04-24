@@ -232,7 +232,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     const onErrorEvent = (payload: { message?: string; error: any }) => {
       if (webComponent?.current) {
         webComponent.current.dispatchEvent(
-          new CustomEvent('cp-error', { detail: { message: payload.message, error: payload.error } })
+          new ErrorEvent('cp-load-error', { message: payload.message, error: payload.error })
         );
       }
     };
