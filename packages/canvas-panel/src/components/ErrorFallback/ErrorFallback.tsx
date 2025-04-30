@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { FallbackProps } from 'react-error-boundary';
 import { useEffect } from 'preact/compat';
+import { errorEventChannel } from '../../helpers/eventbus';
 
 export function ErrorFallback({
   error,
@@ -14,6 +15,7 @@ export function ErrorFallback({
 
   useEffect(() => {
     console.error(error);
+    errorEventChannel.emit('onErrorEvent', { message: error?.message, error });
   }, [error]);
 
   return (

@@ -46,6 +46,16 @@ export const choiceEventChannel = eventbus<{
   onResetSeen: () => void;
 }>();
 
+export const errorEventChannel = eventbus<{
+  /**
+   * When an `error` is fired
+   *
+   * @param payload - the id and options for the choice
+   *
+   */
+  onErrorEvent: (payload: { message?: string; error: any }) => void;
+}>();
+
 export function eventbus<E extends EventMap>(config?: EventBusConfig): EventBus<E> {
   const bus: Partial<Bus<E>> = {};
 

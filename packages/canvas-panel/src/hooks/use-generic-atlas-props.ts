@@ -17,7 +17,7 @@ import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
 import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
 import { useEffect } from 'preact/compat';
 import { globalVault } from '@iiif/vault';
-import { choiceEventChannel } from '../helpers/eventbus';
+import { choiceEventChannel, errorEventChannel } from '../helpers/eventbus';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const webComponent = useRef<HTMLElement>();
@@ -231,9 +231,19 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
         webComponent.current.dispatchEvent(new CustomEvent('choice', { detail: { choice } }));
       }
     };
+
+    const onErrorEvent = (payload: { message?: string; error: any }) => {
+      if (webComponent?.current) {
+        webComponent.current.dispatchEvent(
+          new ErrorEvent('cp-load-error', { message: payload.message, error: payload.error })
+        );
+      }
+    };
+    const unsubscribeErrorEvent = errorEventChannel.on('onErrorEvent', onErrorEvent);
     const unsubscribeOnChoiceChange = choiceEventChannel.on('onChoiceChange', onChoiceChange);
 
     return () => {
+      unsubscribeErrorEvent();
       unsubscribeOnResetSeen();
       unsubscribeOnChoiceChange();
     };
