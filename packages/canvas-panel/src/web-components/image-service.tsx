@@ -155,7 +155,8 @@ export function ImageService(props: ImageServiceProps) {
               highlight && highlight.selector && highlight.selector.type === 'BoxSelector' ? (
                 <RegionHighlight
                   id="highlight"
-                  isEditing={true}
+                  isEditing={false}
+                  interactive={false}
                   onClick={() => {
                     // no-op
                   }}
