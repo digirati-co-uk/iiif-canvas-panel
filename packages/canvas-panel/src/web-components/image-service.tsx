@@ -15,6 +15,7 @@ import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { parseBool, parseNumber } from '../helpers/parse-attributes';
 import { ImageServiceLoader } from '@atlas-viewer/iiif-image-api';
+import { RegionHighlight } from '../atlas-components/RegionHighlight/RegionHighlight';
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -57,6 +58,8 @@ export function ImageService(props: ImageServiceProps) {
     y,
     homeCover,
     background,
+    highlight,
+    highlightCssClass,
   } = useGenericAtlasProps(props);
 
   const [src] = useProp('src');
@@ -148,6 +151,24 @@ export function ImageService(props: ImageServiceProps) {
             y={y}
             rotation={rotation}
             tileFormat={tileFormat}
+            annotations={
+              highlight && highlight.selector && highlight.selector.type === 'BoxSelector' ? (
+                <RegionHighlight
+                  id="highlight"
+                  isEditing={false}
+                  interactive={false}
+                  onClick={() => {
+                    // no-op
+                  }}
+                  onSave={() => {
+                    // no-op
+                  }}
+                  region={highlight.selector.spatial as any}
+                  style={highlightCssClass ? undefined : { border: '3px solid red' }}
+                  className={highlightCssClass}
+                />
+              ) : undefined
+            }
           />
         </NestedAtlas>
       </VaultProvider>

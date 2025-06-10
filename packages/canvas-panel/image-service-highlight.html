@@ -1,0 +1,39 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // <style type="text/css" id="my-style">
+      //   .example-annotation {
+      //     border: 2px solid red;
+      //   }
+      // </style>
+      const styleTag = document.createElement('style');
+      styleTag.type = 'text/css';
+      styleTag.id = 'my-style';
+      styleTag.innerHTML = `
+        .example-annotation {
+          border: 2px solid red;
+        }
+      `;
+      document.head.appendChild(styleTag);
+    </script>
+
+    <script type="module" src="./src/index.ts"></script>
+    <image-service
+      render="canvas"
+      viewport="false"
+      height="512"
+      role="presentation"
+      alt=""
+      region="1441,5013,2169,1464"
+      src="https://media.getty.edu/iiif/image/dfe34df8-66ae-4e08-82e6-60329a6385df/info.json"
+      highlight="1441,5013,2169,1464"
+      highlight-css-class="example-annotation"
+      style-id="my-style"
+    ></image-service>
+  </body>
+</html>

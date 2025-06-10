@@ -25,8 +25,10 @@ export const RegionHighlight: React.FC<{
   hrefTarget?: string;
   children?: any;
   title?: string;
-}> = ({ children, interactive, region, onClick, onSave, isEditing, className, style, ...props }) => {
+}> = ({ children, interactive: _interactive, region, onClick, onSave, isEditing, className, style, ...props }) => {
   const mode = useMode();
+
+  const interactive = typeof _interactive === 'undefined' ? typeof onClick === 'function' : _interactive;
 
   const saveCallback = useCallback(
     (bounds: any) => {
@@ -58,7 +60,7 @@ export const RegionHighlight: React.FC<{
       <Box
         html
         className={className}
-        interactive={true}
+        interactive={interactive}
         relativeStyle
         target={{ x: 0, y: 0, width: region.width, height: region.height }}
         style={style}
