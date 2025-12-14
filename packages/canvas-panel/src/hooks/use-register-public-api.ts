@@ -7,13 +7,13 @@ import {
   Reference,
   Selector,
 } from '@iiif/presentation-3';
-import { Vault } from '@iiif/vault';
+import { Vault } from '@iiif/helpers';
 import { createContext } from 'preact';
-import {useContext, useEffect, useRef} from 'preact/compat';
+import { useContext, useEffect, useRef } from 'preact/compat';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ParsedSelector } from 'react-iiif-vault';
 import { BoxStyle } from '@atlas-viewer/atlas';
-import {useLayoutEffect} from "react";
+import { useLayoutEffect } from 'react';
 
 type TBC = any;
 

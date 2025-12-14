@@ -2,36 +2,30 @@
   "name": "@digirati/canvas-panel-web-components",
   "version": "1.0.73",
   "typings": "./dist/types/index.d.ts",
-  "main": "./dist/bundle.js",
+  "main": "./dist/index.cjs",
+  "type": "module",
   "files": [
     "dist"
   ],
   "license": "MIT",
   "scripts": {
-    "build": "node ./esbuild.mjs && yarn run build-types",
-    "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "prepublishOnly": "NODE_ENV=production yarn build"
-  },
-  "resolutions": {
-    "@atlas-viewer/iiif-image-api": "^2.1.2",
-    "@iiif/presentation-3": ">=1.0.6",
-    "@iiif/vault": "^0.9.18",
-    "@iiif/parser": "1.*",
-    "@atlas-viewer/atlas": "2.0.17",
-    "nanoid": "3.1.25"
+    "dev": "vite",
+    "build": "tsdown && tsdown --config ./tsdown.umd.ts",
+    "prepack": "NODE_ENV=production tsdown && tsdown --config ./tsdown.umd.ts"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "2.0.17",
+    "@atlas-viewer/atlas": "3.0.3",
     "@atlas-viewer/iiif-image-api": "2.2.2",
+    "@iiif/helpers": "1.5.7",
     "@iiif/presentation-2": "^1.0.4",
-    "@iiif/presentation-3": "^1.1.3",
-    "@iiif/vault": "^0.9.22",
-    "@iiif/vault-helpers": "^0.9.11",
+    "@iiif/presentation-3": "^2.2.3",
+    "@iiif/presentation-3-normalized": "^0.9.7",
     "@preact/compat": "17.*",
     "@react-hook/media-query": "^1.1.1",
     "preact": "^10.*",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "^0.9.21"
+    "react-iiif-vault": "^2.0.7",
+    "tsdown": "^0.17.4"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.3.0",
@@ -51,11 +45,20 @@
     "preact-render-to-string": "^5.2.0",
     "prettier": "^2.5.1",
     "ts-jest": "^28.0.5",
-    "typescript": "^4.6.2",
+    "typescript": "^5.9.3",
     "vite": "^2.9.5",
     "vitest": "^0.18.0"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
   }
 }

@@ -1,5 +1,5 @@
 import { useAnnotation } from 'react-iiif-vault';
-import { BoxSelector } from '@iiif/vault-helpers/.build/types/annotation-targets/selector-types';
+import { BoxSelector } from '@iiif/helpers';
 import { Fragment } from 'preact/compat';
 import { h } from 'preact';
 

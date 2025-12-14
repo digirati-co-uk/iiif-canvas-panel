@@ -1,5 +1,5 @@
 import { RangeContext, useManifest, useVault } from 'react-iiif-vault';
-import { findManifestSelectedRange, getValue } from '@iiif/vault-helpers';
+import { findManifestSelectedRange, getValue } from '@iiif/helpers';
 import { ViewRange } from './ViewRange';
 import { h } from 'preact';
 import { Fragment, useLayoutEffect } from 'preact/compat';

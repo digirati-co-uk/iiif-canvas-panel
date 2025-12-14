@@ -2,7 +2,7 @@ import register from '../library/preact-custom-element';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { SimpleViewerProvider, VaultProvider } from 'react-iiif-vault';
-import { ContentState } from '@iiif/vault-helpers';
+import { ContentState } from '@iiif/helpers';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { RegisterPublicApi } from '../hooks/use-register-public-api';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
