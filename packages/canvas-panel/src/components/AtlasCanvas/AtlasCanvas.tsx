@@ -11,7 +11,7 @@ import {
   useAnnotationPageManager,
   useManifest,
 } from 'react-iiif-vault';
-import { createStylesHelper, SingleChoice, createPaintingAnnotationsHelper } from '@iiif/vault-helpers';
+import { createStylesHelper, SingleChoice, createPaintingAnnotationsHelper } from '@iiif/helpers';
 import { Fragment, h } from 'preact';
 import { WorldObject, SingleImage } from '../../atlas-components';
 import { RenderAnnotationPage } from '../RenderAnnotationPage/RenderAnnotationPage';

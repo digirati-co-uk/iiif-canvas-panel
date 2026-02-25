@@ -15,7 +15,7 @@ import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
 import { DrawBox, easingFunctions, Projection } from '@atlas-viewer/atlas';
-import { ContentState } from '@iiif/vault-helpers';
+import { ContentState } from '@iiif/helpers';
 import { baseAttributes } from '../helpers/base-attributes';
 import { choiceEventChannel } from '../helpers/eventbus';
 

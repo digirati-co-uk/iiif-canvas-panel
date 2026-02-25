@@ -1,4 +1,4 @@
-import { findFirstCanvasFromRange, getValue, parseSelector, ParsedSelector } from '@iiif/vault-helpers';
+import { findFirstCanvasFromRange, getValue, parseSelector, ParsedSelector } from '@iiif/helpers';
 import { RangeContext, useRange, useVault } from 'react-iiif-vault';
 
 import { useMemo } from 'react';
