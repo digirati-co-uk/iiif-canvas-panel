@@ -1,2 +1,20 @@
 packages:
   - "packages/*"
+
+allowBuilds:
+  core-js: false
+  core-js-pure: false
+  ejs: false
+  es5-ext: false
+  esbuild: true
+  fsevents: true
+  husky: false
+
+overrides:
+  "@atlas-viewer/atlas": "link:../atlas"
+  # @storybook/builder-webpack5@6.5.16 (2022) only declares "webpack: ^5.9.0",
+  # so pnpm resolves whatever the newest 5.x is (5.103, a 2025 release) with no
+  # other constraint in the tree. Newer webpack's module runtime broke internals
+  # storybook 6.5 depends on (e.g. IgnorePlugin's beforeResolve hook contract).
+  # Pin to a version contemporaneous with storybook 6.5's release instead.
+  "webpack": "5.75.0"

@@ -61,7 +61,7 @@ export const CanvasWithSmallZoom = () => {
   return ImageViewer(
     {
       manifestUrl: saintGines,
-      canvasId: 'https://media.getty.edu/iiif/manifest/canvas/eaa531a5-e6ea-46a2-b6cd-a161d726f87b.json'
+      canvasId: 'https://media.getty.edu/iiif/manifest/canvas/eaa531a5-e6ea-46a2-b6cd-a161d726f87b'
     }
   )
 }
@@ -79,8 +79,8 @@ export const CanvasWithLandscapeZoom = () => {
 
   return ImageViewer(
     {
-      manifestUrl: 'https://media.getty.edu/iiif/manifest/6a744965-6345-41cf-8885-69dd07e25008',
-      canvasId : 'https://media.getty.edu/iiif/manifest/78697a2b-31b0-47d9-b1b6-32d7fd67d12c'
+      manifestUrl: saintGines,
+      canvasId : 'https://media.getty.edu/iiif/manifest/canvas/eaa531a5-e6ea-46a2-b6cd-a161d726f87b'
     }
   )
 }
