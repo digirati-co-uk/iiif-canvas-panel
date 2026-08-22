@@ -17,6 +17,7 @@ export function RenderImage({
   x = 0,
   y = 0,
   rotation = 0,
+  rotateFromWorldCenter = false,
   annotations,
   tileFormat,
   skipSizes,
@@ -32,6 +33,7 @@ export function RenderImage({
   x?: number;
   y?: number;
   rotation?: number;
+  rotateFromWorldCenter?: boolean;
   annotations?: JSX.Element;
   tileFormat?: string;
   skipSizes?: boolean;
@@ -86,6 +88,7 @@ export function RenderImage({
             x={image.target?.spatial.x + x}
             y={image.target?.spatial.y + y}
             rotation={rotation}
+            rotateFromWorldCenter={rotateFromWorldCenter}
             useFloorCalc={useFloorCalc}
             width={image.target?.spatial.width}
             height={image.target?.spatial.height}

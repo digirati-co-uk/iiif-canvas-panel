@@ -35,6 +35,7 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   x?: number | string;
   y?: number | string;
   rotation?: number | string;
+  rotateFromWorldCenter?: boolean;
   nested?: boolean | string;
   enableNavigator?: boolean;
   enablePanOnWait?: boolean;

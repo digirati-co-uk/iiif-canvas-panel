@@ -79,7 +79,7 @@ export function NestedAtlas({
         onCreated={handleAtlasCreated}
         unstable_noReconciler
       >
-        <InAtlasContext.Provider value={true}>{isCreated ? children : null}</InAtlasContext.Provider>
+        {(<InAtlasContext.Provider value={true}>{isCreated ? children : null}</InAtlasContext.Provider>) as any}
       </AtlasAutoComponent>
     </InAtlasContext.Provider>
   );

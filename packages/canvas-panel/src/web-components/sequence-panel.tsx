@@ -25,6 +25,8 @@ export type SequencePanelProps = GenericAtlasComponent<{
   followAnnotations?: 'true' | 'false' | boolean;
   skipSizes?: 'true' | 'false' | boolean;
   margin?: number;
+  rotation?: number;
+  rotateFromWorldCenter?: 'true' | 'false' | boolean;
 }>;
 
 const sequencePanelAttributes = [
@@ -37,6 +39,8 @@ const sequencePanelAttributes = [
   'text-enabled',
   'follow-annotations',
   'margin',
+  'rotation',
+  'rotate-from-world-center',
   'background',
 ];
 
@@ -83,6 +87,8 @@ export function SequencePanel(props: SequencePanelProps) {
     unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
   const [error, setError] = useState<Error | null>();
   const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
+  const [rotation] = useProp('rotation', { parse: parseNumber, defaultValue: 0 });
+  const [rotateFromWorldCenter] = useProp('rotateFromWorldCenter', { parse: parseBool, defaultValue: false });
 
   useRegisterWebComponentApi((htmlComponent: HTMLElement) => {
     return {
@@ -228,6 +234,8 @@ export function SequencePanel(props: SequencePanelProps) {
               skipSizes={skipSizes}
               textSelectionEnabled={textSelectionEnabled}
               margin={margin}
+              rotation={rotation || 0}
+              rotateFromWorldCenter={rotateFromWorldCenter}
             >
               <slot name="atlas" />
               {/*{contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}*/}

@@ -22,6 +22,8 @@ interface RenderAllCanvasesProps {
   margin?: number;
   disableThumbnail?: boolean;
   skipSizes?: boolean;
+  rotation?: number;
+  rotateFromWorldCenter?: boolean;
 }
 
 export function RenderAllCanvases(props: RenderAllCanvasesProps) {

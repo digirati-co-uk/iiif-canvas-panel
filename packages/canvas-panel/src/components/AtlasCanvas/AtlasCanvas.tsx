@@ -46,6 +46,7 @@ interface AtlasCanvasProps {
   disableThumbnail?: boolean;
   skipSizes?: boolean;
   rotation?: number;
+  rotateFromWorldCenter?: boolean;
   useFloorCalc?: boolean;
 }
 
@@ -65,6 +66,7 @@ export function AtlasCanvas({
   disableThumbnail,
   skipSizes,
   rotation,
+  rotateFromWorldCenter,
   useFloorCalc,
 }: AtlasCanvasProps) {
   const manifest = useManifest();
@@ -277,6 +279,7 @@ export function AtlasCanvas({
                 image={image}
                 id={image.id}
                 rotation={rotation}
+                rotateFromWorldCenter={rotateFromWorldCenter}
                 annotationId={image.annotationId}
                 thumbnail={idx === 0 && !disableThumbnail ? (thumbnail as any) : undefined}
                 virtualSizes={virtualSizes}

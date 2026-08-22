@@ -2,7 +2,8 @@ import { AtlasProps } from '@atlas-viewer/atlas';
 import { ParsedSelector } from 'react-iiif-vault';
 import { SizeParameter } from '../../helpers/size-parameter';
 
-export type AtlasDisplayOptions = AtlasProps & {
+export type AtlasDisplayOptions = Omit<AtlasProps, 'children'> & {
+  children?: any;
   width?: number;
   height?: number;
   aspectRatio?: number;
@@ -37,5 +38,6 @@ export type ViewCanvasProps = {
   skipSizes?: boolean;
   homeCover?: boolean | 'start' | 'end';
   rotation?: number;
+  rotateFromWorldCenter?: boolean;
   useFloorCalc?: boolean;
 };
