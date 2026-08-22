@@ -25,10 +25,11 @@
     "preact": "^10.*",
     "react-error-boundary": "^3.1.4",
     "react-iiif-vault": "^2.0.7",
-    "tsdown": "^0.17.4"
+    "tsdown": "^0.22.14"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.3.0",
+    "@tsdown/css": "^0.22.14",
     "@types/jest": "^28.1.4",
     "@types/preact-custom-element": "^4.0.1",
     "@types/react": "^17.0.39",
@@ -56,9 +57,13 @@
   "types": "./dist/index.d.cts",
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./style.css": "./dist/style.css"
+  },
+  "inlinedDependencies": {
+    "react": "18.2.0"
   }
 }

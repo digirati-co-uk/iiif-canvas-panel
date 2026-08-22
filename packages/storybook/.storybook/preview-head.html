@@ -1,0 +1,14 @@
+<style>
+  /* canvas-panel/sequence-panel default to viewport=true, which sizes the
+     atlas canvas to fill its parent's existing height rather than the
+     image's aspect ratio. Story markup here never gives them a parent with
+     real height, so without this they fall back to atlas's internal 100px
+     safety-net height. Stories that set their own height/style win via
+     normal CSS specificity/ordering. */
+  canvas-panel:not([style*="height"]),
+  sequence-panel:not([style*="height"]),
+  image-service:not([style*="height"]) {
+    display: block;
+    height: 600px;
+  }
+</style>

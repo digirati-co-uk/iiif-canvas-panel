@@ -28,6 +28,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
   const [annoMode, setAnnoMode] = useState(false);
   const rotation = props.rotation || 0;
+  const rotateFromWorldCenter = props.rotateFromWorldCenter;
   const aspectRatio =
     !props.displayOptions.viewport && canvas
       ? props.displayOptions.homePosition
@@ -120,6 +121,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
         mode={annoMode ? 'sketch' : props.mode}
         homeCover={props.homeCover}
         homeOnResize={!!props.homeCover}
+        rotateFromWorldCenter={rotateFromWorldCenter}
       >
         <Component
           isStatic={!props.interactive}
@@ -132,6 +134,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
           disableThumbnail={props.disableThumbnail}
           skipSizes={props.skipSizes}
           rotation={rotation}
+          rotateFromWorldCenter={rotateFromWorldCenter}
           useFloorCalc={props.useFloorCalc}
           onCreated={(e: any) => {
             if (manifest && canvas && e) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 import { action } from '@storybook/addon-actions';
 
@@ -19,7 +19,25 @@ export const SequencePanel = () => {
   const [zoomInfo, setZoomInfo] = useState({});
   const [canZoomIn, setCanZoomIn] = useState(false);
   const [canZoomOut, setCanZoomOut] = useState(false);
+  const [rotation, setRotation] = useState(0);
 
+
+    const sleep = (ms: number | undefined) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+    const setupTest = async () => {
+
+(document.querySelector(selector) as any).sequence.nextCanvas()
+await sleep(500);
+setRotation((rotation + 90) % 360);
+(document?.querySelector(selector) as any).zoomIn();
+await sleep(500);(document?.querySelector(selector) as any).zoomIn();
+await sleep(500);(document?.querySelector(selector) as any).zoomIn();
+await sleep(500);(document?.querySelector(selector) as any).zoomIn();
+await sleep(500);(document?.querySelector(selector) as any).zoomIn();
+await sleep(500);
+
+    }
 
   let panel;
   useEffect(() => {
@@ -52,10 +70,17 @@ export const SequencePanel = () => {
     <button onClick={() => (document.querySelector(selector) as any).sequence.previousCanvas()}>Prev</button>
     <button onClick={() => (document.querySelector(selector) as any).sequence.nextCanvas()}>Next</button>
     <button disabled={!canZoomIn} onClick={() => (document?.querySelector(selector) as any).zoomIn()}>Zoom In</button>
+    <button onClick={() => {setupTest(); return true}}>setup test</button>
     <button disabled={!canZoomOut} onClick={() => (document?.querySelector(selector) as any).zoomOut()}>Zoom Out</button>
+    <button onClick={() => setRotation((rotation + 90) % 360)}>Rotate Canvas From Center</button>
 
     {/* @ts-ignore */ }
-    <sequence-panel manifest-id={manifestUrl} start-canvas={canvases[0]} />
+    <sequence-panel
+      manifest-id={manifestUrl}
+      start-canvas={canvases[0]}
+      rotation={rotation}
+      rotate-from-world-center={true}
+    />
   </>
 
 }
