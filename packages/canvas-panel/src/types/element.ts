@@ -1,7 +1,9 @@
 import type { Vault } from "@iiif/helpers";
 import type { ChoiceDescription } from "@iiif/helpers/painting-annotations";
-import type { Selector } from "@iiif/parser/presentation-3/types";
-import type { BoxStyle, Runtime } from "@atlas-viewer/atlas/react";
+import type { Selector, Annotation } from "@iiif/parser/presentation-3/types";
+import type { AnnotationNormalized } from "@iiif/parser/presentation-3-normalized/types";
+import type { BoxStyle, Runtime, easingFunctions } from "@atlas-viewer/atlas/react";
+import type { AnnotationDisplay } from "../helpers/annotation-display";
 import type { ContentStateEvent, ContentStateCallback } from "./content-state";
 
 export interface CanvasPanelEventMap extends HTMLElementEventMap {
@@ -46,6 +48,21 @@ export interface CanvasPanelElement extends HTMLElement {
   applyStyles(resource: string | { id: string }, style: BoxStyle): void;
   setClassName(resource: string | { id: string }, className: string): void;
   withAtlas(callback: (runtime: Runtime) => void): void;
+  transition(callback: (manager: NonNullable<Runtime["transitionManager"]>) => void): void;
+  easingFunctions(): typeof easingFunctions;
+  createAnnotationDisplay(source: ConstructorParameters<typeof AnnotationDisplay>[0]): AnnotationDisplay;
+  annotations: {
+    add(annotation: string | Annotation | AnnotationNormalized | AnnotationDisplay): void;
+    remove(annotation: string | Annotation | AnnotationNormalized | AnnotationDisplay): void;
+    get(id: string): AnnotationNormalized | null;
+    getAll(): AnnotationNormalized[];
+  };
+  annotationPageManager: {
+    availablePageIds: string[];
+    enabledPageIds: string[];
+    setPageEnabled(id: string): void;
+    setPageDisabled(id: string): void;
+  };
   getContentState(): Omit<ContentStateEvent, "selection">;
   getPosition(): {
     x: number | undefined;

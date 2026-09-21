@@ -23,7 +23,7 @@ import { useChoiceEventChannel, errorEventChannel } from "../helpers/eventbus";
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const choiceEventChannel = useChoiceEventChannel();
-  const webComponent = useRef<HTMLElement>();
+  const webComponent = useRef<HTMLElement | undefined>(undefined);
   const ZOOM_OUT_FACTOR = 0.75;
   const ZOOM_IN_FACTOR = 1.0 / 0.75;
   const existingVault = useExistingVault();
@@ -56,7 +56,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     parse: parseNumber,
     defaultValue: 0,
   });
-  const runtime = useRef<Runtime>();
+  const runtime = useRef<Runtime | undefined>(undefined);
   const [render] = useSyncedState<"canvas" | "webgl" | "static" | undefined>(props.render || internalConfig.render, {
     defaultValue: "canvas",
   });

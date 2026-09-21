@@ -13,6 +13,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 try {
   await page.goto(`${base}/docs/installation`);
   await page.waitForFunction(() => !!customElements.get("canvas-panel"));
+  assert.equal(await page.locator(".alert [role=tablist]").count(), 0, "Admonition must end before the tabs");
   const served = await (await page.request.get(`${base}/index.iife.js`)).text();
   assert.equal(served, await readFile("packages/canvas-panel/dist/index.iife.js", "utf8"));
   assert.equal(await page.getByRole("tab", { name: "Script tag" }).count(), 1);
@@ -244,7 +245,7 @@ try {
   if (process.argv.includes("--demos")) {
     async function sandbox(name, tag = "canvas-panel") {
       await page.goto(`${base}/all-sandboxes#${name}`);
-      const iframe = page.locator(`iframe[src$="/${name}.html"]`);
+      const iframe = page.locator(`iframe[src$="/${name}/"]`);
       await iframe.scrollIntoViewIfNeeded();
       const frame = await (await iframe.elementHandle()).contentFrame();
       assert(frame, `Missing preview for ${name}`);

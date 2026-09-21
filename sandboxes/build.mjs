@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { build } from "vite";
 import vue from "@vitejs/plugin-vue";
+import { createExampleHighlighter } from "./highlight.mjs";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const output = path.resolve(root, "../.docs-examples");
@@ -124,15 +125,17 @@ async function main() {
         generateBundle: {
           order: "post",
           handler(_options, bundle) {
-            // Flat public names also work on hosts that redirect index.html to clean URLs.
+            // Canonical directory URLs work with both static servers and clean-URL redirects.
             for (const example of examples) {
               const original = `${example.path}/index.html`;
               const page = bundle[original];
               if (!page || page.type !== "asset") throw new Error(`Missing preview: ${example.id}`);
               delete bundle[original];
-              page.fileName = `${example.id}.html`;
-              page.source = String(page.source).replace(/(?:\.\.\/)+assets\//g, "./assets/");
-              bundle[page.fileName] = page;
+              this.emitFile({
+                type: "asset",
+                fileName: `${example.id}/index.html`,
+                source: String(page.source).replace(/(?:\.\.\/)+assets\//g, "../assets/"),
+              });
             }
           },
         },
@@ -163,6 +166,7 @@ async function main() {
           const manifest = JSON.parse(await readFile(path.join(packageDir, "package.json"), "utf8"));
           const dist = await filesIn(path.join(packageDir, "dist"));
           const { scripts, devDependencies, ...published } = manifest;
+          const highlighter = await createExampleHighlighter(packageDir);
           const snapshot = {
             "package.json": JSON.stringify(published, null, 2),
           };
@@ -171,6 +175,7 @@ async function main() {
             this.addWatchFile(path.join(packageDir, "dist", name));
           }
           for (const example of current) {
+            example.highlightedFiles = highlighter.highlight(example, path.join(root, example.path));
             for (const name of [...Object.keys(example.files), "example.json"])
               this.addWatchFile(path.join(root, example.path, name));
             this.emitFile({
@@ -179,6 +184,7 @@ async function main() {
               source: JSON.stringify(exportProject(example, spec)),
             });
           }
+          highlighter.dispose();
           // The large package snapshot is fetched only when opening an editor.
           this.emitFile({
             type: "asset",
@@ -200,10 +206,14 @@ async function main() {
     ],
     build: {
       outDir: path.join(output, "examples"),
-      emptyOutDir: true,
+      // ponytail: retain old hashed assets for open docs tabs during rebuilds.
+      // Remove .docs-examples with the servers stopped when a clean output is needed.
+      emptyOutDir: false,
       target: "es2022",
+      // The shared Canvas Panel runtime is ~686 kB minified; warn on growth beyond this budget.
+      chunkSizeWarningLimit: 800,
       watch: process.argv.includes("--watch") ? {} : null,
-      rollupOptions: {
+      rolldownOptions: {
         input: examples.map((example) => path.join(root, example.path, "index.html")),
       },
     },

@@ -26,19 +26,16 @@
     "react-reconciler": "0.33.0"
   },
   "devDependencies": {
-    "@types/jest": "^28.1.4",
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.13",
-    "esbuild": "^0.14.25",
-    "happy-dom": "^6.0.3",
-    "jest": "^28.1.2",
+    "@tsdown/css": "^0.23.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "happy-dom": "^20.14.5",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "ts-jest": "^28.0.5",
-    "typescript": "^5.9.3",
-    "vite": "^2.9.5",
-    "vitest": "^0.18.0",
-    "tsdown": "^0.17.4"
+    "tsdown": "^0.23.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
   },
   "publishConfig": {
     "access": "public"

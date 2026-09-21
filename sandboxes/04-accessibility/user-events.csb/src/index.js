@@ -4,7 +4,10 @@ import "./styles.css";
 
 const manifestId = "https://digirati-co-uk.github.io/wunder.json";
 const canvasId = "https://digirati-co-uk.github.io/wunder/canvases/2";
-const cp = document.getElementById("cp");
+const cp = /** @type {import("@digirati/canvas-panel-web-components").CanvasPanelElement | null} */ (
+  document.getElementById("cp")
+);
+if (!cp) throw new Error("Missing canvas-panel #cp");
 
 cp.vault.loadManifest(manifestId).then((manifest) => {
   cp.setCanvas(canvasId);

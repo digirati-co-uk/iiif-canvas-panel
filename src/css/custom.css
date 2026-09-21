@@ -170,7 +170,7 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
   display: grid;
   grid-template-columns: 17rem minmax(0, 1fr);
   gap: 2rem;
-  max-width: 1500px;
+  width: 100%;
   margin: auto;
   padding: 1.5rem;
 }
@@ -226,4 +226,94 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
     min-width: 0;
     flex: 1;
   }
+}
+
+/* Shiki and Twoslash are rendered at build time; only the type popup is interactive. */
+.docs-example-code-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+}
+.docs-example-code-toolbar > span:first-child {
+  margin-right: auto;
+}
+.docs-example-type-hint {
+  margin: 0;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+}
+.docs-example-code .shiki {
+  margin: 0;
+  border-radius: 0;
+  padding: 1rem;
+  tab-size: 2;
+}
+.docs-example-code .shiki code {
+  display: block;
+  font: inherit;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.docs-example-code--wrap .shiki,
+.docs-example-code--wrap .shiki code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+html[data-theme="dark"] .docs-example-code .shiki,
+html[data-theme="dark"] .docs-example-code .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+.docs-example-code .highlighted {
+  display: inline-block;
+  width: 100%;
+  background: var(--docusaurus-highlighted-code-line-bg);
+}
+html[data-theme="dark"] .docs-example-code .shiki .highlighted {
+  background-color: #303b4c !important;
+}
+.docs-example-code .twoslash-hover {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.docs-example-code .twoslash-hover:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+.docs-example-type {
+  position: fixed;
+  z-index: 100;
+  width: min(560px, calc(100vw - 16px));
+  max-height: 218px;
+  overflow: auto;
+  padding: 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: 0.3rem;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  box-shadow: 0 3px 12px #0003;
+}
+.docs-example-type pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 0 1.5rem 0 0;
+  margin: 0;
+  background: none;
+  color: inherit;
+  font-size: 0.85rem;
+}
+.docs-example-type p {
+  white-space: pre-wrap;
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+}
+.docs-example-type button {
+  float: right;
+  padding: 0 0.35rem;
 }

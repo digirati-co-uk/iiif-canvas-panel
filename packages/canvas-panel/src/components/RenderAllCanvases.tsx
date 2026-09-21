@@ -30,7 +30,7 @@ export function RenderAllCanvases(props: RenderAllCanvasesProps) {
   const sequence = useSimpleViewer();
   const range = useRange();
   const hasSequence = useRef(false);
-  const webComponent = useRef<HTMLElement>();
+  const webComponent = useRef<HTMLElement | undefined>(undefined);
 
   useRegisterPublicApi(
     (el) => {

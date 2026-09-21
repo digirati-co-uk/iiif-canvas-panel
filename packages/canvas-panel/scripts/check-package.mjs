@@ -14,6 +14,7 @@ for (const format of ["import", "require"]) {
   assert(!declarations.includes(".build/types/"), "Declarations must use public dependency exports");
 }
 await access(new URL(pkg.types, root));
+await access(new URL(pkg.exports["./dist/index.css"], root));
 await access(new URL(pkg.exports["./dist/index.iife.js"], root));
 
 const esm = await import(new URL(pkg.exports["."].import.default, root));

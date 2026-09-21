@@ -1,8 +1,8 @@
 import { defineConfig } from "vitest/config";
 export default defineConfig({
-  esbuild: { jsx: "automatic" },
+  oxc: { jsx: { runtime: "automatic" } },
   resolve: {
     dedupe: ["react", "react-reconciler", "@atlas-viewer/atlas", "react-iiif-vault"],
   },
-  test: { environment: "node", globals: true, deps: { fallbackCJS: true } },
+  test: { environment: "node", globals: true },
 });

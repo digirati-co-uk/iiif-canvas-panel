@@ -34,22 +34,19 @@
     "test:example-ui": "node scripts/check-examples.mjs"
   },
   "dependencies": {
-    "@cmfcmf/docusaurus-search-local": "^0.11.0",
+    "@cmfcmf/docusaurus-search-local": "^2.0.1",
     "@digirati/canvas-panel-web-components": "workspace:*",
-    "@docusaurus/core": "2.0.0-beta.22",
-    "@docusaurus/preset-classic": "2.0.0-beta.22",
-    "@docusaurus/theme-common": "2.0.0-beta.22",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
+    "@docusaurus/theme-common": "3.10.2",
     "@iiif/helpers": "4.0.0",
     "@iiif/parser": "4.0.1",
-    "@mdx-js/react": "^1.6.21",
+    "@mdx-js/react": "^3.1.1",
     "@stackblitz/sdk": "1.11.1",
-    "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
-    "file-loader": "^6.2.0",
-    "prism-react-renderer": "^1.2.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "url-loader": "^4.1.1"
+    "prism-react-renderer": "^2.4.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "browserslist": {
     "production": [
@@ -64,23 +61,23 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^22.20.4",
     "husky": "^9.1.7",
     "lint-staged": "^17.5.1",
     "oxfmt": "^0.69.0",
     "oxlint": "^1.84.0",
     "pkg-pr-new": "0.0.88",
-    "playwright": "1.57.0",
+    "playwright": "1.63.0",
     "raw-loader": "4.0.2",
-    "tsdown": "^0.17.4",
-    "yargs": "*"
+    "tsdown": "^0.23.0",
+    "typescript": "~6.0.3",
+    "yargs": "^18.2.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}": "oxlint --fix",
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
-  "pnpm": {
-    "overrides": {
-      "@cmfcmf/docusaurus-search-local>cheerio": "1.0.0-rc.12"
-    }
+  "engines": {
+    "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
   }
 }

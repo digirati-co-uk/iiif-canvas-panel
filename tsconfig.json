@@ -8,7 +8,6 @@
     "noEmit": true,
     "noImplicitAny": false,
     "types": ["node", "@docusaurus/module-type-aliases", "@docusaurus/theme-classic", "@types/webpack-env"],
-    "baseUrl": ".",
     "paths": {
       "@site/*": ["./*"],
       "@csb/*": ["./sandboxes"]

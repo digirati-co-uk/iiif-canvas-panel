@@ -6,4 +6,5 @@ export default defineConfig({
   entry: ["./src/index.ts"],
   format: ["es", "cjs"],
   name: "CanvasPanel",
+  css: { fileName: "index.css" },
 });

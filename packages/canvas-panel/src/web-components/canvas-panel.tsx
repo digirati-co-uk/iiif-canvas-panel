@@ -306,8 +306,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
-          if (firstTarget.selector && runtime.current && webComponent.current) {
-            if (firstTarget.selector.type === "BoxSelector") {
+          if (firstTarget.selector) {
+            setParsedTarget(firstTarget);
+            if (firstTarget.selector.type === "BoxSelector" && runtime.current) {
               const { x, y, width, height } = firstTarget.selector.spatial;
               runtime.current.world.gotoRegion({
                 x,
@@ -316,8 +317,6 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
                 height,
                 immediate: contentState.immediate,
               });
-            } else {
-              setParsedTarget(firstTarget);
             }
           }
         }

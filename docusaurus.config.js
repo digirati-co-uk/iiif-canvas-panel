@@ -1,7 +1,6 @@
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const { themes } = require("prism-react-renderer");
 
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
+/** @type {import('@docusaurus/types').Config} */
 module.exports = {
   title: "Canvas Panel",
   tagline: "A Web Component that renders a IIIF Canvas",
@@ -13,7 +12,7 @@ module.exports = {
   staticDirectories: ["static", "packages/canvas-panel/dist", ".docs-runtime", ".docs-examples"],
   stylesheets: ["/index.css"],
   scripts: ["/index.iife.js", "/docs-helpers.iife.js"],
-  onBrokenMarkdownLinks: "warn",
+  markdown: { hooks: { onBrokenMarkdownLinks: "warn" } },
   favicon: "img/favicon.ico",
   organizationName: "digirati-co-uk", // Usually your GitHub org/user name.
   projectName: "iiif-canvas-panel", // Usually your repo name.
@@ -87,8 +86,8 @@ module.exports = {
       copyright: `Built by Digirati and funded by J. Paul Getty Trust`,
     },
     prism: {
-      theme: lightCodeTheme,
-      darkTheme: darkCodeTheme,
+      theme: themes.github,
+      darkTheme: themes.dracula,
     },
   },
   plugins: [
@@ -105,7 +104,7 @@ module.exports = {
     [
       require.resolve("@cmfcmf/docusaurus-search-local"),
       {
-        //
+        indexBlog: false,
       },
     ],
   ],
@@ -118,7 +117,6 @@ module.exports = {
           // Please change this to your repo.
           editUrl: "https://github.com/digirati-co-uk/iiif-canvas-panel/edit/main/",
           admonitions: {
-            tag: ":::",
             keywords: [
               "question",
               "secondary",
@@ -133,11 +131,7 @@ module.exports = {
             ],
           },
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl: "https://github.com/digirati-co-uk/iiif-canvas-panel/edit/master/website/blog/",
-        },
+        blog: false,
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },

@@ -6,6 +6,6 @@ export default defineConfig({
   format: "iife",
   name: "CanvasPanelHelpers",
   outputOptions: { name: "CanvasPanelHelpers" },
-  noExternal: [/.*/],
+  deps: { alwaysBundle: [/.*/] },
   define: { "process.env.NODE_ENV": '"production"' },
 });

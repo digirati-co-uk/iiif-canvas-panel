@@ -52,8 +52,12 @@ The following events are added for sequences:
 - `sequence` - This is fired when a sequence is detected and loaded, here you can access the `sp.sequence` helper
 - `sequence-change` - This is fired any time the sequence changes (next/prev/navigation).
 
-:::info The `<sequence-panel />` will not fire `canvas-change` events like Canvas Panel does. This is because 2 events
-would fire at the same time and may conflict if you are using these to update UI. :::
+:::info
+
+The `<sequence-panel />` will not fire `canvas-change` events like Canvas Panel does. This is because 2 events would
+fire at the same time and may conflict if you are using these to update UI.
+
+:::
 
 ### items
 

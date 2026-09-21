@@ -160,7 +160,7 @@ export function useRegisterPublicApi(
   cb: (host: HTMLElement) => Partial<UseRegisterPublicApi["properties"]>,
   cacheKey: any,
 ) {
-  const lastCacheKey = useRef();
+  const lastCacheKey = useRef<unknown>(undefined);
   const register = useContext(RegisterPublicApi) || emptyCtx;
 
   // Yes, inline side-effect.

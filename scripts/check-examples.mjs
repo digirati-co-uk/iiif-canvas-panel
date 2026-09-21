@@ -66,12 +66,22 @@ try {
   assert(html.includes("src/index.ts") && html.includes("loadManifest"));
   async function open(id) {
     await page.goto(`${base}/all-sandboxes#${id}`);
-    const iframe = page.locator(`.docs-example-preview iframe[src$="/${id}.html"]`);
+    const iframe = page.locator(`.docs-example-preview iframe[src$="/${id}/"]`);
     await iframe.scrollIntoViewIfNeeded();
     const frame = await (await iframe.elementHandle()).contentFrame();
+    assert(
+      await page
+        .locator(".docs-example-gallery")
+        .evaluate(
+          (element) =>
+            Math.abs(element.getBoundingClientRect().width - element.parentElement.getBoundingClientRect().width) < 1,
+        ),
+      `${id}: gallery must fill the available width`,
+    );
     await frame.waitForFunction(() => document.querySelector("canvas-panel")?.getCanvasId?.(), null, {
       timeout: 60000,
     });
+    assert.equal(new URL(frame.url()).pathname, new URL(`${base}/examples/${id}/`).pathname);
     if (id === "intro-script" || id === "flexbox")
       await frame.waitForFunction(() => {
         const canvas = document.querySelector("canvas-panel").shadowRoot.querySelector("canvas");
@@ -82,6 +92,32 @@ try {
   }
   let frame = await open("intro-script");
   assert.equal(await page.locator(".docs-example-source pre").count(), 1);
+  const originalSource = await readFile("sandboxes/00-intro/intro-script.csb/src/index.ts", "utf8");
+  assert.equal(await page.locator(".shiki code").textContent(), originalSource);
+  await page.evaluate(() =>
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (text) => {
+          window.__copiedExample = text;
+        },
+      },
+    }),
+  );
+  await page.getByRole("button", { name: "Copy code", exact: true }).click();
+  assert.equal(await page.evaluate(() => window.__copiedExample), originalSource);
+  const method = page.locator('.twoslash-hover[data-type*="CanvasPanelElement.setCanvas"]').first();
+  await method.focus();
+  await page.getByRole("tooltip").waitFor();
+  assert((await page.getByRole("tooltip").textContent()).includes("setCanvas(id: string): void"));
+  await page.keyboard.press("Escape");
+  assert.equal(await page.getByRole("tooltip").count(), 0);
+  await method.hover();
+  await page.getByRole("tooltip").waitFor();
+  await page.getByRole("button", { name: "Close type information" }).click();
+  await page.getByRole("button", { name: "Wrap lines" }).click();
+  assert.equal(await page.locator(".shiki").evaluate((element) => getComputedStyle(element).whiteSpace), "pre-wrap");
+  await page.getByRole("button", { name: "Wrap lines" }).click();
   await page.locator(".docs-example-files button", { hasText: "index.html" }).click();
   assert((await page.locator(".docs-example-source pre").textContent()).includes("<canvas-panel"));
   await page.getByRole("button", { name: "Reset preview" }).click();
@@ -134,6 +170,20 @@ try {
   }
 
   frame = await open("react-choices-example");
+  const reactSource = page.locator(".shiki");
+  await reactSource.scrollIntoViewIfNeeded();
+  await reactSource.evaluate((element) => {
+    element.scrollTop = 250;
+    window.__sourceBeforeHover = element;
+  });
+  await page.locator(".twoslash-hover").filter({ hasText: "onChoice" }).last().hover();
+  await page.getByRole("tooltip").waitFor();
+  assert(
+    await reactSource.evaluate((element) => element === window.__sourceBeforeHover && element.scrollTop === 250),
+    "Opening type information replaces or scrolls the source",
+  );
+  await page.getByRole("button", { name: "Close type information" }).click();
+  assert.equal(await reactSource.evaluate((element) => element.scrollTop), 250);
   const checkbox = frame.locator("input[type=checkbox]").nth(1);
   await checkbox.waitFor({ timeout: 60000 });
   const checked = await checkbox.isChecked();
@@ -161,6 +211,10 @@ try {
     fullPage: true,
   });
   const link = page.getByRole("link", { name: "Open in StackBlitz" });
+  await page.locator('.twoslash-hover[data-type*="CanvasPanelElement.setCanvas"]').first().click();
+  const popupBounds = await page.getByRole("tooltip").boundingBox();
+  assert(popupBounds.x >= 0 && popupBounds.x + popupBounds.width <= 390, "Type information overflows on mobile");
+  await page.getByRole("button", { name: "Close type information" }).click();
   assert((await link.getAttribute("href")).includes("example-editor?id=intro-script"));
   const supportsInline = browserType === chromium && (await page.evaluate(() => window.crossOriginIsolated));
   assert.equal(await page.getByRole("button", { name: "Edit here" }).count(), supportsInline ? 1 : 0);
@@ -178,9 +232,20 @@ try {
   assert.equal(failures, 2);
 
   const catalog = JSON.parse(await readFile(".docs-examples/catalog.json", "utf8"));
+  const assets = new Set();
   for (const example of catalog.examples) {
-    const response = await page.request.get(`${base}/examples/${example.id}.html`);
+    const url = `${base}/examples/${example.id}/`;
+    const response = await page.request.get(url);
     assert.equal(response.status(), 200, example.id);
+    const html = await response.text();
+    assert(html.includes("reportExampleError"), `${example.id}: expected a preview, not the docs 404 fallback`);
+    for (const [, asset] of html.matchAll(/(?:src|href)="(\.\.\/assets\/[^"\s]+)"/g)) {
+      assets.add(new URL(asset, url).href);
+    }
+  }
+  assert(assets.size > 0, "Preview assets must be checked");
+  for (const asset of assets) {
+    assert.equal((await page.request.get(asset)).status(), 200, asset);
   }
   assert.deepEqual(errors, []);
   console.log(

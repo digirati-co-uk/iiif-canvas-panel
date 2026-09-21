@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import CodeBlock from "@theme/CodeBlock";
+import { ExampleSource } from "./src/components/example-source";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import { useColorMode } from "@docusaurus/theme-common";
 import catalog from "./.docs-examples/catalog.json";
@@ -13,6 +13,7 @@ export type ExampleDefinition = {
   framework: string;
   path: string;
   files: Record<string, string>;
+  highlightedFiles: Record<string, string>;
   visibleFiles: string[];
   height: number;
   autorun: boolean;
@@ -39,7 +40,7 @@ function ExampleCard({ example, layout }: { example: ExampleDefinition; layout: 
   const [canEmbed, setCanEmbed] = useState(false);
   const preview = useRef<HTMLIFrameElement>(null);
   const editor = useRef<HTMLDivElement>(null);
-  const previewUrl = `${base}examples/${example.id}.html`;
+  const previewUrl = `${base}examples/${example.id}/`;
   const editorUrl = `${base}example-editor?id=${encodeURIComponent(example.id)}&theme=${colorMode}`;
 
   useEffect(() => setCanEmbed(window.crossOriginIsolated && /Chrome|Chromium|Edg\//.test(navigator.userAgent)), []);
@@ -93,17 +94,6 @@ function ExampleCard({ example, layout }: { example: ExampleDefinition; layout: 
     };
   }, [editing]);
 
-  const language =
-    (
-      {
-        html: "html",
-        js: "javascript",
-        ts: "typescript",
-        tsx: "tsx",
-        json: "json",
-        vue: "html",
-      } as Record<string, string>
-    )[file.split(".").pop()!] || "css";
   function reset() {
     setError("");
     setLoaded(false);
@@ -197,13 +187,7 @@ function ExampleCard({ example, layout }: { example: ExampleDefinition; layout: 
                 </select>
               </label>
             </div>
-            <CodeBlock
-              language={language}
-              title={file}
-              metastring={example.highlights[file] ? `{${example.highlights[file]}}` : undefined}
-            >
-              {example.files[file]}
-            </CodeBlock>
+            <ExampleSource key={file} file={file} source={example.files[file]} html={example.highlightedFiles[file]} />
           </div>
         </div>
       )}

@@ -247,7 +247,7 @@ show(canvas10);
 
 `vault.load(..)` or `vault.loadManifest(..)`?
 
-Explain how these differ, when you can use the string id and when you can use the { id, type } reference form.
+Explain how these differ, when you can use the string id and when you can use the `{ id, type }` reference form.
 
 :::
 

@@ -88,12 +88,16 @@ extensions.
 
 > You can also reorder annotations using the vault helper `reoderEntityField`
 
-:::info If you want total control of what you draw on the canvas, outside of IIIF and annotations, you can step down
-into Atlas and access the _world_ directly. But for general annotation scenarios - including annotation creation and
-editing as well as tags, links, descriptions, markers, highlights... the `AnnotationDisplay` provides common
-functionality using a consistent Annotation model for associating content with the canvas. It can be made interactive,
-allowing it to be positioned and re-sized by the user. Canvas Panel is deliberately not a general-purpose drawing
-surface, it's for IIIF+Annotation scenarios. :::
+:::info
+
+If you want total control of what you draw on the canvas, outside of IIIF and annotations, you can step down into Atlas
+and access the _world_ directly. But for general annotation scenarios - including annotation creation and editing as
+well as tags, links, descriptions, markers, highlights... the `AnnotationDisplay` provides common functionality using a
+consistent Annotation model for associating content with the canvas. It can be made interactive, allowing it to be
+positioned and re-sized by the user. Canvas Panel is deliberately not a general-purpose drawing surface, it's for
+IIIF+Annotation scenarios.
+
+:::
 
 Available functions:
 
@@ -139,8 +143,12 @@ annotations which it must draw because they are part of the scene. Any other ann
 but may still be rendered on the canvas surface - e.g., a [highlight](./highlighting-regions) or a
 [link](../future/rendering-links).
 
-:::info Turning linked annotations into displayed annotations is mostly done via code rather than attributes, with the
-exception of helpers for simple scenarios such as highlighting. It's more flexible to do this in code. :::
+:::info
+
+Turning linked annotations into displayed annotations is mostly done via code rather than attributes, with the exception
+of helpers for simple scenarios such as highlighting. It's more flexible to do this in code.
+
+:::
 
 ## Typical scenarios
 

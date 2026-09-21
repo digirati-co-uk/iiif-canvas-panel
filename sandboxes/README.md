@@ -74,3 +74,31 @@ arguments and event payloads. Existing JavaScript/Vue examples are compiled; the
 Import `CanvasPanelElement` for refs and use `document.querySelector('canvas-panel')` for an inferred DOM type. Call
 methods after connection/`whenReady`; declarations do not imply that image or manifest loading has finished. HTML
 attribute validation and a custom inline language server are not part of this implementation.
+
+## Highlighting and type information
+
+Example source is highlighted by Shiki and Twoslash during `build:examples`. JavaScript, TypeScript, React and Vue files
+expose inferred types on hover, keyboard focus and tap. The browser receives HTML, not a TypeScript compiler.
+HTML/CSS/JSON remain syntax-highlighted. Copy always uses the original source. TypeScript examples fail the build on
+unexpected diagnostics; JavaScript and Vue provide inferred information without claiming strict type checking. Untyped
+parameters and injected Vue values still need JSDoc or TypeScript annotations. The selected local/release/preview
+package supplies the Canvas Panel declarations.
+
+`querySelector('canvas-panel')` infers `CanvasPanelElement | null`. IDs cannot identify a tag to TypeScript, so keep
+`getElementById()` and assert the known markup type explicitly, preserving the missing-element check:
+
+```js
+const cp = /** @type {import("@digirati/canvas-panel-web-components").CanvasPanelElement | null} */ (
+  document.getElementById("cp")
+);
+if (!cp) throw new Error("Missing canvas-panel #cp");
+cp.goHome();
+```
+
+In TypeScript, use `import type { CanvasPanelElement } from '@digirati/canvas-panel-web-components'` and
+`const cp = document.getElementById('cp') as CanvasPanelElement | null`, followed by the same guard. This assertion
+describes markup you control; it does not validate an arbitrary element's tag at runtime. Avoid globally redefining
+`getElementById` or asserting away `null`.
+
+Example rebuilds retain old hashed assets so already-open docs tabs keep working. To remove stale generated assets, stop
+the dev server, remove `.docs-examples`, and run `pnpm build` or `pnpm dev` again.

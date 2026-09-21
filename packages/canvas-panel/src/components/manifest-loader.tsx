@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { ManifestContext, useExternalManifest } from "react-iiif-vault/core";
 import { Spinner } from "./spinner";
 import { createElement as h } from "react";
@@ -7,6 +7,7 @@ import { useEffect } from "react";
 
 export type ManifestLoaderProps = {
   manifestId: string;
+  children?: ReactNode;
 };
 
 export const ManifestLoader: FC<ManifestLoaderProps> = ({ manifestId, children }) => {

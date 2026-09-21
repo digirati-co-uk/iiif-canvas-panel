@@ -43,8 +43,12 @@ This can still be rendered as a static image, even though it's a composite scene
    canvas-id="https://iiif.io/api/cookbook/recipe/0036-composition-from-multiple-images/canvas/p1"
    manifest-id="https://iiif.io/api/cookbook/recipe/0036-composition-from-multiple-images/manifest.json"> </canvas-panel>
 
-:::info The default value of `preset` is "zoom" - this can be set explicitly but is not usually required. See
-[Responsive Images and rendering modes](./rendering-modes). :::
+:::info
+
+The default value of `preset` is "zoom" - this can be set explicitly but is not usually required. See
+[Responsive Images and rendering modes](./rendering-modes).
+
+:::
 
 The other likely rendering option is `responsive` - which on its own will cause canvas panel to render the region,
 without a viewport:

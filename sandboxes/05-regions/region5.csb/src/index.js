@@ -5,7 +5,10 @@ import "./styles.css";
 // click Run example to run this demo
 
 async function show() {
-  const cp = document.getElementById("cp");
+  const cp = /** @type {import("@digirati/canvas-panel-web-components").CanvasPanelElement | null} */ (
+    document.getElementById("cp")
+  );
+  if (!cp) throw new Error("Missing canvas-panel #cp");
   await cp.vault.loadManifest("https://iiif.wellcomecollection.org/presentation/b14658197");
   cp.setCanvas("https://iiif.wellcomecollection.org/presentation/b14658197/canvases/b14658197.jp2");
   cp.setAttribute("region", "900,900,1000,1000");
