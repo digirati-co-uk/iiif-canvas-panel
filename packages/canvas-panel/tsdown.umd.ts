@@ -1,17 +1,33 @@
 import { defineConfig } from 'tsdown';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import { dirname, join } from 'node:path';
+
+const preact = dirname(createRequire(import.meta.url).resolve('preact/package.json'));
+const compat = join(preact, 'compat/dist/compat.module.js');
 
 export default defineConfig({
   alias: {
-    react: 'preact/compat',
-    'react-dom': 'preact/compat',
+    // Match the existing manual Atlas renderer used by Vite until the React migration.
+    'react-reconciler': fileURLToPath(new URL('./src/reconciler-patch.ts', import.meta.url)),
+    // Pin one Preact module graph for both ESM and CommonJS dependencies.
+    'react/jsx-runtime': join(preact, 'jsx-runtime/dist/jsxRuntime.module.js'),
+    'react-dom/client': compat,
+    'react-dom': compat,
+    react: compat,
+    'preact/compat': compat,
+    'preact/hooks': join(preact, 'hooks/dist/hooks.module.js'),
+    'preact/jsx-runtime': join(preact, 'jsx-runtime/dist/jsxRuntime.module.js'),
+    preact: join(preact, 'dist/preact.module.js'),
   },
   treeshake: true,
   entry: ['./src/index.ts'],
   format: ['iife'],
   clean: false,
   name: 'CanvasPanel',
-  external: ['react-reconciler'],
   noExternal: [
+    'react-reconciler',
+    /^@iiif\/(helpers|parser)(\/|$)/,
     'preact',
     'react-dom/client',
     'react-iiif-vault',

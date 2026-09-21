@@ -1,12 +1,9 @@
-import {
-  ChoiceBody,
-  Annotation,
+import type { ChoiceBody, Annotation, Reference, Selector } from '@iiif/parser/presentation-3/types';
+import type {
   AnnotationNormalized,
   CanvasNormalized,
   ManifestNormalized,
-  Reference,
-  Selector,
-} from '@iiif/presentation-3';
+} from '@iiif/parser/presentation-3-normalized/types';
 import { Vault } from '@iiif/helpers';
 import { createContext } from 'preact';
 import { useContext, useEffect, useRef } from 'preact/compat';
@@ -108,10 +105,7 @@ export type UseRegisterPublicApi = {
     annotations: {
       add(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;
       // Proposed.
-      getAll(): Array<{
-        annotation: AnnotationNormalized;
-        meta: TBC;
-      }>;
+      getAll(): AnnotationNormalized[];
       get(annotationId: string): AnnotationNormalized | null;
       getSource(annotationId: string): string | Annotation | AnnotationDisplay | AnnotationNormalized | null;
       remove(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;

@@ -26,7 +26,8 @@ import { RenderVideo } from '../RenderVideo/RenderVideo';
 import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
 import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
 import { choiceEventChannel } from '../../helpers/eventbus';
-import { AnnotationPageNormalized, ContentResource } from '@iiif/presentation-3';
+import type { ContentResource } from '@iiif/parser/presentation-3/types';
+import type { AnnotationPageNormalized } from '@iiif/parser/presentation-3-normalized/types';
 
 interface AtlasCanvasProps {
   x?: number;
@@ -92,7 +93,11 @@ export function AtlasCanvas({
     const vaulthelper = createPaintingAnnotationsHelper(vault);
     // get all painting annotations for a canvas
     if (canvas?.id) {
-      const enabledChoices = defaultChoices?.map(({ id }) => id) || [];
+      // Report the current selection, not only the initial choice-id attribute.
+      const enabledChoices =
+        strategy.type === 'images'
+          ? strategy.images.map((image) => image.id)
+          : defaultChoices?.map(({ id }) => id) || [];
       const vaultAnnotations = vaulthelper.getAllPaintingAnnotations(canvas.id);
       // Extract choices (if any) from a canvas
 
@@ -142,7 +147,7 @@ export function AtlasCanvas({
       // this returns 1 choice
       const choices = vaulthelper.extractChoices(canvas.id);
     }
-  }, [canvas?.id, actions, defaultChoices]);
+  }, [canvas?.id, strategy, defaultChoices]);
 
   const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
   const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;

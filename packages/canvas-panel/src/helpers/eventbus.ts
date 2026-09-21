@@ -1,4 +1,4 @@
-import { ChoiceDescription } from 'react-iiif-vault';
+import type { ChoiceDescription } from '@iiif/helpers/painting-annotations';
 
 type EventKey = string | symbol;
 type EventHandler<T = any> = (payload: T) => void;

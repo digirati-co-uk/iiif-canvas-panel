@@ -1,4 +1,4 @@
-import { Selector } from '@iiif/presentation-3';
+import type { Selector } from '@iiif/parser/presentation-3/types';
 import { SizeParameter } from '../helpers/size-parameter';
 import { Vault } from '@iiif/helpers';
 

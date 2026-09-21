@@ -1,7 +1,6 @@
 {
   "name": "@digirati/canvas-panel-web-components",
   "version": "1.0.73",
-  "typings": "./dist/types/index.d.ts",
   "main": "./dist/index.cjs",
   "type": "module",
   "files": [
@@ -10,21 +9,24 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check:package": "node scripts/check-package.mjs",
     "build": "tsdown && tsdown --config ./tsdown.umd.ts",
-    "prepack": "NODE_ENV=production tsdown && tsdown --config ./tsdown.umd.ts"
+    "prepack": "NODE_ENV=production tsdown && tsdown --config ./tsdown.umd.ts",
+    "dev:bundle": "tsdown --config ./tsdown.umd.ts --watch"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "3.0.3",
+    "@atlas-viewer/atlas": "3.2.5",
     "@atlas-viewer/iiif-image-api": "2.2.2",
-    "@iiif/helpers": "1.5.7",
-    "@iiif/presentation-2": "^1.0.4",
-    "@iiif/presentation-3": "^2.2.3",
-    "@iiif/presentation-3-normalized": "^0.9.7",
+    "@iiif/helpers": "4.0.0",
+    "@iiif/parser": "4.0.1",
     "@preact/compat": "17.*",
     "@react-hook/media-query": "^1.1.1",
     "preact": "^10.*",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "^2.0.7",
+    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@0c2c25b",
+    "react-reconciler": "0.33.0",
     "tsdown": "^0.17.4"
   },
   "devDependencies": {
@@ -44,6 +46,8 @@
     "jest": "^28.1.2",
     "preact-render-to-string": "^5.2.0",
     "prettier": "^2.5.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "ts-jest": "^28.0.5",
     "typescript": "^5.9.3",
     "vite": "^2.9.5",
@@ -53,12 +57,20 @@
     "access": "public"
   },
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.cts",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
     },
-    "./package.json": "./package.json"
+    "./dist/index.iife.js": "./dist/index.iife.js",
+    "./package.json": "./package.json",
+    "./dist/index.css": "./dist/index.css"
   }
 }

@@ -1,6 +1,6 @@
 import { Atlas, AtlasAuto, AtlasContext, AtlasProps, useAtlas } from '@atlas-viewer/atlas';
 import { Fragment, h } from 'preact';
-import { createContext, useContext, useEffect, useState } from 'preact/compat';
+import { createContext, useCallback, useContext, useEffect, useState } from 'preact/compat';
 import { AtlasDisplayOptions } from '../ViewCanvas/ViewCanvas.types';
 
 const InAtlasContext = createContext(false);
@@ -27,6 +27,16 @@ export function NestedAtlas({
 }: AtlasDisplayOptions & { children: any; nested?: boolean }) {
   const [isCreated, setIsCreated] = useState(false);
   const inAtlas = useContext(InAtlasContext);
+  const handleCreated = useCallback<NonNullable<AtlasProps['onCreated']>>(
+    (rt) => {
+      setIsCreated(true);
+      if (onCreated) {
+        rt.runtime.updateNextFrame();
+        return onCreated(rt);
+      }
+    },
+    [onCreated]
+  );
 
   if (nested || inAtlas) {
     return (
@@ -36,18 +46,15 @@ export function NestedAtlas({
       </>
     );
   }
-  
+
   return (
     <InAtlasContext.Provider value={true}>
       <AtlasAuto
         {...props}
-        onCreated={(rt) => {
-          setIsCreated(true);
-          if (onCreated) {
-            rt.runtime.updateNextFrame();
-            return onCreated(rt);
-          }
-        }}
+        // Preserve Canvas Panel's viewport default after Atlas switched to 100%.
+        // Responsive images still derive their height from the aspect ratio.
+        height={props.height ?? (props.aspectRatio ? undefined : 512)}
+        onCreated={handleCreated}
         unstable_noReconciler
       >
         <InAtlasContext.Provider value={true}>{isCreated ? children : null}</InAtlasContext.Provider>

@@ -2,6 +2,7 @@
   "name": "canvas-panel-docs",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "pnpm@10.33.2",
   "scripts": {
     "custom-install": "cd packages/canvas-panel && yarn install",
     "custom-build": "cd packages/canvas-panel && yarn prepublishOnly",
@@ -16,21 +17,14 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "sandbox": "node cli.mjs"
   },
-  "resolutions": {
-    "react": "^17",
-    "react-dom": "^17"
-  },
-  "pnpm": {
-    "overrides": {
-      "@atlas-viewer/atlas": "3.0.5"
-    }
-  },
   "dependencies": {
-    "@atlas-viewer/atlas": "2.0.16",
     "@cmfcmf/docusaurus-search-local": "^0.11.0",
     "@codesandbox/sandpack-react": "^0.14.2",
+    "@digirati/canvas-panel-web-components": "workspace:*",
     "@docusaurus/core": "2.0.0-beta.22",
     "@docusaurus/preset-classic": "2.0.0-beta.22",
+    "@iiif/helpers": "4.0.0",
+    "@iiif/parser": "4.0.1",
     "@mdx-js/react": "^1.6.21",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
@@ -53,7 +47,14 @@
     ]
   },
   "devDependencies": {
+    "playwright": "1.57.0",
     "raw-loader": "^4.0.2",
+    "tsdown": "^0.17.4",
     "yargs": "*"
+  },
+  "pnpm": {
+    "overrides": {
+      "@cmfcmf/docusaurus-search-local>cheerio": "1.0.0-rc.12"
+    }
   }
 }

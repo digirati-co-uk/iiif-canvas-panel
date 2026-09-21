@@ -31,7 +31,7 @@ export type CanvasPanelProps = GenericAtlasComponent<
     followAnnotations?: boolean;
     iiifContent?: string;
     rotation?: number;
-    useFloorCalc?: 'true' | 'false' | boolean
+    useFloorCalc?: 'true' | 'false' | boolean;
   },
   UseRegisterPublicApi['properties']
 >;
@@ -270,7 +270,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       if (contentState.target.length) {
         const firstTarget = contentState.target[0];
         if (firstTarget.type === 'SpecificResource' && firstTarget.source.type === 'Canvas') {
-          const manifestSource = (firstTarget.source.partOf || []).find((s) => s.type === 'Manifest');
+          const manifestSource = ('partOf' in firstTarget.source ? firstTarget.source.partOf || [] : []).find(
+            (s) => s.type === 'Manifest'
+          );
           setCanvasId(firstTarget.source.id);
           if (manifestSource) {
             setManifestId(manifestSource.id);

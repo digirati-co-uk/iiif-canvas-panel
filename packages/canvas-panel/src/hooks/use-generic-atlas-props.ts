@@ -1,7 +1,8 @@
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
-import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
-import { useImageServiceLoader, useExistingVault, ChoiceDescription } from 'react-iiif-vault';
+import { RefObject, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
+import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
+import type { ChoiceDescription } from '@iiif/helpers/painting-annotations';
 import { BoxStyle, Runtime, AtlasProps, easingFunctions } from '@atlas-viewer/atlas';
 import { useSyncedState } from './use-synced-state';
 import {
@@ -11,7 +12,7 @@ import {
   parseOptionalSelector,
   parseSizeParameter,
 } from '../helpers/parse-attributes';
-import { Reference, Selector } from '@iiif/presentation-3';
+import type { Reference, Selector } from '@iiif/parser/presentation-3/types';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
 import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/helpers';
@@ -171,7 +172,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   function useProp<K extends keyof T, V = T[K]>(
     prop: K,
     options: { parse?: (input: T[K]) => V; defaultValue?: V } = {}
-  ): readonly [V, (newValue: T[K]) => void, (newValue: V) => void, Ref<V | undefined>] {
+  ): readonly [V, (newValue: T[K]) => void, (newValue: V) => void, RefObject<V | undefined>] {
     return useSyncedState<T[K], V>((props as any)[prop] || internalConfig[prop], options);
   }
 
@@ -807,6 +808,16 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return () => void 0;
   }, [disableKeyboardNavigation]);
 
+  const onCreated = useCallback(
+    (rt: { runtime: Runtime }) => {
+      setIsWorldReady('');
+      setIsReady(true);
+      setRuntimeVersion(rt.runtime.id);
+      runtime.current = rt.runtime;
+    },
+    [setIsReady]
+  );
+
   const atlasProps = useMemo(() => {
     return {
       children: null,
@@ -815,13 +826,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       viewport,
       enableNavigator,
       // Defaults for now.
-      onCreated: (rt: { runtime: Runtime }) => {
-        // @todo this means ready, but does not mean first item is in the world.
-        setIsWorldReady('');
-        setIsReady(true);
-        setRuntimeVersion(rt.runtime.id);
-        runtime.current = rt.runtime;
-      },
+      onCreated,
       homePosition:
         target && target.selector && target.selector.type === 'BoxSelector' ? target.selector.spatial : undefined,
       renderPreset:
@@ -850,7 +855,24 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       role: a11yRole,
       title: a11yTitle,
     } as AtlasProps & { nested?: boolean };
-  }, [responsive, viewport, target, render, enableNavigator, internalConfig, a11yRole, a11yTitle]);
+  }, [
+    responsive,
+    viewport,
+    target,
+    render,
+    enableNavigator,
+    a11yRole,
+    a11yTitle,
+    width,
+    height,
+    nested,
+    interactive,
+    ignoreSingleFingerTouch,
+    enablePanOnWait,
+    requireMetaKeyForWheelZoom,
+    panOnWaitDelay,
+    onCreated,
+  ]);
   return {
     atlasProps,
     background,

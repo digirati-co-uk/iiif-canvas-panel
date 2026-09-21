@@ -171,7 +171,9 @@ export function SequencePanel(props: SequencePanelProps) {
       if (contentState.target.length) {
         const firstTarget = contentState.target[0];
         if (firstTarget.type === 'SpecificResource' && firstTarget.source.type === 'Canvas') {
-          const manifestSource = (firstTarget.source.partOf || []).find((s) => s.type === 'Manifest');
+          const manifestSource = ('partOf' in firstTarget.source ? firstTarget.source.partOf || [] : []).find(
+            (s) => s.type === 'Manifest'
+          );
 
           // not sure if there's a better way to get at this?
           const el = webComponent.current;

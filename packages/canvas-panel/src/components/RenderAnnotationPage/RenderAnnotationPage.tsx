@@ -1,12 +1,11 @@
 import { FC } from 'preact/compat';
-import { AnnotationPage, AnnotationPageNormalized } from '@iiif/presentation-3';
 import { Fragment, h } from 'preact';
 import { RenderAnnotation } from '../RenderAnnotation/RenderAnnotation';
 import { useStyles, useVaultSelector } from 'react-iiif-vault';
 import { BoxStyle } from '@atlas-viewer/atlas';
 
 export const RenderAnnotationPage: FC<{
-  page: AnnotationPage | AnnotationPageNormalized;
+  page: { id: string; type: 'AnnotationPage'; items?: ReadonlyArray<{ id: string }> };
   className?: string;
   textSelectionEnabled?: boolean;
 }> = ({ className, page, textSelectionEnabled }) => {

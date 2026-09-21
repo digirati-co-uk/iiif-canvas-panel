@@ -1,7 +1,8 @@
 import { h, createContext } from 'preact';
 import { useVirtualAnnotationPage } from './use-virtual-annotation-page';
 import { useMemo, useContext } from 'preact/compat';
-import { Annotation, AnnotationNormalized, AnnotationPageNormalized } from '@iiif/presentation-3';
+import type { Annotation } from '@iiif/parser/presentation-3/types';
+import type { AnnotationNormalized, AnnotationPageNormalized } from '@iiif/parser/presentation-3-normalized/types';
 import { VaultActivatedAnnotation } from 'react-iiif-vault';
 
 const VirtualAnnotationPageContext = createContext<{

@@ -58,7 +58,7 @@ export const RegionHighlight: React.FC<{
       <Box
         html
         className={className}
-        interactive={true}
+        interactive={interactive}
         relativeStyle
         target={{ x: 0, y: 0, width: region.width, height: region.height }}
         style={style}

@@ -74,7 +74,7 @@ export function ImageService(props: ImageServiceProps) {
       setTileFormat((service as any).preferredFormats[0]);
     }
 
-    if (service && service.height && service.width && statusOf !== 'loading') {
+    if (service && service.height && service.width && statusOf?.status !== 'loading') {
       return {
         id: src,
         width: service.width,

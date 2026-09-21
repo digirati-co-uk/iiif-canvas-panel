@@ -1,4 +1,4 @@
-import { ImageService } from '@iiif/presentation-3';
+import type { ImageService } from '@iiif/parser/presentation-3/types';
 import { SizeParameter, sizeParameterToString } from './size-parameter';
 import { canonicalServiceUrl } from '@atlas-viewer/iiif-image-api';
 

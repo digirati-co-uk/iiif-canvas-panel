@@ -1,4 +1,4 @@
-import { Annotation } from '@iiif/presentation-3';
+import type { Annotation } from '@iiif/parser/presentation-3/types';
 import { expandTarget, SupportedTarget } from 'react-iiif-vault';
 
 export type ContentState =

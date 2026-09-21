@@ -1,52 +1,24 @@
-import { findFirstCanvasFromRange, getValue, parseSelector, ParsedSelector } from '@iiif/helpers';
+import { getValue } from '@iiif/helpers';
 import { RangeContext, useRange, useVault } from 'react-iiif-vault';
 
 import { useMemo } from 'react';
 import { h } from 'preact';
-import { RangeNormalized } from '@iiif/presentation-3';
+import type { RangeNormalized } from '@iiif/parser/presentation-3-normalized/types';
+import { getRangeTarget } from '../../helpers/range-target';
 
 export function ViewRange(props: { selected?: string; onRangeClick?: (range: RangeNormalized, other: any) => void }) {
   const range = useRange();
   const vault = useVault();
-  const first = useMemo(() => range?.items.find((i) => i.type === 'Canvas'), [range]);
+  const first = useMemo(() => range && getRangeTarget(vault, range), [vault, range]);
   const hasSubsequentRanges = useMemo(() => !!range?.items.find((i) => i.type === 'Range'), [range]);
   const selected = props.selected && props.selected === range?.id; // @todo how to get the selected?
 
   function onClick() {
     if (range && props.onRangeClick) {
-      const data: {
-        canvasId?: string;
-        isLeaf: boolean;
-        fragment?: string;
-        selector?: string;
-        parsedSelector?: ParsedSelector;
-      } = {
+      props.onRangeClick(range, {
+        ...first,
         isLeaf: !hasSubsequentRanges,
-      };
-      if (first) {
-        const [cid, hash] = first.id?.split('#');
-        data.selector = first.id;
-        data.canvasId = cid as string;
-        data.fragment = hash as string;
-      } else if (range) {
-        const found = findFirstCanvasFromRange(vault, range);
-        if (found) {
-          const [cid, hash] = found.id?.split('#');
-          data.selector = found.id;
-          data.canvasId = cid;
-          data.fragment = hash;
-        }
-      }
-
-      if (data.selector) {
-        try {
-          data.parsedSelector = parseSelector(data.selector);
-        } catch (e) {
-          // ignore.
-        }
-      }
-
-      props.onRangeClick(range, data);
+      });
     }
   }
 
@@ -59,7 +31,7 @@ export function ViewRange(props: { selected?: string; onRangeClick?: (range: Ran
       className="range-item-container"
       data-leaf={!hasSubsequentRanges}
       data-selected={selected}
-      data-with-selector={first?.id?.indexOf('#') !== -1}
+      data-with-selector={!!first?.parsedSelector?.selector}
       data-range-id={range.id}
     >
       {range.label ? (
@@ -70,7 +42,7 @@ export function ViewRange(props: { selected?: string; onRangeClick?: (range: Ran
       {hasSubsequentRanges ? (
         <div className="range-nested-container">
           {range.items.map((range) => {
-            if (range.type === 'Canvas' || (range as any).type === 'SpecificResource' || !range.id) {
+            if (range.type !== 'Range' || !range.id) {
               return null;
             }
 
