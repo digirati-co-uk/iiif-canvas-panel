@@ -1,49 +1,47 @@
-import { CanvasPanelProps } from '../web-components/canvas-panel';
+import { CanvasPanelProps } from "../web-components/canvas-panel";
 
-export async function resolveConfig(
-  preset: string,
-): Promise<Partial<CanvasPanelProps> | null> {
+export async function resolveConfig(preset: string): Promise<Partial<CanvasPanelProps> | null> {
   if (!preset) {
     return null;
   }
 
   switch (preset) {
-    case 'static': {
+    case "static": {
       return {
-        render: 'static',
+        render: "static",
         interactive: false,
         viewport: true,
       };
     }
-    case 'responsive': {
+    case "responsive": {
       return {
-        render: 'static',
+        render: "static",
         interactive: false,
         viewport: false,
       };
     }
-    case 'zoom': {
+    case "zoom": {
       return {
-        render: 'canvas',
+        render: "canvas",
         interactive: true,
         viewport: true,
       };
     }
   }
 
-  if (preset.startsWith('http')) {
+  if (preset.startsWith("http")) {
     // load remote?
 
     return fetch(preset).then((r) => r.json());
   }
 
-  if (preset.startsWith('#')) {
+  if (preset.startsWith("#")) {
     const el = document.getElementById(preset.slice(1));
     if (el) {
       try {
         return JSON.parse(el.innerText);
       } catch (e) {
-        console.error('Invalid JSON on element', el);
+        console.error("Invalid JSON on element", el);
       }
     }
   }

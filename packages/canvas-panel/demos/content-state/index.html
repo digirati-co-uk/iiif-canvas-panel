@@ -10,10 +10,7 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="./cs.css" />
     <title>Content State Selector</title>
   </head>
@@ -26,10 +23,7 @@
         <div class="row">
           <div class="col-md-auto p-2 ps-3">
             <p>How far are we wanting the user to go?</p>
-            <p>
-              This would be determined by whatever launches this widget - what
-              do we want back?
-            </p>
+            <p>This would be determined by whatever launches this widget - what do we want back?</p>
             <div class="btn-group" role="group" aria-label="Modes">
               <input
                 type="radio"
@@ -40,9 +34,7 @@
                 autocomplete="off"
                 checked
               />
-              <label class="btn btn-outline-primary" for="modeManifest"
-                >Manifest</label
-              >
+              <label class="btn btn-outline-primary" for="modeManifest">Manifest</label>
 
               <input
                 type="radio"
@@ -52,9 +44,7 @@
                 value="canvas"
                 autocomplete="off"
               />
-              <label class="btn btn-outline-primary" for="modeCanvas"
-                >Canvas</label
-              >
+              <label class="btn btn-outline-primary" for="modeCanvas">Canvas</label>
 
               <input
                 type="radio"
@@ -64,9 +54,7 @@
                 value="region"
                 autocomplete="off"
               />
-              <label class="btn btn-outline-primary" for="modeRegion"
-                >Canvas region</label
-              >
+              <label class="btn btn-outline-primary" for="modeRegion">Canvas region</label>
             </div>
           </div>
         </div>
@@ -93,41 +81,25 @@
             </button>
             <ul class="dropdown-menu" id="recentResources">
               <li>
-                <h6 class="dropdown-header">
-                  Recent manifests and collections
-                </h6>
+                <h6 class="dropdown-header">Recent manifests and collections</h6>
               </li>
               <li>
-                <a class="dropdown-item" href="#"
-                  >Internal demo of different bodies</a
-                >
+                <a class="dropdown-item" href="#">Internal demo of different bodies</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#"
-                  >Internal demo of Textual bodies</a
-                >
+                <a class="dropdown-item" href="#">Internal demo of Textual bodies</a>
               </li>
               <li>
                 <a class="dropdown-item" href="#">External Annotation Page</a>
               </li>
             </ul>
             <div class="input-group-append">
-              <button
-                class="btn btn-outline-secondary"
-                id="refreshUrl"
-                type="button"
-              >
-                ⟳
-              </button>
+              <button class="btn btn-outline-secondary" id="refreshUrl" type="button">⟳</button>
             </div>
           </div>
           <div class="grid-container" id="treeHolder">
             <div class="grid-item grid-button">
-              <button
-                class="btn btn-primary btn-sm expander"
-                type="button"
-                id="treeExpander"
-              >
+              <button class="btn btn-primary btn-sm expander" type="button" id="treeExpander">
                 <i class="bi bi-chevron-expand"></i>
               </button>
             </div>
@@ -140,11 +112,7 @@
           </div>
           <div class="grid-container" id="thumbnailsContainer">
             <div class="grid-item grid-button">
-              <button
-                class="btn btn-primary btn-sm expander"
-                type="button"
-                id="thumbsExpander"
-              >
+              <button class="btn btn-primary btn-sm expander" type="button" id="thumbsExpander">
                 <i class="bi bi-chevron-expand"></i>
               </button>
             </div>
@@ -157,25 +125,14 @@
           </div>
           <div class="grid-container" id="canvas">
             <div class="grid-item grid-button">
-              <button
-                class="btn btn-primary btn-sm expander"
-                type="button"
-                id="canvasExpander"
-              >
+              <button class="btn btn-primary btn-sm expander" type="button" id="canvasExpander">
                 <i class="bi bi-chevron-expand"></i>
               </button>
             </div>
             <div class="grid-item grid-heading">
               <div class="form-check form-switch" style="margin-top: 0.9rem">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="canvasSelectionMode"
-                />
-                <label class="form-check-label" for="canvasSelectionMode"
-                  >Enable region selection</label
-                >
+                <input class="form-check-input" type="checkbox" role="switch" id="canvasSelectionMode" />
+                <label class="form-check-label" for="canvasSelectionMode">Enable region selection</label>
               </div>
               <!-- <h6 id="selectedCanvasLabel"></h6> -->
             </div>
@@ -199,35 +156,33 @@
       crossorigin="anonymous"
     ></script>
     <script type="module">
-      import '../../src';
-      import * as VaultHelpers from '@iiif/helpers';
+      import "../../src";
+      import * as VaultHelpers from "@iiif/helpers";
 
       const recentStarts = [
         {
-          id: 'https://iiif.wellcomecollection.org/presentation/b15701360',
-          type: 'Manifest',
+          id: "https://iiif.wellcomecollection.org/presentation/b15701360",
+          type: "Manifest",
           label: {
-            en: ['Welfare foods service entitlement book / Ministry of Food.'],
+            en: ["Welfare foods service entitlement book / Ministry of Food."],
           },
         },
         {
-          id: 'https://tomcrane.github.io/scratch/contentstate/wellcomefoods.json',
-          type: 'Collection',
-          label: { en: ['Some foodstuffs from Wellcome'] },
+          id: "https://tomcrane.github.io/scratch/contentstate/wellcomefoods.json",
+          type: "Collection",
+          label: { en: ["Some foodstuffs from Wellcome"] },
         },
         {
-          id: 'https://iiif.bodleian.ox.ac.uk/iiif/collection/top',
-          type: 'Collection',
-          label: { en: ['Bodleian Library, Oxford'] },
+          id: "https://iiif.bodleian.ox.ac.uk/iiif/collection/top",
+          type: "Collection",
+          label: { en: ["Bodleian Library, Oxford"] },
           summary: {
-            en: [
-              'Top-level collection of IIIF manifests from the Bodleian Library and Oxford Colleges',
-            ],
+            en: ["Top-level collection of IIIF manifests from the Bodleian Library and Oxford Colleges"],
           },
         },
         {
-          id: 'https://iiif.wellcomecollection.org/presentation/b28974141',
-          type: 'Manifest',
+          id: "https://iiif.wellcomecollection.org/presentation/b28974141",
+          type: "Manifest",
           label: {
             en: [
               "The floral emblems of purity are the white lily & the star of Bethlehem : for purity of blood use Frazer's Sulphur Tablets : test them free of charge.",
@@ -240,16 +195,15 @@
           },
           thumbnail: [
             {
-              id: 'https://iiif.wellcomecollection.org/thumbs/b28974141_0001.jp2/full/66,100/0/default.jpg',
-              type: 'Image',
+              id: "https://iiif.wellcomecollection.org/thumbs/b28974141_0001.jp2/full/66,100/0/default.jpg",
+              type: "Image",
               width: 66,
               height: 100,
               service: [
                 {
-                  '@id':
-                    'https://iiif.wellcomecollection.org/thumbs/b28974141_0001.jp2',
-                  '@type': 'ImageService2',
-                  profile: 'http://iiif.io/api/image/2/level0.json',
+                  "@id": "https://iiif.wellcomecollection.org/thumbs/b28974141_0001.jp2",
+                  "@type": "ImageService2",
+                  profile: "http://iiif.io/api/image/2/level0.json",
                   width: 680,
                   height: 1024,
                   sizes: [
@@ -264,9 +218,9 @@
           ],
         },
         {
-          id: 'https://iiif.wellcomecollection.org/presentation/b19318388',
-          type: 'Manifest',
-          label: { en: ['Receipt-Book, Italian: 16th century'] },
+          id: "https://iiif.wellcomecollection.org/presentation/b19318388",
+          type: "Manifest",
+          label: { en: ["Receipt-Book, Italian: 16th century"] },
           summary: {
             en: [
               "Collection of medical receipts: mainly in Italian, the rest in Latin. Written in a small semi-current humanistic hand with a few later additions. On the verso of the fifth leaf is scribbled the name 'Alsinoro Marco 1648'.",
@@ -274,16 +228,15 @@
           },
           thumbnail: [
             {
-              id: 'https://iiif.wellcomecollection.org/thumbs/b19318388_MS_650_0001.JP2/full/74,100/0/default.jpg',
-              type: 'Image',
+              id: "https://iiif.wellcomecollection.org/thumbs/b19318388_MS_650_0001.JP2/full/74,100/0/default.jpg",
+              type: "Image",
               width: 74,
               height: 100,
               service: [
                 {
-                  '@id':
-                    'https://iiif.wellcomecollection.org/thumbs/b19318388_MS_650_0001.JP2',
-                  '@type': 'ImageService2',
-                  profile: 'http://iiif.io/api/image/2/level0.json',
+                  "@id": "https://iiif.wellcomecollection.org/thumbs/b19318388_MS_650_0001.JP2",
+                  "@type": "ImageService2",
+                  profile: "http://iiif.io/api/image/2/level0.json",
                   width: 759,
                   height: 1024,
                   sizes: [
@@ -298,26 +251,26 @@
           ],
         },
         {
-          id: 'https://iiif.wellcomecollection.org/presentation/b19974760',
-          type: 'Collection',
-          label: { en: ['The Chemist and Druggist'] },
+          id: "https://iiif.wellcomecollection.org/presentation/b19974760",
+          type: "Collection",
+          label: { en: ["The Chemist and Druggist"] },
         },
         {
-          id: 'http://ryanfb.github.io/iiif-universe/iiif-universe.json',
-          type: 'Collection',
-          label: { en: ['IIIF Universe (danger!)'] },
+          id: "http://ryanfb.github.io/iiif-universe/iiif-universe.json",
+          type: "Collection",
+          label: { en: ["IIIF Universe (danger!)"] },
         },
       ];
 
       function $(s) {
-        if (s.startsWith('#')) {
+        if (s.startsWith("#")) {
           return document.getElementById(s.substring(1));
         } else {
           return document.querySelectorAll(s);
         }
       }
 
-      const cp = $('#cp');
+      const cp = $("#cp");
       const vault = cp.vault;
 
       console.log(cp.vault);
@@ -331,39 +284,38 @@
       clear();
       setRecents();
 
-      $('#mediaUrl').addEventListener('change', loadIIIF);
-      $('#refreshUrl').addEventListener('click', loadIIIF);
+      $("#mediaUrl").addEventListener("change", loadIIIF);
+      $("#refreshUrl").addEventListener("click", loadIIIF);
 
       function clear() {
-        $('#treeHolder').style.display = 'none';
-        $('#thumbnailsContainer').style.display = 'none';
-        $('#canvas').style.display = 'none';
-        $('#selection').innerText = '';
+        $("#treeHolder").style.display = "none";
+        $("#thumbnailsContainer").style.display = "none";
+        $("#canvas").style.display = "none";
+        $("#selection").innerText = "";
       }
 
       function truncate(s) {
         if (s && s.length > 85) {
-          return s.substring(0, 82) + '...';
+          return s.substring(0, 82) + "...";
         }
         return s;
       }
 
       function setRecents() {
-        const recents = $('#recentResources');
-        recents.innerHTML = '';
-        const header = document.createElement('li');
-        header.innerHTML =
-          '<h6 class="dropdown-header">Recent manifests and collections</h6>';
+        const recents = $("#recentResources");
+        recents.innerHTML = "";
+        const header = document.createElement("li");
+        header.innerHTML = '<h6 class="dropdown-header">Recent manifests and collections</h6>';
         recents.append(header);
         for (let resource of recentStarts) {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          a.className = 'dropdown-item';
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.className = "dropdown-item";
           a.href = resource.id;
           a.innerHTML = getLabelledIcon(resource, resource.label.en[0]); // this is not normally safe!
-          a.addEventListener('click', function (e) {
+          a.addEventListener("click", function (e) {
             e.preventDefault();
-            $('#mediaUrl').value = this.href;
+            $("#mediaUrl").value = this.href;
             loadIIIF();
           });
           li.append(a);
@@ -372,27 +324,23 @@
       }
 
       function getLabelledIcon(resource, label) {
-        return (
-          '<i class="' + getIconClass(resource) + '"></i> ' + truncate(label)
-        );
+        return '<i class="' + getIconClass(resource) + '"></i> ' + truncate(label);
       }
 
       function getIconClass(resource) {
-        return resource.type == 'Collection'
-          ? 'bi bi-folder'
-          : 'bi bi-file-earmark-richtext';
+        return resource.type == "Collection" ? "bi bi-folder" : "bi bi-file-earmark-richtext";
       }
 
       async function loadIIIF() {
-        let url = $('#mediaUrl').value.trim();
+        let url = $("#mediaUrl").value.trim();
         clear();
         if (url) {
           const iiifResource = await vault.load(url);
-          if (iiifResource.type == 'Manifest') {
+          if (iiifResource.type == "Manifest") {
             setManifest(iiifResource);
-          } else if (iiifResource.type == 'Collection') {
+          } else if (iiifResource.type == "Collection") {
             startTree(iiifResource);
-          } else if (iiifResource.type == 'Canvas') {
+          } else if (iiifResource.type == "Canvas") {
             showCanvasById(iiifResource.id);
           }
         }
@@ -400,68 +348,66 @@
 
       async function setManifest(manifest) {
         currentManifestId = manifest.id;
-        const thumbDiv = $('#thumbnails');
-        $('#thumbnailsContainer').style.display = 'grid';
-        thumbDiv.innerHTML = '';
-        $('#selectedManifestLabel').innerText = getLabel(manifest, manifest);
+        const thumbDiv = $("#thumbnails");
+        $("#thumbnailsContainer").style.display = "grid";
+        thumbDiv.innerHTML = "";
+        $("#selectedManifestLabel").innerText = getLabel(manifest, manifest);
         for (let canvasRef of manifest.items) {
           const canvas = vault.get(canvasRef);
-          const img = document.createElement('img');
+          const img = document.createElement("img");
           const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {
             maxWidth: 100,
           });
           // hack to fix thumbnail bug - not a very safe hack but anyway...
           let thumbUrl = cvThumb.best.id;
-          thumbUrl = thumbUrl.replace('/99,', '/100,');
-          thumbUrl = thumbUrl.replace(',99/', ',100/');
+          thumbUrl = thumbUrl.replace("/99,", "/100,");
+          thumbUrl = thumbUrl.replace(",99/", ",100/");
           img.src = thumbUrl;
           const canvasId = canvas.id;
-          img.addEventListener('click', () => showCanvasById(canvasId));
+          img.addEventListener("click", () => showCanvasById(canvasId));
           thumbDiv.append(img);
         }
       }
 
       async function startTree(collection) {
-        const top = $('#treeHolder');
-        const inner = $('#treeHolderInner');
-        const lists = inner.getElementsByTagName('ul');
+        const top = $("#treeHolder");
+        const inner = $("#treeHolderInner");
+        const lists = inner.getElementsByTagName("ul");
         if (lists.length > 0) {
           lists[0].remove();
         }
-        top.style.display = 'grid';
+        top.style.display = "grid";
         const vColl = await vault.load(collection);
-        $('#selectedResourceLabel').innerText = getLabel(collection, vColl);
+        $("#selectedResourceLabel").innerText = getLabel(collection, vColl);
         await renderInto(inner, vColl);
       }
 
       function getLabel(res1, res2) {
-        return (
-          VaultHelpers.getValue(res1.label) || VaultHelpers.getValue(res2.label)
-        );
+        return VaultHelpers.getValue(res1.label) || VaultHelpers.getValue(res2.label);
       }
 
       async function renderInto(element, collection) {
-        const ul = document.createElement('ul');
-        ul.className = 'list-group';
-        ul.classList.add('list-group-flush');
+        const ul = document.createElement("ul");
+        ul.className = "list-group";
+        ul.classList.add("list-group-flush");
         for (let item of collection.items) {
           const vItem = vault.get(item);
           const label = getLabel(vItem, item);
-          const li = document.createElement('li');
-          li.className = 'list-group-item';
-          const a = document.createElement('a');
+          const li = document.createElement("li");
+          li.className = "list-group-item";
+          const a = document.createElement("a");
           a.href = item.id;
-          a.setAttribute('data-type', item.type);
+          a.setAttribute("data-type", item.type);
           a.innerHTML = getLabelledIcon(item, label);
           li.append(a);
           ul.append(li);
-          a.addEventListener('click', async function (e) {
+          a.addEventListener("click", async function (e) {
             e.preventDefault();
-            if (this.getAttribute('data-type') == 'Manifest') {
+            if (this.getAttribute("data-type") == "Manifest") {
               const manifest = await vault.load(this.href);
               setManifest(manifest);
-            } else if (this.getAttribute('data-type') == 'Collection') {
-              const childUls = this.parentElement.getElementsByTagName('ul');
+            } else if (this.getAttribute("data-type") == "Collection") {
+              const childUls = this.parentElement.getElementsByTagName("ul");
               if (childUls.length > 0) {
                 childUls[0].remove();
               } else {
@@ -476,29 +422,27 @@
       }
 
       function showCanvasById(canvasId) {
-        $('#canvasSelectionMode').checked = false;
+        $("#canvasSelectionMode").checked = false;
         cp.disableContentStateSelection();
-        $('#canvas').style.display = 'grid';
+        $("#canvas").style.display = "grid";
         cp.setCanvas(canvasId);
         currentCanvasId = canvasId;
       }
 
-      $('#treeExpander').addEventListener('click', () =>
-        $('#treeHolderInner').classList.toggle('expanded'),
-      );
+      $("#treeExpander").addEventListener("click", () => $("#treeHolderInner").classList.toggle("expanded"));
 
       let setLast;
-      $('#canvasSelectionMode').addEventListener('change', (e) => {
+      $("#canvasSelectionMode").addEventListener("change", (e) => {
         if (e.target.checked) {
           cp.enableContentStateSelection((ev) => {
-            $('#selection').innerText = JSON.stringify(ev, null, 2);
+            $("#selection").innerText = JSON.stringify(ev, null, 2);
             // <canvas-panel id="preview" preset="static" height="500"></canvas-panel>
-            const preview = document.createElement('canvas-panel');
-            preview.setAttribute('preset', 'responsive');
-            preview.setAttribute('height', '200');
-            preview.setAttribute('iiif-content', ev.encodedContentState);
-            $('#preview').innerHTML = '';
-            $('#preview').appendChild(preview);
+            const preview = document.createElement("canvas-panel");
+            preview.setAttribute("preset", "responsive");
+            preview.setAttribute("height", "200");
+            preview.setAttribute("iiif-content", ev.encodedContentState);
+            $("#preview").innerHTML = "";
+            $("#preview").appendChild(preview);
           });
         } else {
           cp.disableContentStateSelection();

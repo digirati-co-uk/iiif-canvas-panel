@@ -1,40 +1,27 @@
-import type { AtlasProps } from '@atlas-viewer/atlas';
-import { GenericAtlasComponent } from '../types/generic-atlas-component';
-import { usePresetConfig } from './use-preset-config';
-import {
-  RefObject,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault/core';
-import type { ChoiceDescription } from '@iiif/helpers/painting-annotations';
-import { BoxStyle, Runtime, easingFunctions } from '@atlas-viewer/atlas/react';
-import { useSyncedState } from './use-synced-state';
+import type { AtlasProps } from "@atlas-viewer/atlas";
+import { GenericAtlasComponent } from "../types/generic-atlas-component";
+import { usePresetConfig } from "./use-preset-config";
+import { RefObject, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useImageServiceLoader, useExistingVault } from "react-iiif-vault/core";
+import type { ChoiceDescription } from "@iiif/helpers/painting-annotations";
+import { BoxStyle, Runtime, easingFunctions } from "@atlas-viewer/atlas/react";
+import { useSyncedState } from "./use-synced-state";
 import {
   parseBool,
   parseCSV,
   parseNumber,
   parseOptionalSelector,
   parseSizeParameter,
-} from '../helpers/parse-attributes';
-import type { Reference, Selector } from '@iiif/parser/presentation-3/types';
-import { AnnotationDisplay } from '../helpers/annotation-display';
-import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
-import {
-  createEventsHelper,
-  createStylesHelper,
-  createThumbnailHelper,
-} from '@iiif/helpers';
-import { useEffect } from 'react';
-import { globalVault } from '@iiif/helpers';
-import { useChoiceEventChannel, errorEventChannel } from '../helpers/eventbus';
+} from "../helpers/parse-attributes";
+import type { Reference, Selector } from "@iiif/parser/presentation-3/types";
+import { AnnotationDisplay } from "../helpers/annotation-display";
+import { ImageCandidateRequest } from "@atlas-viewer/iiif-image-api";
+import { createEventsHelper, createStylesHelper, createThumbnailHelper } from "@iiif/helpers";
+import { useEffect } from "react";
+import { globalVault } from "@iiif/helpers";
+import { useChoiceEventChannel, errorEventChannel } from "../helpers/eventbus";
 
-export function useGenericAtlasProps<T = Record<never, never>>(
-  props: GenericAtlasComponent<T>,
-) {
+export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
   const choiceEventChannel = useChoiceEventChannel();
   const webComponent = useRef<HTMLElement>();
   const ZOOM_OUT_FACTOR = 0.75;
@@ -43,23 +30,20 @@ export function useGenericAtlasProps<T = Record<never, never>>(
   const vault = props.vault || existingVault || globalVault();
   const loader = useImageServiceLoader();
   const mediaEventQueue = useRef<Record<string, any>>({});
-  const { isReady, isConfigBlocking, setIsReady, internalConfig } =
-    usePresetConfig<GenericAtlasComponent<T>>(props.preset, (query, config) => {
+  const { isReady, isConfigBlocking, setIsReady, internalConfig } = usePresetConfig<GenericAtlasComponent<T>>(
+    props.preset,
+    (query, config) => {
       if (webComponent.current) {
-        webComponent.current.dispatchEvent(
-          new CustomEvent('media', { detail: { query, config } }),
-        );
+        webComponent.current.dispatchEvent(new CustomEvent("media", { detail: { query, config } }));
       } else {
         mediaEventQueue.current[query] = config;
       }
-    });
+    },
+  );
 
   const events = useMemo(() => createEventsHelper(vault as any), [vault]);
   const styles = useMemo(() => createStylesHelper(vault), [vault]);
-  const thumbs = useMemo(
-    () => createThumbnailHelper(vault, { imageServiceLoader: loader }),
-    [vault, loader],
-  );
+  const thumbs = useMemo(() => createThumbnailHelper(vault, { imageServiceLoader: loader }), [vault, loader]);
   const [nested] = useSyncedState(props.nested || internalConfig.nested, {
     parse: parseBool,
     defaultValue: false,
@@ -73,19 +57,13 @@ export function useGenericAtlasProps<T = Record<never, never>>(
     defaultValue: 0,
   });
   const runtime = useRef<Runtime>();
-  const [render] = useSyncedState<'canvas' | 'webgl' | 'static' | undefined>(
-    props.render || internalConfig.render,
-    {
-      defaultValue: 'canvas',
-    },
-  );
-  const [className] = useSyncedState(props['class']);
-  const [virtualSizes] = useSyncedState(
-    props.virtualSizes || internalConfig.virtualSizes,
-    {
-      parse: parseSizeParameter,
-    },
-  );
+  const [render] = useSyncedState<"canvas" | "webgl" | "static" | undefined>(props.render || internalConfig.render, {
+    defaultValue: "canvas",
+  });
+  const [className] = useSyncedState(props["class"]);
+  const [virtualSizes] = useSyncedState(props.virtualSizes || internalConfig.virtualSizes, {
+    parse: parseSizeParameter,
+  });
   const [height] = useSyncedState(props.height || internalConfig.height, {
     parse: parseNumber,
   });
@@ -94,46 +72,31 @@ export function useGenericAtlasProps<T = Record<never, never>>(
   });
   const [a11yRole] = useSyncedState(props.a11yRole || undefined);
   const [a11yTitle] = useSyncedState(props.a11yTitle || undefined);
-  const [interactive] = useSyncedState(
-    props.interactive || internalConfig.interactive,
-    {
-      parse: parseBool,
-      defaultValue: true,
-    },
-  );
+  const [interactive] = useSyncedState(props.interactive || internalConfig.interactive, {
+    parse: parseBool,
+    defaultValue: true,
+  });
   const [background] = useSyncedState(props.background);
   const [viewport] = useSyncedState(props.viewport || internalConfig.viewport, {
     parse: parseBool,
     defaultValue: true,
   });
-  const [responsive] = useSyncedState(
-    props.responsive || internalConfig.responsive,
-    {
-      parse: parseBool,
-      defaultValue: true,
-    },
-  );
-  const [moveEvents] = useSyncedState(
-    props.moveEvents || internalConfig.moveEvents,
-    {
-      parse: parseBool,
-      defaultValue: false,
-    },
-  );
-  const [granularMoveEvents] = useSyncedState(
-    props.granularMoveEvents || internalConfig.granularMoveEvents,
-    {
-      parse: parseBool,
-      defaultValue: false,
-    },
-  );
-  const [clickToEnableZoom] = useSyncedState(
-    props.clickToEnableZoom || props.clickToEnableZoom,
-    {
-      parse: parseBool,
-      defaultValue: true,
-    },
-  );
+  const [responsive] = useSyncedState(props.responsive || internalConfig.responsive, {
+    parse: parseBool,
+    defaultValue: true,
+  });
+  const [moveEvents] = useSyncedState(props.moveEvents || internalConfig.moveEvents, {
+    parse: parseBool,
+    defaultValue: false,
+  });
+  const [granularMoveEvents] = useSyncedState(props.granularMoveEvents || internalConfig.granularMoveEvents, {
+    parse: parseBool,
+    defaultValue: false,
+  });
+  const [clickToEnableZoom] = useSyncedState(props.clickToEnableZoom || props.clickToEnableZoom, {
+    parse: parseBool,
+    defaultValue: true,
+  });
   const [disableKeyboardNavigation] = useSyncedState(
     props.disableKeyboardNavigation || internalConfig.disableKeyboardNavigation,
     {
@@ -144,13 +107,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(
   const [debug] = useSyncedState(props.debug || internalConfig.debug, {
     parse: parseBool,
   });
-  const [enablePanOnWait] = useSyncedState(
-    props.enablePanOnWait || internalConfig.enablePanOnWait,
-    {
-      parse: parseBool,
-      defaultValue: undefined,
-    },
-  );
+  const [enablePanOnWait] = useSyncedState(props.enablePanOnWait || internalConfig.enablePanOnWait, {
+    parse: parseBool,
+    defaultValue: undefined,
+  });
   const [ignoreSingleFingerTouch] = useSyncedState(
     props.ignoreSingleFingerTouch || internalConfig.ignoreSingleFingerTouch,
     {
@@ -160,56 +120,37 @@ export function useGenericAtlasProps<T = Record<never, never>>(
   );
 
   const [requireMetaKeyForWheelZoom] = useSyncedState(
-    props.requireMetaKeyForWheelZoom ||
-      internalConfig.requireMetaKeyForWheelZoom,
+    props.requireMetaKeyForWheelZoom || internalConfig.requireMetaKeyForWheelZoom,
     {
       parse: parseBool,
       defaultValue: false,
     },
   );
 
-  const [panOnWaitDelay] = useSyncedState(
-    props.panOnWaitDelay || internalConfig.panOnWaitDelay,
-    {
-      parse: parseNumber,
-      defaultValue: 40,
-    },
-  );
-  const [enableNavigator] = useSyncedState(
-    props.enableNavigator || internalConfig.enableNavigator,
-    {
-      parse: parseBool,
-    },
-  );
+  const [panOnWaitDelay] = useSyncedState(props.panOnWaitDelay || internalConfig.panOnWaitDelay, {
+    parse: parseNumber,
+    defaultValue: 40,
+  });
+  const [enableNavigator] = useSyncedState(props.enableNavigator || internalConfig.enableNavigator, {
+    parse: parseBool,
+  });
 
   const [target, setTarget, setParsedTarget, targetRef] = useSyncedState(
-    props.target ||
-      props.region ||
-      internalConfig.target ||
-      internalConfig.region,
+    props.target || props.region || internalConfig.target || internalConfig.region,
     {
       parse: parseOptionalSelector,
     },
   );
 
-  const [rotation, setRotation, , rotationRef] = useSyncedState(
-    props.rotation,
-    { parse: parseNumber },
-  );
+  const [rotation, setRotation, , rotationRef] = useSyncedState(props.rotation, { parse: parseNumber });
 
-  const [highlight, setHighlight, , highlightRef] = useSyncedState(
-    props.highlight || internalConfig.highlight,
-    {
-      parse: parseOptionalSelector,
-    },
-  );
+  const [highlight, setHighlight, , highlightRef] = useSyncedState(props.highlight || internalConfig.highlight, {
+    parse: parseOptionalSelector,
+  });
   const [styleId] = useSyncedState(props.styleId || internalConfig.styleId);
-  const [highlightCssClass] = useSyncedState(
-    props.highlightCssClass || internalConfig.highlightCssClass,
-    {
-      defaultValue: 'canvas-panel-highlight',
-    },
-  );
+  const [highlightCssClass] = useSyncedState(props.highlightCssClass || internalConfig.highlightCssClass, {
+    defaultValue: "canvas-panel-highlight",
+  });
 
   const [preferredFormats, , , preferredFormatsRef] = useSyncedState(
     props.preferredFormats || internalConfig.preferredFormats,
@@ -219,45 +160,33 @@ export function useGenericAtlasProps<T = Record<never, never>>(
   );
   const [homeCover] = useSyncedState(props.homeCover, {
     parse: (value) => {
-      if (value === 'false') {
+      if (value === "false") {
         return false;
       }
-      if (value === 'true') {
+      if (value === "true") {
         return true;
       }
-      if (value === 'start') {
-        return 'start' as const;
+      if (value === "start") {
+        return "start" as const;
       }
-      if (value === 'end') {
-        return 'end' as const;
+      if (value === "end") {
+        return "end" as const;
       }
       return false;
     },
   });
-  const [mode, setMode] = useSyncedState(
-    props.atlasMode || internalConfig.atlasMode,
-  );
-  const [isWorldReady, setIsWorldReady] = useState('');
-  const [inlineStyles, setInlineStyles] = useState('');
-  const [inlineStyleSheet] = useSyncedState(
-    props.stylesheet || internalConfig.stylesheet,
-  );
+  const [mode, setMode] = useSyncedState(props.atlasMode || internalConfig.atlasMode);
+  const [isWorldReady, setIsWorldReady] = useState("");
+  const [inlineStyles, setInlineStyles] = useState("");
+  const [inlineStyleSheet] = useSyncedState(props.stylesheet || internalConfig.stylesheet);
   const actionQueue = useRef<Record<string, (preset: Runtime) => void>>({});
-  const [runtimeVersion, setRuntimeVersion] = useState('');
+  const [runtimeVersion, setRuntimeVersion] = useState("");
 
   function useProp<K extends keyof T, V = T[K]>(
     prop: K,
     options: { parse?: (input: T[K]) => V; defaultValue?: V } = {},
-  ): readonly [
-    V,
-    (newValue: T[K]) => void,
-    (newValue: V) => void,
-    RefObject<V | undefined>,
-  ] {
-    return useSyncedState<T[K], V>(
-      (props as any)[prop] || internalConfig[prop],
-      options,
-    );
+  ): readonly [V, (newValue: T[K]) => void, (newValue: V) => void, RefObject<V | undefined>] {
+    return useSyncedState<T[K], V>((props as any)[prop] || internalConfig[prop], options);
   }
 
   function getMinZoom() {
@@ -282,14 +211,11 @@ export function useGenericAtlasProps<T = Record<never, never>>(
   const seenChoices = useRef<object>({});
 
   useEffect(() => {
-    const unsubscribeOnResetSeen = choiceEventChannel.on('onResetSeen', () => {
+    const unsubscribeOnResetSeen = choiceEventChannel.on("onResetSeen", () => {
       seenChoices.current = {};
     });
 
-    const onChoiceChange = (payload: {
-      choice?: ChoiceDescription;
-      partOf?: any;
-    }) => {
+    const onChoiceChange = (payload: { choice?: ChoiceDescription; partOf?: any }) => {
       const choice = payload.choice;
       // sort the choices by ID in order to help with de-duping
       if (webComponent?.current && choice && choice.items) {
@@ -305,13 +231,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(
           return 0;
         });
 
-        const key: string = items.map((item) => item.id).join('');
-        const value: string = items.map((item) => item.selected).join('');
+        const key: string = items.map((item) => item.id).join("");
+        const value: string = items.map((item) => item.selected).join("");
         // if the key is defined & set to the value, then skip firing again
-        if (
-          (seenChoices.current as any)[key] &&
-          (seenChoices.current as any)[key] == value
-        ) {
+        if ((seenChoices.current as any)[key] && (seenChoices.current as any)[key] == value) {
           return;
         }
         // otherwise fire again
@@ -319,30 +242,22 @@ export function useGenericAtlasProps<T = Record<never, never>>(
         // move this outside the IF if we want to fire on every page
 
         (choice as any).partOf = payload.partOf;
-        webComponent.current.dispatchEvent(
-          new CustomEvent('choice', { detail: { choice } }),
-        );
+        webComponent.current.dispatchEvent(new CustomEvent("choice", { detail: { choice } }));
       }
     };
 
     const onErrorEvent = (payload: { message?: string; error: any }) => {
       if (webComponent?.current) {
         webComponent.current.dispatchEvent(
-          new ErrorEvent('cp-load-error', {
+          new ErrorEvent("cp-load-error", {
             message: payload.message,
             error: payload.error,
           }),
         );
       }
     };
-    const unsubscribeErrorEvent = errorEventChannel.on(
-      'onErrorEvent',
-      onErrorEvent,
-    );
-    const unsubscribeOnChoiceChange = choiceEventChannel.on(
-      'onChoiceChange',
-      onChoiceChange,
-    );
+    const unsubscribeErrorEvent = errorEventChannel.on("onErrorEvent", onErrorEvent);
+    const unsubscribeOnChoiceChange = choiceEventChannel.on("onChoiceChange", onChoiceChange);
 
     return () => {
       unsubscribeErrorEvent();
@@ -358,16 +273,16 @@ export function useGenericAtlasProps<T = Record<never, never>>(
         ...calculateZoomInformation(runtime.current),
       };
       if (
-        isWorldReady == 'queued' &&
+        isWorldReady == "queued" &&
         detail &&
         detail?.scaleFactor < 1 &&
         detail.scaleFactor > 0 &&
         webComponent.current != undefined
       ) {
-        setIsWorldReady('fired');
+        setIsWorldReady("fired");
         setTimeout(() => {
           webComponent.current?.dispatchEvent(
-            new CustomEvent('world-ready', {
+            new CustomEvent("world-ready", {
               detail,
             }),
           );
@@ -385,18 +300,11 @@ export function useGenericAtlasProps<T = Record<never, never>>(
 
       let minZoomCount = 0;
       return rt.world.addLayoutSubscriber(async (ev, data) => {
-        if (ev !== 'repaint' && webComponent.current) {
+        if (ev !== "repaint" && webComponent.current) {
           // all of these events can 'change' the zoom logic, so we want to report that to the parent
-          if (
-            [
-              'recalculate-world-size',
-              'zoom-to',
-              'go-home',
-              'goto-region',
-            ].includes(ev)
-          ) {
-            if (ev == 'recalculate-world-size') {
-              setIsWorldReady('queued');
+          if (["recalculate-world-size", "zoom-to", "go-home", "goto-region"].includes(ev)) {
+            if (ev == "recalculate-world-size") {
+              setIsWorldReady("queued");
             }
             if (tm.hasPending()) {
               if (isPending) {
@@ -404,11 +312,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(
               }
               isPending = true;
               await new Promise((resolve) =>
-                setTimeout(
-                  resolve,
-                  tm.pendingTransition.total_time -
-                    tm.pendingTransition.elapsed_time,
-                ),
+                setTimeout(resolve, tm.pendingTransition.total_time - tm.pendingTransition.elapsed_time),
               );
               isPending = false;
             }
@@ -430,12 +334,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(
                 ...((data as any) || {}),
               },
             };
-            webComponent.current.dispatchEvent(new CustomEvent('zoom', event));
+            webComponent.current.dispatchEvent(new CustomEvent("zoom", event));
             return;
           }
-          webComponent.current.dispatchEvent(
-            new CustomEvent(ev, { detail: data }),
-          );
+          webComponent.current.dispatchEvent(new CustomEvent(ev, { detail: data }));
         }
         return;
       });
@@ -466,13 +368,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(
     // zoom out can be 'very' close and effectively the full zoom
 
     // if current + a tiny bit is > the next zoom, then don't allow zooming out
-    const canZoomOut =
-      current.height + WIGGLE < nextZooOut.height &&
-      current.width + WIGGLE < nextZooOut.width;
+    const canZoomOut = current.height + WIGGLE < nextZooOut.height && current.width + WIGGLE < nextZooOut.width;
 
     // if the current < the next zoom then don't allow zooming in
-    const canZoomIn =
-      current.height > nextZoomIn.height && current.width > nextZoomIn.width;
+    const canZoomIn = current.height > nextZoomIn.height && current.width > nextZoomIn.width;
 
     const detail = {
       canZoomIn,
@@ -494,11 +393,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       let lastX = -1;
       let lastY = -1;
       let pending = false;
-      return rt.registerHook('useAfterFrame', async () => {
-        if (
-          webComponent.current &&
-          (rt.target[1] !== lastX || rt.target[2] !== lastY)
-        ) {
+      return rt.registerHook("useAfterFrame", async () => {
+        if (webComponent.current && (rt.target[1] !== lastX || rt.target[2] !== lastY)) {
           if (!granularMoveEvents && tm) {
             if (pending) {
               return;
@@ -506,18 +402,14 @@ export function useGenericAtlasProps<T = Record<never, never>>(
             if (tm.hasPending()) {
               pending = true;
               await new Promise((resolve) =>
-                setTimeout(
-                  resolve,
-                  tm.pendingTransition.total_time -
-                    tm.pendingTransition.elapsed_time,
-                ),
+                setTimeout(resolve, tm.pendingTransition.total_time - tm.pendingTransition.elapsed_time),
               );
               pending = false;
             }
           }
 
           webComponent.current.dispatchEvent(
-            new CustomEvent('move', {
+            new CustomEvent("move", {
               detail: {
                 x: rt.x,
                 y: rt.y,
@@ -537,9 +429,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(
     return () => void 0;
   }, [isReady, moveEvents]);
 
-  function useRegisterWebComponentApi<PublicApi>(
-    register: (htmlComponent: HTMLElement) => Partial<PublicApi>,
-  ) {
+  function useRegisterWebComponentApi<PublicApi>(register: (htmlComponent: HTMLElement) => Partial<PublicApi>) {
     useLayoutEffect(() => {
       if (props.__registerPublicApi) {
         props.__registerPublicApi(register as any);
@@ -562,10 +452,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       const registerFunc = () => {
         if (zoomPreventCallback && !zoomPrevented) {
           zoomPrevented = true;
-          htmlComponent.addEventListener('wheel', zoomPreventCallback, {
+          htmlComponent.addEventListener("wheel", zoomPreventCallback, {
             capture: true,
           });
-          htmlComponent.addEventListener('touchstart', zoomPreventCallback, {
+          htmlComponent.addEventListener("touchstart", zoomPreventCallback, {
             capture: true,
           });
         }
@@ -574,10 +464,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       resetFunc = () => {
         if (zoomPreventCallback && zoomPrevented) {
           zoomPrevented = false;
-          htmlComponent.removeEventListener('wheel', zoomPreventCallback, {
+          htmlComponent.removeEventListener("wheel", zoomPreventCallback, {
             capture: true,
           });
-          htmlComponent.removeEventListener('touchstart', zoomPreventCallback, {
+          htmlComponent.removeEventListener("touchstart", zoomPreventCallback, {
             capture: true,
           });
         }
@@ -585,14 +475,14 @@ export function useGenericAtlasProps<T = Record<never, never>>(
 
       registerFunc();
 
-      document.addEventListener('click', (e) => {
+      document.addEventListener("click", (e) => {
         if (document.activeElement !== htmlComponent) {
           registerFunc();
         }
       });
     }
 
-    htmlComponent.addEventListener('click', (e) => {
+    htmlComponent.addEventListener("click", (e) => {
       if (resetFunc) {
         resetFunc();
       }
@@ -608,7 +498,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(
     if (mediaQueue.length) {
       for (const mediaEvent of mediaQueue) {
         htmlComponent.dispatchEvent(
-          new CustomEvent('media', {
+          new CustomEvent("media", {
             detail: {
               query: mediaEvent,
               config: mediaEventQueue.current[mediaEvent],
@@ -629,14 +519,14 @@ export function useGenericAtlasProps<T = Record<never, never>>(
         return rotationRef.current;
       },
       setRotation: (newRotation: string | number) => {
-        htmlComponent.setAttribute('rotation', newRotation.toString());
+        htmlComponent.setAttribute("rotation", newRotation.toString());
       },
       getHighlight: () => {
         return highlightRef.current;
       },
       setHighlight: (newHighlight: Selector | Selector[] | undefined) => {
-        if (typeof newHighlight === 'string') {
-          htmlComponent.setAttribute('highlight', newHighlight);
+        if (typeof newHighlight === "string") {
+          htmlComponent.setAttribute("highlight", newHighlight);
         } else {
           setHighlight(newHighlight);
         }
@@ -645,14 +535,14 @@ export function useGenericAtlasProps<T = Record<never, never>>(
         return targetRef.current;
       },
       setTarget: (newTarget: Selector | Selector[] | undefined) => {
-        if (typeof newTarget === 'string') {
-          htmlComponent.setAttribute('target', newTarget);
+        if (typeof newTarget === "string") {
+          htmlComponent.setAttribute("target", newTarget);
         } else {
           setTarget(newTarget);
         }
       },
       setDefaultChoiceIds: (choiceIds: string[]) => {
-        htmlComponent.setAttribute('choice-id', choiceIds.join(','));
+        htmlComponent.setAttribute("choice-id", choiceIds.join(","));
       },
 
       getPosition() {
@@ -673,12 +563,12 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       },
 
       makeChoice(id: string, options: any) {
-        choiceEventChannel.emit('onMakeChoice', { id, options });
+        choiceEventChannel.emit("onMakeChoice", { id, options });
       },
 
       zoomIn(point?: { x: number; y: number }) {
         if (runtime.current) {
-          runtime.current.world.trigger('zoom-to', {
+          runtime.current.world.trigger("zoom-to", {
             point,
             factor: ZOOM_OUT_FACTOR,
           });
@@ -687,7 +577,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(
 
       zoomOut(point?: { x: number; y: number }) {
         if (runtime.current) {
-          runtime.current.world.trigger('zoom-to', {
+          runtime.current.world.trigger("zoom-to", {
             point,
             factor: ZOOM_IN_FACTOR,
           });
@@ -696,7 +586,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(
 
       zoomBy(factor: number, point?: { x: number; y: number }) {
         if (runtime.current) {
-          runtime.current.world.trigger('zoom-to', {
+          runtime.current.world.trigger("zoom-to", {
             point,
             factor,
           });
@@ -704,11 +594,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       },
 
       // @todo deprecate/remove
-      zoomTo(
-        factor: number,
-        point?: { x: number; y: number },
-        stream?: boolean,
-      ) {
+      zoomTo(factor: number, point?: { x: number; y: number }, stream?: boolean) {
         if (runtime.current) {
           runtime.current.world.zoomTo(factor, point, stream);
         }
@@ -803,23 +689,19 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       },
 
       setPreferredFormats(formats: string[]) {
-        htmlComponent.setAttribute('preferred-formats', formats.join(','));
+        htmlComponent.setAttribute("preferred-formats", formats.join(","));
       },
 
       getPreferredFormats() {
         return preferredFormatsRef.current || [];
       },
 
-      setMode(mode: 'sketch' | 'explore') {
-        htmlComponent.setAttribute('atlas-mode', mode);
+      setMode(mode: "sketch" | "explore") {
+        htmlComponent.setAttribute("atlas-mode", mode);
       },
 
       applyStyles(resource: string | Reference<any>, style: BoxStyle) {
-        styles.applyStyles(
-          typeof resource === 'string' ? { id: resource } : resource,
-          'atlas',
-          style,
-        );
+        styles.applyStyles(typeof resource === "string" ? { id: resource } : resource, "atlas", style);
       },
 
       applyHTMLProperties(
@@ -831,30 +713,18 @@ export function useGenericAtlasProps<T = Record<never, never>>(
           title?: string;
         }>,
       ) {
-        styles.applyStyles(
-          typeof resource === 'string' ? { id: resource } : resource,
-          'html',
-          style,
-        );
+        styles.applyStyles(typeof resource === "string" ? { id: resource } : resource, "html", style);
       },
 
       setClassName(resource: string | Reference<any>, className: string) {
-        styles.applyStyles(
-          typeof resource === 'string' ? { id: resource } : resource,
-          'html',
-          { className },
-        );
+        styles.applyStyles(typeof resource === "string" ? { id: resource } : resource, "html", { className });
       },
 
       createAnnotationDisplay(source: any) {
         return new AnnotationDisplay(source);
       },
 
-      getThumbnail(
-        input: any,
-        request: ImageCandidateRequest,
-        dereference?: boolean,
-      ) {
+      getThumbnail(input: any, request: ImageCandidateRequest, dereference?: boolean) {
         return thumbs.getBestThumbnailAtSize(input, request, dereference);
       },
       addVaultEventListener<T>(
@@ -872,10 +742,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       ): void {
         events.removeEventListener(resource, event, listener);
       },
-      getListenersAsProps(
-        resourceOrId: string | Reference<any>,
-        scope?: string[],
-      ): any {
+      getListenersAsProps(resourceOrId: string | Reference<any>, scope?: string[]): any {
         return events.getListenersAsProps(resourceOrId, scope);
       },
     };
@@ -905,48 +772,45 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       const keydownHandler = (e: KeyboardEvent) => {
         if (runtime.current && runtime.current.transitionManager) {
           const tm = runtime.current.transitionManager;
-          const points = !tm.pendingTransition.done
-            ? tm.pendingTransition.to
-            : runtime.current.target;
-          const moveBy =
-            Math.min(points[3] - points[1], points[4] - points[2]) * 0.1;
+          const points = !tm.pendingTransition.done ? tm.pendingTransition.to : runtime.current.target;
+          const moveBy = Math.min(points[3] - points[1], points[4] - points[2]) * 0.1;
           let newTarget;
 
           switch (e.key) {
-            case '=': {
+            case "=": {
               runtime.current.world?.zoomIn();
               return;
             }
-            case '-': {
+            case "-": {
               runtime.current.world?.zoomOut();
               return;
             }
-            case '0': {
+            case "0": {
               runtime.current.world?.goHome();
               return;
             }
-            case 'ArrowRight': {
+            case "ArrowRight": {
               e.preventDefault();
               newTarget = points.slice(0);
               newTarget[1] = newTarget[1] + moveBy;
               newTarget[3] = newTarget[3] + moveBy;
               break;
             }
-            case 'ArrowLeft': {
+            case "ArrowLeft": {
               e.preventDefault();
               newTarget = points.slice(0);
               newTarget[1] = newTarget[1] - moveBy;
               newTarget[3] = newTarget[3] - moveBy;
               break;
             }
-            case 'ArrowUp': {
+            case "ArrowUp": {
               e.preventDefault();
               newTarget = points.slice(0);
               newTarget[2] = newTarget[2] - moveBy;
               newTarget[4] = newTarget[4] - moveBy;
               break;
             }
-            case 'ArrowDown': {
+            case "ArrowDown": {
               e.preventDefault();
               newTarget = points.slice(0);
               newTarget[2] = newTarget[2] + moveBy;
@@ -965,9 +829,9 @@ export function useGenericAtlasProps<T = Record<never, never>>(
         }
       };
       const wc = webComponent.current;
-      wc.addEventListener('keydown', keydownHandler);
+      wc.addEventListener("keydown", keydownHandler);
       return () => {
-        wc.removeEventListener('keydown', keydownHandler);
+        wc.removeEventListener("keydown", keydownHandler);
       };
     }
     return () => void 0;
@@ -975,7 +839,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(
 
   const onCreated = useCallback(
     (rt: { runtime: Runtime }) => {
-      setIsWorldReady('');
+      setIsWorldReady("");
       setIsReady(true);
       setRuntimeVersion(rt.runtime.id);
       runtime.current = rt.runtime;
@@ -993,22 +857,20 @@ export function useGenericAtlasProps<T = Record<never, never>>(
       // Defaults for now.
       onCreated,
       homePosition:
-        target && target.selector && target.selector.type === 'BoxSelector'
-          ? target.selector.spatial
-          : undefined,
+        target && target.selector && target.selector.type === "BoxSelector" ? target.selector.spatial : undefined,
       renderPreset:
-        render === 'static'
+        render === "static"
           ? [
-              'static-preset',
+              "static-preset",
               {
                 interactive,
               },
             ]
           : [
-              'default-preset',
+              "default-preset",
               {
                 interactive,
-                unstable_webglRenderer: render === 'webgl',
+                unstable_webglRenderer: render === "webgl",
                 controllerConfig: {
                   ignoreSingleFingerTouch: ignoreSingleFingerTouch,
                   enablePanOnWait: enablePanOnWait,

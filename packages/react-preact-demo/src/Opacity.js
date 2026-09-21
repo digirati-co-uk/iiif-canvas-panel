@@ -1,14 +1,12 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from "react";
 
 export function Opacity() {
   const viewer = useRef();
   const [choice, setChoice] = useState();
-  const disabledChoice = choice
-    ? choice.items.filter((i) => i.selected).length === 1
-    : false;
+  const disabledChoice = choice ? choice.items.filter((i) => i.selected).length === 1 : false;
 
   useLayoutEffect(() => {
-    viewer.current.addEventListener('choice', (e) => {
+    viewer.current.addEventListener("choice", (e) => {
       setChoice(e.detail.choice);
     });
   }, []);
@@ -35,7 +33,7 @@ export function Opacity() {
                   }}
                   checked={item.selected}
                 />
-                <strong>{item.label.en.join('')}</strong>
+                <strong>{item.label.en.join("")}</strong>
                 <input
                   type="range"
                   min={0}

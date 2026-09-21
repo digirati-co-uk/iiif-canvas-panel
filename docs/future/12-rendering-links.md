@@ -13,13 +13,12 @@ Handling and rendering linking annotations is a work in progress.
 The information on this page describes future API - comments are welcome
 [on GitHub](https://github.com/digirati-co-uk/iiif-canvas-panel/issues).
 
-An example of turning an annotation into a hyperlink is given in the
-[Annotations](../examples/annotations) section.
+An example of turning an annotation into a hyperlink is given in the [Annotations](../examples/annotations) section.
 
 :::
 
-In any canvas rendering scenario, if the canvas has `linking` annotations
-available, we need to render them as hyperlinks on the image surface.
+In any canvas rendering scenario, if the canvas has `linking` annotations available, we need to render them as
+hyperlinks on the image surface.
 
 ```js title="An example linking annotation"
 {
@@ -40,10 +39,9 @@ available, we need to render them as hyperlinks on the image surface.
 }
 ```
 
-Note that the `target` of the annotation is not the "target" of the link. The
-annotation `target` is the relevant part of the canvas, and the `body` of the
-annotation is used to generate the appropriate href. Here it's just a link but
-it could be an object:
+Note that the `target` of the annotation is not the "target" of the link. The annotation `target` is the relevant part
+of the canvas, and the `body` of the annotation is used to generate the appropriate href. Here it's just a link but it
+could be an object:
 
 ```js title="Alternate representation of body"
 {
@@ -57,9 +55,8 @@ There are several different scenarios to consider here.
 
 ## Adding links to the Canvas
 
-One is similar to explicit highlighting, as
-[Drawing boxes](../examples/highlighting-regions) - the only difference being
-that the target on the canvas is a clickable link.
+One is similar to explicit highlighting, as [Drawing boxes](../examples/highlighting-regions) - the only difference
+being that the target on the canvas is a clickable link.
 
 Here we are adding a linking annotation to the canvas:
 
@@ -98,12 +95,10 @@ Here we are adding a linking annotation to the canvas:
 </script>
 ```
 
-By default here, because the body of the anno is a bare link, Canvas Panel can
-turn this into a hyperlink.
+By default here, because the body of the anno is a bare link, Canvas Panel can turn this into a hyperlink.
 
-But what if the body is a canvas within a manifest? Even if CP recognises that,
-it doesn't know what you want to do with it as a link - e.g., turn it into a
-link to some other viewer with a content state on the query string.
+But what if the body is a canvas within a manifest? Even if CP recognises that, it doesn't know what you want to do with
+it as a link - e.g., turn it into a link to some other viewer with a content state on the query string.
 
 How about you can provide a function to process the body?
 
@@ -131,41 +126,34 @@ const options = {
 
 ## Dealing with existing linking annotations
 
-> Show it! - this is a demo of the default behaviour of Canvas Panel showing a
-> canvas that has an annotations property that links to (not inline) a page of
-> `linking` annotations. TBC - the default behaviour might be to do nothing; we
-> might have to follow the link ourselves, and do something to cause the annos
-> to be rendered.
+> Show it! - this is a demo of the default behaviour of Canvas Panel showing a canvas that has an annotations property
+> that links to (not inline) a page of `linking` annotations. TBC - the default behaviour might be to do nothing; we
+> might have to follow the link ourselves, and do something to cause the annos to be rendered.
 
-The second scenario is where the annotations are already present in the IIIF
-resource, or linked from it via the canvas `annotations` property.
+The second scenario is where the annotations are already present in the IIIF resource, or linked from it via the canvas
+`annotations` property.
 
 Canvas panel's default behaviour is (via vault) to follow `annotations`.
 
-> That isn't true? You have to load them manually - see
-> [Vault introduction](../../docs/api-reference/vault).
+> That isn't true? You have to load them manually - see [Vault introduction](../../docs/api-reference/vault).
 
-So it has raw W3C annos available. Then we need to handle them. (Does CP have
-them? What does that mean - that they are loaded into the vault? They aren't
-drawn yet).
+So it has raw W3C annos available. Then we need to handle them. (Does CP have them? What does that mean - that they are
+loaded into the vault? They aren't drawn yet).
 
-It can do this the same way manually added links, highlights etc are done, with
-DisplayAnnotation, but that needs some assistance and control.
+It can do this the same way manually added links, highlights etc are done, with DisplayAnnotation, but that needs some
+assistance and control.
 
 Do we ever just allow it to attempt to display all the annotations?
 
-The painting annos, inline in the canvas (usually, but might require a
-dereference of the annotation page), should always be displayed. They are the
-visible (and/or audible) content of the canvas.
+The painting annos, inline in the canvas (usually, but might require a dereference of the annotation page), should
+always be displayed. They are the visible (and/or audible) content of the canvas.
 
 Other annotations are linked via the `annotations` property.
 
-If they have the motivation `supplementing`, they will be fed down a different
-path. They are possibly transcriptions, OCR text, captions, etc. Handle this
-somewhere else. See [Handling text](../future/handling-text) .
+If they have the motivation `supplementing`, they will be fed down a different path. They are possibly transcriptions,
+OCR text, captions, etc. Handle this somewhere else. See [Handling text](../future/handling-text) .
 
-All other annotations could just be each wrapped with DisplayAnnotation
-instances and cp would attempt to draw them
+All other annotations could just be each wrapped with DisplayAnnotation instances and cp would attempt to draw them
 
 <!-- TODO: GH-107, GH-94 -->
 
@@ -174,11 +162,7 @@ instances and cp would attempt to draw them
 <canvas-panel id="cp" follow-annotations="false" />
 
 <!-- allow cp default behaviour in anno rendering, but at least provide some styles -->
-<canvas-panel
-  id="cp"
-  highlight-css-class="anno-hilite"
-  link-css-class="anno-link"
-/>
+<canvas-panel id="cp" highlight-css-class="anno-hilite" link-css-class="anno-link" />
 ```
 
 <GitHubDiscussion ghid="13" />

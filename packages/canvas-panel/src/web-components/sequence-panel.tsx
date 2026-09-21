@@ -1,25 +1,17 @@
-import register from '../library/custom-element';
-import { GenericAtlasComponent } from '../types/generic-atlas-component';
-import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { SimpleViewerProvider, VaultProvider } from 'react-iiif-vault/core';
-import { ContentState } from '@iiif/helpers';
-import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
-import { RegisterPublicApi } from '../hooks/use-register-public-api';
-import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
-import { createElement as h } from 'react';
-import {
-  parseBool,
-  parseNumber,
-  parseContentStateParameter,
-} from '../helpers/parse-attributes';
-import { useState, useLayoutEffect } from 'react';
-import { baseAttributes } from '../helpers/base-attributes';
-import {
-  normaliseAxis,
-  parseContentState,
-  serialiseContentState,
-} from '../helpers/content-state/content-state';
-import { normaliseContentState } from '../helpers/content-state/content-state';
+import register from "../library/custom-element";
+import { GenericAtlasComponent } from "../types/generic-atlas-component";
+import { useGenericAtlasProps } from "../hooks/use-generic-atlas-props";
+import { SimpleViewerProvider, VaultProvider } from "react-iiif-vault/core";
+import { ContentState } from "@iiif/helpers";
+import { ViewCanvas } from "../components/ViewCanvas/ViewCanvas";
+import { RegisterPublicApi } from "../hooks/use-register-public-api";
+import { VirtualAnnotationProvider } from "../hooks/use-virtual-annotation-page-context";
+import { createElement as h } from "react";
+import { parseBool, parseNumber, parseContentStateParameter } from "../helpers/parse-attributes";
+import { useState, useLayoutEffect } from "react";
+import { baseAttributes } from "../helpers/base-attributes";
+import { normaliseAxis, parseContentState, serialiseContentState } from "../helpers/content-state/content-state";
+import { normaliseContentState } from "../helpers/content-state/content-state";
 
 export type SequencePanelProps = GenericAtlasComponent<{
   manifestId: string;
@@ -28,24 +20,24 @@ export type SequencePanelProps = GenericAtlasComponent<{
   iiifContent?: string;
   pagingEnabled?: boolean;
   canvasIds?: string;
-  textSelectionEnabled?: 'true' | 'false' | boolean;
-  textEnabled?: 'true' | 'false' | boolean;
-  followAnnotations?: 'true' | 'false' | boolean;
-  skipSizes?: 'true' | 'false' | boolean;
+  textSelectionEnabled?: "true" | "false" | boolean;
+  textEnabled?: "true" | "false" | boolean;
+  followAnnotations?: "true" | "false" | boolean;
+  skipSizes?: "true" | "false" | boolean;
   margin?: number;
 }>;
 
 const sequencePanelAttributes = [
   ...baseAttributes,
-  'manifest-id',
-  'range-id',
-  'start-canvas',
-  'paging-enabled',
-  'text-selection-enabled',
-  'text-enabled',
-  'follow-annotations',
-  'margin',
-  'background',
+  "manifest-id",
+  "range-id",
+  "start-canvas",
+  "paging-enabled",
+  "text-selection-enabled",
+  "text-enabled",
+  "follow-annotations",
+  "margin",
+  "background",
 ];
 
 export function SequencePanel(props: SequencePanelProps) {
@@ -74,43 +66,35 @@ export function SequencePanel(props: SequencePanelProps) {
     setMode,
     background,
   } = useGenericAtlasProps(props);
-  const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
-  const [rangeId, , , rangeIdRef] = useProp('rangeId');
-  const [startCanvas, setStartCanvas, , startCanvasRef] =
-    useProp('startCanvas');
-  const [margin] = useProp('margin', { parse: parseNumber, defaultValue: 0 });
-  const [pagingEnabled] = useProp('pagingEnabled', {
+  const [manifestId, setManifestId, , manifestIdRef] = useProp("manifestId");
+  const [rangeId, , , rangeIdRef] = useProp("rangeId");
+  const [startCanvas, setStartCanvas, , startCanvasRef] = useProp("startCanvas");
+  const [margin] = useProp("margin", { parse: parseNumber, defaultValue: 0 });
+  const [pagingEnabled] = useProp("pagingEnabled", {
     parse: parseBool,
     defaultValue: true,
   });
-  const [textSelectionEnabled] = useProp('textSelectionEnabled', {
+  const [textSelectionEnabled] = useProp("textSelectionEnabled", {
     parse: parseBool,
     defaultValue: true,
   });
-  const [textEnabled] = useProp('textEnabled', {
+  const [textEnabled] = useProp("textEnabled", {
     parse: parseBool,
     defaultValue: false,
   });
-  const [followAnnotations] = useProp('followAnnotations', {
+  const [followAnnotations] = useProp("followAnnotations", {
     parse: parseBool,
     defaultValue: true,
   });
-  const [unknownContentState, , setParsedContentState] = useProp(
-    'iiifContent',
-    {
-      parse: parseContentStateParameter,
-    },
-  );
+  const [unknownContentState, , setParsedContentState] = useProp("iiifContent", {
+    parse: parseContentStateParameter,
+  });
   const contentState =
-    unknownContentState && unknownContentState.type !== 'remote-content-state'
-      ? unknownContentState
-      : null;
+    unknownContentState && unknownContentState.type !== "remote-content-state" ? unknownContentState : null;
   const contentStateToLoad =
-    unknownContentState && unknownContentState.type === 'remote-content-state'
-      ? unknownContentState.id
-      : null;
+    unknownContentState && unknownContentState.type === "remote-content-state" ? unknownContentState.id : null;
   const [error, setError] = useState<Error | null>();
-  const [skipSizes] = useProp('skipSizes', {
+  const [skipSizes] = useProp("skipSizes", {
     parse: parseBool,
     defaultValue: false,
   });
@@ -119,35 +103,29 @@ export function SequencePanel(props: SequencePanelProps) {
     return {
       vault,
       setManifest: (id: string) => {
-        htmlComponent.setAttribute('manifest-id', id);
+        htmlComponent.setAttribute("manifest-id", id);
       },
       setRange: (id: string) => {
-        htmlComponent.setAttribute('range-id', id);
+        htmlComponent.setAttribute("range-id", id);
       },
       getRangeId() {
         return rangeIdRef.current;
       },
 
       getContentState() {
-        const _manifestId = manifestIdRef?.current
-          ? manifestIdRef?.current
-          : manifestId;
+        const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
         // not sure if there's a better way to get at this?
         const el = webComponent.current;
         const sequenceInfo = (el as any).sequence;
 
-        const _canvasId =
-          sequenceInfo.items[
-            sequenceInfo.sequence[sequenceInfo.currentSequenceIndex][0]
-          ].id;
+        const _canvasId = sequenceInfo.items[sequenceInfo.sequence[sequenceInfo.currentSequenceIndex][0]].id;
 
-        // eslint-disable-next-line prefer-const
         let { x, y, width, height } = runtime?.current || {};
 
         const contentState: ContentState = {
           id: `${_canvasId}#xywh=${normaliseAxis(x)},${normaliseAxis(y)},${width},${height}`,
-          type: 'Canvas',
-          partOf: [{ id: _manifestId, type: 'Manifest' }],
+          type: "Canvas",
+          partOf: [{ id: _manifestId, type: "Manifest" }],
         };
 
         const ContentStateEvent = {
@@ -159,7 +137,7 @@ export function SequencePanel(props: SequencePanelProps) {
       },
 
       setContentStateFromText(text: string, immediate = false) {
-        if (text == undefined || text.trim() === '') {
+        if (text == undefined || text.trim() === "") {
           return;
         }
         const contentState = normaliseContentState(parseContentState(text));
@@ -171,19 +149,19 @@ export function SequencePanel(props: SequencePanelProps) {
         return manifestIdRef.current;
       },
       disableTextSelection() {
-        htmlComponent.setAttribute('text-selection-enabled', 'false');
+        htmlComponent.setAttribute("text-selection-enabled", "false");
       },
 
       enableTextSelection() {
-        htmlComponent.setAttribute('text-selection-enabled', 'true');
+        htmlComponent.setAttribute("text-selection-enabled", "true");
       },
 
       enableText() {
-        htmlComponent.setAttribute('text-enabled', 'true');
+        htmlComponent.setAttribute("text-enabled", "true");
       },
 
       disableText() {
-        htmlComponent.setAttribute('text-enabled', 'true');
+        htmlComponent.setAttribute("text-enabled", "true");
       },
     };
   });
@@ -197,11 +175,7 @@ export function SequencePanel(props: SequencePanelProps) {
         })
         .catch((err) => {
           console.error(err);
-          setError(
-            new Error(
-              `Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`,
-            ),
-          );
+          setError(new Error(`Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`));
         });
     }
   }, [contentStateToLoad, error]);
@@ -210,15 +184,10 @@ export function SequencePanel(props: SequencePanelProps) {
     if (contentState) {
       if (contentState.target.length) {
         const firstTarget = contentState.target[0];
-        if (
-          firstTarget.type === 'SpecificResource' &&
-          firstTarget.source.type === 'Canvas'
-        ) {
-          const manifestSource = (
-            'partOf' in firstTarget.source
-              ? firstTarget.source.partOf || []
-              : []
-          ).find((s) => s.type === 'Manifest');
+        if (firstTarget.type === "SpecificResource" && firstTarget.source.type === "Canvas") {
+          const manifestSource = ("partOf" in firstTarget.source ? firstTarget.source.partOf || [] : []).find(
+            (s) => s.type === "Manifest",
+          );
 
           // not sure if there's a better way to get at this?
           const el = webComponent.current;
@@ -228,10 +197,7 @@ export function SequencePanel(props: SequencePanelProps) {
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
-          if (
-            firstTarget.selector &&
-            firstTarget.selector.type === 'BoxSelector'
-          ) {
+          if (firstTarget.selector && firstTarget.selector.type === "BoxSelector") {
             const { x, y, width, height } = firstTarget.selector.spatial;
             runtime?.current?.world.gotoRegion({
               x,
@@ -263,7 +229,7 @@ export function SequencePanel(props: SequencePanelProps) {
             <ViewCanvas
               renderMultiple={true}
               // Escape hatch for bugs - to be improved.
-              key={`${startCanvas}-${viewport ? 'v1' : 'v0'}`}
+              key={`${startCanvas}-${viewport ? "v1" : "v0"}`}
               background={background}
               interactive={interactive}
               followAnnotations={followAnnotations}
@@ -288,18 +254,16 @@ export function SequencePanel(props: SequencePanelProps) {
         </VirtualAnnotationProvider>
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
-      {inlineStyleSheet ? (
-        <link rel="stylesheet" href={inlineStyleSheet} />
-      ) : null}
+      {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}
     </RegisterPublicApi.Provider>
   );
 }
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   const config = {
     shadow: true,
     onConstruct(instance: any) {
-      Object.defineProperty(instance, 'vault', {
+      Object.defineProperty(instance, "vault", {
         get(): any {
           return instance._props.vault;
         },
@@ -315,5 +279,5 @@ if (typeof window !== 'undefined') {
     },
   } as any;
 
-  register(SequencePanel, 'sequence-panel', sequencePanelAttributes, config);
+  register(SequencePanel, "sequence-panel", sequencePanelAttributes, config);
 }

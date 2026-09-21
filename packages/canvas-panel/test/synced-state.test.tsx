@@ -1,12 +1,12 @@
 // @vitest-environment happy-dom
-import { act } from 'react';
-import { render } from '../src/library/dom-renderer';
+import { act } from "react";
+import { render } from "../src/library/dom-renderer";
 (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
-import { expect, it } from 'vitest';
-import { useSyncedState } from '../src/hooks/use-synced-state';
+import { expect, it } from "vitest";
+import { useSyncedState } from "../src/hooks/use-synced-state";
 
-it('exposes the initial value and keeps falsy updates in sync for public getters', async () => {
-  const host = document.createElement('div');
+it("exposes the initial value and keeps falsy updates in sync for public getters", async () => {
+  const host = document.createElement("div");
   let state!: ReturnType<typeof useSyncedState<number>>;
   function Probe({ value }: { value: number }) {
     state = useSyncedState(value);

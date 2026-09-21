@@ -1,22 +1,14 @@
-import {
-  ChoiceEventContext,
-  createChoiceEventChannel,
-} from '../helpers/eventbus';
-import { createElement as h, useLayoutEffect, type ComponentType } from 'react';
-import { render } from './dom-renderer';
-import { Vault } from 'react-iiif-vault/core';
-import {
-  ContextBridge,
-  useContextValues,
-  type ContextValues,
-} from './context-bridge';
+import { ChoiceEventContext, createChoiceEventChannel } from "../helpers/eventbus";
+import { createElement as h, useLayoutEffect, type ComponentType } from "react";
+import { render } from "./dom-renderer";
+import { Vault } from "react-iiif-vault/core";
+import { ContextBridge, useContextValues, type ContextValues } from "./context-bridge";
 
-const contextEvent = 'canvas-panel-context';
-const camelCase = (name: string) =>
-  name.replace(/-(\w)/g, (_, char: string) => char.toUpperCase());
+const contextEvent = "canvas-panel-context";
+const camelCase = (name: string) => name.replace(/-(\w)/g, (_, char: string) => char.toUpperCase());
 function ContextSlot(props: any) {
   const values = useContextValues();
-  return h('slot', {
+  return h("slot", {
     ...props,
     ref: (node: HTMLSlotElement | null) => {
       if (!node) return;
@@ -32,7 +24,7 @@ function ContextSlot(props: any) {
 function ElementContent({ element, Component, values }: any) {
   useLayoutEffect(() => {
     element.ready = true;
-    element.dispatchEvent(new CustomEvent('ready'));
+    element.dispatchEvent(new CustomEvent("ready"));
   }, [element]);
   return h(
     ContextBridge,
@@ -44,12 +36,7 @@ function ElementContent({ element, Component, values }: any) {
     ),
   );
 }
-export default function register(
-  Component: ComponentType<any>,
-  name: string,
-  attributes: string[],
-  options: any = {},
-) {
+export default function register(Component: ComponentType<any>, name: string, attributes: string[], options: any = {}) {
   if (customElements.get(name)) return;
   class PanelElement extends HTMLElement {
     static observedAttributes = attributes;
@@ -63,10 +50,8 @@ export default function register(
     _choices = createChoiceEventChannel();
     constructor() {
       super();
-      this._root = options.shadow ? this.attachShadow({ mode: 'open' }) : this;
-      const supplied = Object.prototype.hasOwnProperty.call(this, 'vault')
-        ? (this as any).vault
-        : undefined;
+      this._root = options.shadow ? this.attachShadow({ mode: "open" }) : this;
+      const supplied = Object.prototype.hasOwnProperty.call(this, "vault") ? (this as any).vault : undefined;
       if (supplied) delete (this as any).vault;
       options.onConstruct?.(this);
       this._props.vault ||= supplied || new Vault();
@@ -91,19 +76,15 @@ export default function register(
       });
       this.dispatchEvent(event);
       const values = event.detail.values;
-      if (
-        values.length === this._values.length &&
-        values.every((value: any, i: number) => value === this._values[i])
-      )
+      if (values.length === this._values.length && values.every((value: any, i: number) => value === this._values[i]))
         return;
       this._values = values;
-      if (!this._explicitVault && values[0]?.vault)
-        this._props.vault = values[0].vault;
+      if (!this._explicitVault && values[0]?.vault) this._props.vault = values[0].vault;
       this.update();
     }
     whenReady(callback: () => void) {
       if (this.ready) callback();
-      else this.addEventListener('ready', callback, { once: true });
+      else this.addEventListener("ready", callback, { once: true });
     }
     connectedCallback() {
       for (const { name, value } of Array.from(this.attributes)) {
@@ -129,11 +110,7 @@ export default function register(
         true,
       );
     }
-    attributeChangedCallback(
-      name: string,
-      _old: string | null,
-      value: string | null,
-    ) {
+    attributeChangedCallback(name: string, _old: string | null, value: string | null) {
       this._props[name] = value ?? undefined;
       this._props[camelCase(name)] = value ?? undefined;
       this.update();
@@ -168,8 +145,7 @@ export default function register(
       },
       set(value) {
         if (value == null) this.removeAttribute(name);
-        else if (typeof value !== 'object')
-          this.setAttribute(name, String(value));
+        else if (typeof value !== "object") this.setAttribute(name, String(value));
         else {
           this._props[name] = this._props[camelCase(name)] = value;
           this.update();

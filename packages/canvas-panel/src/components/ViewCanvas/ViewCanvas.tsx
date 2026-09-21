@@ -1,8 +1,8 @@
-import { createElement as h } from 'react';
-import { ErrorBoundary as _ErrorBoundary } from 'react-error-boundary';
-import { ViewCanvasProps } from './ViewCanvas.types';
-import { AtlasCanvas } from '../AtlasCanvas/AtlasCanvas';
-import { NestedAtlas } from '../NestedAtlas/NestedAtlas';
+import { createElement as h } from "react";
+import { ErrorBoundary as _ErrorBoundary } from "react-error-boundary";
+import { ViewCanvasProps } from "./ViewCanvas.types";
+import { AtlasCanvas } from "../AtlasCanvas/AtlasCanvas";
+import { NestedAtlas } from "../NestedAtlas/NestedAtlas";
 import {
   useCanvas,
   useResourceContext,
@@ -10,13 +10,13 @@ import {
   useAnnotationPageManager,
   useManifest,
   useVault,
-} from 'react-iiif-vault/core';
-import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { serialiseContentState } from '../../helpers/content-state/content-state';
-import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
-import { targetToPixels } from '../../helpers/target-to-pixels';
-import { RenderAllCanvases } from '../RenderAllCanvases';
+} from "react-iiif-vault/core";
+import { useRegisterPublicApi } from "../../hooks/use-register-public-api";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { serialiseContentState } from "../../helpers/content-state/content-state";
+import { ErrorFallback } from "../ErrorFallback/ErrorFallback";
+import { targetToPixels } from "../../helpers/target-to-pixels";
+import { RenderAllCanvases } from "../RenderAllCanvases";
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -31,8 +31,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const aspectRatio =
     !props.displayOptions.viewport && canvas
       ? props.displayOptions.homePosition
-        ? props.displayOptions.homePosition.width /
-          props.displayOptions.homePosition.height
+        ? props.displayOptions.homePosition.width / props.displayOptions.homePosition.height
         : canvas.width / canvas.height
       : undefined;
 
@@ -46,13 +45,12 @@ export function ViewCanvas(props: ViewCanvasProps) {
     }
 
     // Update?
-    (el as any).annotationPageManager.availablePageIds =
-      manager.availablePageIds;
+    (el as any).annotationPageManager.availablePageIds = manager.availablePageIds;
     (el as any).annotationPageManager.enabledPageIds = manager.enabledPageIds;
     (el as any).annotationPageManager.setPageEnabled = manager.setPageEnabled;
     (el as any).annotationPageManager.setPageDisabled = manager.setPageDisabled;
     return {};
-  }, [manager.availablePageIds, manager.enabledPageIds, manager.setPageEnabled, manager.setPageDisabled].join('/'));
+  }, [manager.availablePageIds, manager.enabledPageIds, manager.setPageEnabled, manager.setPageDisabled].join("/"));
 
   useLayoutEffect(() => {
     if (props.followAnnotations === false) {
@@ -65,19 +63,10 @@ export function ViewCanvas(props: ViewCanvasProps) {
     });
   }, [manager.availablePageIds, props.followAnnotations]);
 
-  useVaultSelector(
-    (state) => (ctx.canvas ? state.iiif.entities.Canvas[ctx.canvas] : null),
-    [],
-  );
+  useVaultSelector((state) => (ctx.canvas ? state.iiif.entities.Canvas[ctx.canvas] : null), []);
 
   const [displayOptions, containerProps] = useMemo(() => {
-    const {
-      width,
-      height,
-      homePosition: _,
-      containerProps,
-      ...rest
-    } = props.displayOptions;
+    const { width, height, homePosition: _, containerProps, ...rest } = props.displayOptions;
     const homePosition =
       props.displayOptions.homePosition && canvas
         ? targetToPixels(props.displayOptions.homePosition as any, canvas)
@@ -99,7 +88,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
   }, [props.displayOptions, canvas]);
 
   const onKeyDownContainer = (e: any) => {
-    if (e.altKey && e.code === 'KeyB') {
+    if (e.altKey && e.code === "KeyB") {
       setAnnoMode(true);
     }
   };
@@ -119,7 +108,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
       )}
     >
       <NestedAtlas
-        key={props.renderMultiple ? '' : canvas?.id}
+        key={props.renderMultiple ? "" : canvas?.id}
         aspectRatio={aspectRatio}
         containerProps={{
           onKeyDown: onKeyDownContainer,
@@ -128,7 +117,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
         className={props.className}
         background={props.background}
         {...displayOptions}
-        mode={annoMode ? 'sketch' : props.mode}
+        mode={annoMode ? "sketch" : props.mode}
         homeCover={props.homeCover}
         homeOnResize={!!props.homeCover}
       >
@@ -149,8 +138,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
               navigator.clipboard.writeText(
                 serialiseContentState({
                   id: `${canvas.id}#xywh=${e.x},${e.y},${e.width},${e.height}`,
-                  type: 'Canvas',
-                  partOf: [{ id: manifest.id, type: 'Manifest' }],
+                  type: "Canvas",
+                  partOf: [{ id: manifest.id, type: "Manifest" }],
                 }),
               );
             }

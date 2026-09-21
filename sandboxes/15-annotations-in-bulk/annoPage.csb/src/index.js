@@ -1,12 +1,12 @@
-import '@digirati/canvas-panel-web-components/dist/index.css';
-import '@digirati/canvas-panel-web-components';
-import './styles.css';
+import "@digirati/canvas-panel-web-components/dist/index.css";
+import "@digirati/canvas-panel-web-components";
+import "./styles.css";
 
-const cp = document.getElementById('cp');
+const cp = document.getElementById("cp");
 
 async function demo() {
   const manifestWithAnnotations = await cp.vault.loadManifest(
-    'https://iiif.wellcomecollection.org/presentation/b18035723',
+    "https://iiif.wellcomecollection.org/presentation/b18035723",
   );
   const canvas10 = cp.vault.get(manifestWithAnnotations.items[10]);
   cp.setCanvas(canvas10.id);
@@ -15,14 +15,14 @@ async function demo() {
     // how do we know these are not inline?
     let embedded = annoPage.items && !cp.vault.requestStatus(annoPage);
     if (!embedded) {
-      console.log(annoPage.id + ' needs to be loaded');
+      console.log(annoPage.id + " needs to be loaded");
       // As a resource external to the manifest, we load annotations specifically, from their id:
       const loadedAnnoPage = await cp.vault.load(annoPage.id);
       // These are now loaded into the Vault
 
       cp.annotationPageManager.setPageEnabled(loadedAnnoPage.id);
       cp.applyStyles(loadedAnnoPage, {
-        border: '3px solid green',
+        border: "3px solid green",
       });
       // cp.applyStyles(loadedAnnoPage, {
       //   backgroundColor: 'red',

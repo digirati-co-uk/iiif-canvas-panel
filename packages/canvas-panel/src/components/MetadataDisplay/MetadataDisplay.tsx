@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import type { InternationalString } from '@iiif/parser/presentation-3/types';
-import { createElement as h } from 'react';
-import { getValue } from '@iiif/helpers';
-import './MetadataDisplay.css';
+import React, { useMemo } from "react";
+import type { InternationalString } from "@iiif/parser/presentation-3/types";
+import { createElement as h } from "react";
+import { getValue } from "@iiif/helpers";
+import "./MetadataDisplay.css";
 
 type FacetConfig = {
   id: string;
@@ -24,8 +24,8 @@ export const MetaDataDisplay: React.FC<{
     label: InternationalString;
     value: InternationalString;
   } | null>;
-  variation?: 'table' | 'list';
-  labelStyle?: 'muted' | 'bold' | 'caps' | 'small-caps';
+  variation?: "table" | "list";
+  labelStyle?: "muted" | "bold" | "caps" | "small-caps";
   labelWidth?: number;
   allowHtml?: boolean;
   bordered?: boolean;
@@ -34,7 +34,7 @@ export const MetaDataDisplay: React.FC<{
 }> = ({
   metadata = [],
   config,
-  variation = 'table',
+  variation = "table",
   labelWidth = 16,
   bordered,
   labelStyle,
@@ -60,8 +60,7 @@ export const MetaDataDisplay: React.FC<{
         if (
           label &&
           label.length &&
-          (flatKeys.indexOf(`metadata.${label[0]}`) !== -1 ||
-            flatKeys.length === 0) &&
+          (flatKeys.indexOf(`metadata.${label[0]}`) !== -1 || flatKeys.length === 0) &&
           item
         ) {
           const key = `metadata.${label[0]}`;
@@ -82,11 +81,7 @@ export const MetaDataDisplay: React.FC<{
 
   if (config && config.length) {
     return (
-      <table
-        data-variation={variation}
-        data-label-style={labelStyle}
-        data-bordered={bordered}
-      >
+      <table data-variation={variation} data-label-style={labelStyle} data-bordered={bordered}>
         <slot slot="header" />
         <tbody>
           {config.map((configItem, idx: number) => {
@@ -95,7 +90,7 @@ export const MetaDataDisplay: React.FC<{
             for (const key of configItem.keys) {
               for (const item of metadataKeyMap[key] || []) {
                 values.push(
-                  <div key={idx + '__' + key}>
+                  <div key={idx + "__" + key}>
                     {allowHtml ? (
                       <span
                         dangerouslySetInnerHTML={{
@@ -116,10 +111,7 @@ export const MetaDataDisplay: React.FC<{
 
             return (
               <tr className="metadata-row" key={idx}>
-                <td
-                  className="metadata-key"
-                  style={labelWidth ? { minWidth: labelWidth } : {}}
-                >
+                <td className="metadata-key" style={labelWidth ? { minWidth: labelWidth } : {}}>
                   {allowHtml ? (
                     <span
                       dangerouslySetInnerHTML={{
@@ -141,11 +133,7 @@ export const MetaDataDisplay: React.FC<{
   }
 
   return (
-    <table
-      data-variation={variation}
-      data-label-style={labelStyle}
-      data-bordered={bordered}
-    >
+    <table data-variation={variation} data-label-style={labelStyle} data-bordered={bordered}>
       <slot name="header" />
       <tbody>
         {metadata && metadata.length ? (
@@ -155,10 +143,7 @@ export const MetaDataDisplay: React.FC<{
             }
             return (
               <tr className="metadata-row" key={idx}>
-                <td
-                  className="metadata-key"
-                  style={labelWidth ? { minWidth: labelWidth } : {}}
-                >
+                <td className="metadata-key" style={labelWidth ? { minWidth: labelWidth } : {}}>
                   {allowHtml ? (
                     <span
                       dangerouslySetInnerHTML={{

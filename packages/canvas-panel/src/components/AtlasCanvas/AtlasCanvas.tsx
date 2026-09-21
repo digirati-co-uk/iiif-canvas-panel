@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from "react";
 import {
   useCanvas,
   parseSpecificResource,
@@ -6,27 +6,27 @@ import {
   useVaultSelector,
   useAnnotationPageManager,
   useManifest,
-} from 'react-iiif-vault/core';
-import { SingleChoice, createPaintingAnnotationsHelper } from '@iiif/helpers';
-import { Fragment, createElement as h } from 'react';
-import { RenderAnnotationPage } from '../RenderAnnotationPage/RenderAnnotationPage';
-import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
-import { SizeParameter } from '../../helpers/size-parameter';
-import { Debug } from '../../hooks/debug';
-import { DrawBox } from '../../atlas-components/DrawBox';
+} from "react-iiif-vault/core";
+import { SingleChoice, createPaintingAnnotationsHelper } from "@iiif/helpers";
+import { Fragment, createElement as h } from "react";
+import { RenderAnnotationPage } from "../RenderAnnotationPage/RenderAnnotationPage";
+import { RegionHighlight } from "../../atlas-components/RegionHighlight/RegionHighlight";
+import { SizeParameter } from "../../helpers/size-parameter";
+import { Debug } from "../../hooks/debug";
+import { DrawBox } from "../../atlas-components/DrawBox";
 import {
   CanvasStrategyProvider,
   CanvasWorldObject,
   RenderCanvasScene,
   useStrategy,
-} from 'react-iiif-vault/canvas-panel/scene';
-import { SceneMedia, SceneUnsupported } from './presentation';
-import { RenderImage } from '../RenderImage/RenderImage';
-import { useVirtualAnnotationPageContext } from '../../hooks/use-virtual-annotation-page-context';
-import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
-import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
-import { useChoiceEventChannel } from '../../helpers/eventbus';
-import type { ContentResource } from '@iiif/parser/presentation-3/types';
+} from "react-iiif-vault/canvas-panel/scene";
+import { SceneMedia, SceneUnsupported } from "./presentation";
+import { RenderImage } from "../RenderImage/RenderImage";
+import { useVirtualAnnotationPageContext } from "../../hooks/use-virtual-annotation-page-context";
+import { RenderTextLines } from "../RenderTextLines/RenderTextLines";
+import { sortAnnotationPages } from "../../helpers/sort-annotation-pages";
+import { useChoiceEventChannel } from "../../helpers/eventbus";
+import type { ContentResource } from "@iiif/parser/presentation-3/types";
 
 interface AtlasCanvasProps {
   x?: number;
@@ -54,7 +54,7 @@ export function AtlasCanvas(props: AtlasCanvasProps) {
   const canvas = useCanvas();
   return (
     <CanvasStrategyProvider
-      strategies={['images', 'media']}
+      strategies={["images", "media"]}
       defaultChoices={props.defaultChoices}
       annotationPageManagerId={manifest?.id || canvas?.id}
     >
@@ -103,44 +103,38 @@ function AtlasCanvasContent({
     if (canvas?.id) {
       // Report the current selection, not only the initial choice-id attribute.
       const enabledChoices =
-        strategy.type === 'images'
+        strategy.type === "images"
           ? strategy.images.map((image) => image.id)
           : defaultChoices?.map(({ id }) => id) || [];
       const vaultAnnotations = vaulthelper.getAllPaintingAnnotations(canvas.id);
       // Extract choices (if any) from a canvas
 
       for (const annotation of vaultAnnotations) {
-        if (annotation.type !== 'Annotation') {
-          throw new Error(
-            `getPaintables() accept either a canvas or list of annotations`,
-          );
+        if (annotation.type !== "Annotation") {
+          throw new Error(`getPaintables() accept either a canvas or list of annotations`);
         }
 
-        const references = Array.from(
-          Array.isArray(annotation.body) ? annotation.body : [annotation.body],
-        );
+        const references = Array.from(Array.isArray(annotation.body) ? annotation.body : [annotation.body]);
         for (const reference of references) {
           const [ref, { selector }] = parseSpecificResource(reference as any);
           const body = vault.get(ref) as any;
-          const type = (body.type || 'unknown').toLowerCase();
+          const type = (body.type || "unknown").toLowerCase();
           // Choice
-          if (type !== 'choice') {
+          if (type !== "choice") {
             continue;
           }
           const nestedBodies = vault.get(body.items) as ContentResource[];
 
           // if the enabledChoices has the id, then turn it on, otherwise choose the 1st item
           const selected = enabledChoices.length
-            ? enabledChoices
-                .map((cid) => nestedBodies.find((b) => b.id === cid))
-                .filter(Boolean)
+            ? enabledChoices.map((cid) => nestedBodies.find((b) => b.id === cid)).filter(Boolean)
             : [nestedBodies[0]];
 
           if (selected.length === 0) {
             selected.push(nestedBodies[0]);
           }
           const choice: SingleChoice = {
-            type: 'single-choice',
+            type: "single-choice",
             items: nestedBodies.map((b) => ({
               id: b.id,
               label: (b as any).label as any,
@@ -148,7 +142,7 @@ function AtlasCanvasContent({
             })) as any[],
             label: (ref as any).label,
           };
-          choiceEventChannel.emit('onChoiceChange', {
+          choiceEventChannel.emit("onChoiceChange", {
             choice,
             partOf: {
               canvasId: canvas.id,
@@ -161,22 +155,14 @@ function AtlasCanvasContent({
     }
   }, [canvas?.id, strategy, defaultChoices]);
 
-  const pageTypes = useMemo(
-    () => sortAnnotationPages(manager.availablePageIds, vault as any),
-    fullPages,
-  );
+  const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
   const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;
-  const firstTextLines = hasTextLines
-    ? pageTypes.pageMapping.supplementing[0]
-    : null;
+  const firstTextLines = hasTextLines ? pageTypes.pageMapping.supplementing[0] : null;
 
   useEffect(() => {
-    const unsubscribeOnMakeChoice = choiceEventChannel.on(
-      'onMakeChoice',
-      (payload: { id: any; options: any }) => {
-        actions?.makeChoice(payload.id, payload.options);
-      },
-    );
+    const unsubscribeOnMakeChoice = choiceEventChannel.on("onMakeChoice", (payload: { id: any; options: any }) => {
+      actions?.makeChoice(payload.id, payload.options);
+    });
     return () => {
       unsubscribeOnMakeChoice();
     };
@@ -208,9 +194,7 @@ function AtlasCanvasContent({
           }}
         />
       ) : null}
-      {highlight &&
-      highlight.selector &&
-      highlight.selector.type === 'BoxSelector' ? (
+      {highlight && highlight.selector && highlight.selector.type === "BoxSelector" ? (
         <RegionHighlight
           id="highlight"
           isEditing={true}
@@ -221,42 +205,25 @@ function AtlasCanvasContent({
             // no-op
           }}
           region={highlight.selector.spatial as any}
-          style={highlightCssClass ? undefined : { border: '3px solid red' }}
+          style={highlightCssClass ? undefined : { border: "3px solid red" }}
           className={highlightCssClass}
         />
       ) : null}
-      {virtualPage ? (
-        <RenderAnnotationPage
-          page={virtualPage}
-          textSelectionEnabled={textSelectionEnabled}
-        />
-      ) : null}
+      {virtualPage ? <RenderAnnotationPage page={virtualPage} textSelectionEnabled={textSelectionEnabled} /> : null}
       {strategy.annotations && strategy.annotations.pages
         ? strategy.annotations.pages.map((page) => {
-            return (
-              <RenderAnnotationPage
-                key={page.id}
-                page={page}
-                textSelectionEnabled={textSelectionEnabled}
-              />
-            );
+            return <RenderAnnotationPage key={page.id} page={page} textSelectionEnabled={textSelectionEnabled} />;
           })
         : null}
       {debug ? <Debug /> : null}
       {textEnabled && firstTextLines ? (
-        <RenderTextLines
-          annotationPageId={firstTextLines}
-          selectionEnabled={textSelectionEnabled}
-        />
+        <RenderTextLines annotationPageId={firstTextLines} selectionEnabled={textSelectionEnabled} />
       ) : null}
     </Fragment>
   );
   // The shared scene takes one candidate list. Legacy virtual sizes must be
   // resolved per image service, so compose the same shared image nodes here.
-  if (
-    strategy.type === 'images' &&
-    (virtualSizes.length || (rotation && strategy.images.length > 1))
-  ) {
+  if (strategy.type === "images" && (virtualSizes.length || (rotation && strategy.images.length > 1))) {
     return (
       <CanvasWorldObject x={x} y={y}>
         {strategy.images.map((image) => (
@@ -292,7 +259,7 @@ function AtlasCanvasContent({
         AnnotationPage: IgnoreAnnotationPage,
       }}
     >
-      {strategy.type === 'images' ? annotations : null}
+      {strategy.type === "images" ? annotations : null}
     </RenderCanvasScene>
   );
 }

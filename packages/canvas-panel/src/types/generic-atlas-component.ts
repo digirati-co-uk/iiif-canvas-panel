@@ -1,6 +1,6 @@
-import type { Selector } from '@iiif/parser/presentation-3/types';
-import { SizeParameter } from '../helpers/size-parameter';
-import { Vault } from '@iiif/helpers';
+import type { Selector } from "@iiif/parser/presentation-3/types";
+import { SizeParameter } from "../helpers/size-parameter";
+import { Vault } from "@iiif/helpers";
 
 export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   region?: Selector | Selector[] | undefined; // same as target.
@@ -8,10 +8,10 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   highlight?: Selector | Selector[] | undefined;
   highlightCssClass?: string;
   preferredFormats?: string | string[];
-  render?: 'static' | 'canvas' | 'webgl';
+  render?: "static" | "canvas" | "webgl";
   background?: string;
   interactive?: boolean;
-  atlasMode?: 'sketch' | 'explore';
+  atlasMode?: "sketch" | "explore";
   virtualSizes?: string | SizeParameter | Array<SizeParameter> | Array<string>;
   skipSizes?: boolean;
   styleId?: string;
@@ -23,7 +23,7 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   granularMoveEvents?: boolean;
   disableKeyboardNavigation?: boolean;
   clickToEnableZoom?: boolean;
-  homeCover?: 'true' | 'false' | 'start' | 'end';
+  homeCover?: "true" | "false" | "start" | "end";
   viewport?: boolean;
   debug?: boolean;
   media?: Record<string, Partial<GenericAtlasComponent<T>>>;

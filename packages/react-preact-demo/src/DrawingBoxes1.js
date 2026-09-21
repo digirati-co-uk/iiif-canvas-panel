@@ -1,25 +1,20 @@
-import { useLayoutEffect, useState, useRef } from 'react';
+import { useLayoutEffect, useState, useRef } from "react";
 
 export function DrawingBoxes1() {
   const viewer = useRef();
   const [choice, setChoice] = useState();
 
   useLayoutEffect(() => {
-    viewer.current.addEventListener('choice', (e) => {
+    viewer.current.addEventListener("choice", (e) => {
       setChoice(e.detail.choice);
     });
   }, []);
 
-  const disabledChoice = choice
-    ? choice.items.filter((i) => i.selected).length === 1
-    : false;
+  const disabledChoice = choice ? choice.items.filter((i) => i.selected).length === 1 : false;
 
   return (
     <>
-      <script
-        id="base-config"
-        type="application/json"
-      >{`{"height": 512, "width": 512}`}</script>
+      <script id="base-config" type="application/json">{`{"height": 512, "width": 512}`}</script>
       <style id="my-style">{`
       .example-annotation {
         border: 3px solid blue;
@@ -41,7 +36,7 @@ export function DrawingBoxes1() {
                   }}
                   checked={item.selected}
                 />
-                <strong>{item.label.en.join('')}</strong>
+                <strong>{item.label.en.join("")}</strong>
                 <input
                   type="range"
                   min={0}

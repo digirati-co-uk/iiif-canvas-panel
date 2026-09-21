@@ -1,17 +1,10 @@
-import {
-  useAnnotation,
-  useCanvas,
-  useResourceEvents,
-  useStyles,
-  useVault,
-  VaultProvider,
-} from 'react-iiif-vault/core';
-import { FC, useMemo } from 'react';
-import { createElement as h } from 'react';
-import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
-import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas/react';
-import { RenderTextualContent } from '../RenderTextLines/RenderTextualContent';
-import { HTMLPortal } from '../../atlas-components/HTMLPortal';
+import { useAnnotation, useCanvas, useResourceEvents, useStyles, useVault, VaultProvider } from "react-iiif-vault/core";
+import { FC, useMemo } from "react";
+import { createElement as h } from "react";
+import { RegionHighlight } from "../../atlas-components/RegionHighlight/RegionHighlight";
+import { BoxStyle, mergeStyles } from "@atlas-viewer/atlas/react";
+import { RenderTextualContent } from "../RenderTextLines/RenderTextualContent";
+import { HTMLPortal } from "../../atlas-components/HTMLPortal";
 
 export const RenderAnnotation: FC<{
   id: string;
@@ -19,22 +12,16 @@ export const RenderAnnotation: FC<{
   style?: BoxStyle;
   interactive?: boolean;
   textSelectionEnabled?: boolean;
-}> = ({
-  id,
-  style: defaultStyle,
-  className,
-  interactive,
-  textSelectionEnabled,
-}) => {
+}> = ({ id, style: defaultStyle, className, interactive, textSelectionEnabled }) => {
   const annotation = useAnnotation({ id });
-  const style = useStyles<BoxStyle>(annotation, 'atlas');
+  const style = useStyles<BoxStyle>(annotation, "atlas");
   const html = useStyles<{
     className?: string;
     href?: string;
     title?: string;
     target?: string;
-  }>(annotation, 'html');
-  const events = useResourceEvents(annotation as any, ['atlas']);
+  }>(annotation, "html");
+  const events = useResourceEvents(annotation as any, ["atlas"]);
   const canvas = useCanvas();
 
   const allStyles = useMemo(() => {
@@ -46,7 +33,7 @@ export const RenderAnnotation: FC<{
     annotation &&
     annotation.target &&
     (annotation.target as any).selector &&
-    (annotation.target as any).selector.type === 'BoxSelector' &&
+    (annotation.target as any).selector.type === "BoxSelector" &&
     (annotation.target as any).source &&
     (annotation.target as any).source.id === canvas.id;
 
@@ -67,10 +54,7 @@ export const RenderAnnotation: FC<{
       hrefTarget={html?.target || null}
       {...events}
     >
-      <RenderTextualContent
-        annotation={annotation as any}
-        textSelectionEnabled={textSelectionEnabled}
-      />
+      <RenderTextualContent annotation={annotation as any} textSelectionEnabled={textSelectionEnabled} />
     </RegionHighlight>
   );
 };

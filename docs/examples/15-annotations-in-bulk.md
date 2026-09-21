@@ -4,22 +4,19 @@ sidebar_position: 15
 
 # Working with Annotation Pages
 
-import { GitHubDiscussion } from "../../GitHubDiscussion.js"; import { Example }
-from '@site/Example';
+import { GitHubDiscussion } from "../../GitHubDiscussion.js"; import { Example } from '@site/Example';
 
 <!-- Stephen: anno page styling not working! -->
 
-The preferred way of dealing with large numbers of annotations is to separate
-them into multiple AnnotationPage resources. For example, one AnnotationPage for
-the English transcription, another AnnotationPage for the French translation,
-and another page for the German translation.
+The preferred way of dealing with large numbers of annotations is to separate them into multiple AnnotationPage
+resources. For example, one AnnotationPage for the English transcription, another AnnotationPage for the French
+translation, and another page for the German translation.
 
-AnnotationPages can be used to partition annotations for any purpose, and should
-have labels to describe what they are for.
+AnnotationPages can be used to partition annotations for any purpose, and should have labels to describe what they are
+for.
 
-Canvas Panel can then load, display and style whole annotation pages - that is,
-display all the annotations in one AnnotationPage, and style all the annotations
-in one AnnotationPage.
+Canvas Panel can then load, display and style whole annotation pages - that is, display all the annotations in one
+AnnotationPage, and style all the annotations in one AnnotationPage.
 
 <Example label="Loading and styling Annotation pages" id="external-annotation-pages" />
 

@@ -1,18 +1,15 @@
 <template>
-  <div
-    v-if="thumbnail.current"
-    :class="active ? 'image image--active' : 'image'"
-  >
+  <div v-if="thumbnail.current" :class="active ? 'image image--active' : 'image'">
     <img :src="thumbnail.current?.id" alt="thumbnail" />
   </div>
 </template>
 
 <script>
-import CanvasMixinVue from '../mixins/CanvasMixin.vue';
+import CanvasMixinVue from "../mixins/CanvasMixin.vue";
 
 export default {
-  name: 'CanvasThumbnail',
-  inject: ['vault', 'thumbs'],
+  name: "CanvasThumbnail",
+  inject: ["vault", "thumbs"],
   mixins: [CanvasMixinVue],
   props: {
     active: Boolean,

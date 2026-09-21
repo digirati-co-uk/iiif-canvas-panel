@@ -1,23 +1,18 @@
-import { useSyncedState } from '../hooks/use-synced-state';
-import { parseBool, parseNumber } from '../helpers/parse-attributes';
-import {
-  ManifestContext,
-  useExistingVault,
-  useExternalManifest,
-  VaultProvider,
-} from 'react-iiif-vault/core';
-import { globalVault, Vault } from '@iiif/helpers';
-import { Fragment, createElement as h } from 'react';
-import { MetaDataDisplay } from '../components/MetadataDisplay/MetadataDisplay';
-import register from '../library/custom-element';
+import { useSyncedState } from "../hooks/use-synced-state";
+import { parseBool, parseNumber } from "../helpers/parse-attributes";
+import { ManifestContext, useExistingVault, useExternalManifest, VaultProvider } from "react-iiif-vault/core";
+import { globalVault, Vault } from "@iiif/helpers";
+import { Fragment, createElement as h } from "react";
+import { MetaDataDisplay } from "../components/MetadataDisplay/MetadataDisplay";
+import register from "../library/custom-element";
 
 export interface MetadataPanelProps {
   vault?: Vault;
   manifestId: string;
   configId?: string;
   separator?: string;
-  variation?: 'table' | 'list';
-  labelStyle?: 'muted' | 'bold' | 'caps' | 'small-caps';
+  variation?: "table" | "list";
+  labelStyle?: "muted" | "bold" | "caps" | "small-caps";
   labelWidth?: number;
   bordered?: boolean;
   allowHtml?: boolean;
@@ -77,20 +72,20 @@ function ManifestMetadata(props: MetadataPanelProps) {
 }
 
 const metadataPanelProps = [
-  'manifest-id',
-  'config-id',
-  'variation',
-  'label-style',
-  'label-width',
-  'bordered',
-  'show-empty-message',
+  "manifest-id",
+  "config-id",
+  "variation",
+  "label-style",
+  "label-width",
+  "bordered",
+  "show-empty-message",
 ];
 
-if (typeof window !== 'undefined') {
-  register(MetadataPanel, 'metadata-panel', metadataPanelProps, {
+if (typeof window !== "undefined") {
+  register(MetadataPanel, "metadata-panel", metadataPanelProps, {
     shadow: false,
     onConstruct(instance: any) {
-      Object.defineProperty(instance, 'vault', {
+      Object.defineProperty(instance, "vault", {
         get(): any {
           return instance._props.vault;
         },

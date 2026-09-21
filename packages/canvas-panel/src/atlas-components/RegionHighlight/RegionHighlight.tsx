@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { ResizeWorldItem } from '../ResizeWorldItem';
-import { BoxStyle, useMode } from '@atlas-viewer/atlas/react';
-import { createElement as h } from 'react';
-import { Box, WorldObject } from '..';
+import React, { useCallback } from "react";
+import { ResizeWorldItem } from "../ResizeWorldItem";
+import { BoxStyle, useMode } from "@atlas-viewer/atlas/react";
+import { createElement as h } from "react";
+import { Box, WorldObject } from "..";
 
 type RegionHighlightType = {
   id: any;
@@ -25,17 +25,7 @@ export const RegionHighlight: React.FC<{
   hrefTarget?: string;
   children?: any;
   title?: string;
-}> = ({
-  children,
-  interactive,
-  region,
-  onClick,
-  onSave,
-  isEditing,
-  className,
-  style,
-  ...props
-}) => {
+}> = ({ children, interactive, region, onClick, onSave, isEditing, className, style, ...props }) => {
   const mode = useMode();
 
   const saveCallback = useCallback(
@@ -63,7 +53,7 @@ export const RegionHighlight: React.FC<{
       resizable={isEditing}
       onSave={saveCallback}
       onClick={
-        mode === 'explore' && onClick
+        mode === "explore" && onClick
           ? (e: any) => {
               // e.preventDefault();
               // e.stopPropagation();

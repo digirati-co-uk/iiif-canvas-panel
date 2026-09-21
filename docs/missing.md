@@ -1,7 +1,6 @@
 # Missing documentations / fixes
 
-Adding custom fallback or error message add `slot="fallback"` to replace the
-sad-canvas-panel
+Adding custom fallback or error message add `slot="fallback"` to replace the sad-canvas-panel
 
 ```html
 <canvas-panel
@@ -16,7 +15,7 @@ Ready states
 
 ```js
 if (!cp.ready) {
-  cp.addEventListener('ready', demo);
+  cp.addEventListener("ready", demo);
 } else {
   demo();
 }

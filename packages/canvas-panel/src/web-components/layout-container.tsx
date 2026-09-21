@@ -1,14 +1,13 @@
-import { SceneHTML } from '../components/AtlasCanvas/presentation';
-import register from '../library/custom-element';
-import { useExistingVault, VaultProvider } from 'react-iiif-vault/core';
-import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
-import { createElement as h } from 'react';
+import { SceneHTML } from "../components/AtlasCanvas/presentation";
+import register from "../library/custom-element";
+import { useExistingVault, VaultProvider } from "react-iiif-vault/core";
+import { useGenericAtlasProps } from "../hooks/use-generic-atlas-props";
+import { NestedAtlas } from "../components/NestedAtlas/NestedAtlas";
+import { createElement as h } from "react";
 
 export function LayoutContainer({ children, ...props }: any) {
   const vault = useExistingVault();
-  const { setIsReady, atlasProps, isReady, className } =
-    useGenericAtlasProps(props);
+  const { setIsReady, atlasProps, isReady, className } = useGenericAtlasProps(props);
 
   return (
     <VaultProvider vault={vault}>
@@ -17,7 +16,7 @@ export function LayoutContainer({ children, ...props }: any) {
           setIsReady(true);
         }}
         viewport={true}
-        className={className || ''}
+        className={className || ""}
         {...atlasProps}
       >
         {isReady ? (
@@ -30,7 +29,7 @@ export function LayoutContainer({ children, ...props }: any) {
   );
 }
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   const config = {
     shadow: true,
     onConstruct(instance: any) {
@@ -42,6 +41,6 @@ if (typeof window !== 'undefined') {
     },
   } as any;
 
-  register(LayoutContainer, 'atlas-viewer', [], config);
-  register(LayoutContainer, 'layout-container', [], config);
+  register(LayoutContainer, "atlas-viewer", [], config);
+  register(LayoutContainer, "layout-container", [], config);
 }

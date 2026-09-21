@@ -1,15 +1,10 @@
-import {
-  CanvasContext as _CanvasContext,
-  useRange,
-  useSimpleViewer,
-  useVisibleCanvases,
-} from 'react-iiif-vault/core';
-import { AtlasCanvas } from './AtlasCanvas/AtlasCanvas';
-import { SizeParameter } from '../helpers/size-parameter';
-import { createElement as h } from 'react';
-import { Fragment, useEffect, useRef } from 'react';
-import { useRegisterPublicApi } from '../hooks/use-register-public-api';
-import { useChoiceEventChannel } from '../helpers/eventbus';
+import { CanvasContext as _CanvasContext, useRange, useSimpleViewer, useVisibleCanvases } from "react-iiif-vault/core";
+import { AtlasCanvas } from "./AtlasCanvas/AtlasCanvas";
+import { SizeParameter } from "../helpers/size-parameter";
+import { createElement as h } from "react";
+import { Fragment, useEffect, useRef } from "react";
+import { useRegisterPublicApi } from "../hooks/use-register-public-api";
+import { useChoiceEventChannel } from "../helpers/eventbus";
 
 const CanvasContext = _CanvasContext as any;
 
@@ -44,7 +39,7 @@ export function RenderAllCanvases(props: RenderAllCanvasesProps) {
 
       if (!hasSequence.current) {
         hasSequence.current = true;
-        el.dispatchEvent(new CustomEvent('sequence', { detail: sequence }));
+        el.dispatchEvent(new CustomEvent("sequence", { detail: sequence }));
       }
 
       return {} as any;
@@ -54,9 +49,9 @@ export function RenderAllCanvases(props: RenderAllCanvasesProps) {
 
   useEffect(() => {
     if (webComponent.current) {
-      choiceEventChannel.emit('onResetSeen');
+      choiceEventChannel.emit("onResetSeen");
       webComponent.current.dispatchEvent(
-        new CustomEvent('sequence-change', {
+        new CustomEvent("sequence-change", {
           detail: {
             index: sequence.currentSequenceIndex,
             total: sequence.sequence.length,

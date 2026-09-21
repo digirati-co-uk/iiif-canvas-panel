@@ -1,7 +1,7 @@
-import { useAfterFrame, useRuntime } from '@atlas-viewer/atlas/react';
-import { RegionHighlight } from '../atlas-components/RegionHighlight/RegionHighlight';
-import { Fragment, createElement as h } from 'react';
-import { useState } from 'react';
+import { useAfterFrame, useRuntime } from "@atlas-viewer/atlas/react";
+import { RegionHighlight } from "../atlas-components/RegionHighlight/RegionHighlight";
+import { Fragment, createElement as h } from "react";
+import { useState } from "react";
 
 export function Debug() {
   const rt = useRuntime();
@@ -45,14 +45,14 @@ export function Debug() {
           isEditing={false}
           className="test"
           region={{
-            id: 'focal',
+            id: "focal",
             x: focalPosition[1],
             y: focalPosition[2],
             width: focalPosition[3] - focalPosition[1],
             height: focalPosition[4] - focalPosition[2],
           }}
           style={{
-            backgroundColor: 'rgba(0, 0, 244, 0.5)',
+            backgroundColor: "rgba(0, 0, 244, 0.5)",
           }}
         />
       ) : null}
@@ -68,14 +68,14 @@ export function Debug() {
           isEditing={false}
           className="test"
           region={{
-            id: 'home',
+            id: "home",
             x: homePosition[1],
             y: homePosition[2],
             width: homePosition[3] - homePosition[1],
             height: homePosition[4] - homePosition[2],
           }}
           style={{
-            backgroundColor: 'rgba(0, 200, 0, 0.5)',
+            backgroundColor: "rgba(0, 200, 0, 0.5)",
           }}
         />
       ) : null}

@@ -1,55 +1,55 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import { ImageService } from './ImageService';
-import '@digirati/canvas-panel-web-components';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { PresetTesting } from './PresetTesting';
-import { Choices } from './Choices';
-import { ChangeCanvas } from './ChangeCanvas';
-import { Region } from './Region';
-import { AnnoPage } from './AnnoPage';
-import { JsonPreset } from './JsonPreset';
-import { Disappear } from './Disappear';
-import { Opacity } from './Opacity';
-import { RemotePreset } from './RemotePreset';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import { ImageService } from "./ImageService";
+import "@digirati/canvas-panel-web-components";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { PresetTesting } from "./PresetTesting";
+import { Choices } from "./Choices";
+import { ChangeCanvas } from "./ChangeCanvas";
+import { Region } from "./Region";
+import { AnnoPage } from "./AnnoPage";
+import { JsonPreset } from "./JsonPreset";
+import { Disappear } from "./Disappear";
+import { Opacity } from "./Opacity";
+import { RemotePreset } from "./RemotePreset";
 
 function Home() {
   return (
     <div>
       <ul>
         <li>
-          <Link to={'image-service'}>Image Service</Link>
+          <Link to={"image-service"}>Image Service</Link>
         </li>
         <li>
-          <Link to={'region'}>Region</Link>
+          <Link to={"region"}>Region</Link>
         </li>
         <li>
-          <Link to={'presets'}>Preset testing</Link>
+          <Link to={"presets"}>Preset testing</Link>
         </li>
         <li>
-          <Link to={'choices'}>Choices</Link>
+          <Link to={"choices"}>Choices</Link>
         </li>
         <li>
-          <Link to={'change-canvas'}>Change canvas</Link>
+          <Link to={"change-canvas"}>Change canvas</Link>
         </li>
         <li>
-          <Link to={'draw-region'}>Draw region</Link>
+          <Link to={"draw-region"}>Draw region</Link>
         </li>
         <li>
-          <Link to={'anno-pages'}>Anno pages</Link>
+          <Link to={"anno-pages"}>Anno pages</Link>
         </li>
         <li>
-          <Link to={'json'}>Json preset</Link>
+          <Link to={"json"}>Json preset</Link>
         </li>
         <li>
-          <Link to={'disappear'}>Disappear</Link>
+          <Link to={"disappear"}>Disappear</Link>
         </li>
         <li>
-          <Link to={'opacity'}>Opacity</Link>
+          <Link to={"opacity"}>Opacity</Link>
         </li>
         <li>
-          <Link to={'remote-preset'}>Remote preset</Link>
+          <Link to={"remote-preset"}>Remote preset</Link>
         </li>
       </ul>
     </div>
@@ -60,7 +60,7 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <div>
-        <Link to={'/'}>Home</Link>
+        <Link to={"/"}>Home</Link>
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -97,5 +97,5 @@ ReactDOM.render(
     {/*<DrawingBoxes1 />*/}
     {/*<App/>*/}
   </React.StrictMode>,
-  document.getElementById('root'),
+  document.getElementById("root"),
 );

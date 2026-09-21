@@ -5,11 +5,10 @@ sidebar_position: 4.3
 
 # Range panel
 
-import { Example } from '@site/Example';
+import { Example } from "@site/Example";
 
-The range panel component can show all the ranges within a Manifest, allowing
-you to style them and add interactive events that can update other canvas panel
-components.
+The range panel component can show all the ranges within a Manifest, allowing you to style them and add interactive
+events that can update other canvas panel components.
 
 The following CSS class names are available:
 
@@ -18,22 +17,19 @@ The following CSS class names are available:
 - `.range-label` - a `<span />` element within a li for the range label
 - `.range-nested-container` - The outer container for a nested range (div)
 
-The `.range-item-container` may have any of the following data-attributes for
-styling:
+The `.range-item-container` may have any of the following data-attributes for styling:
 
-- `[data-leaf="true"]` - if this is set, the range is a left-node (no nested
-  ranges)
-- `[data-with-selector="true"]` - if this is set, then the target of this range
-  contains selectors (not just canvases)
+- `[data-leaf="true"]` - if this is set, the range is a left-node (no nested ranges)
+- `[data-with-selector="true"]` - if this is set, then the target of this range contains selectors (not just canvases)
 - `[data-range-id="..."]` - this is a data attribute with the range identifier
 
 There is a change event available on this component:
 
 ```js
-const $rp = document.getElementById('range-panel');
-const $cp = document.getElementById('canvas-panel');
+const $rp = document.getElementById("range-panel");
+const $cp = document.getElementById("canvas-panel");
 
-$rp.addEventListener('range-change', (e) => {
+$rp.addEventListener("range-change", (e) => {
   const {
     range, // The full range from Vault
     isLeaf, // If the range click is a left
@@ -44,20 +40,20 @@ $rp.addEventListener('range-change', (e) => {
   } = e.detail;
 
   // This can be used to drive other web components.
-  $cp.setAttribute('canvas-id', canvasId);
-  if (fragment && fragment.startsWith('xywh=')) {
-    $cp.setAttribute('target', fragment.slice(5)); // slice(5) to remove xywh=
+  $cp.setAttribute("canvas-id", canvasId);
+  if (fragment && fragment.startsWith("xywh=")) {
+    $cp.setAttribute("target", fragment.slice(5)); // slice(5) to remove xywh=
   }
 
   // You can also set a `selected-range` on the <range-panel />
-  $rp.setAttribute('selected-range', e.detail.range.id);
+  $rp.setAttribute("selected-range", e.detail.range.id);
 });
 ```
 
 :::tip The value of `e.detail.parsedSelector` is a "Supported target".
 
 You can read more about this in the
-[Vault helpers](https://iiif-commons.netlify.app/docs/vault-helpers/annotation-targets#supported-targets)
-documentation. :::
+[Vault helpers](https://iiif-commons.netlify.app/docs/vault-helpers/annotation-targets#supported-targets) documentation.
+:::
 
 <Example id="range-panel" />

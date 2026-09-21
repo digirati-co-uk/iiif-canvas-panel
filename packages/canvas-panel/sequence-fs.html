@@ -61,23 +61,19 @@
     </div>
 
     <script type="module">
-      const btn = document.getElementById('fs');
-      btn.addEventListener('click', () => {
-        document
-          .querySelector('sequence-panel')
-          .webkitRequestFullScreen.call(
-            document.querySelector('sequence-panel'),
-          );
+      const btn = document.getElementById("fs");
+      btn.addEventListener("click", () => {
+        document.querySelector("sequence-panel").webkitRequestFullScreen.call(document.querySelector("sequence-panel"));
       });
 
-      const next = document.getElementById('next');
-      next.addEventListener('click', () => {
-        document.querySelector('sequence-panel').sequence.nextCanvas();
+      const next = document.getElementById("next");
+      next.addEventListener("click", () => {
+        document.querySelector("sequence-panel").sequence.nextCanvas();
       });
 
-      const prev = document.getElementById('prev');
-      prev.addEventListener('click', () => {
-        document.querySelector('sequence-panel').sequence.previousCanvas()();
+      const prev = document.getElementById("prev");
+      prev.addEventListener("click", () => {
+        document.querySelector("sequence-panel").sequence.previousCanvas()();
       });
     </script>
   </body>

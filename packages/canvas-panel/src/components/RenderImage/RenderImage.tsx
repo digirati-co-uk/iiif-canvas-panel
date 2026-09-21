@@ -1,14 +1,11 @@
-import { createElement as h } from 'react';
-import { RenderImage as SharedImage } from 'react-iiif-vault/canvas-panel/scene';
-import type { ImageWithOptionalService } from 'react-iiif-vault/core';
-import type { ImageCandidate } from '@atlas-viewer/iiif-image-api';
-import type { SizeParameter } from '../../helpers/size-parameter';
-import { getImageUrl } from '../../helpers/get-image-url';
+import { createElement as h } from "react";
+import { RenderImage as SharedImage } from "react-iiif-vault/canvas-panel/scene";
+import type { ImageWithOptionalService } from "react-iiif-vault/core";
+import type { ImageCandidate } from "@atlas-viewer/iiif-image-api";
+import type { SizeParameter } from "../../helpers/size-parameter";
+import { getImageUrl } from "../../helpers/get-image-url";
 
-export function resolveImageCandidates(
-  image: ImageWithOptionalService,
-  sizes: SizeParameter[] = [],
-) {
+export function resolveImageCandidates(image: ImageWithOptionalService, sizes: SizeParameter[] = []) {
   if (!image.service) return [];
   return sizes.flatMap((size) => {
     const [id, dimensions] = getImageUrl(image.service!, size);

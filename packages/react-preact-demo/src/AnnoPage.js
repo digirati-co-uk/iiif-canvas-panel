@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 export function AnnoPage() {
   const scriptTag = useRef();
 
   useEffect(() => {
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.innerHTML = `
   
           async function demo() {

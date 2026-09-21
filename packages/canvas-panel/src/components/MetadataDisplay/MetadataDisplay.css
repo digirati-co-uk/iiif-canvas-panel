@@ -12,13 +12,13 @@ metadata-panel {
 metadata-panel table {
   font-size: 0.8em;
 }
-metadata-panel[size='lg'] table {
+metadata-panel[size="lg"] table {
   font-size: 1em;
 }
-metadata-panel[size='md'] table {
+metadata-panel[size="md"] table {
   font-size: 0.8em;
 }
-metadata-panel[size='sm'] table {
+metadata-panel[size="sm"] table {
   font-size: 0.65em;
 }
 
@@ -42,11 +42,11 @@ metadata-panel .metadata-key {
   padding: 0.7em;
   min-width: 16em;
 }
-metadata-panel[bordered='true'] .metadata-key {
+metadata-panel[bordered="true"] .metadata-key {
   border-right: 1px solid #eee;
 }
 
-metadata-panel[variation='list'] .metadata-key {
+metadata-panel[variation="list"] .metadata-key {
   max-width: 100%;
   display: block;
   margin-bottom: 0.5em;
@@ -54,26 +54,26 @@ metadata-panel[variation='list'] .metadata-key {
   min-width: 0;
   padding: 0 0 0.25em;
 }
-metadata-panel[variation='list'][bordered='true'] .metadata-key {
+metadata-panel[variation="list"][bordered="true"] .metadata-key {
   border-right: none;
   border-bottom: 1px solid #eee;
 }
 
-metadata-panel[label-style='muted'] .metadata-key {
+metadata-panel[label-style="muted"] .metadata-key {
   color: #999;
   font-size: 1em;
 }
-metadata-panel[label-style='bold'] .metadata-key {
+metadata-panel[label-style="bold"] .metadata-key {
   color: #000000;
   font-weight: bold;
   font-size: 1em;
 }
-metadata-panel[label-style='caps'] .metadata-key {
+metadata-panel[label-style="caps"] .metadata-key {
   text-transform: uppercase;
   color: #999;
   font-size: 1em;
 }
-metadata-panel[label-style='small-caps'] .metadata-key {
+metadata-panel[label-style="small-caps"] .metadata-key {
   font-size: 0.85em;
   text-transform: uppercase;
   font-weight: bold;
@@ -85,7 +85,7 @@ metadata-panel .metadata-value {
   font-size: 1em;
   padding: 0.7em 1em;
 }
-metadata-panel[variation='list'] .metadata-value {
+metadata-panel[variation="list"] .metadata-value {
   display: block;
   padding: 0;
   margin-bottom: 1em;
@@ -107,7 +107,7 @@ metadata-panel .metadata-row {
   min-width: 240px;
 }
 
-metadata-panel[variation='list'] .metadata-row {
+metadata-panel[variation="list"] .metadata-row {
   min-width: 240px;
   display: block;
   margin-bottom: 1.5em;

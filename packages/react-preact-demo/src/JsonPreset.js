@@ -1,11 +1,11 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from "react";
 
 export function JsonPreset() {
   const cp = useRef();
 
   useLayoutEffect(() => {
-    cp.current.addEventListener('media', (e) => {
-      console.log('Media event', e.detail);
+    cp.current.addEventListener("media", (e) => {
+      console.log("Media event", e.detail);
     });
   });
 

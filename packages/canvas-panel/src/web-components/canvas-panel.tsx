@@ -1,71 +1,56 @@
-import { SceneHTML } from '../components/AtlasCanvas/presentation';
-import { createElement as h } from 'react';
-import { FC, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import register from '../library/custom-element';
-import { CanvasContext, VaultProvider } from 'react-iiif-vault/core';
-import {
-  RegisterPublicApi,
-  UseRegisterPublicApi,
-} from '../hooks/use-register-public-api';
-import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
-import { ManifestLoader } from '../components/manifest-loader';
-import {
-  parseBool,
-  parseChoices,
-  parseContentStateParameter,
-  parseNumber,
-} from '../helpers/parse-attributes';
-import {
-  normaliseAxis,
-  parseContentState,
-  serialiseContentState,
-} from '../helpers/content-state/content-state';
-import { normaliseContentState } from '../helpers/content-state/content-state';
-import { GenericAtlasComponent } from '../types/generic-atlas-component';
-import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { useState } from 'react';
-import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
-import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
-import {
-  ContentStateCallback,
-  ContentStateEvent,
-} from '../types/content-state';
-import { easingFunctions, Projection } from '@atlas-viewer/atlas/react';
-import { DrawBox } from '../atlas-components/DrawBox';
-import { ContentState } from '@iiif/helpers';
-import { baseAttributes } from '../helpers/base-attributes';
-import { useChoiceEventChannel } from '../helpers/eventbus';
+import { SceneHTML } from "../components/AtlasCanvas/presentation";
+import { createElement as h } from "react";
+import { FC, useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import register from "../library/custom-element";
+import { CanvasContext, VaultProvider } from "react-iiif-vault/core";
+import { RegisterPublicApi, UseRegisterPublicApi } from "../hooks/use-register-public-api";
+import { ViewCanvas } from "../components/ViewCanvas/ViewCanvas";
+import { ManifestLoader } from "../components/manifest-loader";
+import { parseBool, parseChoices, parseContentStateParameter, parseNumber } from "../helpers/parse-attributes";
+import { normaliseAxis, parseContentState, serialiseContentState } from "../helpers/content-state/content-state";
+import { normaliseContentState } from "../helpers/content-state/content-state";
+import { GenericAtlasComponent } from "../types/generic-atlas-component";
+import { useGenericAtlasProps } from "../hooks/use-generic-atlas-props";
+import { useState } from "react";
+import { ErrorFallback } from "../components/ErrorFallback/ErrorFallback";
+import { VirtualAnnotationProvider } from "../hooks/use-virtual-annotation-page-context";
+import { ContentStateCallback, ContentStateEvent } from "../types/content-state";
+import { easingFunctions, Projection } from "@atlas-viewer/atlas/react";
+import { DrawBox } from "../atlas-components/DrawBox";
+import { ContentState } from "@iiif/helpers";
+import { baseAttributes } from "../helpers/base-attributes";
+import { useChoiceEventChannel } from "../helpers/eventbus";
 
 export type CanvasPanelProps = GenericAtlasComponent<
   {
     manifestId: string;
     canvasId?: string;
     choiceId?: string | string[];
-    textSelectionEnabled?: 'true' | 'false' | boolean;
-    disableThumbnail?: 'true' | 'false' | boolean;
-    skipSizes?: 'true' | 'false' | boolean;
-    textEnabled?: 'true' | 'false' | boolean;
+    textSelectionEnabled?: "true" | "false" | boolean;
+    disableThumbnail?: "true" | "false" | boolean;
+    skipSizes?: "true" | "false" | boolean;
+    textEnabled?: "true" | "false" | boolean;
     followAnnotations?: boolean;
     iiifContent?: string;
     rotation?: number;
-    useFloorCalc?: 'true' | 'false' | boolean;
+    useFloorCalc?: "true" | "false" | boolean;
   },
-  UseRegisterPublicApi['properties']
+  UseRegisterPublicApi["properties"]
 >;
 
 const canvasPanelAttributes = [
   ...baseAttributes,
-  'manifest-id',
-  'canvas-id',
-  'choice-id',
-  'text-selection-enabled',
-  'disable-thumbnail',
-  'text-enabled',
-  'follow-annotations',
-  'iiif-content',
-  'home-cover',
-  'rotation',
-  'background',
+  "manifest-id",
+  "canvas-id",
+  "choice-id",
+  "text-selection-enabled",
+  "disable-thumbnail",
+  "text-enabled",
+  "follow-annotations",
+  "iiif-content",
+  "home-cover",
+  "rotation",
+  "background",
 ];
 
 export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
@@ -96,65 +81,54 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     setMode,
     background,
   } = useGenericAtlasProps(props);
-  const [contentStateCallback, setContentStateCallback] = useState<
-    ContentStateCallback | undefined
-  >(undefined);
+  const [contentStateCallback, setContentStateCallback] = useState<ContentStateCallback | undefined>(undefined);
   const contentStateStack = useRef<ContentStateEvent[]>([]);
   const [error, setError] = useState<Error | null>();
-  const [unknownContentState, , setParsedContentState] = useProp(
-    'iiifContent',
-    {
-      parse: parseContentStateParameter,
-    },
-  );
-  const [canvasId, setCanvasId, , canvasIdRef] = useProp('canvasId');
-  const [rotation, setRotation, , rotationRef] = useProp('rotation', {
+  const [unknownContentState, , setParsedContentState] = useProp("iiifContent", {
+    parse: parseContentStateParameter,
+  });
+  const [canvasId, setCanvasId, , canvasIdRef] = useProp("canvasId");
+  const [rotation, setRotation, , rotationRef] = useProp("rotation", {
     parse: parseNumber,
     defaultValue: 0,
   });
-  const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
-  const [followAnnotations] = useProp('followAnnotations', {
+  const [manifestId, setManifestId, , manifestIdRef] = useProp("manifestId");
+  const [followAnnotations] = useProp("followAnnotations", {
     parse: parseBool,
     defaultValue: true,
   });
-  const [defaultChoices, , , defaultChoiceIdsRef] = useProp('choiceId', {
+  const [defaultChoices, , , defaultChoiceIdsRef] = useProp("choiceId", {
     parse: parseChoices,
   });
-  const [textSelectionEnabled] = useProp('textSelectionEnabled', {
+  const [textSelectionEnabled] = useProp("textSelectionEnabled", {
     parse: parseBool,
     defaultValue: true,
   });
-  const [disableThumbnail] = useProp('disableThumbnail', {
+  const [disableThumbnail] = useProp("disableThumbnail", {
     parse: parseBool,
     defaultValue: false,
   });
-  const [skipSizes] = useProp('skipSizes', {
+  const [skipSizes] = useProp("skipSizes", {
     parse: parseBool,
     defaultValue: false,
   });
-  const [textEnabled] = useProp('textEnabled', {
+  const [textEnabled] = useProp("textEnabled", {
     parse: parseBool,
     defaultValue: false,
   });
-  const [useFloorCalc] = useProp('useFloorCalc', {
+  const [useFloorCalc] = useProp("useFloorCalc", {
     parse: parseBool,
     defaultValue: false,
   });
   const contentState =
-    unknownContentState && unknownContentState.type !== 'remote-content-state'
-      ? unknownContentState
-      : null;
+    unknownContentState && unknownContentState.type !== "remote-content-state" ? unknownContentState : null;
   const contentStateToLoad =
-    unknownContentState && unknownContentState.type === 'remote-content-state'
-      ? unknownContentState.id
-      : null;
+    unknownContentState && unknownContentState.type === "remote-content-state" ? unknownContentState.id : null;
 
   const onCanvasChange = useCallback((canvas: string | undefined) => {
     if (webComponent.current) {
-      choiceEventChannel.emit('onResetSeen');
-      webComponent.current.dispatchEvent(
-        new CustomEvent('canvas-change', { detail: { canvas } }),
-      );
+      choiceEventChannel.emit("onResetSeen");
+      webComponent.current.dispatchEvent(new CustomEvent("canvas-change", { detail: { canvas } }));
     }
   }, []);
   const onDrawBox = useCallback(
@@ -162,15 +136,15 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       if (contentStateCallback) {
         const contentState: ContentState = {
           id: `${canvasId}#xywh=${normaliseAxis(e.x)},${normaliseAxis(e.y)},${e.width},${e.height}`,
-          type: 'Canvas',
-          partOf: [{ id: manifestId, type: 'Manifest' }],
+          type: "Canvas",
+          partOf: [{ id: manifestId, type: "Manifest" }],
         };
         const event: ContentStateEvent = {
           contentState,
           normalisedContentState: normaliseContentState(contentState),
           encodedContentState: serialiseContentState(contentState),
           selection: {
-            type: 'BoxSelector',
+            type: "BoxSelector",
             spatial: e,
           },
         };
@@ -187,14 +161,14 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       vault,
 
       setCanvas: (id: string) => {
-        htmlComponent.setAttribute('canvas-id', id);
+        htmlComponent.setAttribute("canvas-id", id);
       },
       setManifest: (id: string) => {
-        htmlComponent.setAttribute('manifest-id', id);
+        htmlComponent.setAttribute("manifest-id", id);
       },
 
       setDefaultChoiceIds: (choiceIds: string[]) => {
-        htmlComponent.setAttribute('choice-id', choiceIds.join(','));
+        htmlComponent.setAttribute("choice-id", choiceIds.join(","));
       },
 
       getDefaultChoiceIds(): string[] {
@@ -206,16 +180,12 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       },
 
       getContentState() {
-        const _manifestId = manifestIdRef?.current
-          ? manifestIdRef?.current
-          : manifestId;
-        const _canvasId = canvasIdRef?.current
-          ? canvasIdRef?.current
-          : canvasId;
+        const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
+        const _canvasId = canvasIdRef?.current ? canvasIdRef?.current : canvasId;
         const contentState: ContentState = {
           id: `${_canvasId}#xywh=${runtime.current?.x},${runtime.current?.y},${runtime.current?.width},${runtime.current?.height}`,
-          type: 'Canvas',
-          partOf: [{ id: _manifestId, type: 'Manifest' }],
+          type: "Canvas",
+          partOf: [{ id: _manifestId, type: "Manifest" }],
         };
         const ContentStateEvent = {
           contentState,
@@ -240,19 +210,19 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       },
 
       disableTextSelection() {
-        htmlComponent.setAttribute('text-selection-enabled', 'false');
+        htmlComponent.setAttribute("text-selection-enabled", "false");
       },
 
       enableTextSelection() {
-        htmlComponent.setAttribute('text-selection-enabled', 'true');
+        htmlComponent.setAttribute("text-selection-enabled", "true");
       },
 
       enableText() {
-        htmlComponent.setAttribute('text-enabled', 'true');
+        htmlComponent.setAttribute("text-enabled", "true");
       },
 
       disableText() {
-        htmlComponent.setAttribute('text-enabled', 'true');
+        htmlComponent.setAttribute("text-enabled", "true");
       },
 
       easingFunctions() {
@@ -270,22 +240,20 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       },
 
       enableContentStateSelection(callback: ContentStateCallback) {
-        setMode('sketch');
-        setContentStateCallback(
-          (prevCallback: ContentStateCallback | undefined) => {
-            return prevCallback ? prevCallback : callback;
-          },
-        );
+        setMode("sketch");
+        setContentStateCallback((prevCallback: ContentStateCallback | undefined) => {
+          return prevCallback ? prevCallback : callback;
+        });
       },
 
       disableContentStateSelection() {
         setContentStateCallback(undefined);
-        setMode('explore');
+        setMode("explore");
         contentStateStack.current = [];
       },
 
       setContentStateFromText(text: string, immediate = false) {
-        if (text == undefined || text.trim() === '') {
+        if (text == undefined || text.trim() === "") {
           return;
         }
         const contentState = normaliseContentState(parseContentState(text));
@@ -298,7 +266,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
             contentState.target &&
             contentState.target[0] &&
             contentState.target[0].selector &&
-            contentState.target[0].selector.type === 'BoxSelector'
+            contentState.target[0].selector.type === "BoxSelector"
           ) {
             runtime.current.world.gotoRegion({
               ...contentState.target[0].selector.spatial,
@@ -321,11 +289,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         })
         .catch((err) => {
           console.error(err);
-          setError(
-            new Error(
-              `Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`,
-            ),
-          );
+          setError(new Error(`Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`));
         });
     }
   }, [contentStateToLoad, error]);
@@ -334,21 +298,16 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     if (contentState) {
       if (contentState.target.length) {
         const firstTarget = contentState.target[0];
-        if (
-          firstTarget.type === 'SpecificResource' &&
-          firstTarget.source.type === 'Canvas'
-        ) {
-          const manifestSource = (
-            'partOf' in firstTarget.source
-              ? firstTarget.source.partOf || []
-              : []
-          ).find((s) => s.type === 'Manifest');
+        if (firstTarget.type === "SpecificResource" && firstTarget.source.type === "Canvas") {
+          const manifestSource = ("partOf" in firstTarget.source ? firstTarget.source.partOf || [] : []).find(
+            (s) => s.type === "Manifest",
+          );
           setCanvasId(firstTarget.source.id);
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
           if (firstTarget.selector && runtime.current && webComponent.current) {
-            if (firstTarget.selector.type === 'BoxSelector') {
+            if (firstTarget.selector.type === "BoxSelector") {
               const { x, y, width, height } = firstTarget.selector.spatial;
               runtime.current.world.gotoRegion({
                 x,
@@ -376,16 +335,14 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   }
 
   if (error) {
-    return (
-      <ErrorFallback error={error} resetErrorBoundary={() => setError(null)} />
-    );
+    return <ErrorFallback error={error} resetErrorBoundary={() => setError(null)} />;
   }
 
   const canvasInner = canvasId ? (
     <CanvasContext canvas={canvasId}>
       <ViewCanvas
         // Escape hatch for bugs - to be improved.
-        key={`${canvasId}-${viewport ? 'v1' : 'v0'}`}
+        key={`${canvasId}-${viewport ? "v1" : "v0"}`}
         interactive={interactive}
         defaultChoices={defaultChoices}
         followAnnotations={followAnnotations}
@@ -422,25 +379,17 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     <RegisterPublicApi.Provider value={props.__registerPublicApi}>
       <VaultProvider vault={vault}>
         <VirtualAnnotationProvider>
-          {manifestId ? (
-            <ManifestLoader manifestId={manifestId}>
-              {canvasInner}
-            </ManifestLoader>
-          ) : (
-            canvasInner
-          )}
+          {manifestId ? <ManifestLoader manifestId={manifestId}>{canvasInner}</ManifestLoader> : canvasInner}
         </VirtualAnnotationProvider>
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
-      {inlineStyleSheet ? (
-        <link rel="stylesheet" href={inlineStyleSheet} />
-      ) : null}
+      {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}
     </RegisterPublicApi.Provider>
   );
 };
 
-if (typeof window !== 'undefined') {
-  register(CanvasPanel, 'canvas-panel', canvasPanelAttributes, {
+if (typeof window !== "undefined") {
+  register(CanvasPanel, "canvas-panel", canvasPanelAttributes, {
     shadow: true,
     onConstruct(instance: any) {
       instance._props = {

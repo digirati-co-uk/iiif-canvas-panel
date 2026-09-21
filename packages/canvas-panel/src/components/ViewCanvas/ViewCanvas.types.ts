@@ -1,6 +1,6 @@
-import type { AtlasProps } from '@atlas-viewer/atlas';
-import { ParsedSelector } from 'react-iiif-vault/core';
-import { SizeParameter } from '../../helpers/size-parameter';
+import type { AtlasProps } from "@atlas-viewer/atlas";
+import { ParsedSelector } from "react-iiif-vault/core";
+import { SizeParameter } from "../../helpers/size-parameter";
 
 export type AtlasDisplayOptions = AtlasProps & {
   role?: string;
@@ -26,7 +26,7 @@ export type ViewCanvasProps = {
   displayOptions: AtlasDisplayOptions;
   children?: any;
   debug?: boolean;
-  mode?: 'sketch' | 'explore';
+  mode?: "sketch" | "explore";
   className?: string;
   interactive?: boolean;
   defaultChoices?: Array<{ id: string; opacity?: number }>;
@@ -37,7 +37,7 @@ export type ViewCanvasProps = {
   textSelectionEnabled?: boolean;
   disableThumbnail?: boolean;
   skipSizes?: boolean;
-  homeCover?: boolean | 'start' | 'end';
+  homeCover?: boolean | "start" | "end";
   rotation?: number;
   useFloorCalc?: boolean;
 };

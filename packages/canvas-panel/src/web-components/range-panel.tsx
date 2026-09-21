@@ -1,17 +1,12 @@
-import { useSyncedState } from '../hooks/use-synced-state';
-import { parseBool } from '../helpers/parse-attributes';
-import {
-  ManifestContext,
-  useExistingVault,
-  useExternalManifest,
-  VaultProvider,
-} from 'react-iiif-vault/core';
-import { globalVault, Vault } from '@iiif/helpers';
-import { Fragment, createElement as h } from 'react';
-import { RangeDisplay } from '../components/RangeDisplay/RangeDisplay';
-import { useLayoutEffect, useRef, useState } from 'react';
-import type { RangeNormalized } from '@iiif/parser/presentation-3-normalized/types';
-import register from '../library/custom-element';
+import { useSyncedState } from "../hooks/use-synced-state";
+import { parseBool } from "../helpers/parse-attributes";
+import { ManifestContext, useExistingVault, useExternalManifest, VaultProvider } from "react-iiif-vault/core";
+import { globalVault, Vault } from "@iiif/helpers";
+import { Fragment, createElement as h } from "react";
+import { RangeDisplay } from "../components/RangeDisplay/RangeDisplay";
+import { useLayoutEffect, useRef, useState } from "react";
+import type { RangeNormalized } from "@iiif/parser/presentation-3-normalized/types";
+import register from "../library/custom-element";
 
 export interface RangePanelProps {
   vault?: Vault;
@@ -54,7 +49,7 @@ export function RangePanel(props: RangePanelProps) {
   function onRangeClick(range: RangeNormalized, other: any) {
     if (el) {
       el.dispatchEvent(
-        new CustomEvent('range-change', {
+        new CustomEvent("range-change", {
           detail: {
             range,
             isLeaf: other.isLeaf,
@@ -97,19 +92,13 @@ function ManifestRanges(props: RangePanelProps) {
   );
 }
 
-const rangePanelProps = [
-  'manifest-id',
-  'config-id',
-  'canvas-id',
-  'auto-scroll',
-  'selected-range',
-];
+const rangePanelProps = ["manifest-id", "config-id", "canvas-id", "auto-scroll", "selected-range"];
 
-if (typeof window !== 'undefined') {
-  register(RangePanel, 'range-panel', rangePanelProps, {
+if (typeof window !== "undefined") {
+  register(RangePanel, "range-panel", rangePanelProps, {
     shadow: false,
     onConstruct(instance: any) {
-      Object.defineProperty(instance, 'vault', {
+      Object.defineProperty(instance, "vault", {
         get(): any {
           return instance._props.vault;
         },

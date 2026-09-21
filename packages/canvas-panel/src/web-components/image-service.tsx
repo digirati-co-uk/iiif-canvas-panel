@@ -1,20 +1,20 @@
-import { createElement as h } from 'react';
-import register from '../library/custom-element';
-import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
-import { RenderImage } from '../components/RenderImage/RenderImage';
+import { createElement as h } from "react";
+import register from "../library/custom-element";
+import { NestedAtlas } from "../components/NestedAtlas/NestedAtlas";
+import { RenderImage } from "../components/RenderImage/RenderImage";
 import {
   ImageServiceLoaderContext,
   ImageWithOptionalService,
   useLoadImageService,
   VaultProvider,
-} from 'react-iiif-vault/core';
-import { useMemo } from 'react';
-import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
-import { ErrorBoundary as _ErrorBoundary } from 'react-error-boundary';
-import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { GenericAtlasComponent } from '../types/generic-atlas-component';
-import { parseBool, parseNumber } from '../helpers/parse-attributes';
-import { ImageServiceLoader } from '@atlas-viewer/iiif-image-api';
+} from "react-iiif-vault/core";
+import { useMemo } from "react";
+import { ErrorFallback } from "../components/ErrorFallback/ErrorFallback";
+import { ErrorBoundary as _ErrorBoundary } from "react-error-boundary";
+import { useGenericAtlasProps } from "../hooks/use-generic-atlas-props";
+import { GenericAtlasComponent } from "../types/generic-atlas-component";
+import { parseBool, parseNumber } from "../helpers/parse-attributes";
+import { ImageServiceLoader } from "@atlas-viewer/iiif-image-api";
 
 const ErrorBoundary = _ErrorBoundary as any;
 
@@ -31,8 +31,8 @@ export type ImageServiceProps = GenericAtlasComponent<
     rotation?: number;
     tileFormat?: string;
     children?: any;
-    skipSizes?: boolean | 'true' | 'false';
-    disableThumbnail?: boolean | 'true' | 'false';
+    skipSizes?: boolean | "true" | "false";
+    disableThumbnail?: boolean | "true" | "false";
   },
   ImageServiceApi
 >;
@@ -59,39 +59,30 @@ export function ImageService(props: ImageServiceProps) {
     background,
   } = useGenericAtlasProps(props);
 
-  const [src] = useProp('src');
-  const [nested] = useProp('nested', { parse: parseBool });
-  const [rotation] = useProp('rotation', { parse: parseNumber });
-  const [tileFormat, setTileFormat] = useProp('tileFormat');
-  const [skipSizes] = useProp('skipSizes', { parse: parseBool });
-  const [disableThumbnail] = useProp('disableThumbnail', { parse: parseBool });
+  const [src] = useProp("src");
+  const [nested] = useProp("nested", { parse: parseBool });
+  const [rotation] = useProp("rotation", { parse: parseNumber });
+  const [tileFormat, setTileFormat] = useProp("tileFormat");
+  const [skipSizes] = useProp("skipSizes", { parse: parseBool });
+  const [disableThumbnail] = useProp("disableThumbnail", { parse: parseBool });
   const [loadImageService, status] = useLoadImageService();
   const statusOf = status[src];
   const image = useMemo(() => {
     const service = loadImageService({ id: src } as any, {} as any);
 
-    if (
-      service &&
-      (service as any).preferredFormats &&
-      (service as any).preferredFormats.length === 1
-    ) {
+    if (service && (service as any).preferredFormats && (service as any).preferredFormats.length === 1) {
       setTileFormat((service as any).preferredFormats[0]);
     }
 
-    if (
-      service &&
-      service.height &&
-      service.width &&
-      statusOf?.status !== 'loading'
-    ) {
+    if (service && service.height && service.width && statusOf?.status !== "loading") {
       return {
         id: src,
         width: service.width,
         height: service.height,
         service,
-        type: 'Image',
+        type: "Image",
         selector: {
-          type: 'BoxSelector',
+          type: "BoxSelector",
           spatial: {
             x: 0,
             y: 0,
@@ -100,7 +91,7 @@ export function ImageService(props: ImageServiceProps) {
           },
         },
         target: {
-          type: 'BoxSelector',
+          type: "BoxSelector",
           spatial: {
             x: 0,
             y: 0,
@@ -127,12 +118,7 @@ export function ImageService(props: ImageServiceProps) {
   return (
     <ErrorBoundary
       fallbackRender={(props: any) => (
-        <ErrorFallback
-          height={height}
-          width={width}
-          aspectRatio={aspectRatio}
-          {...props}
-        />
+        <ErrorFallback height={height} width={width} aspectRatio={aspectRatio} {...props} />
       )}
     >
       <VaultProvider vault={vault}>
@@ -166,9 +152,7 @@ export function ImageService(props: ImageServiceProps) {
         </NestedAtlas>
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
-      {inlineStyleSheet ? (
-        <link rel="stylesheet" href={inlineStyleSheet} />
-      ) : null}
+      {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}
       {props.children ? <slot>{props.children}</slot> : null}
     </ErrorBoundary>
   );
@@ -185,40 +169,40 @@ function WrappedImageService(props: ImageServiceProps) {
   );
 }
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   register(
     WrappedImageService,
-    'image-service',
+    "image-service",
     [
-      'src',
-      'nested',
-      'x',
-      'y',
-      'width',
-      'height',
-      'target',
-      'region',
-      'highlight',
-      'highlight-css-class',
-      'text-selection-enabled',
-      'disable-keyboard-navigation',
-      'click-to-enable-zoom',
-      'preferred-formats',
-      'atlas-mode',
-      'style-id',
-      'debug',
-      'preset',
-      'responsive',
-      'interactive',
-      'iiif-content',
-      'class',
-      'choice-id',
-      'move-events',
-      'granular-move-events',
-      'home-cover',
-      'tile-format',
-      'rotation',
-      'background',
+      "src",
+      "nested",
+      "x",
+      "y",
+      "width",
+      "height",
+      "target",
+      "region",
+      "highlight",
+      "highlight-css-class",
+      "text-selection-enabled",
+      "disable-keyboard-navigation",
+      "click-to-enable-zoom",
+      "preferred-formats",
+      "atlas-mode",
+      "style-id",
+      "debug",
+      "preset",
+      "responsive",
+      "interactive",
+      "iiif-content",
+      "class",
+      "choice-id",
+      "move-events",
+      "granular-move-events",
+      "home-cover",
+      "tile-format",
+      "rotation",
+      "background",
     ],
     {
       shadow: true,

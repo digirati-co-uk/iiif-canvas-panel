@@ -1,7 +1,7 @@
-import { createElement as h } from 'react';
-import { FallbackProps } from 'react-error-boundary';
-import { useEffect } from 'react';
-import { errorEventChannel } from '../../helpers/eventbus';
+import { createElement as h } from "react";
+import { FallbackProps } from "react-error-boundary";
+import { useEffect } from "react";
+import { errorEventChannel } from "../../helpers/eventbus";
 
 export function ErrorFallback({
   error,
@@ -14,14 +14,12 @@ export function ErrorFallback({
   height?: number;
   width?: number;
 }) {
-  const style = aspectRatio
-    ? { paddingTop: `${aspectRatio * 100}%` }
-    : { height, width };
-  const Img = 'img' as any;
+  const style = aspectRatio ? { paddingTop: `${aspectRatio * 100}%` } : { height, width };
+  const Img = "img" as any;
 
   useEffect(() => {
     console.error(error);
-    errorEventChannel.emit('onErrorEvent', { message: error?.message, error });
+    errorEventChannel.emit("onErrorEvent", { message: error?.message, error });
   }, [error]);
 
   return (
@@ -29,17 +27,17 @@ export function ErrorFallback({
       <div
         role="alert"
         style={{
-          background: '#000',
-          color: '#fff',
-          display: 'flex',
-          flexDirection: 'column',
-          alignContent: 'center',
-          justifyContent: 'center',
-          fontFamily: 'monospace',
+          background: "#000",
+          color: "#fff",
+          display: "flex",
+          flexDirection: "column",
+          alignContent: "center",
+          justifyContent: "center",
+          fontFamily: "monospace",
           ...style,
         }}
       >
-        <div style={{ padding: '1em', textAlign: 'center' }}>
+        <div style={{ padding: "1em", textAlign: "center" }}>
           <Img
             className="img-oops"
             part="image-oops"
@@ -52,11 +50,11 @@ export function ErrorFallback({
           {resetErrorBoundary ? (
             <button
               style={{
-                color: '#fff',
-                border: '2px solid #fff',
-                background: '#000',
-                fontFamily: 'monospace',
-                padding: '0.25em 1em',
+                color: "#fff",
+                border: "2px solid #fff",
+                background: "#000",
+                fontFamily: "monospace",
+                padding: "0.25em 1em",
               }}
               onClick={resetErrorBoundary}
             >

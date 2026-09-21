@@ -1,34 +1,23 @@
-import type {
-  CanvasPanelElement,
-  CanvasPanelEventMap,
-} from '@digirati/canvas-panel-web-components';
-import '@digirati/canvas-panel-web-components/dist/index.css';
-import React, { useLayoutEffect, useRef, useState } from 'react';
-import './styles.css';
-import '@digirati/canvas-panel-web-components';
+import type { CanvasPanelElement, CanvasPanelEventMap } from "@digirati/canvas-panel-web-components";
+import "@digirati/canvas-panel-web-components/dist/index.css";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import "./styles.css";
+import "@digirati/canvas-panel-web-components";
 
 export default function App() {
   const viewer = useRef<CanvasPanelElement>(null);
   const [choice, setChoice] =
-    useState<
-      Extract<
-        CanvasPanelEventMap['choice']['detail']['choice'],
-        { type: 'single-choice' }
-      >
-    >();
-  const disabledChoice = choice
-    ? choice.items.filter((i) => i.selected).length === 1
-    : false;
+    useState<Extract<CanvasPanelEventMap["choice"]["detail"]["choice"], { type: "single-choice" }>>();
+  const disabledChoice = choice ? choice.items.filter((i) => i.selected).length === 1 : false;
 
   useLayoutEffect(() => {
     const element = viewer.current;
     if (!element) return;
-    const onChoice = (event: CanvasPanelEventMap['choice']) => {
-      if (event.detail.choice.type === 'single-choice')
-        setChoice(event.detail.choice);
+    const onChoice = (event: CanvasPanelEventMap["choice"]) => {
+      if (event.detail.choice.type === "single-choice") setChoice(event.detail.choice);
     };
-    element.addEventListener('choice', onChoice);
-    return () => element.removeEventListener('choice', onChoice);
+    element.addEventListener("choice", onChoice);
+    return () => element.removeEventListener("choice", onChoice);
   }, []);
 
   return (
@@ -39,7 +28,7 @@ export default function App() {
               <div key={item.id}>
                 <input
                   type="checkbox"
-                  aria-label={`Show ${item.label?.en?.join(' ') || item.id}`}
+                  aria-label={`Show ${item.label?.en?.join(" ") || item.id}`}
                   disabled={disabledChoice && item.selected}
                   onChange={(e) => {
                     if (idx !== 0 && disabledChoice) {
@@ -55,10 +44,10 @@ export default function App() {
                   }}
                   checked={item.selected}
                 />
-                <strong>{item.label?.en?.join('') || item.id}</strong>
+                <strong>{item.label?.en?.join("") || item.id}</strong>
                 <input
                   type="range"
-                  aria-label={`Opacity for ${item.label?.en?.join(' ') || item.id}`}
+                  aria-label={`Opacity for ${item.label?.en?.join(" ") || item.id}`}
                   min={0}
                   max={100}
                   defaultValue={100}

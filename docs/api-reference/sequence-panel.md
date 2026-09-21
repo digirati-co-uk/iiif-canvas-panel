@@ -5,19 +5,16 @@ title: <sequence-panel />
 
 import { Example } from '@site/Example';
 
-Sequence panel is canvas panel for sequences of canvases, either inside a
-Manifest or a Range.
+Sequence panel is canvas panel for sequences of canvases, either inside a Manifest or a Range.
 
-It supports many of the APIs that [Canvas panel](./canvas-panel.md) supports,
-with the following limitations:
+It supports many of the APIs that [Canvas panel](./canvas-panel.md) supports, with the following limitations:
 
 - No content state (setting/getting)
 - No dynamic declarative input using HTML attributes
 - No default choice via props (only through events)
 - No x or y can be passed in
 
-You don't have access to the same APIs for creating display annotations with the
-sequence panel yet.
+You don't have access to the same APIs for creating display annotations with the sequence panel yet.
 
 ### Example
 
@@ -35,38 +32,32 @@ sequence panel yet.
 
 <Example id="sequence-panel" />
 
-With sequence panel you get access in javascript through the API to the current
-sequence of canvases, along with some controls for navigating through the
-sequence.
+With sequence panel you get access in javascript through the API to the current sequence of canvases, along with some
+controls for navigating through the sequence.
 
 ## API
 
-When the component and manifest is loaded, a new helper is available on the HTML
-element:
+When the component and manifest is loaded, a new helper is available on the HTML element:
 
 ```js
-const sp = document.getElementById('sequence');
+const sp = document.getElementById("sequence");
 
-sp.addEventListener('sequence', () => {
+sp.addEventListener("sequence", () => {
   sp.sequence.totalCanvases; // total canvases in the sequence.
 });
 ```
 
 The following events are added for sequences:
 
-- `sequence` - This is fired when a sequence is detected and loaded, here you
-  can access the `sp.sequence` helper
-- `sequence-change` - This is fired any time the sequence changes
-  (next/prev/navigation).
+- `sequence` - This is fired when a sequence is detected and loaded, here you can access the `sp.sequence` helper
+- `sequence-change` - This is fired any time the sequence changes (next/prev/navigation).
 
-:::info The `<sequence-panel />` will not fire `canvas-change` events like
-Canvas Panel does. This is because 2 events would fire at the same time and may
-conflict if you are using these to update UI. :::
+:::info The `<sequence-panel />` will not fire `canvas-change` events like Canvas Panel does. This is because 2 events
+would fire at the same time and may conflict if you are using these to update UI. :::
 
 ### items
 
-`sp.sequence.items` is a flat list of Canvas references (id + type) that show
-the flat order of the canvases.
+`sp.sequence.items` is a flat list of Canvas references (id + type) that show the flat order of the canvases.
 
 ```js
 const items = [
@@ -104,8 +95,7 @@ sp.sequence.sequence.map((canvasIndexes) => {
 });
 ```
 
-This can be useful if you want to create a thumbnail strip and keep the paging
-logic.
+This can be useful if you want to create a thumbnail strip and keep the paging logic.
 
 ### totalCanvases
 
@@ -113,8 +103,8 @@ logic.
 
 ### currentSequenceIndex
 
-`sp.sequence.currentSequenceIndex` returns the current sequence that is
-displayed. You can convert this into canvas indexes and canvases:
+`sp.sequence.currentSequenceIndex` returns the current sequence that is displayed. You can convert this into canvas
+indexes and canvases:
 
 ```js
 const itemIndexes = sp.sequence.sequence[sequence.currentSequenceIndex]; // [1, 2]
@@ -124,19 +114,17 @@ const canvases = vault.get(canvaseRefs);
 
 ### nextCanvas()
 
-`sp.sequence.nextCanvas()` will move you forward to the next canvas in the
-sequence (i.e. next spead of pages in a book). This can be hooked up to a "next"
-button in a paged viewer.
+`sp.sequence.nextCanvas()` will move you forward to the next canvas in the sequence (i.e. next spead of pages in a
+book). This can be hooked up to a "next" button in a paged viewer.
 
-If you want to disable this button at the start, you can check the
-`sequence-change` event:
+If you want to disable this button at the start, you can check the `sequence-change` event:
 
 ```js
-sp.addEventListener('sequence-change', (e) => {
+sp.addEventListener("sequence-change", (e) => {
   if (e.detail.total - 1 <= e.detail.index) {
-    $nextButton.setAttribute('disabled', 'true');
+    $nextButton.setAttribute("disabled", "true");
   } else {
-    $nextButton.removeAttribute('disabled');
+    $nextButton.removeAttribute("disabled");
   }
 });
 ```
@@ -145,26 +133,25 @@ sp.addEventListener('sequence-change', (e) => {
 
 `sp.sequence.previousCanvas()` will move you backwards through the sequence.
 
-If you want to disable this button at the end, you can check the
-`sequence-change` event:
+If you want to disable this button at the end, you can check the `sequence-change` event:
 
 ```js
-sp.addEventListener('sequence-change', (e) => {
+sp.addEventListener("sequence-change", (e) => {
   if (e.detail.index === 0) {
-    $prevButton.setAttribute('disabled', 'true');
+    $prevButton.setAttribute("disabled", "true");
   } else {
-    $prevButton.removeAttribute('disabled');
+    $prevButton.removeAttribute("disabled");
   }
 });
 ```
 
 ### setCurrentCanvasId()
 
-You can use this to go directly a the first sequence that contains the canvas ID
-chosen. This can be useful for hooking up thumbnail navigation.
+You can use this to go directly a the first sequence that contains the canvas ID chosen. This can be useful for hooking
+up thumbnail navigation.
 
 ```js
-sp.sequences.setCurrentCanvasId('https://example.org/canvas-5');
+sp.sequences.setCurrentCanvasId("https://example.org/canvas-5");
 ```
 
 ### setCurrentCanvasIndex()

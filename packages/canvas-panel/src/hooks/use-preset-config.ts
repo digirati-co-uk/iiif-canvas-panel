@@ -1,14 +1,9 @@
-import { useLayoutEffect, useState } from 'react';
-import { resolveConfig } from '../helpers/resolve-config';
+import { useLayoutEffect, useState } from "react";
+import { resolveConfig } from "../helpers/resolve-config";
 
-export function usePresetConfig<T>(
-  preset?: string,
-  onChange?: (query: string, config: Partial<T>) => void,
-) {
+export function usePresetConfig<T>(preset?: string, onChange?: (query: string, config: Partial<T>) => void) {
   const [_isReady, setIsReady] = useState(false);
-  const [internalConfig, setInternalConfig] = useState<
-    { __loaded?: true } & Partial<T>
-  >({});
+  const [internalConfig, setInternalConfig] = useState<{ __loaded?: true } & Partial<T>>({});
   const isConfigBlocking = preset && !internalConfig.__loaded;
   const isReady = !!((!preset || internalConfig.__loaded) && _isReady);
 
@@ -53,9 +48,9 @@ export function usePresetConfig<T>(
                 const newValue = getValue();
                 setInternalConfig(newValue);
               };
-              mql.addEventListener('change', listener);
+              mql.addEventListener("change", listener);
               cleanUp.push(() => {
-                mql.removeEventListener('change', listener);
+                mql.removeEventListener("change", listener);
               });
             }
 

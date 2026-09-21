@@ -1,10 +1,10 @@
-import { RangeContext, useManifest, useVault } from 'react-iiif-vault/core';
-import { findManifestSelectedRange, getValue } from '@iiif/helpers';
-import { ViewRange } from './ViewRange';
-import { createElement as h } from 'react';
-import { Fragment, useLayoutEffect } from 'react';
-import type { RangeNormalized } from '@iiif/parser/presentation-3-normalized/types';
-import './RangeDisplay.css';
+import { RangeContext, useManifest, useVault } from "react-iiif-vault/core";
+import { findManifestSelectedRange, getValue } from "@iiif/helpers";
+import { ViewRange } from "./ViewRange";
+import { createElement as h } from "react";
+import { Fragment, useLayoutEffect } from "react";
+import type { RangeNormalized } from "@iiif/parser/presentation-3-normalized/types";
+import "./RangeDisplay.css";
 
 export function RangeDisplay(props: {
   canvasId?: string;
@@ -16,7 +16,7 @@ export function RangeDisplay(props: {
   const vault = useVault();
 
   if (!manifest) {
-    throw new Error('No manifest');
+    throw new Error("No manifest");
   }
 
   const selected = props.canvasId
@@ -30,8 +30,8 @@ export function RangeDisplay(props: {
       const found = document.querySelector(`[data-range-id="${selected.id}"]`);
       if (found) {
         found.scrollIntoView({
-          block: 'nearest',
-          behavior: 'auto',
+          block: "nearest",
+          behavior: "auto",
         });
       }
     }
@@ -43,16 +43,11 @@ export function RangeDisplay(props: {
 
   return (
     <Fragment>
-      {selected ? (
-        <div className="range-current">{getValue(selected.label)}</div>
-      ) : null}
+      {selected ? <div className="range-current">{getValue(selected.label)}</div> : null}
 
       {manifest.structures.map((range) => (
         <RangeContext key={range.id} range={range.id}>
-          <ViewRange
-            selected={selected?.id}
-            onRangeClick={props.onRangeClick}
-          />
+          <ViewRange selected={selected?.id} onRangeClick={props.onRangeClick} />
         </RangeContext>
       ))}
     </Fragment>

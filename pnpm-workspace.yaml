@@ -1,4 +1,4 @@
 packages:
-  - 'packages/*'
-  - 'sandboxes'
-  - 'sandboxes/**/*.csb'
+  - "packages/*"
+  - "sandboxes"
+  - "sandboxes/**/*.csb"

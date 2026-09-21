@@ -1,16 +1,14 @@
-import { FC, useMemo } from 'react';
-import { HTMLPortal } from './HTMLPortal';
-import { useResizeWorldItem } from '@atlas-viewer/atlas/react';
-import { WorldObject } from '.';
-import { Fragment, createElement as h } from 'react';
+import { FC, useMemo } from "react";
+import { HTMLPortal } from "./HTMLPortal";
+import { useResizeWorldItem } from "@atlas-viewer/atlas/react";
+import { WorldObject } from ".";
+import { Fragment, createElement as h } from "react";
 
 export const ResizeWorldItem: FC<
-  JSX.IntrinsicElements['worldObject'] & {
+  JSX.IntrinsicElements["worldObject"] & {
     handleSize?: number;
     resizable?: boolean;
-    onSave: (
-      pos: Partial<{ x: number; y: number; width: number; height: number }>,
-    ) => void;
+    onSave: (pos: Partial<{ x: number; y: number; width: number; height: number }>) => void;
   }
 > = ({ handleSize = 9, resizable, onSave, children, ...props }) => {
   const { portalRef, mode, mouseEvent, isEditing } = useResizeWorldItem(
@@ -23,15 +21,15 @@ export const ResizeWorldItem: FC<
     onSave,
   );
 
-  const translate = useMemo(() => mouseEvent('translate'), [mouseEvent]);
-  const east = useMemo(() => mouseEvent('east'), [mouseEvent]);
-  const west = useMemo(() => mouseEvent('west'), [mouseEvent]);
-  const south = useMemo(() => mouseEvent('south'), [mouseEvent]);
-  const north = useMemo(() => mouseEvent('north'), [mouseEvent]);
-  const southEast = useMemo(() => mouseEvent('south-east'), [mouseEvent]);
-  const southWest = useMemo(() => mouseEvent('south-west'), [mouseEvent]);
-  const northEast = useMemo(() => mouseEvent('north-east'), [mouseEvent]);
-  const northWest = useMemo(() => mouseEvent('north-west'), [mouseEvent]);
+  const translate = useMemo(() => mouseEvent("translate"), [mouseEvent]);
+  const east = useMemo(() => mouseEvent("east"), [mouseEvent]);
+  const west = useMemo(() => mouseEvent("west"), [mouseEvent]);
+  const south = useMemo(() => mouseEvent("south"), [mouseEvent]);
+  const north = useMemo(() => mouseEvent("north"), [mouseEvent]);
+  const southEast = useMemo(() => mouseEvent("south-east"), [mouseEvent]);
+  const southWest = useMemo(() => mouseEvent("south-west"), [mouseEvent]);
+  const northEast = useMemo(() => mouseEvent("north-east"), [mouseEvent]);
+  const northWest = useMemo(() => mouseEvent("north-west"), [mouseEvent]);
 
   return (
     <>
@@ -43,22 +41,18 @@ export const ResizeWorldItem: FC<
           relative
           interactive={false}
         >
-          {mode === 'sketch' && resizable ? (
+          {mode === "sketch" && resizable ? (
             <Fragment>
               <div
                 onMouseDown={translate}
                 onTouchStart={translate}
                 style={{
-                  display: 'block',
-                  width: '100%',
-                  height: '100%',
-                  border: '1px dashed #999',
-                  boxSizing: 'border-box',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  display: "block",
+                  width: "100%",
+                  height: "100%",
+                  border: "1px dashed #999",
+                  boxSizing: "border-box",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
 
@@ -67,22 +61,18 @@ export const ResizeWorldItem: FC<
                 onTouchStart={east}
                 onMouseDown={east}
                 style={{
-                  cursor: 'e-resize',
-                  position: 'absolute',
-                  background: '#fff',
+                  cursor: "e-resize",
+                  position: "absolute",
+                  background: "#fff",
                   height: handleSize * 2,
                   width: handleSize,
                   right: 0,
-                  top: '50%',
+                  top: "50%",
                   transform: `translate(${handleSize / 2}px, -${handleSize}px)`,
                   zIndex: 999,
-                  boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
-                  border: '1px solid #999',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  boxShadow: "0px 2px 3px 0 rgba(0,0,0,0.5)",
+                  border: "1px solid #999",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
 
@@ -90,22 +80,18 @@ export const ResizeWorldItem: FC<
                 title="west"
                 onMouseDown={west}
                 style={{
-                  cursor: 'w-resize',
-                  position: 'absolute',
-                  background: '#fff',
+                  cursor: "w-resize",
+                  position: "absolute",
+                  background: "#fff",
                   height: handleSize * 2,
                   width: handleSize,
                   left: 0,
-                  top: '50%',
+                  top: "50%",
                   transform: `translate(-${handleSize / 2}px, -${handleSize}px)`,
                   zIndex: 999,
-                  boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
-                  border: '1px solid #999',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  boxShadow: "0px 2px 3px 0 rgba(0,0,0,0.5)",
+                  border: "1px solid #999",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
 
@@ -113,22 +99,18 @@ export const ResizeWorldItem: FC<
                 title="north"
                 onMouseDown={north}
                 style={{
-                  cursor: 'n-resize',
-                  position: 'absolute',
-                  background: '#fff',
+                  cursor: "n-resize",
+                  position: "absolute",
+                  background: "#fff",
                   height: handleSize,
                   width: handleSize * 2,
-                  left: '50%',
+                  left: "50%",
                   top: 0,
                   transform: `translate(-${handleSize}px, -${handleSize / 2}px)`,
                   zIndex: 999,
-                  boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
-                  border: '1px solid rgba(0,0,0,.5)',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  boxShadow: "0px 2px 3px 0 rgba(0,0,0,0.5)",
+                  border: "1px solid rgba(0,0,0,.5)",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
 
@@ -136,22 +118,18 @@ export const ResizeWorldItem: FC<
                 title="south"
                 onMouseDown={south}
                 style={{
-                  cursor: 's-resize',
-                  position: 'absolute',
-                  background: '#fff',
+                  cursor: "s-resize",
+                  position: "absolute",
+                  background: "#fff",
                   height: handleSize,
                   width: handleSize * 2,
-                  left: '50%',
+                  left: "50%",
                   bottom: 0,
                   transform: `translate(-${handleSize}px, ${handleSize / 2}px)`,
                   zIndex: 999,
-                  boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
-                  border: '1px solid #999',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  boxShadow: "0px 2px 3px 0 rgba(0,0,0,0.5)",
+                  border: "1px solid #999",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
 
@@ -159,22 +137,18 @@ export const ResizeWorldItem: FC<
                 title="north-east"
                 onMouseDown={northEast}
                 style={{
-                  cursor: 'ne-resize',
-                  position: 'absolute',
-                  background: '#fff',
+                  cursor: "ne-resize",
+                  position: "absolute",
+                  background: "#fff",
                   height: handleSize,
                   width: handleSize,
                   right: 0,
                   top: 0,
                   transform: `translate(${handleSize / 2}px, -${handleSize / 2}px)`,
                   zIndex: 999,
-                  boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
-                  border: '1px solid #999',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  boxShadow: "0px 2px 3px 0 rgba(0,0,0,0.5)",
+                  border: "1px solid #999",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
 
@@ -182,22 +156,18 @@ export const ResizeWorldItem: FC<
                 title="south-east"
                 onMouseDown={southEast}
                 style={{
-                  cursor: 'se-resize',
-                  position: 'absolute',
-                  background: '#fff',
+                  cursor: "se-resize",
+                  position: "absolute",
+                  background: "#fff",
                   height: handleSize,
                   width: handleSize,
                   bottom: 0,
                   right: 0,
                   transform: `translate(${handleSize / 2}px, ${handleSize / 2}px)`,
                   zIndex: 999,
-                  boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
-                  border: '1px solid #999',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  boxShadow: "0px 2px 3px 0 rgba(0,0,0,0.5)",
+                  border: "1px solid #999",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
 
@@ -205,22 +175,18 @@ export const ResizeWorldItem: FC<
                 title="south-west"
                 onMouseDown={southWest}
                 style={{
-                  cursor: 'sw-resize',
-                  position: 'absolute',
-                  background: '#fff',
+                  cursor: "sw-resize",
+                  position: "absolute",
+                  background: "#fff",
                   height: handleSize,
                   width: handleSize,
                   bottom: 0,
                   left: 0,
                   transform: `translate(-${handleSize / 2}px, ${handleSize / 2}px)`,
                   zIndex: 999,
-                  boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
-                  border: '1px solid #999',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  boxShadow: "0px 2px 3px 0 rgba(0,0,0,0.5)",
+                  border: "1px solid #999",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
 
@@ -228,22 +194,18 @@ export const ResizeWorldItem: FC<
                 title="north-west"
                 onMouseDown={northWest}
                 style={{
-                  cursor: 'nw-resize',
-                  position: 'absolute',
-                  background: '#fff',
+                  cursor: "nw-resize",
+                  position: "absolute",
+                  background: "#fff",
                   height: handleSize,
                   width: handleSize,
                   top: 0,
                   left: 0,
                   transform: `translate(-${handleSize / 2}px, -${handleSize / 2}px)`,
                   zIndex: 999,
-                  boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
-                  border: '1px solid #999',
-                  pointerEvents: isEditing
-                    ? 'none'
-                    : mode === 'sketch'
-                      ? 'initial'
-                      : 'none',
+                  boxShadow: "0px 2px 3px 0 rgba(0,0,0,0.5)",
+                  border: "1px solid #999",
+                  pointerEvents: isEditing ? "none" : mode === "sketch" ? "initial" : "none",
                 }}
               />
             </Fragment>

@@ -1,5 +1,5 @@
-import { createContext, useContext } from 'react';
-import type { ChoiceDescription } from '@iiif/helpers/painting-annotations';
+import { createContext, useContext } from "react";
+import type { ChoiceDescription } from "@iiif/helpers/painting-annotations";
 
 type EventKey = string | symbol;
 type EventHandler<T = any> = (payload: T) => void;
@@ -62,12 +62,10 @@ export const errorEventChannel = eventbus<{
   onErrorEvent: (payload: { message?: string; error: any }) => void;
 }>();
 
-export function eventbus<E extends EventMap>(
-  config?: EventBusConfig,
-): EventBus<E> {
+export function eventbus<E extends EventMap>(config?: EventBusConfig): EventBus<E> {
   const bus: Partial<Bus<E>> = {};
 
-  const on: EventBus<E>['on'] = (key, handler) => {
+  const on: EventBus<E>["on"] = (key, handler) => {
     if (bus[key] === undefined) {
       bus[key] = [];
     }
@@ -78,12 +76,12 @@ export function eventbus<E extends EventMap>(
     };
   };
 
-  const off: EventBus<E>['off'] = (key, handler) => {
+  const off: EventBus<E>["off"] = (key, handler) => {
     const index = bus[key]?.indexOf(handler) ?? -1;
     bus[key]?.splice(index >>> 0, 1);
   };
 
-  const once: EventBus<E>['once'] = (key, handler) => {
+  const once: EventBus<E>["once"] = (key, handler) => {
     const handleOnce = (payload: Parameters<typeof handler>) => {
       handler(payload);
       // TODO: find out a better way to type `handleOnce`
@@ -93,7 +91,7 @@ export function eventbus<E extends EventMap>(
     on(key, handleOnce as typeof handler);
   };
 
-  const emit: EventBus<E>['emit'] = (key, payload) => {
+  const emit: EventBus<E>["emit"] = (key, payload) => {
     bus[key]?.forEach((fn) => {
       try {
         fn(payload);

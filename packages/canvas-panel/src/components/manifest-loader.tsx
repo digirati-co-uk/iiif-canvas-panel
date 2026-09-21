@@ -1,18 +1,15 @@
-import { FC } from 'react';
-import { ManifestContext, useExternalManifest } from 'react-iiif-vault/core';
-import { Spinner } from './spinner';
-import { createElement as h } from 'react';
-import { ErrorFallback } from './ErrorFallback/ErrorFallback';
-import { useEffect } from 'react';
+import { FC } from "react";
+import { ManifestContext, useExternalManifest } from "react-iiif-vault/core";
+import { Spinner } from "./spinner";
+import { createElement as h } from "react";
+import { ErrorFallback } from "./ErrorFallback/ErrorFallback";
+import { useEffect } from "react";
 
 export type ManifestLoaderProps = {
   manifestId: string;
 };
 
-export const ManifestLoader: FC<ManifestLoaderProps> = ({
-  manifestId,
-  children,
-}) => {
+export const ManifestLoader: FC<ManifestLoaderProps> = ({ manifestId, children }) => {
   const { manifest, isLoaded, error } = useExternalManifest(manifestId, {});
 
   useEffect(() => {
@@ -22,15 +19,7 @@ export const ManifestLoader: FC<ManifestLoaderProps> = ({
   }, [error]);
 
   if (error) {
-    return (
-      <ErrorFallback
-        error={
-          new Error(
-            `Unable to load Manifest: ${manifestId} \n \n ${error.toString()}`,
-          )
-        }
-      />
-    );
+    return <ErrorFallback error={new Error(`Unable to load Manifest: ${manifestId} \n \n ${error.toString()}`)} />;
   }
 
   if (!isLoaded || !manifest) {

@@ -44,7 +44,7 @@ canvas-panel {
 .container p:has(canvas-panel) {
   max-width: unset;
 }
-.container p:has(canvas-panel[preset='responsive']) {
+.container p:has(canvas-panel[preset="responsive"]) {
   max-width: 55em;
 }
 
@@ -55,7 +55,7 @@ canvas-panel {
   padding: 0 var(--ifm-pre-padding);
 }
 
-html[data-theme='dark'] .docusaurus-highlight-code-line {
+html[data-theme="dark"] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -97,7 +97,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   cursor: pointer;
 }
 .docs-example button:hover,
-.docs-example button[aria-pressed='true'] {
+.docs-example button[aria-pressed="true"] {
   background: var(--ifm-color-emphasis-200);
 }
 .docs-example button:focus-visible,

@@ -4,14 +4,12 @@ sidebar_position: 7
 
 # Highlighting Regions
 
-import { GitHubDiscussion } from "../../GitHubDiscussion.js"; import { Example }
-from '@site/Example';
+import { GitHubDiscussion } from "../../GitHubDiscussion.js"; import { Example } from '@site/Example';
 
 ## Scenario
 
-You want to highlight a region of the Canvas, and style the way you highlight
-it. You might have already initially constrained the viewport to a particular
-part of the canvas (as in [Regions](./regions)).
+You want to highlight a region of the Canvas, and style the way you highlight it. You might have already initially
+constrained the viewport to a particular part of the canvas (as in [Regions](./regions)).
 
 Consider Canvas Panel showing a photograph:
 
@@ -47,33 +45,27 @@ Then **highlighting something** within that detail:
 
 <Example id="annotation-display-1" />
 
-This example shows one way of styling something inside canavas panel. The
-`.example-annotation` style is not accessible within the web component; we have
-to pass a reference to a stylesheet into Canvas Panel to enable it to access
-styles. This boundary layer between the canvas panel web component and its
-containing page is necessary, otherwise canvas panel could be inadvertently
-disrupted by the containing page CSS.
+This example shows one way of styling something inside canavas panel. The `.example-annotation` style is not accessible
+within the web component; we have to pass a reference to a stylesheet into Canvas Panel to enable it to access styles.
+This boundary layer between the canvas panel web component and its containing page is necessary, otherwise canvas panel
+could be inadvertently disrupted by the containing page CSS.
 
 :::tip
 
-The CSS classes are not part of Canvas Panel, they are in your styles under your
-control.
+The CSS classes are not part of Canvas Panel, they are in your styles under your control.
 
 There is a more detailed [discussion on styling](./styling) in Canvas Panel.
 
 :::
 
-In the above examples, the `region` and `highlight` attributes both take string
-values that can be transformed to [Target](./annotations#target) objects.
-`highlight` is a convenience attribute, with a convenience CSS assistant; in
-code you are doing something more general - you are adding an annotation to the
-canvas that appears as a highlight. This common scenario can be done
-programmatically:
+In the above examples, the `region` and `highlight` attributes both take string values that can be transformed to
+[Target](./annotations#target) objects. `highlight` is a convenience attribute, with a convenience CSS assistant; in
+code you are doing something more general - you are adding an annotation to the canvas that appears as a highlight. This
+common scenario can be done programmatically:
 
 <Example id="annotation-display-2" />
 
-For more information on creating annotations programatically, see
-[Annotations](./annotations). For more information on styling and CSS in Canvas
-Panel, see [Styling](./styling).
+For more information on creating annotations programatically, see [Annotations](./annotations). For more information on
+styling and CSS in Canvas Panel, see [Styling](./styling).
 
 <GitHubDiscussion ghid="12" />

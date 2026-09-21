@@ -1,7 +1,7 @@
-import { useAnnotation } from 'react-iiif-vault/core';
-import { BoxSelector } from '@iiif/helpers';
-import { Fragment } from 'react';
-import { createElement as h } from 'react';
+import { useAnnotation } from "react-iiif-vault/core";
+import { BoxSelector } from "@iiif/helpers";
+import { Fragment } from "react";
+import { createElement as h } from "react";
 
 export function RenderTextFragment({
   annotationId,
@@ -13,17 +13,17 @@ export function RenderTextFragment({
   relative?: boolean;
 }) {
   const annotation = useAnnotation({ id: annotationId });
-  const textStyle = { fill: 'rgba(0,0,0,0)' };
-  const boxStyle = { fill: 'rgba(0,0,0,0)' };
+  const textStyle = { fill: "rgba(0,0,0,0)" };
+  const boxStyle = { fill: "rgba(0,0,0,0)" };
 
   //
-  if (!annotation?.motivation?.includes('supplementing') || !annotation.body) {
+  if (!annotation?.motivation?.includes("supplementing") || !annotation.body) {
     return null;
   }
 
-  const body = (
-    Array.isArray(annotation.body) ? annotation.body : [annotation.body]
-  ).filter((bodyItem) => (bodyItem as any).type === 'TextualBody');
+  const body = (Array.isArray(annotation.body) ? annotation.body : [annotation.body]).filter(
+    (bodyItem) => (bodyItem as any).type === "TextualBody",
+  );
 
   const target = (annotation.target as any).selector as BoxSelector;
 
@@ -47,15 +47,14 @@ export function RenderTextFragment({
         fontSize={`${target.spatial.height}px`}
         lengthAdjust="spacingAndGlyphs"
         className="text-line-segment"
-        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
         // @ts-ignore
         part="text-line-segment"
         style={{
           ...textStyle,
-          pointerEvents: interactive ? 'initial' : undefined,
+          pointerEvents: interactive ? "initial" : undefined,
         }}
       >
-        {(body[0] as any).value || ''}
+        {(body[0] as any).value || ""}
       </text>
     </Fragment>
   );

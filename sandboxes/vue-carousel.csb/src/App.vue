@@ -1,7 +1,5 @@
 <template>
-  <Manifest
-    manifestId="https://iiif.wellcomecollection.org/presentation/b18035723"
-  >
+  <Manifest manifestId="https://iiif.wellcomecollection.org/presentation/b18035723">
     <div>
       <ManifestThumbnailList />
     </div>
@@ -9,13 +7,13 @@
 </template>
 
 <script>
-import { globalVault } from '@iiif/helpers/vault';
-import Manifest from './components/Manifest.vue';
-import ManifestThumbnailList from './components/ManifestThumbnailList.vue';
-import { createThumbnailHelper } from '@iiif/helpers/thumbnail';
+import { globalVault } from "@iiif/helpers/vault";
+import Manifest from "./components/Manifest.vue";
+import ManifestThumbnailList from "./components/ManifestThumbnailList.vue";
+import { createThumbnailHelper } from "@iiif/helpers/thumbnail";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Manifest,
     ManifestThumbnailList,

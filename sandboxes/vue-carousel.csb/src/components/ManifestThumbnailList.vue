@@ -30,12 +30,12 @@
 </template>
 
 <script>
-import IIIFCanvas from './IIIFCanvas.vue';
-import CanvasThumbnail from './CanvasThumbnail.vue';
+import IIIFCanvas from "./IIIFCanvas.vue";
+import CanvasThumbnail from "./CanvasThumbnail.vue";
 
 export default {
-  name: 'ManifestThumbnailList',
-  inject: ['vault', 'manifest'],
+  name: "ManifestThumbnailList",
+  inject: ["vault", "manifest"],
   components: {
     IIIFCanvas,
     CanvasThumbnail,
@@ -58,7 +58,7 @@ export default {
   },
 
   watch: {
-    'manifest.current': {
+    "manifest.current": {
       handler() {
         if (this.manifest.current && !this.currentCanvas) {
           this.currentCanvas = this.manifest.current.items[0];

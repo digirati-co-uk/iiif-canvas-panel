@@ -1,8 +1,8 @@
-import type { Annotation } from '@iiif/parser/presentation-3/types';
-import { useVault, VaultProvider } from 'react-iiif-vault/core';
-import { createElement as h } from 'react';
-import { HTMLPortal } from '../../atlas-components/HTMLPortal';
-import { RenderTextFragment } from './RenderTextFragment';
+import type { Annotation } from "@iiif/parser/presentation-3/types";
+import { useVault, VaultProvider } from "react-iiif-vault/core";
+import { createElement as h } from "react";
+import { HTMLPortal } from "../../atlas-components/HTMLPortal";
+import { RenderTextFragment } from "./RenderTextFragment";
 
 export function RenderTextualContent({
   annotation,
@@ -13,7 +13,7 @@ export function RenderTextualContent({
 }) {
   const vault = useVault();
 
-  if (!annotation?.motivation?.includes('supplementing') || !annotation.body) {
+  if (!annotation?.motivation?.includes("supplementing") || !annotation.body) {
     return null;
   }
 
@@ -26,13 +26,9 @@ export function RenderTextualContent({
         <svg
           height={(annotation.target as any).selector.spatial.height}
           width={(annotation.target as any).selector.spatial.width}
-          style={{ userSelect: textSelectionEnabled ? 'text' : undefined }}
+          style={{ userSelect: textSelectionEnabled ? "text" : undefined }}
         >
-          <RenderTextFragment
-            annotationId={annotation.id}
-            interactive={textSelectionEnabled}
-            relative
-          />
+          <RenderTextFragment annotationId={annotation.id} interactive={textSelectionEnabled} relative />
         </svg>
       </VaultProvider>
     </HTMLPortal>

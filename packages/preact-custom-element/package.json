@@ -8,32 +8,10 @@
   "source": "src/index.js",
   "scripts": {
     "prepare": "microbundle",
-    "lint": "eslint src/*.{js,jsx}",
+    "lint": "oxlint src",
     "test": "wtr src/*.test.{js,jsx}",
     "test:browsers": "wtr src/*.test.{js,jsx} --playwright --browsers chromium firefox webkit",
-    "prettier": "prettier **/*.{js,jsx} --write",
     "prepublishOnly": "npm run lint && npm run test"
-  },
-  "eslintConfig": {
-    "extends": "developit",
-    "settings": {
-      "react": {
-        "version": "latest"
-      }
-    },
-    "rules": {
-      "brace-style": "off",
-      "jest/expect-expect": "off",
-      "lines-around-comment": "off",
-      "comma-dangle": "off",
-      "no-unused-vars": [
-        2,
-        {
-          "args": "none",
-          "varsIgnorePattern": "^h$"
-        }
-      ]
-    }
   },
   "repository": "preactjs/preact-custom-element",
   "keywords": [
@@ -59,23 +37,8 @@
     "@web/dev-server-esbuild": "^0.2.2",
     "@web/test-runner": "^0.7.12",
     "@web/test-runner-playwright": "^0.5.4",
-    "eslint": "^7.7.0",
-    "eslint-config-developit": "^1.2.0",
     "get-stream": "^6.0.0",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.13",
     "microbundle": "^0.12.3",
-    "preact": "^10.4.8",
-    "prettier": "^2.1.1"
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,yml}": [
-      "prettier --write"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "preact": "^10.4.8"
   }
 }

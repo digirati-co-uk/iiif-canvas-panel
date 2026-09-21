@@ -8,31 +8,26 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 :::danger
 
-The features on this page are still in development and not available in release
-versions.
+The features on this page are still in development and not available in release versions.
 
 :::
 
-From the developer point of view this is the same as the quick start. You won't
-necessarily know that canvas A has canvas B painted onto it (almost certainly
-amongst other content directly painted).
+From the developer point of view this is the same as the quick start. You won't necessarily know that canvas A has
+canvas B painted onto it (almost certainly amongst other content directly painted).
 
-In any canvas-on-canvas scenario (for spatial and temporal), Canvas Panel
-translates all annotations on canvas B into the coordinate space of Canvas A,
-and then treats them the same as any other annotations on Canvas A.
+In any canvas-on-canvas scenario (for spatial and temporal), Canvas Panel translates all annotations on canvas B into
+the coordinate space of Canvas A, and then treats them the same as any other annotations on Canvas A.
 
 Image Scenario:
 
-Two canvases representing pages of books. Each canvas has text annotations. You
-create a new, synthetic canvas for a 2-up view, paint the two canvases onto it,
-and render the new synthetic canvas using the component. It behaves exactly as
-if all the text annotations had been made directly on the synthetic canvas.
+Two canvases representing pages of books. Each canvas has text annotations. You create a new, synthetic canvas for a
+2-up view, paint the two canvases onto it, and render the new synthetic canvas using the component. It behaves exactly
+as if all the text annotations had been made directly on the synthetic canvas.
 
 AV scenario:
 
-Two chunks of video, each with text transcripts (captions), each represented by
-a canvas Sequence them together so that one follows the other directly on the
-new canvas.
+Two chunks of video, each with text transcripts (captions), each represented by a canvas Sequence them together so that
+one follows the other directly on the new canvas.
 
 ## Manual canvas-on-canvas composition
 

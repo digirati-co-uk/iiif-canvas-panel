@@ -3,25 +3,22 @@ sidebar_position: 1
 title: Installation
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Installation
 
-Canvas Panel provides `<canvas-panel>`, `<image-service>`, `<sequence-panel>`,
-`<range-panel>`, `<metadata-panel>` and `<layout-container>` custom elements.
-Always write an explicit closing tag for custom elements in HTML.
+Canvas Panel provides `<canvas-panel>`, `<image-service>`, `<sequence-panel>`, `<range-panel>`, `<metadata-panel>` and
+`<layout-container>` custom elements. Always write an explicit closing tag for custom elements in HTML.
 
-:::info v2 development These docs run the current workspace build, including the
-Vault 3/4 compatibility bridge. The v2 branch is still in development; the
-public npm release may differ. :::
+:::info v2 development These docs run the current workspace build, including the Vault 3/4 compatibility bridge. The v2
+branch is still in development; the public npm release may differ. :::
 
 <Tabs>
 <TabItem label="Script tag" value="script-tag" default>
 
-Build this checkout with `pnpm build:runtime`, then serve `index.iife.js` and
-`index.css` from `packages/canvas-panel/dist` alongside your page. These docs
-serve those files at the site root:
+Build this checkout with `pnpm build:runtime`, then serve `index.iife.js` and `index.css` from
+`packages/canvas-panel/dist` alongside your page. These docs serve those files at the site root:
 
 ```html
 <link rel="stylesheet" href="/index.css" />
@@ -34,17 +31,16 @@ serve those files at the site root:
 </canvas-panel>
 ```
 
-The browser bundle registers the elements and includes its rendering runtime.
-When using a published or preview package, use its explicit `dist/index.iife.js`
-browser entry and matching `dist/index.css`; the package's CommonJS entry is not
-a browser script. Pin both URLs to the same version.
+The browser bundle registers the elements and includes its rendering runtime. When using a published or preview package,
+use its explicit `dist/index.iife.js` browser entry and matching `dist/index.css`; the package's CommonJS entry is not a
+browser script. Pin both URLs to the same version.
 
 ```html
 <canvas-panel id="cp"></canvas-panel>
 <script>
-  const cp = document.getElementById('cp');
+  const cp = document.getElementById("cp");
   cp.vault
-    .loadManifest('https://digirati-co-uk.github.io/wunder.json')
+    .loadManifest("https://digirati-co-uk.github.io/wunder.json")
     .then((manifest) => cp.setCanvas(manifest.items[0].id));
 </script>
 ```
@@ -52,41 +48,39 @@ a browser script. Pin both URLs to the same version.
 </TabItem>
 <TabItem label="Package / workspace" value="package">
 
-The root docs depend on `@digirati/canvas-panel-web-components` through
-`workspace:*`. Run `pnpm dev` from the repository root to develop the library
-and the docs together.
+The root docs depend on `@digirati/canvas-panel-web-components` through `workspace:*`. Run `pnpm dev` from the
+repository root to develop the library and the docs together.
 
 For the current v2 branch, use the bundled browser entry in your application:
 
 ```js
-import '@digirati/canvas-panel-web-components/dist/index.iife.js';
-import '@digirati/canvas-panel-web-components/dist/index.css';
+import "@digirati/canvas-panel-web-components/dist/index.iife.js";
+import "@digirati/canvas-panel-web-components/dist/index.css";
 ```
 
-The shared-React ESM entry is part of the remaining v2 renderer migration. The
-browser entry keeps the current renderer isolated from your framework.
+The shared-React ESM entry is part of the remaining v2 renderer migration. The browser entry keeps the current renderer
+isolated from your framework.
 
 </TabItem>
 </Tabs>
 
 ## Vault and helpers
 
-Each canvas or sequence panel exposes its Vault through `element.vault`. Reuse
-that instance when loading manifests and resolving references. To create your
-own:
+Each canvas or sequence panel exposes its Vault through `element.vault`. Reuse that instance when loading manifests and
+resolving references. To create your own:
 
 ```sh
 npm install @iiif/helpers@4 @iiif/parser@4
 ```
 
 ```js
-import { Vault } from '@iiif/helpers/vault';
-import { getValue } from '@iiif/helpers/i18n';
+import { Vault } from "@iiif/helpers/vault";
+import { getValue } from "@iiif/helpers/i18n";
 
 const vault = new Vault();
 const manifest = await vault.loadManifest(manifestUrl);
 console.log(getValue(manifest.label));
 ```
 
-Helpers 4 includes Vault. The compatibility bridge keeps the existing component
-APIs while supporting the newer parser. See [Vault](./api-reference/vault).
+Helpers 4 includes Vault. The compatibility bridge keeps the existing component APIs while supporting the newer parser.
+See [Vault](./api-reference/vault).

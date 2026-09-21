@@ -1,90 +1,85 @@
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const lightCodeTheme = require("prism-react-renderer/themes/github");
+const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'Canvas Panel',
-  tagline: 'A Web Component that renders a IIIF Canvas',
-  url: 'https://canvas-panel.digirati.com/',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
+  title: "Canvas Panel",
+  tagline: "A Web Component that renders a IIIF Canvas",
+  url: "https://canvas-panel.digirati.com/",
+  baseUrl: "/",
+  onBrokenLinks: "throw",
   // Docusaurus serves and watches the workspace build in development and copies it
   // into the production site. Documentation uses these assets; examples are separately built Vite pages.
-  staticDirectories: [
-    'static',
-    'packages/canvas-panel/dist',
-    '.docs-runtime',
-    '.docs-examples',
-  ],
-  stylesheets: ['/index.css'],
-  scripts: ['/index.iife.js', '/docs-helpers.iife.js'],
-  onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
-  organizationName: 'digirati-co-uk', // Usually your GitHub org/user name.
-  projectName: 'iiif-canvas-panel', // Usually your repo name.
+  staticDirectories: ["static", "packages/canvas-panel/dist", ".docs-runtime", ".docs-examples"],
+  stylesheets: ["/index.css"],
+  scripts: ["/index.iife.js", "/docs-helpers.iife.js"],
+  onBrokenMarkdownLinks: "warn",
+  favicon: "img/favicon.ico",
+  organizationName: "digirati-co-uk", // Usually your GitHub org/user name.
+  projectName: "iiif-canvas-panel", // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'Canvas Panel',
+      title: "Canvas Panel",
       logo: {
-        alt: 'Logo of a canvas frame',
-        src: 'img/canvas-panel-box.png',
+        alt: "Logo of a canvas frame",
+        src: "img/canvas-panel-box.png",
       },
       items: [
         {
-          type: 'doc',
-          docId: 'intro',
-          position: 'left',
-          label: 'Documentation',
+          type: "doc",
+          docId: "intro",
+          position: "left",
+          label: "Documentation",
         },
-        { to: '/about', label: 'About', position: 'left' },
-        { to: '/glossary', label: 'Glossary', position: 'left' },
-        { to: '/all-sandboxes', label: 'Examples', position: 'left' },
+        { to: "/about", label: "About", position: "left" },
+        { to: "/glossary", label: "Glossary", position: "left" },
+        { to: "/all-sandboxes", label: "Examples", position: "left" },
         {
-          href: 'https://github.com/digirati-co-uk/iiif-canvas-panel',
-          label: 'GitHub',
-          position: 'right',
+          href: "https://github.com/digirati-co-uk/iiif-canvas-panel",
+          label: "GitHub",
+          position: "right",
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Documentation',
+          title: "Documentation",
           items: [
             {
-              label: 'Documentation',
-              to: '/docs/intro',
+              label: "Documentation",
+              to: "/docs/intro",
             },
           ],
         },
         {
-          title: 'Links',
+          title: "Links",
           items: [
             {
-              label: 'IIIF',
-              href: 'https://iiif.io',
+              label: "IIIF",
+              href: "https://iiif.io",
             },
             {
-              label: 'Digirati',
-              href: 'https://digirati.com',
+              label: "Digirati",
+              href: "https://digirati.com",
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/digirati_uk',
+              label: "Twitter",
+              href: "https://twitter.com/digirati_uk",
             },
           ],
         },
         {
-          title: 'More',
+          title: "More",
           items: [
             {
-              label: 'An Introduction to IIIF',
-              to: 'https://resources.digirati.com/iiif/an-introduction-to-iiif/',
+              label: "An Introduction to IIIF",
+              to: "https://resources.digirati.com/iiif/an-introduction-to-iiif/",
             },
             {
-              label: 'Canvas Panel on GitHub',
-              href: 'https://github.com/digirati-co-uk/iiif-canvas-panel',
+              label: "Canvas Panel on GitHub",
+              href: "https://github.com/digirati-co-uk/iiif-canvas-panel",
             },
           ],
         },
@@ -99,7 +94,7 @@ module.exports = {
   plugins: [
     function workspaceReload() {
       return {
-        name: 'canvas-panel-workspace-reload',
+        name: "canvas-panel-workspace-reload",
         configureWebpack() {
           // Docusaurus disables this by default; our watched browser bundle is
           // a static asset, so it needs a full reload rather than React HMR.
@@ -108,7 +103,7 @@ module.exports = {
       };
     },
     [
-      require.resolve('@cmfcmf/docusaurus-search-local'),
+      require.resolve("@cmfcmf/docusaurus-search-local"),
       {
         //
       },
@@ -116,37 +111,35 @@ module.exports = {
   ],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      "@docusaurus/preset-classic",
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/digirati-co-uk/iiif-canvas-panel/edit/main/',
+          editUrl: "https://github.com/digirati-co-uk/iiif-canvas-panel/edit/main/",
           admonitions: {
-            tag: ':::',
+            tag: ":::",
             keywords: [
-              'question',
-              'secondary',
-              'info',
-              'success',
-              'danger',
-              'note',
-              'tip',
-              'warning',
-              'important',
-              'caution',
+              "question",
+              "secondary",
+              "info",
+              "success",
+              "danger",
+              "note",
+              "tip",
+              "warning",
+              "important",
+              "caution",
             ],
           },
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/digirati-co-uk/iiif-canvas-panel/edit/master/website/blog/',
+          editUrl: "https://github.com/digirati-co-uk/iiif-canvas-panel/edit/master/website/blog/",
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       },
     ],

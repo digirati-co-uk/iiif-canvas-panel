@@ -1,5 +1,5 @@
-import { ContentState, NormalisedContentState } from '@iiif/helpers';
-import { BoxSelector } from '@iiif/helpers/annotation-targets';
+import { ContentState, NormalisedContentState } from "@iiif/helpers";
+import { BoxSelector } from "@iiif/helpers/annotation-targets";
 
 export interface ContentStateEvent {
   contentState: ContentState;

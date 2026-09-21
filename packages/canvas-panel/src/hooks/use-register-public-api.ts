@@ -1,21 +1,16 @@
-import type {
-  ChoiceBody,
-  Annotation,
-  Reference,
-  Selector,
-} from '@iiif/parser/presentation-3/types';
+import type { ChoiceBody, Annotation, Reference, Selector } from "@iiif/parser/presentation-3/types";
 import type {
   AnnotationNormalized,
   CanvasNormalized,
   ManifestNormalized,
-} from '@iiif/parser/presentation-3-normalized/types';
-import { Vault } from '@iiif/helpers';
-import { createContext } from 'react';
-import { useContext, useEffect, useRef } from 'react';
-import { AnnotationDisplay } from '../helpers/annotation-display';
-import { ParsedSelector } from 'react-iiif-vault/core';
-import { BoxStyle } from '@atlas-viewer/atlas/react';
-import { useLayoutEffect } from 'react';
+} from "@iiif/parser/presentation-3-normalized/types";
+import { Vault } from "@iiif/helpers";
+import { createContext } from "react";
+import { useContext, useEffect, useRef } from "react";
+import { AnnotationDisplay } from "../helpers/annotation-display";
+import { ParsedSelector } from "react-iiif-vault/core";
+import { BoxStyle } from "@atlas-viewer/atlas/react";
+import { useLayoutEffect } from "react";
 
 type TBC = any;
 
@@ -62,16 +57,9 @@ export type UseRegisterPublicApi = {
     disableTextSelection(): void;
     enableText(): void;
     disableText(): void;
-    getTextContent(options?: {
-      html?: boolean;
-      motivation?: string;
-      selected?: boolean;
-    }): TBC[];
-    setManifest(
-      manifestId: string,
-      opts?: { canvasIndex?: number; canvasId?: string },
-    ): void;
-    setRenderMode(mode: 'zoom' | 'static' | 'responsive'): void;
+    getTextContent(options?: { html?: boolean; motivation?: string; selected?: boolean }): TBC[];
+    setManifest(manifestId: string, opts?: { canvasIndex?: number; canvasId?: string }): void;
+    setRenderMode(mode: "zoom" | "static" | "responsive"): void;
     setIIIFContent(content: string | TBC): void;
     getPreferredFormats(): string[];
     setPreferredFormats(formats: string[]): void;
@@ -115,86 +103,61 @@ export type UseRegisterPublicApi = {
 
     // An internally controlled annotation page that is visible.
     annotations: {
-      add(
-        annotation:
-          | string
-          | Annotation
-          | AnnotationDisplay
-          | AnnotationNormalized,
-      ): void;
+      add(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;
       // Proposed.
       getAll(): AnnotationNormalized[];
       get(annotationId: string): AnnotationNormalized | null;
-      getSource(
-        annotationId: string,
-      ): string | Annotation | AnnotationDisplay | AnnotationNormalized | null;
-      remove(
-        annotation:
-          | string
-          | Annotation
-          | AnnotationDisplay
-          | AnnotationNormalized,
-      ): void;
+      getSource(annotationId: string): string | Annotation | AnnotationDisplay | AnnotationNormalized | null;
+      remove(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;
     };
   };
   attributes: {
     // All of the attributes on the <canvas-panel /> element
-    render: 'zoom' | 'static' | 'responsive';
-    'canvas-id': string;
-    'manifest-id': string;
-    'iiif-content': string;
+    render: "zoom" | "static" | "responsive";
+    "canvas-id": string;
+    "manifest-id": string;
+    "iiif-content": string;
     partof: string; // rename part-of?
-    'preferred-formats': string;
+    "preferred-formats": string;
     region: string;
-    'choice-id': string;
+    "choice-id": string;
     highlight: string; // x,y,w,h
-    'annotation-css-class': string;
-    'highlight-css-class': string;
-    'link-css-class': string;
-    'follow-annotations': 'true' | 'false';
-    'text-enabled': 'true' | 'false';
-    'text-selection-enabled': 'true' | 'false';
+    "annotation-css-class": string;
+    "highlight-css-class": string;
+    "link-css-class": string;
+    "follow-annotations": "true" | "false";
+    "text-enabled": "true" | "false";
+    "text-selection-enabled": "true" | "false";
 
     // HTML extensions / proxy
     id: string;
     alt: string;
-    'aria-label': string;
-    'aria-labelledby': string;
+    "aria-label": string;
+    "aria-labelledby": string;
     role: string;
     title: string;
   };
   customEvents: {
     // All of the custom events dispatched from this component that can be listened to.
-    'canvas-choice': {
+    "canvas-choice": {
       choices: ChoiceBody[];
-      renderChoice(
-        choice: ChoiceBody | ChoiceBody[],
-        options?: { opacity: number } & TBC,
-      ): void;
-      setOptions(
-        choice: ChoiceBody | ChoiceBody[],
-        options?: { opacity: number } & TBC,
-      ): void;
+      renderChoice(choice: ChoiceBody | ChoiceBody[], options?: { opacity: number } & TBC): void;
+      setOptions(choice: ChoiceBody | ChoiceBody[], options?: { opacity: number } & TBC): void;
     };
   };
 };
 
-const emptyCtx: (
-  api: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>,
-) => void = () => {
+const emptyCtx: (api: (host: HTMLElement) => Partial<UseRegisterPublicApi["properties"]>) => void = () => {
   // no-op
   return () => ({});
 };
 
 export const RegisterPublicApi = createContext<
-  | undefined
-  | ((
-      api: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>,
-    ) => void)
+  undefined | ((api: (host: HTMLElement) => Partial<UseRegisterPublicApi["properties"]>) => void)
 >(emptyCtx);
 
 export function useRegisterPublicApi(
-  cb: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>,
+  cb: (host: HTMLElement) => Partial<UseRegisterPublicApi["properties"]>,
   cacheKey: any,
 ) {
   const lastCacheKey = useRef();

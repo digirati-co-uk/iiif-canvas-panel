@@ -1,14 +1,14 @@
-import type { Vault } from '@iiif/helpers';
-import type { ChoiceDescription } from '@iiif/helpers/painting-annotations';
-import type { Selector } from '@iiif/parser/presentation-3/types';
-import type { BoxStyle, Runtime } from '@atlas-viewer/atlas/react';
-import type { ContentStateEvent, ContentStateCallback } from './content-state';
+import type { Vault } from "@iiif/helpers";
+import type { ChoiceDescription } from "@iiif/helpers/painting-annotations";
+import type { Selector } from "@iiif/parser/presentation-3/types";
+import type { BoxStyle, Runtime } from "@atlas-viewer/atlas/react";
+import type { ContentStateEvent, ContentStateCallback } from "./content-state";
 
 export interface CanvasPanelEventMap extends HTMLElementEventMap {
   ready: CustomEvent<void>;
   choice: CustomEvent<{ choice: ChoiceDescription }>;
-  'canvas-change': CustomEvent<{ canvas: string | undefined }>;
-  'cp-load-error': ErrorEvent;
+  "canvas-change": CustomEvent<{ canvas: string | undefined }>;
+  "cp-load-error": ErrorEvent;
 }
 
 /** Implemented public API. Call methods after the element has connected/whenReady. */
@@ -22,10 +22,7 @@ export interface CanvasPanelElement extends HTMLElement {
   getManifestId(): string | undefined;
   getDefaultChoiceIds(): string[];
   setDefaultChoiceIds(ids: string[]): void;
-  makeChoice(
-    id: string,
-    options?: { deselect?: boolean; deselectOthers?: boolean },
-  ): void;
+  makeChoice(id: string, options?: { deselect?: boolean; deselectOthers?: boolean }): void;
   goHome(immediate?: boolean): void;
   goToTarget(
     target: { x: number; y: number; width: number; height: number },
@@ -44,12 +41,12 @@ export interface CanvasPanelElement extends HTMLElement {
   clearTarget(): void;
   setPreferredFormats(formats: string[]): void;
   getPreferredFormats(): string[];
-  setMode(mode: 'sketch' | 'explore'): void;
+  setMode(mode: "sketch" | "explore"): void;
   setFps(frames: number): void;
   applyStyles(resource: string | { id: string }, style: BoxStyle): void;
   setClassName(resource: string | { id: string }, className: string): void;
   withAtlas(callback: (runtime: Runtime) => void): void;
-  getContentState(): Omit<ContentStateEvent, 'selection'>;
+  getContentState(): Omit<ContentStateEvent, "selection">;
   getPosition(): {
     x: number | undefined;
     y: number | undefined;
@@ -83,6 +80,6 @@ export interface CanvasPanelElement extends HTMLElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'canvas-panel': CanvasPanelElement;
+    "canvas-panel": CanvasPanelElement;
   }
 }

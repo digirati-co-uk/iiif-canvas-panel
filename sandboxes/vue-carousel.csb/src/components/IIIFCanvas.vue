@@ -1,7 +1,7 @@
 <script>
 export default {
-  name: 'IIIFCanvas',
-  inject: ['vault', 'manifest'],
+  name: "IIIFCanvas",
+  inject: ["vault", "manifest"],
   props: {
     canvasId: String,
   },
@@ -27,7 +27,7 @@ export default {
       }
       this.context.current = this.vault.get({
         id: this.canvasId,
-        type: 'Canvas',
+        type: "Canvas",
       });
     },
   },
@@ -37,7 +37,7 @@ export default {
         this.setCanvasFromManifest();
       },
     },
-    'manifest.current': {
+    "manifest.current": {
       handler() {
         this.setCanvasFromManifest();
       },

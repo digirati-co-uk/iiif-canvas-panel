@@ -8,15 +8,7 @@
     "strict": true,
     "skipLibCheck": true,
     "lib": ["ES2020", "DOM"],
-    "types": [
-      "node",
-      "@docusaurus/module-type-aliases",
-      "@docusaurus/theme-classic"
-    ]
+    "types": ["node", "@docusaurus/module-type-aliases", "@docusaurus/theme-classic"]
   },
-  "include": [
-    "Example.tsx",
-    "src/components/example-project.ts",
-    "src/pages/example-editor.tsx"
-  ]
+  "include": ["Example.tsx", "src/components/example-project.ts", "src/pages/example-editor.tsx"]
 }

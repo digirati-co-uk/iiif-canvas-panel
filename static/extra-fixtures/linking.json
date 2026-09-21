@@ -67,9 +67,7 @@
       "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p2",
       "type": "Canvas",
       "label": {
-        "en": [
-          "Canvas with a single IIIF image and a link to a canvas in another manifest"
-        ]
+        "en": ["Canvas with a single IIIF image and a link to a canvas in another manifest"]
       },
       "height": 3024,
       "width": 4032,

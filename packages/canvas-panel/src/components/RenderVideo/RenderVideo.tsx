@@ -1,11 +1,10 @@
-import { useLayoutEffect } from 'react';
-import { SingleVideo, useSimpleMediaPlayer } from 'react-iiif-vault/core';
-import { createElement as h } from 'react';
-import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
+import { useLayoutEffect } from "react";
+import { SingleVideo, useSimpleMediaPlayer } from "react-iiif-vault/core";
+import { createElement as h } from "react";
+import { useRegisterPublicApi } from "../../hooks/use-register-public-api";
 
 export function RenderVideo({ media }: { media: SingleVideo }) {
-  const [{ element, currentTime, progress }, state, actions] =
-    useSimpleMediaPlayer({ duration: media.duration });
+  const [{ element, currentTime, progress }, state, actions] = useSimpleMediaPlayer({ duration: media.duration });
   const playPause = actions.playPause;
 
   useLayoutEffect(() => {
@@ -20,19 +19,15 @@ export function RenderVideo({ media }: { media: SingleVideo }) {
       (progress as any).current = el;
     };
 
-    el.dispatchEvent(new Event('media-displayed'));
-    el.dispatchEvent(new Event('audio-displayed'));
+    el.dispatchEvent(new Event("media-displayed"));
+    el.dispatchEvent(new Event("audio-displayed"));
 
     return {} as any;
   }, media.url);
 
-  const Component = 'div' as any;
+  const Component = "div" as any;
   return (
-    <Component
-      className="video-container"
-      part="video-container"
-      onClick={playPause}
-    >
+    <Component className="video-container" part="video-container" onClick={playPause}>
       <style>
         {`
             .video-container {
@@ -49,11 +44,7 @@ export function RenderVideo({ media }: { media: SingleVideo }) {
             }
           `}
       </style>
-      <video
-        ref={element as any}
-        src={media.url}
-        style={{ width: '100%', objectFit: 'contain' }}
-      />
+      <video ref={element as any} src={media.url} style={{ width: "100%", objectFit: "contain" }} />
     </Component>
   );
 }

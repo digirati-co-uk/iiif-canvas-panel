@@ -9,27 +9,20 @@ export type SizeParameter = {
   percentScale?: number;
 };
 
-export function sizeParameterToString({
-  max,
-  percentScale,
-  upscaled,
-  confined,
-  width,
-  height,
-}: SizeParameter): string {
+export function sizeParameterToString({ max, percentScale, upscaled, confined, width, height }: SizeParameter): string {
   const sb: string[] = [];
 
   if (upscaled) {
-    sb.push('^');
+    sb.push("^");
   }
 
   if (max) {
-    sb.push('max');
-    return sb.join('');
+    sb.push("max");
+    return sb.join("");
   }
 
   if (confined) {
-    sb.push('!');
+    sb.push("!");
   }
 
   if (percentScale) {
@@ -40,13 +33,13 @@ export function sizeParameterToString({
     sb.push(`${width}`);
   }
 
-  sb.push(',');
+  sb.push(",");
 
   if (height) {
     sb.push(`${height}`);
   }
 
-  return sb.join('');
+  return sb.join("");
 }
 
 export function parseSize(pathPart: string): SizeParameter {
@@ -56,31 +49,31 @@ export function parseSize(pathPart: string): SizeParameter {
     confined: false,
   };
 
-  if (pathPart[0] === '^') {
+  if (pathPart[0] === "^") {
     size.upscaled = true;
     pathPart = pathPart.slice(1);
   }
 
-  if (pathPart === 'max' || pathPart === 'full') {
+  if (pathPart === "max" || pathPart === "full") {
     size.max = true;
   }
 
-  if (pathPart[0] === '!') {
+  if (pathPart[0] === "!") {
     size.confined = true;
     pathPart = pathPart.slice(1);
   }
 
-  if (pathPart[0] === 'p') {
+  if (pathPart[0] === "p") {
     size.percentScale = parseFloat(pathPart.slice(4));
     return size;
   }
 
-  const wh = pathPart.split(',').map((t) => t.trim());
-  if (wh[0] !== '') {
+  const wh = pathPart.split(",").map((t) => t.trim());
+  if (wh[0] !== "") {
     size.width = parseInt(wh[0], 10);
   }
 
-  if (wh[1] !== '') {
+  if (wh[1] !== "") {
     size.height = parseInt(wh[1], 10);
   }
 
