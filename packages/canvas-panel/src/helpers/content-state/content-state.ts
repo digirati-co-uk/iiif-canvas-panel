@@ -110,7 +110,7 @@ export function parseContentState(state: string, asyncOrFetcher?: boolean): Cont
 
 export function encodeContentState(state: string): string {
   const uriEncoded = encodeURIComponent(state); // using built in function
-  const base64 = typeof btoa === 'undefined' ? Buffer.from(uriEncoded, 'utf-8').toString('base64') : btoa(uriEncoded); // using built in function
+  const base64 = btoa(uriEncoded); // using built in function
   const base64url = base64.replace(/\+/g, '-').replace(/\//g, '_');
   return base64url.replace(/=/g, '');
 }
@@ -118,7 +118,7 @@ export function encodeContentState(state: string): string {
 export function decodeContentState(encodedContentState: string): string {
   const base64url = restorePadding(encodedContentState);
   const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
-  const base64Decoded = typeof atob === 'undefined' ? Buffer.from(base64, 'base64').toString('utf-8') : atob(base64); // using built in function
+  const base64Decoded = atob(base64); // using built in function
   return decodeURIComponent(base64Decoded).trim(); // using built in function
 }
 

@@ -1,3 +1,4 @@
+import { encodeContentState, decodeContentState } from '../src/helpers/content-state/content-state';
 import { describe, expect, it } from 'vitest';
 import { Vault } from '@iiif/helpers/vault';
 import { Vault as PreviewVault } from 'react-iiif-vault';
@@ -90,4 +91,12 @@ describe('normalized range navigation', () => {
     const range = await vault.load({ id: rangeId, type: 'Range' }, { id: rangeId, type: 'Range', items: [] });
     expect(getRangeTarget(vault, range!)).toBeUndefined();
   });
+});
+
+// Node 22 and browsers provide the same base64 globals; no Buffer shim is needed.
+it('round-trips Unicode content state using browser base64 APIs', () => {
+  const state = JSON.stringify({ id: 'https://example.org/canvas', label: '日本語 café 🖼️' });
+  const encoded = encodeContentState(state);
+  expect(encoded).toMatch(/^[A-Za-z0-9_-]+$/);
+  expect(decodeContentState(encoded)).toBe(state);
 });
