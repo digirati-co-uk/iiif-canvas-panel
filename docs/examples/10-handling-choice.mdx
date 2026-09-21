@@ -4,8 +4,8 @@ sidebar_position: 10
 
 # Handling Choice
 
-import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-import { Example } from "@site/Example";
+import { GitHubDiscussion } from '../../GitHubDiscussion.js';
+import { Example } from '@site/Example';
 
 A Canvas have have multiple images. Sometimes, they are all a part of the scene
 to be rendered and the developer doesn't have to do anything extra - Canvas
@@ -15,8 +15,8 @@ But sometimes, the multiple images form a set of choices, for the user to pick
 from. Multispectral images are an example of this.
 
 For further details on this scenario, see the IIIF Cookbook
-[Choice example](https://iiif.io/api/cookbook/recipe/0033-choice/).
-(TODO - replace with published link)
+[Choice example](https://iiif.io/api/cookbook/recipe/0033-choice/). (TODO -
+replace with published link)
 
 You don't necessarily need to know in advance that the Canvas has resources with
 Choice for something to render. In simple scenarios, you might not need to know,
@@ -138,11 +138,11 @@ This is a more realistic use of Canvas Panel's choice-handling capability:
 There is an additional helper that can be used to extract choices.
 
 ```js
-import { createPaintingAnnotationsHelper } from "@iiif/helpers/painting-annotations";
+import { createPaintingAnnotationsHelper } from '@iiif/helpers/painting-annotations';
 
 const helper = createPaintingAnnotationsHelper(element.vault);
 const choice = helper.extractChoices(
-  "http://example.org/manifest/canvas-1.json"
+  'http://example.org/manifest/canvas-1.json',
 );
 // Choice looks like this:
 // {
@@ -167,11 +167,11 @@ Since the `choice-id` attribute also drives the users choice, I could do the
 following to manually set the choice ID.
 
 ```js
-element.setAttribute("choice-id", "http://example.org/choice-1");
+element.setAttribute('choice-id', 'http://example.org/choice-1');
 
 // or even
 
-element.setAttribute("choice-id", "http://example.org/choice-1#opacity=20");
+element.setAttribute('choice-id', 'http://example.org/choice-1#opacity=20');
 ```
 
 <GitHubDiscussion ghid="10" />

@@ -1,4 +1,9 @@
-import type { ChoiceBody, Annotation, Reference, Selector } from '@iiif/parser/presentation-3/types';
+import type {
+  ChoiceBody,
+  Annotation,
+  Reference,
+  Selector,
+} from '@iiif/parser/presentation-3/types';
 import type {
   AnnotationNormalized,
   CanvasNormalized,
@@ -57,8 +62,15 @@ export type UseRegisterPublicApi = {
     disableTextSelection(): void;
     enableText(): void;
     disableText(): void;
-    getTextContent(options?: { html?: boolean; motivation?: string; selected?: boolean }): TBC[];
-    setManifest(manifestId: string, opts?: { canvasIndex?: number; canvasId?: string }): void;
+    getTextContent(options?: {
+      html?: boolean;
+      motivation?: string;
+      selected?: boolean;
+    }): TBC[];
+    setManifest(
+      manifestId: string,
+      opts?: { canvasIndex?: number; canvasId?: string },
+    ): void;
     setRenderMode(mode: 'zoom' | 'static' | 'responsive'): void;
     setIIIFContent(content: string | TBC): void;
     getPreferredFormats(): string[];
@@ -103,12 +115,26 @@ export type UseRegisterPublicApi = {
 
     // An internally controlled annotation page that is visible.
     annotations: {
-      add(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;
+      add(
+        annotation:
+          | string
+          | Annotation
+          | AnnotationDisplay
+          | AnnotationNormalized,
+      ): void;
       // Proposed.
       getAll(): AnnotationNormalized[];
       get(annotationId: string): AnnotationNormalized | null;
-      getSource(annotationId: string): string | Annotation | AnnotationDisplay | AnnotationNormalized | null;
-      remove(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;
+      getSource(
+        annotationId: string,
+      ): string | Annotation | AnnotationDisplay | AnnotationNormalized | null;
+      remove(
+        annotation:
+          | string
+          | Annotation
+          | AnnotationDisplay
+          | AnnotationNormalized,
+      ): void;
     };
   };
   attributes: {
@@ -141,24 +167,35 @@ export type UseRegisterPublicApi = {
     // All of the custom events dispatched from this component that can be listened to.
     'canvas-choice': {
       choices: ChoiceBody[];
-      renderChoice(choice: ChoiceBody | ChoiceBody[], options?: { opacity: number } & TBC): void;
-      setOptions(choice: ChoiceBody | ChoiceBody[], options?: { opacity: number } & TBC): void;
+      renderChoice(
+        choice: ChoiceBody | ChoiceBody[],
+        options?: { opacity: number } & TBC,
+      ): void;
+      setOptions(
+        choice: ChoiceBody | ChoiceBody[],
+        options?: { opacity: number } & TBC,
+      ): void;
     };
   };
 };
 
-const emptyCtx: (api: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>) => void = () => {
+const emptyCtx: (
+  api: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>,
+) => void = () => {
   // no-op
   return () => ({});
 };
 
 export const RegisterPublicApi = createContext<
-  undefined | ((api: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>) => void)
+  | undefined
+  | ((
+      api: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>,
+    ) => void)
 >(emptyCtx);
 
 export function useRegisterPublicApi(
   cb: (host: HTMLElement) => Partial<UseRegisterPublicApi['properties']>,
-  cacheKey: any
+  cacheKey: any,
 ) {
   const lastCacheKey = useRef();
   const register = useContext(RegisterPublicApi) || emptyCtx;

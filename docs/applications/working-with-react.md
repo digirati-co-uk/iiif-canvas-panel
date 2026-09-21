@@ -8,7 +8,8 @@ import { Example } from '@site/Example';
 
 Import the browser bundle once in your client entry, then render custom elements
 with their hyphenated HTML attributes. Use a ref for imperative methods and
-`addEventListener` for Canvas Panel's custom events. Remove listeners on unmount.
+`addEventListener` for Canvas Panel's custom events. Remove listeners on
+unmount.
 
 ```jsx
 import { useEffect, useRef } from 'react';
@@ -19,11 +20,13 @@ export function Canvas({ manifestId, canvasId, onChoice }) {
   const panel = useRef(null);
   useEffect(() => {
     const element = panel.current;
-    const listener = event => onChoice?.(event.detail.choice);
+    const listener = (event) => onChoice?.(event.detail.choice);
     element.addEventListener('choice', listener);
     return () => element.removeEventListener('choice', listener);
   }, [onChoice]);
-  return <canvas-panel ref={panel} manifest-id={manifestId} canvas-id={canvasId} />;
+  return (
+    <canvas-panel ref={panel} manifest-id={manifestId} canvas-id={canvasId} />
+  );
 }
 ```
 

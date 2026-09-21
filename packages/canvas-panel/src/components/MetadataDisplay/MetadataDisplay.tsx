@@ -20,7 +20,10 @@ type FacetConfigValue = {
 
 export const MetaDataDisplay: React.FC<{
   config?: FacetConfig[];
-  metadata?: Array<{ label: InternationalString; value: InternationalString } | null>;
+  metadata?: Array<{
+    label: InternationalString;
+    value: InternationalString;
+  } | null>;
   variation?: 'table' | 'list';
   labelStyle?: 'muted' | 'bold' | 'caps' | 'small-caps';
   labelWidth?: number;
@@ -45,14 +48,20 @@ export const MetaDataDisplay: React.FC<{
       return [...state, ...i.keys];
     }, [] as string[]);
 
-    const map: { [key: string]: Array<{ label: InternationalString; value: InternationalString }> } = {};
+    const map: {
+      [key: string]: Array<{
+        label: InternationalString;
+        value: InternationalString;
+      }>;
+    } = {};
     for (const item of metadata) {
       const labels = item && item.label ? Object.values(item.label) : [];
       for (const label of labels) {
         if (
           label &&
           label.length &&
-          (flatKeys.indexOf(`metadata.${label[0]}`) !== -1 || flatKeys.length === 0) &&
+          (flatKeys.indexOf(`metadata.${label[0]}`) !== -1 ||
+            flatKeys.length === 0) &&
           item
         ) {
           const key = `metadata.${label[0]}`;
@@ -73,7 +82,11 @@ export const MetaDataDisplay: React.FC<{
 
   if (config && config.length) {
     return (
-      <table data-variation={variation} data-label-style={labelStyle} data-bordered={bordered}>
+      <table
+        data-variation={variation}
+        data-label-style={labelStyle}
+        data-bordered={bordered}
+      >
         <slot slot="header" />
         <tbody>
           {config.map((configItem, idx: number) => {
@@ -84,11 +97,15 @@ export const MetaDataDisplay: React.FC<{
                 values.push(
                   <div key={idx + '__' + key}>
                     {allowHtml ? (
-                      <span dangerouslySetInnerHTML={{ __html: getValue(item.value, options) }} />
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: getValue(item.value, options),
+                        }}
+                      />
                     ) : (
                       getValue(item.value, options)
                     )}
-                  </div>
+                  </div>,
                 );
               }
             }
@@ -99,9 +116,16 @@ export const MetaDataDisplay: React.FC<{
 
             return (
               <tr className="metadata-row" key={idx}>
-                <td className="metadata-key" style={labelWidth ? { minWidth: labelWidth } : {}}>
+                <td
+                  className="metadata-key"
+                  style={labelWidth ? { minWidth: labelWidth } : {}}
+                >
                   {allowHtml ? (
-                    <span dangerouslySetInnerHTML={{ __html: getValue(configItem.label, options) }} />
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: getValue(configItem.label, options),
+                      }}
+                    />
                   ) : (
                     getValue(configItem.label, options)
                   )}
@@ -117,7 +141,11 @@ export const MetaDataDisplay: React.FC<{
   }
 
   return (
-    <table data-variation={variation} data-label-style={labelStyle} data-bordered={bordered}>
+    <table
+      data-variation={variation}
+      data-label-style={labelStyle}
+      data-bordered={bordered}
+    >
       <slot name="header" />
       <tbody>
         {metadata && metadata.length ? (
@@ -127,16 +155,27 @@ export const MetaDataDisplay: React.FC<{
             }
             return (
               <tr className="metadata-row" key={idx}>
-                <td className="metadata-key" style={labelWidth ? { minWidth: labelWidth } : {}}>
+                <td
+                  className="metadata-key"
+                  style={labelWidth ? { minWidth: labelWidth } : {}}
+                >
                   {allowHtml ? (
-                    <span dangerouslySetInnerHTML={{ __html: getValue(metadataItem.label, options) }} />
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: getValue(metadataItem.label, options),
+                      }}
+                    />
                   ) : (
                     getValue(metadataItem.label, options)
                   )}
                 </td>
                 <td className="metadata-value">
                   {allowHtml ? (
-                    <span dangerouslySetInnerHTML={{ __html: getValue(metadataItem.value, options) }} />
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: getValue(metadataItem.value, options),
+                      }}
+                    />
                   ) : (
                     getValue(metadataItem.value, options)
                   )}

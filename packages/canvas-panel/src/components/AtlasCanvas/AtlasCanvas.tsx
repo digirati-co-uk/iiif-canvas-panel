@@ -14,7 +14,12 @@ import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHi
 import { SizeParameter } from '../../helpers/size-parameter';
 import { Debug } from '../../hooks/debug';
 import { DrawBox } from '../../atlas-components/DrawBox';
-import { CanvasStrategyProvider, CanvasWorldObject, RenderCanvasScene, useStrategy } from 'react-iiif-vault/canvas-panel/scene';
+import {
+  CanvasStrategyProvider,
+  CanvasWorldObject,
+  RenderCanvasScene,
+  useStrategy,
+} from 'react-iiif-vault/canvas-panel/scene';
 import { SceneMedia, SceneUnsupported } from './presentation';
 import { RenderImage } from '../RenderImage/RenderImage';
 import { useVirtualAnnotationPageContext } from '../../hooks/use-virtual-annotation-page-context';
@@ -47,10 +52,15 @@ interface AtlasCanvasProps {
 export function AtlasCanvas(props: AtlasCanvasProps) {
   const manifest = useManifest();
   const canvas = useCanvas();
-  return <CanvasStrategyProvider strategies={['images', 'media']} defaultChoices={props.defaultChoices}
-    annotationPageManagerId={manifest?.id || canvas?.id}>
-    <AtlasCanvasContent {...props} />
-  </CanvasStrategyProvider>;
+  return (
+    <CanvasStrategyProvider
+      strategies={['images', 'media']}
+      defaultChoices={props.defaultChoices}
+      annotationPageManagerId={manifest?.id || canvas?.id}
+    >
+      <AtlasCanvasContent {...props} />
+    </CanvasStrategyProvider>
+  );
 }
 function AtlasCanvasContent({
   x,
@@ -82,7 +92,7 @@ function AtlasCanvasContent({
     (state, vault) => {
       return manager.availablePageIds.map((i) => vault.get(i));
     },
-    [...manager.availablePageIds]
+    [...manager.availablePageIds],
   );
 
   useEffect(() => {
@@ -101,10 +111,14 @@ function AtlasCanvasContent({
 
       for (const annotation of vaultAnnotations) {
         if (annotation.type !== 'Annotation') {
-          throw new Error(`getPaintables() accept either a canvas or list of annotations`);
+          throw new Error(
+            `getPaintables() accept either a canvas or list of annotations`,
+          );
         }
 
-        const references = Array.from(Array.isArray(annotation.body) ? annotation.body : [annotation.body]);
+        const references = Array.from(
+          Array.isArray(annotation.body) ? annotation.body : [annotation.body],
+        );
         for (const reference of references) {
           const [ref, { selector }] = parseSpecificResource(reference as any);
           const body = vault.get(ref) as any;
@@ -117,7 +131,9 @@ function AtlasCanvasContent({
 
           // if the enabledChoices has the id, then turn it on, otherwise choose the 1st item
           const selected = enabledChoices.length
-            ? enabledChoices.map((cid) => nestedBodies.find((b) => b.id === cid)).filter(Boolean)
+            ? enabledChoices
+                .map((cid) => nestedBodies.find((b) => b.id === cid))
+                .filter(Boolean)
             : [nestedBodies[0]];
 
           if (selected.length === 0) {
@@ -145,14 +161,22 @@ function AtlasCanvasContent({
     }
   }, [canvas?.id, strategy, defaultChoices]);
 
-  const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
+  const pageTypes = useMemo(
+    () => sortAnnotationPages(manager.availablePageIds, vault as any),
+    fullPages,
+  );
   const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;
-  const firstTextLines = hasTextLines ? pageTypes.pageMapping.supplementing[0] : null;
+  const firstTextLines = hasTextLines
+    ? pageTypes.pageMapping.supplementing[0]
+    : null;
 
   useEffect(() => {
-    const unsubscribeOnMakeChoice = choiceEventChannel.on('onMakeChoice', (payload: { id: any; options: any }) => {
-      actions?.makeChoice(payload.id, payload.options);
-    });
+    const unsubscribeOnMakeChoice = choiceEventChannel.on(
+      'onMakeChoice',
+      (payload: { id: any; options: any }) => {
+        actions?.makeChoice(payload.id, payload.options);
+      },
+    );
     return () => {
       unsubscribeOnMakeChoice();
     };
@@ -184,7 +208,9 @@ function AtlasCanvasContent({
           }}
         />
       ) : null}
-      {highlight && highlight.selector && highlight.selector.type === 'BoxSelector' ? (
+      {highlight &&
+      highlight.selector &&
+      highlight.selector.type === 'BoxSelector' ? (
         <RegionHighlight
           id="highlight"
           isEditing={true}
@@ -199,33 +225,77 @@ function AtlasCanvasContent({
           className={highlightCssClass}
         />
       ) : null}
-      {virtualPage ? <RenderAnnotationPage page={virtualPage} textSelectionEnabled={textSelectionEnabled} /> : null}
+      {virtualPage ? (
+        <RenderAnnotationPage
+          page={virtualPage}
+          textSelectionEnabled={textSelectionEnabled}
+        />
+      ) : null}
       {strategy.annotations && strategy.annotations.pages
         ? strategy.annotations.pages.map((page) => {
-            return <RenderAnnotationPage key={page.id} page={page} textSelectionEnabled={textSelectionEnabled} />;
+            return (
+              <RenderAnnotationPage
+                key={page.id}
+                page={page}
+                textSelectionEnabled={textSelectionEnabled}
+              />
+            );
           })
         : null}
       {debug ? <Debug /> : null}
       {textEnabled && firstTextLines ? (
-        <RenderTextLines annotationPageId={firstTextLines} selectionEnabled={textSelectionEnabled} />
+        <RenderTextLines
+          annotationPageId={firstTextLines}
+          selectionEnabled={textSelectionEnabled}
+        />
       ) : null}
     </Fragment>
   );
   // The shared scene takes one candidate list. Legacy virtual sizes must be
   // resolved per image service, so compose the same shared image nodes here.
-  if (strategy.type === 'images' && (virtualSizes.length || (rotation && strategy.images.length > 1))) {
-    return <CanvasWorldObject x={x} y={y}>
-      {strategy.images.map(image => <RenderImage key={image.id} id={image.id} image={image}
-        virtualSizes={virtualSizes} skipSizes={skipSizes} skipThumbnail={disableThumbnail}
-        isStatic={isStatic} rotation={rotation} useFloorCalc={useFloorCalc} />)}
-      {annotations}
-    </CanvasWorldObject>;
+  if (
+    strategy.type === 'images' &&
+    (virtualSizes.length || (rotation && strategy.images.length > 1))
+  ) {
+    return (
+      <CanvasWorldObject x={x} y={y}>
+        {strategy.images.map((image) => (
+          <RenderImage
+            key={image.id}
+            id={image.id}
+            image={image}
+            virtualSizes={virtualSizes}
+            skipSizes={skipSizes}
+            skipThumbnail={disableThumbnail}
+            isStatic={isStatic}
+            rotation={rotation}
+            useFloorCalc={useFloorCalc}
+          />
+        ))}
+        {annotations}
+      </CanvasWorldObject>
+    );
   }
-  return <RenderCanvasScene x={x} y={y} isStatic={isStatic} rotation={rotation}
-    enableSizes={!skipSizes} enableThumbnail={!disableThumbnail} enableAnnotations={false}
-    useFloorCalc={useFloorCalc}
-    presentation={{ Media: SceneMedia, Unsupported: SceneUnsupported, AnnotationPage: IgnoreAnnotationPage }}>
-    {strategy.type === 'images' ? annotations : null}
-  </RenderCanvasScene>;
+  return (
+    <RenderCanvasScene
+      x={x}
+      y={y}
+      isStatic={isStatic}
+      rotation={rotation}
+      enableSizes={!skipSizes}
+      enableThumbnail={!disableThumbnail}
+      enableAnnotations={false}
+      useFloorCalc={useFloorCalc}
+      presentation={{
+        Media: SceneMedia,
+        Unsupported: SceneUnsupported,
+        AnnotationPage: IgnoreAnnotationPage,
+      }}
+    >
+      {strategy.type === 'images' ? annotations : null}
+    </RenderCanvasScene>
+  );
 }
-function IgnoreAnnotationPage() { return null; }
+function IgnoreAnnotationPage() {
+  return null;
+}

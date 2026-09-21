@@ -4,7 +4,8 @@ const panel = document.querySelector('canvas-panel');
 if (panel) {
   panel.setCanvas('https://example.org/canvas');
   panel.addEventListener('choice', (event) => {
-    if (event.detail.choice.type === "single-choice") panel.makeChoice(event.detail.choice.items[0].id, { deselect: true });
+    if (event.detail.choice.type === 'single-choice')
+      panel.makeChoice(event.detail.choice.items[0].id, { deselect: true });
     // @ts-expect-error The real choice payload has no invented property.
     event.detail.invented;
   });

@@ -1,10 +1,7 @@
 {
   "title": "Loading Annotation page",
   "framework": "vanilla",
-  "files": [
-    "src/index.js",
-    "index.html"
-  ],
+  "files": ["src/index.js", "index.html"],
   "group": "Annotations",
   "description": "Compare loading annotations from URLs and from objects in Vault."
 }

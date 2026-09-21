@@ -21,9 +21,9 @@ export function RenderTextFragment({
     return null;
   }
 
-  const body = (Array.isArray(annotation.body) ? annotation.body : [annotation.body]).filter(
-    (bodyItem) => (bodyItem as any).type === 'TextualBody'
-  );
+  const body = (
+    Array.isArray(annotation.body) ? annotation.body : [annotation.body]
+  ).filter((bodyItem) => (bodyItem as any).type === 'TextualBody');
 
   const target = (annotation.target as any).selector as BoxSelector;
 
@@ -50,7 +50,10 @@ export function RenderTextFragment({
         /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
         // @ts-ignore
         part="text-line-segment"
-        style={{ ...textStyle, pointerEvents: interactive ? 'initial' : undefined }}
+        style={{
+          ...textStyle,
+          pointerEvents: interactive ? 'initial' : undefined,
+        }}
       >
         {(body[0] as any).value || ''}
       </text>

@@ -10,7 +10,10 @@ export class ClassList {
     return this._className;
   }
 
-  constructor(onChange?: (className: string) => void, classes?: string | string[]) {
+  constructor(
+    onChange?: (className: string) => void,
+    classes?: string | string[],
+  ) {
     this.onChange = onChange || (() => void 0);
     this.className = Array.isArray(classes) ? classes.join(' ') : classes || '';
   }

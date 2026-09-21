@@ -1,9 +1,7 @@
 {
   "title": "Range sequence",
   "framework": "vanilla",
-  "files": [
-    "index.html"
-  ],
+  "files": ["index.html"],
   "group": "Components",
   "description": "Explore range and sequence panels together."
 }

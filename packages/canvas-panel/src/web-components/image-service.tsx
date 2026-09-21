@@ -70,11 +70,20 @@ export function ImageService(props: ImageServiceProps) {
   const image = useMemo(() => {
     const service = loadImageService({ id: src } as any, {} as any);
 
-    if (service && (service as any).preferredFormats && (service as any).preferredFormats.length === 1) {
+    if (
+      service &&
+      (service as any).preferredFormats &&
+      (service as any).preferredFormats.length === 1
+    ) {
       setTileFormat((service as any).preferredFormats[0]);
     }
 
-    if (service && service.height && service.width && statusOf?.status !== 'loading') {
+    if (
+      service &&
+      service.height &&
+      service.width &&
+      statusOf?.status !== 'loading'
+    ) {
       return {
         id: src,
         width: service.width,
@@ -118,7 +127,12 @@ export function ImageService(props: ImageServiceProps) {
   return (
     <ErrorBoundary
       fallbackRender={(props: any) => (
-        <ErrorFallback height={height} width={width} aspectRatio={aspectRatio} {...props} />
+        <ErrorFallback
+          height={height}
+          width={width}
+          aspectRatio={aspectRatio}
+          {...props}
+        />
       )}
     >
       <VaultProvider vault={vault}>
@@ -152,7 +166,9 @@ export function ImageService(props: ImageServiceProps) {
         </NestedAtlas>
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
-      {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}
+      {inlineStyleSheet ? (
+        <link rel="stylesheet" href={inlineStyleSheet} />
+      ) : null}
       {props.children ? <slot>{props.children}</slot> : null}
     </ErrorBoundary>
   );
@@ -213,6 +229,6 @@ if (typeof window !== 'undefined') {
           },
         };
       },
-    } as any
+    } as any,
   );
 }

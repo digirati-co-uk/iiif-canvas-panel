@@ -1,4 +1,10 @@
-import { useAnnotationPage, useCanvas, useStyles, useVault, VaultProvider } from 'react-iiif-vault/core';
+import {
+  useAnnotationPage,
+  useCanvas,
+  useStyles,
+  useVault,
+  VaultProvider,
+} from 'react-iiif-vault/core';
 import { createElement as h } from 'react';
 import { BoxStyle } from '@atlas-viewer/atlas/react';
 import { HTMLPortal } from '../../atlas-components/HTMLPortal';
@@ -22,8 +28,12 @@ export function RenderTextLines({
   }
 
   return (
-    <WorldObject {...{ x: 0, y: 0, width: canvas.width, height: canvas.height }}>
-      <HTMLPortal target={{ x: 0, y: 0, width: canvas.width, height: canvas.height }}>
+    <WorldObject
+      {...{ x: 0, y: 0, width: canvas.width, height: canvas.height }}
+    >
+      <HTMLPortal
+        target={{ x: 0, y: 0, width: canvas.width, height: canvas.height }}
+      >
         <VaultProvider vault={vault}>
           <svg
             /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */

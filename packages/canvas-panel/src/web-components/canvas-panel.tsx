@@ -3,18 +3,33 @@ import { createElement as h } from 'react';
 import { FC, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import register from '../library/custom-element';
 import { CanvasContext, VaultProvider } from 'react-iiif-vault/core';
-import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-public-api';
+import {
+  RegisterPublicApi,
+  UseRegisterPublicApi,
+} from '../hooks/use-register-public-api';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { ManifestLoader } from '../components/manifest-loader';
-import { parseBool, parseChoices, parseContentStateParameter, parseNumber } from '../helpers/parse-attributes';
-import { normaliseAxis, parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
+import {
+  parseBool,
+  parseChoices,
+  parseContentStateParameter,
+  parseNumber,
+} from '../helpers/parse-attributes';
+import {
+  normaliseAxis,
+  parseContentState,
+  serialiseContentState,
+} from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { useState } from 'react';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
-import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
+import {
+  ContentStateCallback,
+  ContentStateEvent,
+} from '../types/content-state';
 import { easingFunctions, Projection } from '@atlas-viewer/atlas/react';
 import { DrawBox } from '../atlas-components/DrawBox';
 import { ContentState } from '@iiif/helpers';
@@ -81,31 +96,65 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     setMode,
     background,
   } = useGenericAtlasProps(props);
-  const [contentStateCallback, setContentStateCallback] = useState<ContentStateCallback | undefined>(undefined);
+  const [contentStateCallback, setContentStateCallback] = useState<
+    ContentStateCallback | undefined
+  >(undefined);
   const contentStateStack = useRef<ContentStateEvent[]>([]);
   const [error, setError] = useState<Error | null>();
-  const [unknownContentState, , setParsedContentState] = useProp('iiifContent', {
-    parse: parseContentStateParameter,
-  });
+  const [unknownContentState, , setParsedContentState] = useProp(
+    'iiifContent',
+    {
+      parse: parseContentStateParameter,
+    },
+  );
   const [canvasId, setCanvasId, , canvasIdRef] = useProp('canvasId');
-  const [rotation, setRotation, , rotationRef] = useProp('rotation', { parse: parseNumber, defaultValue: 0 });
+  const [rotation, setRotation, , rotationRef] = useProp('rotation', {
+    parse: parseNumber,
+    defaultValue: 0,
+  });
   const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
-  const [followAnnotations] = useProp('followAnnotations', { parse: parseBool, defaultValue: true });
-  const [defaultChoices, , , defaultChoiceIdsRef] = useProp('choiceId', { parse: parseChoices });
-  const [textSelectionEnabled] = useProp('textSelectionEnabled', { parse: parseBool, defaultValue: true });
-  const [disableThumbnail] = useProp('disableThumbnail', { parse: parseBool, defaultValue: false });
-  const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
-  const [textEnabled] = useProp('textEnabled', { parse: parseBool, defaultValue: false });
-  const [useFloorCalc] = useProp('useFloorCalc', { parse: parseBool, defaultValue: false });
+  const [followAnnotations] = useProp('followAnnotations', {
+    parse: parseBool,
+    defaultValue: true,
+  });
+  const [defaultChoices, , , defaultChoiceIdsRef] = useProp('choiceId', {
+    parse: parseChoices,
+  });
+  const [textSelectionEnabled] = useProp('textSelectionEnabled', {
+    parse: parseBool,
+    defaultValue: true,
+  });
+  const [disableThumbnail] = useProp('disableThumbnail', {
+    parse: parseBool,
+    defaultValue: false,
+  });
+  const [skipSizes] = useProp('skipSizes', {
+    parse: parseBool,
+    defaultValue: false,
+  });
+  const [textEnabled] = useProp('textEnabled', {
+    parse: parseBool,
+    defaultValue: false,
+  });
+  const [useFloorCalc] = useProp('useFloorCalc', {
+    parse: parseBool,
+    defaultValue: false,
+  });
   const contentState =
-    unknownContentState && unknownContentState.type !== 'remote-content-state' ? unknownContentState : null;
+    unknownContentState && unknownContentState.type !== 'remote-content-state'
+      ? unknownContentState
+      : null;
   const contentStateToLoad =
-    unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
+    unknownContentState && unknownContentState.type === 'remote-content-state'
+      ? unknownContentState.id
+      : null;
 
   const onCanvasChange = useCallback((canvas: string | undefined) => {
     if (webComponent.current) {
       choiceEventChannel.emit('onResetSeen');
-      webComponent.current.dispatchEvent(new CustomEvent('canvas-change', { detail: { canvas } }));
+      webComponent.current.dispatchEvent(
+        new CustomEvent('canvas-change', { detail: { canvas } }),
+      );
     }
   }, []);
   const onDrawBox = useCallback(
@@ -130,7 +179,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         contentStateCallback(event);
       }
     },
-    [contentStateCallback, manifestId, canvasId]
+    [contentStateCallback, manifestId, canvasId],
   );
 
   useRegisterWebComponentApi((htmlComponent: HTMLElement) => {
@@ -157,8 +206,12 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       },
 
       getContentState() {
-        const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
-        const _canvasId = canvasIdRef?.current ? canvasIdRef?.current : canvasId;
+        const _manifestId = manifestIdRef?.current
+          ? manifestIdRef?.current
+          : manifestId;
+        const _canvasId = canvasIdRef?.current
+          ? canvasIdRef?.current
+          : canvasId;
         const contentState: ContentState = {
           id: `${_canvasId}#xywh=${runtime.current?.x},${runtime.current?.y},${runtime.current?.width},${runtime.current?.height}`,
           type: 'Canvas',
@@ -218,9 +271,11 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
 
       enableContentStateSelection(callback: ContentStateCallback) {
         setMode('sketch');
-        setContentStateCallback((prevCallback: ContentStateCallback | undefined) => {
-          return prevCallback ? prevCallback : callback;
-        });
+        setContentStateCallback(
+          (prevCallback: ContentStateCallback | undefined) => {
+            return prevCallback ? prevCallback : callback;
+          },
+        );
       },
 
       disableContentStateSelection() {
@@ -245,7 +300,10 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
             contentState.target[0].selector &&
             contentState.target[0].selector.type === 'BoxSelector'
           ) {
-            runtime.current.world.gotoRegion({ ...contentState.target[0].selector.spatial, immediate });
+            runtime.current.world.gotoRegion({
+              ...contentState.target[0].selector.spatial,
+              immediate,
+            });
           }
         } else {
           setParsedContentState(contentState);
@@ -263,7 +321,11 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         })
         .catch((err) => {
           console.error(err);
-          setError(new Error(`Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`));
+          setError(
+            new Error(
+              `Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`,
+            ),
+          );
         });
     }
   }, [contentStateToLoad, error]);
@@ -272,10 +334,15 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     if (contentState) {
       if (contentState.target.length) {
         const firstTarget = contentState.target[0];
-        if (firstTarget.type === 'SpecificResource' && firstTarget.source.type === 'Canvas') {
-          const manifestSource = ('partOf' in firstTarget.source ? firstTarget.source.partOf || [] : []).find(
-            (s) => s.type === 'Manifest'
-          );
+        if (
+          firstTarget.type === 'SpecificResource' &&
+          firstTarget.source.type === 'Canvas'
+        ) {
+          const manifestSource = (
+            'partOf' in firstTarget.source
+              ? firstTarget.source.partOf || []
+              : []
+          ).find((s) => s.type === 'Manifest');
           setCanvasId(firstTarget.source.id);
           if (manifestSource) {
             setManifestId(manifestSource.id);
@@ -309,7 +376,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   }
 
   if (error) {
-    return <ErrorFallback error={error} resetErrorBoundary={() => setError(null)} />;
+    return (
+      <ErrorFallback error={error} resetErrorBoundary={() => setError(null)} />
+    );
   }
 
   const canvasInner = canvasId ? (
@@ -339,7 +408,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         homeCover={homeCover}
         useFloorCalc={useFloorCalc}
       >
-        <SceneHTML><slot name="atlas" /></SceneHTML>
+        <SceneHTML>
+          <slot name="atlas" />
+        </SceneHTML>
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}
       </ViewCanvas>
       {/* Default slot. */}
@@ -351,11 +422,19 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
     <RegisterPublicApi.Provider value={props.__registerPublicApi}>
       <VaultProvider vault={vault}>
         <VirtualAnnotationProvider>
-          {manifestId ? <ManifestLoader manifestId={manifestId}>{canvasInner}</ManifestLoader> : canvasInner}
+          {manifestId ? (
+            <ManifestLoader manifestId={manifestId}>
+              {canvasInner}
+            </ManifestLoader>
+          ) : (
+            canvasInner
+          )}
         </VirtualAnnotationProvider>
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
-      {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}
+      {inlineStyleSheet ? (
+        <link rel="stylesheet" href={inlineStyleSheet} />
+      ) : null}
     </RegisterPublicApi.Provider>
   );
 };

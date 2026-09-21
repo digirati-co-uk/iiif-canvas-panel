@@ -4,38 +4,49 @@ sidebar_position: 2
 
 # Methods
 
-
 ## Reference
-Helpers available on components:
-* `.vault`  - access to the IIIF Vault, can also be set to a custom vault before mounting.
-* `.events` - This is the [events helper](https://iiif-commons.netlify.app/docs/vault-helpers/events) where you can manually set mouse events on IIIF resource (canvas, annotation, annotation pages).
-* `.styles` - This is the [styles helper](https://iiif-commons.netlify.app/docs/vault-helpers/styles) where you can manually attach styles to IIIF resources. This library supports a limited set of CSS box styles for annotations and annotation pages.
-* `.thumbnailHelper` - This is a thumbnail helper that you can use to generate Thumbnails for IIIF resources (`.thumbnailHelper.getBestThumbnailAtSize(resource, options)`).
-* `.imageServiceLoader` - This is a IIIF [image serivce loader](https://github.com/atlas-viewer/iiif-image-api/blob/main/src/image-service-loader.ts) that can be used to preload IIIF resources
 
+Helpers available on components:
+
+- `.vault` - access to the IIIF Vault, can also be set to a custom vault before
+  mounting.
+- `.events` - This is the
+  [events helper](https://iiif-commons.netlify.app/docs/vault-helpers/events)
+  where you can manually set mouse events on IIIF resource (canvas, annotation,
+  annotation pages).
+- `.styles` - This is the
+  [styles helper](https://iiif-commons.netlify.app/docs/vault-helpers/styles)
+  where you can manually attach styles to IIIF resources. This library supports
+  a limited set of CSS box styles for annotations and annotation pages.
+- `.thumbnailHelper` - This is a thumbnail helper that you can use to generate
+  Thumbnails for IIIF resources
+  (`.thumbnailHelper.getBestThumbnailAtSize(resource, options)`).
+- `.imageServiceLoader` - This is a IIIF
+  [image serivce loader](https://github.com/atlas-viewer/iiif-image-api/blob/main/src/image-service-loader.ts)
+  that can be used to preload IIIF resources
 
 Methods only available on Canvas panel:
+
 ```typescript
 interface CanvasPanelAPI {
-    setCanvas(id: string);
-    setManifest(id: string);
-    setDefaultChoiceIds(choiceIds: string[]);
-    getDefaultChoiceIds(): string[];
-    getCanvasId(): string;
-    getManifestId(): string;
-    disableTextSelection();
-    enableTextSelection();
-    enableText();
-    disableText();
-    easingFunctions(): EasingFunctions;
-    getContentStateStack();
-    transition(callback: (transitionManager: any) => void);
-    enableContentStateSelection(callback: ContentStateCallback);
-    disableContentStateSelection();
-    setContentStateFromText(text: string);
+  setCanvas(id: string);
+  setManifest(id: string);
+  setDefaultChoiceIds(choiceIds: string[]);
+  getDefaultChoiceIds(): string[];
+  getCanvasId(): string;
+  getManifestId(): string;
+  disableTextSelection();
+  enableTextSelection();
+  enableText();
+  disableText();
+  easingFunctions(): EasingFunctions;
+  getContentStateStack();
+  transition(callback: (transitionManager: any) => void);
+  enableContentStateSelection(callback: ContentStateCallback);
+  disableContentStateSelection();
+  setContentStateFromText(text: string);
 }
 ```
-
 
 Methods available on all components:
 

@@ -1,0 +1,1 @@
+pnpm exec lint-staged --config package.json --concurrent false

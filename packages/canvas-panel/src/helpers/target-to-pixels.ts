@@ -2,7 +2,7 @@ import { Projection } from '@atlas-viewer/atlas/react';
 
 export function targetToPixels(
   { unit, ...target }: Projection & { unit: 'percent' | 'pixel' },
-  size: { height: number; width: number }
+  size: { height: number; width: number },
 ): Projection {
   if (unit === 'percent') {
     return {

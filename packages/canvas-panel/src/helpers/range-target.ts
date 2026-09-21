@@ -1,6 +1,9 @@
 import type { Vault } from '@iiif/helpers/vault';
 import { findFirstCanvasFromRangeWithSelector } from '@iiif/helpers/ranges';
-import { parseSelector, type ParsedSelector } from '@iiif/helpers/annotation-targets';
+import {
+  parseSelector,
+  type ParsedSelector,
+} from '@iiif/helpers/annotation-targets';
 import type { RangeNormalized } from '@iiif/parser/presentation-3-normalized/types';
 
 export function getRangeTarget(vault: Vault, range: RangeNormalized) {

@@ -1,4 +1,9 @@
-import { CanvasContext as _CanvasContext, useRange, useSimpleViewer, useVisibleCanvases } from 'react-iiif-vault/core';
+import {
+  CanvasContext as _CanvasContext,
+  useRange,
+  useSimpleViewer,
+  useVisibleCanvases,
+} from 'react-iiif-vault/core';
 import { AtlasCanvas } from './AtlasCanvas/AtlasCanvas';
 import { SizeParameter } from '../helpers/size-parameter';
 import { createElement as h } from 'react';
@@ -44,7 +49,7 @@ export function RenderAllCanvases(props: RenderAllCanvasesProps) {
 
       return {} as any;
     },
-    [sequence]
+    [sequence],
   );
 
   useEffect(() => {
@@ -56,7 +61,7 @@ export function RenderAllCanvases(props: RenderAllCanvasesProps) {
             index: sequence.currentSequenceIndex,
             total: sequence.sequence.length,
           },
-        })
+        }),
       );
     }
   }, [sequence.currentSequenceIndex, range]);

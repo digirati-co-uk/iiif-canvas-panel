@@ -9,7 +9,12 @@ import {
 } from './content-state/content-state';
 
 export function parseSizeParameter(
-  input: undefined | string | SizeParameter | Array<SizeParameter> | Array<string>
+  input:
+    | undefined
+    | string
+    | SizeParameter
+    | Array<SizeParameter>
+    | Array<string>,
 ): Array<SizeParameter> {
   if (!input) {
     return [];
@@ -34,7 +39,9 @@ export function parseSizeParameter(
   return sizes;
 }
 
-export function parseOptionalSelector(s: Selector | Selector[] | undefined): ParsedSelector | undefined {
+export function parseOptionalSelector(
+  s: Selector | Selector[] | undefined,
+): ParsedSelector | undefined {
   if (typeof s === 'string') {
     const parsed = s.match(/^(pct|pixel|percent)?:?([0-9,\s]+)/);
     if (parsed) {
@@ -82,7 +89,10 @@ export function parseChoices(s: undefined | string | string[]) {
   return choices;
 }
 
-export function parseBool(bool: undefined | boolean | string, defaultValue?: boolean): boolean | undefined {
+export function parseBool(
+  bool: undefined | boolean | string,
+  defaultValue?: boolean,
+): boolean | undefined {
   if (typeof bool === 'undefined') {
     return defaultValue;
   }
@@ -95,7 +105,10 @@ export function parseBool(bool: undefined | boolean | string, defaultValue?: boo
   return bool;
 }
 
-export function parseNumber(num?: string | number | undefined | null, defaultValue?: number) {
+export function parseNumber(
+  num?: string | number | undefined | null,
+  defaultValue?: number,
+) {
   if (typeof num === 'undefined' || num === null || num === '') {
     return defaultValue;
   }
@@ -112,8 +125,11 @@ export function parseNumber(num?: string | number | undefined | null, defaultVal
 }
 
 export function parseContentStateParameter(
-  contentState?: ContentState | string
-): NormalisedContentState | { type: 'remote-content-state'; id: string } | null {
+  contentState?: ContentState | string,
+):
+  | NormalisedContentState
+  | { type: 'remote-content-state'; id: string }
+  | null {
   if (!contentState) {
     return null;
   }
@@ -123,7 +139,11 @@ export function parseContentStateParameter(
   }
 
   try {
-    return normaliseContentState(typeof contentState === 'string' ? parseContentState(contentState) : contentState);
+    return normaliseContentState(
+      typeof contentState === 'string'
+        ? parseContentState(contentState)
+        : contentState,
+    );
   } catch (err) {
     return null;
   }

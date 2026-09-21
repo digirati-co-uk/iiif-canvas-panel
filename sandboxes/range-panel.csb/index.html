@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>range-panel</title>
-<range-panel
-  id="range"
-  manifest-id="https://stephenwf.github.io/bl-manifests/tvdc_100005114854.json"
-></range-panel>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>range-panel</title>
+  <range-panel
+    id="range"
+    manifest-id="https://stephenwf.github.io/bl-manifests/tvdc_100005114854.json"
+  ></range-panel>
 
-<script>
-  document.getElementById('range').addEventListener('range-change', e => {
-    console.log(e.detail);
-    document.getElementById('range').setAttribute('selected-range', e.detail.range?.id);
-  })
-</script>
-<script type="module" src="./src/index.js"></script>
+  <script>
+    document.getElementById('range').addEventListener('range-change', (e) => {
+      console.log(e.detail);
+      document
+        .getElementById('range')
+        .setAttribute('selected-range', e.detail.range?.id);
+    });
+  </script>
+  <script type="module" src="./src/index.js"></script>
 </html>

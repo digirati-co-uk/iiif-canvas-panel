@@ -1,11 +1,7 @@
 {
   "title": "Overlay controls",
   "framework": "vanilla",
-  "files": [
-    "index.html",
-    "src/index.js",
-    "src/styles.css"
-  ],
+  "files": ["index.html", "src/index.js", "src/styles.css"],
   "group": "Components",
   "description": "Use the overlaid controls to zoom and return to the home view."
 }

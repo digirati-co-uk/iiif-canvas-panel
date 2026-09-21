@@ -1,6 +1,11 @@
 import { useSyncedState } from '../hooks/use-synced-state';
 import { parseBool } from '../helpers/parse-attributes';
-import { ManifestContext, useExistingVault, useExternalManifest, VaultProvider } from 'react-iiif-vault/core';
+import {
+  ManifestContext,
+  useExistingVault,
+  useExternalManifest,
+  VaultProvider,
+} from 'react-iiif-vault/core';
 import { globalVault, Vault } from '@iiif/helpers';
 import { Fragment, createElement as h } from 'react';
 import { RangeDisplay } from '../components/RangeDisplay/RangeDisplay';
@@ -26,7 +31,10 @@ export function RangePanel(props: RangePanelProps) {
   const [manifestId] = useSyncedState(props.manifestId);
   const [canvasId] = useSyncedState(props.canvasId);
   const [selectedRange] = useSyncedState(props.selectedRange);
-  const [autoScroll] = useSyncedState(props.autoScroll, { parse: parseBool, defaultValue: true });
+  const [autoScroll] = useSyncedState(props.autoScroll, {
+    parse: parseBool,
+    defaultValue: true,
+  });
   const [el, setEl] = useState<HTMLElement>();
 
   useLayoutEffect(() => {
@@ -55,7 +63,7 @@ export function RangePanel(props: RangePanelProps) {
             selector: other.selector,
             parsedSelector: other.parsedSelector,
           },
-        })
+        }),
       );
     }
   }
@@ -89,7 +97,13 @@ function ManifestRanges(props: RangePanelProps) {
   );
 }
 
-const rangePanelProps = ['manifest-id', 'config-id', 'canvas-id', 'auto-scroll', 'selected-range'];
+const rangePanelProps = [
+  'manifest-id',
+  'config-id',
+  'canvas-id',
+  'auto-scroll',
+  'selected-range',
+];
 
 if (typeof window !== 'undefined') {
   register(RangePanel, 'range-panel', rangePanelProps, {

@@ -22,8 +22,8 @@ export function RangeDisplay(props: {
   const selected = props.canvasId
     ? findManifestSelectedRange(vault, manifest, props.canvasId)
     : props.selectedRange
-    ? vault.get<RangeNormalized>(props.selectedRange)
-    : undefined;
+      ? vault.get<RangeNormalized>(props.selectedRange)
+      : undefined;
 
   useLayoutEffect(() => {
     if (selected && props.autoScroll) {
@@ -43,11 +43,16 @@ export function RangeDisplay(props: {
 
   return (
     <Fragment>
-      {selected ? <div className="range-current">{getValue(selected.label)}</div> : null}
+      {selected ? (
+        <div className="range-current">{getValue(selected.label)}</div>
+      ) : null}
 
       {manifest.structures.map((range) => (
         <RangeContext key={range.id} range={range.id}>
-          <ViewRange selected={selected?.id} onRangeClick={props.onRangeClick} />
+          <ViewRange
+            selected={selected?.id}
+            onRangeClick={props.onRangeClick}
+          />
         </RangeContext>
       ))}
     </Fragment>

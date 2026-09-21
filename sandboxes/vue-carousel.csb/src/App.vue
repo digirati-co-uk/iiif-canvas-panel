@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import { globalVault } from "@iiif/helpers/vault";
-import Manifest from "./components/Manifest.vue";
-import ManifestThumbnailList from "./components/ManifestThumbnailList.vue";
-import { createThumbnailHelper } from "@iiif/helpers/thumbnail";
+import { globalVault } from '@iiif/helpers/vault';
+import Manifest from './components/Manifest.vue';
+import ManifestThumbnailList from './components/ManifestThumbnailList.vue';
+import { createThumbnailHelper } from '@iiif/helpers/thumbnail';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Manifest,
     ManifestThumbnailList,
@@ -37,7 +37,8 @@ export default {
 </script>
 
 <style>
-:root html, :root  body {
+:root html,
+:root body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -1,9 +1,7 @@
 {
   "title": "Range panel",
   "framework": "vanilla",
-  "files": [
-    "index.html"
-  ],
+  "files": ["index.html"],
   "group": "Components",
   "description": "Explore the ranges from a IIIF manifest."
 }

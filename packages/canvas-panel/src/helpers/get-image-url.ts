@@ -4,7 +4,14 @@ import { canonicalServiceUrl } from '@atlas-viewer/iiif-image-api';
 
 export function getImageUrl(image: ImageService, size: SizeParameter) {
   const id = canonicalServiceUrl(image.id || image['@id'] || '').slice(0, -10);
-  if (!id || size.percentScale || !size.width || size.confined || !image.height || !image.width) {
+  if (
+    !id ||
+    size.percentScale ||
+    !size.width ||
+    size.confined ||
+    !image.height ||
+    !image.width
+  ) {
     return [null, { height: 0, width: 0 }] as const;
   }
 

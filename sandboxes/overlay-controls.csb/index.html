@@ -1,21 +1,26 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Overlay controls</title>
-<canvas-panel
-  id="cp"
-  preset="zoom"
-  width="500"
-  iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzYtY29tcG9zaXRpb24tZnJvbS1tdWx0aXBsZS1pbWFnZXMlMkZjYW52YXMlMkZwMSUyM3h5d2glM0QzNTY5JTJDNzYxJTJDMTg1MSUyQzIwNTklMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzYtY29tcG9zaXRpb24tZnJvbS1tdWx0aXBsZS1pbWFnZXMlMkZtYW5pZmVzdC5qc29uJTIyJTJDJTIydHlwZSUyMiUzQSUyMk1hbmlmZXN0JTIyJTdEJTVEJTdE"
-  style="position: absolute"
->
-  <div style="position: absolute; top: 10px; right: 10px; z-index: 11">
-  	<button class="osd" onClick="cp.zoomIn()">🔍+</button>
-    <button class="osd" onClick="cp.zoomOut()">🔍–</button>
-    <button class="osd" onClick="cp.goHome()">🏠</button>
-    <button class="osd" onClick="(cp.requestFullscreen || cp.webkitRequestFullscreen).call(cp)">⤢</button>
-  </div>
-</canvas-panel>
-<script type="module" src="./src/index.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Overlay controls</title>
+  <canvas-panel
+    id="cp"
+    preset="zoom"
+    width="500"
+    iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzYtY29tcG9zaXRpb24tZnJvbS1tdWx0aXBsZS1pbWFnZXMlMkZjYW52YXMlMkZwMSUyM3h5d2glM0QzNTY5JTJDNzYxJTJDMTg1MSUyQzIwNTklMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzYtY29tcG9zaXRpb24tZnJvbS1tdWx0aXBsZS1pbWFnZXMlMkZtYW5pZmVzdC5qc29uJTIyJTJDJTIydHlwZSUyMiUzQSUyMk1hbmlmZXN0JTIyJTdEJTVEJTdE"
+    style="position: absolute"
+  >
+    <div style="position: absolute; top: 10px; right: 10px; z-index: 11">
+      <button class="osd" onClick="cp.zoomIn()">🔍+</button>
+      <button class="osd" onClick="cp.zoomOut()">🔍–</button>
+      <button class="osd" onClick="cp.goHome()">🏠</button>
+      <button
+        class="osd"
+        onClick="(cp.requestFullscreen || cp.webkitRequestFullscreen).call(cp)"
+      >
+        ⤢
+      </button>
+    </div>
+  </canvas-panel>
+  <script type="module" src="./src/index.js"></script>
 </html>

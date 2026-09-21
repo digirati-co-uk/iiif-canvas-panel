@@ -34,8 +34,10 @@ function updateScene(preset: Preset, id: string, scene?: ReactNode) {
   if (scene === undefined) entries.delete(id);
   else entries.set(id, scene);
   ReactAtlas.render(
-    Array.from(entries, ([key, children]) => <Fragment key={key}>{children}</Fragment>),
-    preset.runtime
+    Array.from(entries, ([key, children]) => (
+      <Fragment key={key}>{children}</Fragment>
+    )),
+    preset.runtime,
   );
 }
 export function NestedAtlas({
@@ -69,7 +71,12 @@ function NestedScene({ preset, onCreated, children }: any) {
     return () => updateScene(preset, id);
   }, [preset, id]);
   useLayoutEffect(() => {
-    if (preset) updateScene(preset, id, <ContextBridge values={values}>{children}</ContextBridge>);
+    if (preset)
+      updateScene(
+        preset,
+        id,
+        <ContextBridge values={values}>{children}</ContextBridge>,
+      );
   });
   return null;
 }
@@ -85,14 +92,24 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
   const measureRef = useRef<() => void>(() => {});
   const live = useRef(props);
   live.current = props;
-  const name = Array.isArray(props.renderPreset) ? props.renderPreset[0] : props.renderPreset;
-  const options = Array.isArray(props.renderPreset) ? props.renderPreset[1] : undefined;
+  const name = Array.isArray(props.renderPreset)
+    ? props.renderPreset[0]
+    : props.renderPreset;
+  const options = Array.isArray(props.renderPreset)
+    ? props.renderPreset[1]
+    : undefined;
   // Only construction options replace the runtime, not dimensions or callback identity.
   const optionsKey = JSON.stringify(options || {});
   useLayoutEffect(() => {
     const element = outer.current!;
     const rect = element.getBoundingClientRect();
-    const viewport = { x: 0, y: 0, width: rect.width || 1, height: rect.height || 512, scale: 1 };
+    const viewport = {
+      x: 0,
+      y: 0,
+      width: rect.width || 1,
+      height: rect.height || 512,
+      scale: 1,
+    };
     const made = (name === 'static-preset' ? staticPreset : defaultPreset)({
       ...options,
       canvasElement: canvas.current!,
@@ -118,7 +135,8 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
       const rect = element.getBoundingClientRect();
       const width = rect.width || 1;
       const height = rect.height || 1;
-      if (measured && width === viewport.width && height === viewport.height) return;
+      if (measured && width === viewport.width && height === viewport.height)
+        return;
       measured = true;
       if (made.canvas) {
         const dpi = window.devicePixelRatio || 1;
@@ -148,12 +166,23 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
       made.em?.updateBounds();
       const rect = element.getBoundingClientRect();
       setBounds((previous: any) =>
-        previous?.left === rect.left && previous?.top === rect.top ? previous : rect.toJSON()
+        previous?.left === rect.left && previous?.top === rect.top
+          ? previous
+          : rect.toJSON(),
       );
     };
-    const positionEvents = ['pointerdown', 'pointermove', 'wheel', 'touchstart', 'touchmove'];
+    const positionEvents = [
+      'pointerdown',
+      'pointermove',
+      'wheel',
+      'touchstart',
+      'touchmove',
+    ];
     for (const event of positionEvents)
-      element.addEventListener(event, refreshBounds, { capture: true, passive: true });
+      element.addEventListener(event, refreshBounds, {
+        capture: true,
+        passive: true,
+      });
     measureRef.current = measure;
     const observer = new ResizeObserver(measure);
     observer.observe(element);
@@ -168,7 +197,8 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
     live.current.onCreated?.(made);
     return () => {
       observer.disconnect();
-      for (const event of positionEvents) element.removeEventListener(event, refreshBounds, true);
+      for (const event of positionEvents)
+        element.removeEventListener(event, refreshBounds, true);
       unsubscribe();
       // Dispose the world only after React has detached its scene children.
       scenes.delete(made);
@@ -183,7 +213,15 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
     preset.runtime.mode = props.mode || 'explore';
     preset.runtime.setOptions(props.runtimeOptions || {});
     recalculateHome(preset, props, bounds?.width || 1, bounds?.height || 1);
-  }, [preset, props.mode, props.homeCover, props.homePosition, props.runtimeOptions, bounds?.width, bounds?.height]);
+  }, [
+    preset,
+    props.mode,
+    props.homeCover,
+    props.homePosition,
+    props.runtimeOptions,
+    bounds?.width,
+    bounds?.height,
+  ]);
   useLayoutEffect(() => {
     if (!preset) return;
     updateScene(
@@ -209,7 +247,7 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
             </ModeContext.Provider>
           </BoundsContext.Provider>
         </AtlasContext.Provider>
-      </ContextBridge>
+      </ContextBridge>,
     );
   });
   const height = props.height ?? (props.aspectRatio ? undefined : 512);
@@ -241,11 +279,23 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
         <canvas ref={canvas} className="atlas-canvas" tabIndex={0} />
       )}
       <div ref={overlay} className="atlas-overlay" />
-      {props.enableNavigator ? <canvas ref={navigator} className="atlas-navigator" width={240} height={240} /> : null}
+      {props.enableNavigator ? (
+        <canvas
+          ref={navigator}
+          className="atlas-navigator"
+          width={240}
+          height={240}
+        />
+      ) : null}
     </div>
   );
 }
-function recalculateHome(preset: Preset, props: AtlasDisplayOptions, width: number, height: number) {
+function recalculateHome(
+  preset: Preset,
+  props: AtlasDisplayOptions,
+  width: number,
+  height: number,
+) {
   const runtime = preset.runtime;
   if (props.homeCover && runtime.world.width && runtime.world.height) {
     const w = runtime.world.width,
@@ -253,7 +303,8 @@ function recalculateHome(preset: Preset, props: AtlasDisplayOptions, width: numb
     const ratio = width / height;
     const targetWidth = Math.min(w, h * ratio),
       targetHeight = Math.min(h, w / ratio);
-    const factor = props.homeCover === 'start' ? 0 : props.homeCover === 'end' ? 1 : 0.5;
+    const factor =
+      props.homeCover === 'start' ? 0 : props.homeCover === 'end' ? 1 : 0.5;
     runtime.manualHomePosition = true;
     runtime.setHomePosition({
       x: (w - targetWidth) * factor,

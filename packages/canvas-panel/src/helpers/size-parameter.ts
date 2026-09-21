@@ -9,7 +9,14 @@ export type SizeParameter = {
   percentScale?: number;
 };
 
-export function sizeParameterToString({ max, percentScale, upscaled, confined, width, height }: SizeParameter): string {
+export function sizeParameterToString({
+  max,
+  percentScale,
+  upscaled,
+  confined,
+  width,
+  height,
+}: SizeParameter): string {
   const sb: string[] = [];
 
   if (upscaled) {

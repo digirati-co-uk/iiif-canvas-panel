@@ -1,31 +1,55 @@
-import { ChoiceEventContext, createChoiceEventChannel } from '../helpers/eventbus';
+import {
+  ChoiceEventContext,
+  createChoiceEventChannel,
+} from '../helpers/eventbus';
 import { createElement as h, useLayoutEffect, type ComponentType } from 'react';
 import { render } from './dom-renderer';
 import { Vault } from 'react-iiif-vault/core';
-import { ContextBridge, useContextValues, type ContextValues } from './context-bridge';
+import {
+  ContextBridge,
+  useContextValues,
+  type ContextValues,
+} from './context-bridge';
 
 const contextEvent = 'canvas-panel-context';
-const camelCase = (name: string) => name.replace(/-(\w)/g, (_, char: string) => char.toUpperCase());
+const camelCase = (name: string) =>
+  name.replace(/-(\w)/g, (_, char: string) => char.toUpperCase());
 function ContextSlot(props: any) {
   const values = useContextValues();
-  return h('slot', { ...props, ref: (node: HTMLSlotElement | null) => {
-    if (!node) return;
-    const listener = (event: Event) => {
-      event.stopPropagation();
-      (event as CustomEvent).detail.values = values;
-    };
-    node.addEventListener(contextEvent, listener);
-    return () => node.removeEventListener(contextEvent, listener);
-  } });
+  return h('slot', {
+    ...props,
+    ref: (node: HTMLSlotElement | null) => {
+      if (!node) return;
+      const listener = (event: Event) => {
+        event.stopPropagation();
+        (event as CustomEvent).detail.values = values;
+      };
+      node.addEventListener(contextEvent, listener);
+      return () => node.removeEventListener(contextEvent, listener);
+    },
+  });
 }
 function ElementContent({ element, Component, values }: any) {
   useLayoutEffect(() => {
     element.ready = true;
     element.dispatchEvent(new CustomEvent('ready'));
   }, [element]);
-  return h(ContextBridge, { values }, h(ChoiceEventContext.Provider, { value: element._choices }, h(Component, { ...element._props, children: h(ContextSlot) })));
+  return h(
+    ContextBridge,
+    { values },
+    h(
+      ChoiceEventContext.Provider,
+      { value: element._choices },
+      h(Component, { ...element._props, children: h(ContextSlot) }),
+    ),
+  );
 }
-export default function register(Component: ComponentType<any>, name: string, attributes: string[], options: any = {}) {
+export default function register(
+  Component: ComponentType<any>,
+  name: string,
+  attributes: string[],
+  options: any = {},
+) {
   if (customElements.get(name)) return;
   class PanelElement extends HTMLElement {
     static observedAttributes = attributes;
@@ -40,13 +64,17 @@ export default function register(Component: ComponentType<any>, name: string, at
     constructor() {
       super();
       this._root = options.shadow ? this.attachShadow({ mode: 'open' }) : this;
-      const supplied = Object.prototype.hasOwnProperty.call(this, 'vault') ? (this as any).vault : undefined;
+      const supplied = Object.prototype.hasOwnProperty.call(this, 'vault')
+        ? (this as any).vault
+        : undefined;
       if (supplied) delete (this as any).vault;
       options.onConstruct?.(this);
       this._props.vault ||= supplied || new Vault();
       this._explicitVault = !!supplied;
     }
-    get vault() { return this._props.vault; }
+    get vault() {
+      return this._props.vault;
+    }
     set vault(value) {
       if (value === this._props.vault) return;
       this._explicitVault = true;
@@ -56,12 +84,21 @@ export default function register(Component: ComponentType<any>, name: string, at
       this.update();
     }
     _refreshContext() {
-      const event = new CustomEvent<{ values: ContextValues }>(contextEvent, { detail: { values: [] }, bubbles: true, composed: true });
+      const event = new CustomEvent<{ values: ContextValues }>(contextEvent, {
+        detail: { values: [] },
+        bubbles: true,
+        composed: true,
+      });
       this.dispatchEvent(event);
       const values = event.detail.values;
-      if (values.length === this._values.length && values.every((value: any, i: number) => value === this._values[i])) return;
+      if (
+        values.length === this._values.length &&
+        values.every((value: any, i: number) => value === this._values[i])
+      )
+        return;
       this._values = values;
-      if (!this._explicitVault && values[0]?.vault) this._props.vault = values[0].vault;
+      if (!this._explicitVault && values[0]?.vault)
+        this._props.vault = values[0].vault;
       this.update();
     }
     whenReady(callback: () => void) {
@@ -73,12 +110,30 @@ export default function register(Component: ComponentType<any>, name: string, at
         this._props[name] = value;
         this._props[camelCase(name)] = value;
       }
-      const event = new CustomEvent<{ values: ContextValues }>(contextEvent, { detail: { values: [] }, bubbles: true, composed: true });
+      const event = new CustomEvent<{ values: ContextValues }>(contextEvent, {
+        detail: { values: [] },
+        bubbles: true,
+        composed: true,
+      });
       this.dispatchEvent(event);
       this._values = event.detail.values;
-      render(h(ElementContent, { key: this._session, element: this, Component, values: this._values }), this._root, undefined, true);
+      render(
+        h(ElementContent, {
+          key: this._session,
+          element: this,
+          Component,
+          values: this._values,
+        }),
+        this._root,
+        undefined,
+        true,
+      );
     }
-    attributeChangedCallback(name: string, _old: string | null, value: string | null) {
+    attributeChangedCallback(
+      name: string,
+      _old: string | null,
+      value: string | null,
+    ) {
       this._props[name] = value ?? undefined;
       this._props[camelCase(name)] = value ?? undefined;
       this.update();
@@ -88,7 +143,16 @@ export default function register(Component: ComponentType<any>, name: string, at
       this._queued = true;
       queueMicrotask(() => {
         this._queued = false;
-        if (this.isConnected) render(h(ElementContent, { key: this._session, element: this, Component, values: this._values }), this._root);
+        if (this.isConnected)
+          render(
+            h(ElementContent, {
+              key: this._session,
+              element: this,
+              Component,
+              values: this._values,
+            }),
+            this._root,
+          );
       });
     }
     disconnectedCallback() {
@@ -99,11 +163,17 @@ export default function register(Component: ComponentType<any>, name: string, at
   }
   for (const name of attributes) {
     Object.defineProperty(PanelElement.prototype, name, {
-      get() { return this._props[name]; },
+      get() {
+        return this._props[name];
+      },
       set(value) {
         if (value == null) this.removeAttribute(name);
-        else if (typeof value !== 'object') this.setAttribute(name, String(value));
-        else { this._props[name] = this._props[camelCase(name)] = value; this.update(); }
+        else if (typeof value !== 'object')
+          this.setAttribute(name, String(value));
+        else {
+          this._props[name] = this._props[camelCase(name)] = value;
+          this.update();
+        }
       },
     });
   }

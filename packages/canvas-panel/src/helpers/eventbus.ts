@@ -17,35 +17,37 @@ interface EventBusConfig {
   onError: (...params: any[]) => void;
 }
 
-export function createChoiceEventChannel() { return eventbus<{
-  /**
-   * When the `makeChoice` api is called
-   *
-   * @param payload - the id and options for the choice
-   *
-   */
-  onMakeChoice: (payload: { id: string; options: any }) => void;
-  /**
-   * When the system identifies that a choice is available
-   *
-   * @param payload - the id and options for the choice
-   *
-   */
-  onChoiceChange: (payload: {
-    choice?: ChoiceDescription;
-    partOf?: {
-      choiceId?: string;
-      canvasId?: string;
-      manifestId?: string;
-    };
-  }) => void;
-  /**
-   * When a canvas is changed, or a sequence is changed, this signals that
-   * the current set of choices should be reset
-   *
-   */
-  onResetSeen: () => void;
-}>(); }
+export function createChoiceEventChannel() {
+  return eventbus<{
+    /**
+     * When the `makeChoice` api is called
+     *
+     * @param payload - the id and options for the choice
+     *
+     */
+    onMakeChoice: (payload: { id: string; options: any }) => void;
+    /**
+     * When the system identifies that a choice is available
+     *
+     * @param payload - the id and options for the choice
+     *
+     */
+    onChoiceChange: (payload: {
+      choice?: ChoiceDescription;
+      partOf?: {
+        choiceId?: string;
+        canvasId?: string;
+        manifestId?: string;
+      };
+    }) => void;
+    /**
+     * When a canvas is changed, or a sequence is changed, this signals that
+     * the current set of choices should be reset
+     *
+     */
+    onResetSeen: () => void;
+  }>();
+}
 
 export const ChoiceEventContext = createContext(createChoiceEventChannel());
 export const useChoiceEventChannel = () => useContext(ChoiceEventContext);
@@ -60,7 +62,9 @@ export const errorEventChannel = eventbus<{
   onErrorEvent: (payload: { message?: string; error: any }) => void;
 }>();
 
-export function eventbus<E extends EventMap>(config?: EventBusConfig): EventBus<E> {
+export function eventbus<E extends EventMap>(
+  config?: EventBusConfig,
+): EventBus<E> {
   const bus: Partial<Bus<E>> = {};
 
   const on: EventBus<E>['on'] = (key, handler) => {

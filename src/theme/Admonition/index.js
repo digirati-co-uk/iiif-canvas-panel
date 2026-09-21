@@ -1,11 +1,11 @@
-import React from "react";
-import Admonition from "@theme-original/Admonition";
+import React from 'react';
+import Admonition from '@theme-original/Admonition';
 
 export default function AdmonitionWrapper(_props) {
   const props = { ..._props };
-  if (props.type === "question") {
-    props.type = "info";
-    props.title = "Question";
+  if (props.type === 'question') {
+    props.type = 'info';
+    props.title = 'Question';
     props.icon = (
       <svg
         xmlns="http://www.w3.org/2000/svg"

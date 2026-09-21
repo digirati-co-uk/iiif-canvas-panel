@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from 'react';
 
 export function Choices() {
   const viewer = useRef();
@@ -8,7 +8,7 @@ export function Choices() {
     : false;
 
   useLayoutEffect(() => {
-    viewer.current.addEventListener("choice", (e) => {
+    viewer.current.addEventListener('choice', (e) => {
       setChoice(e.detail.choice);
     });
   }, []);
@@ -17,34 +17,34 @@ export function Choices() {
     <div className="App">
       {choice
         ? choice.items.map((item, idx) => {
-          return (
-            <div key={item.id}>
-              <input
-                type="checkbox"
-                disabled={disabledChoice && item.selected}
-                onChange={(e) => {
-                  viewer.current.makeChoice(item.id, {
-                    deselect: item.selected,
-                    deselectOthers: false
-                  });
-                }}
-                checked={item.selected}
-              />
-              <strong>{item.label.en.join("")}</strong>
-              <input
-                type="range"
-                min={0}
-                max={100}
-                defaultValue={100}
-                onChange={(e) => {
-                  viewer.current.applyStyles(item.id, {
-                    opacity: e.target.value / 100
-                  });
-                }}
-              />
-            </div>
-          );
-        })
+            return (
+              <div key={item.id}>
+                <input
+                  type="checkbox"
+                  disabled={disabledChoice && item.selected}
+                  onChange={(e) => {
+                    viewer.current.makeChoice(item.id, {
+                      deselect: item.selected,
+                      deselectOthers: false,
+                    });
+                  }}
+                  checked={item.selected}
+                />
+                <strong>{item.label.en.join('')}</strong>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  defaultValue={100}
+                  onChange={(e) => {
+                    viewer.current.applyStyles(item.id, {
+                      opacity: e.target.value / 100,
+                    });
+                  }}
+                />
+              </div>
+            );
+          })
         : null}
 
       <canvas-panel

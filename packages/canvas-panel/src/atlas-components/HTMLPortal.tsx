@@ -1,12 +1,25 @@
-import { createElement as h, forwardRef, useLayoutEffect, useRef, useState } from 'react';
+import {
+  createElement as h,
+  forwardRef,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { Box, useAfterFrame, useRuntime } from '@atlas-viewer/atlas/react';
 import { Box as BoxComponent } from '.';
 import { DOMContent } from '../library/DOMContent';
 
-export const HTMLPortal = forwardRef<Box, {
-  backgroundColor?: string; interactive?: boolean; relative?: boolean; children?: any; style?: any;
-  target?: { x: number; y: number; width: number; height: number };
-}>(({ children, relative, ...props }, forwarded) => {
+export const HTMLPortal = forwardRef<
+  Box,
+  {
+    backgroundColor?: string;
+    interactive?: boolean;
+    relative?: boolean;
+    children?: any;
+    style?: any;
+    target?: { x: number; y: number; width: number; height: number };
+  }
+>(({ children, relative, ...props }, forwarded) => {
   const runtime = useRuntime();
   const box = useRef<Box | null>(null);
   const relativeElement = useRef<HTMLDivElement>(null);
@@ -28,11 +41,20 @@ export const HTMLPortal = forwardRef<Box, {
   useAfterFrame(() => {
     if (relative && relativeElement.current && runtime) {
       const scale = runtime.getScaleFactor();
-      Object.assign(relativeElement.current.style, { transformOrigin: '0 0', transform: `scale(${1 / scale})`, width: `${scale * 100}%`, height: `${scale * 100}%` });
+      Object.assign(relativeElement.current.style, {
+        transformOrigin: '0 0',
+        transform: `scale(${1 / scale})`,
+        width: `${scale * 100}%`,
+        height: `${scale * 100}%`,
+      });
     }
   }, [relative]);
-  return <>
-    <BoxComponent html ref={box} {...props} />
-    <DOMContent container={container}>{relative ? <div ref={relativeElement}>{children}</div> : children}</DOMContent>
-  </>;
+  return (
+    <>
+      <BoxComponent html ref={box} {...props} />
+      <DOMContent container={container}>
+        {relative ? <div ref={relativeElement}>{children}</div> : children}
+      </DOMContent>
+    </>
+  );
 });

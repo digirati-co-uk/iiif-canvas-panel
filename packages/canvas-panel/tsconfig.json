@@ -12,10 +12,7 @@
     "importHelpers": true,
     "skipLibCheck": true,
     "noEmitHelpers": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "jsx": "react-jsx",
     "target": "ES2022",
     "module": "ES2022",
@@ -38,13 +35,6 @@
     "emitDeclarationOnly": true,
     "rootDir": "./src"
   },
-  "include": [
-    "./src/**/*",
-    "./src/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "lib",
-  ]
+  "include": ["./src/**/*", "./src/*"],
+  "exclude": ["node_modules", "dist", "lib"]
 }

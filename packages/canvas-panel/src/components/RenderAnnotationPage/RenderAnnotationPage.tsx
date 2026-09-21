@@ -5,14 +5,21 @@ import { useStyles, useVaultSelector } from 'react-iiif-vault/core';
 import { BoxStyle } from '@atlas-viewer/atlas/react';
 
 export const RenderAnnotationPage: FC<{
-  page: { id: string; type: 'AnnotationPage'; items?: ReadonlyArray<{ id: string }> };
+  page: {
+    id: string;
+    type: 'AnnotationPage';
+    items?: ReadonlyArray<{ id: string }>;
+  };
   className?: string;
   textSelectionEnabled?: boolean;
 }> = ({ className, page, textSelectionEnabled }) => {
   const style = useStyles<BoxStyle>(page, 'atlas');
   const html = useStyles<{ className?: string }>(page, 'html');
 
-  useVaultSelector((state) => (page.id ? state.iiif.entities.AnnotationPage[page.id] : null), []);
+  useVaultSelector(
+    (state) => (page.id ? state.iiif.entities.AnnotationPage[page.id] : null),
+    [],
+  );
 
   return (
     <Fragment>

@@ -4,6 +4,11 @@
   "private": true,
   "packageManager": "pnpm@10.33.2",
   "scripts": {
+    "prepare": "husky",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "custom-install": "pnpm install --frozen-lockfile",
     "custom-build": "pnpm build",
     "docusaurus": "docusaurus",
@@ -33,18 +38,18 @@
     "@digirati/canvas-panel-web-components": "workspace:*",
     "@docusaurus/core": "2.0.0-beta.22",
     "@docusaurus/preset-classic": "2.0.0-beta.22",
+    "@docusaurus/theme-common": "2.0.0-beta.22",
     "@iiif/helpers": "4.0.0",
     "@iiif/parser": "4.0.1",
     "@mdx-js/react": "^1.6.21",
+    "@stackblitz/sdk": "1.11.1",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
     "file-loader": "^6.2.0",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "url-loader": "^4.1.1",
-    "@stackblitz/sdk": "1.11.1",
-    "@docusaurus/theme-common": "2.0.0-beta.22"
+    "url-loader": "^4.1.1"
   },
   "browserslist": {
     "production": [
@@ -59,11 +64,19 @@
     ]
   },
   "devDependencies": {
-    "playwright": "1.57.0",
-    "tsdown": "^0.17.4",
-    "yargs": "*",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.5.1",
+    "oxfmt": "^0.69.0",
+    "oxlint": "^1.84.0",
     "pkg-pr-new": "0.0.88",
-    "raw-loader": "4.0.2"
+    "playwright": "1.57.0",
+    "raw-loader": "4.0.2",
+    "tsdown": "^0.17.4",
+    "yargs": "*"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}": "oxlint --fix",
+    "*": "oxfmt --no-error-on-unmatched-pattern"
   },
   "pnpm": {
     "overrides": {

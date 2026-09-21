@@ -1,9 +1,9 @@
-import React from "react";
-import Link from "@docusaurus/Link";
-import useBaseUrl from "@docusaurus/useBaseUrl";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import { useThemeConfig } from "@docusaurus/theme-common";
-import ThemedImage from "@theme/ThemedImage";
+import React from 'react';
+import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { useThemeConfig } from '@docusaurus/theme-common';
+import ThemedImage from '@theme/ThemedImage';
 
 function LogoThemedImage({ logo, alt, imageClassName }) {
   const sources = {
@@ -37,10 +37,10 @@ export default function Logo(props) {
     navbar: { title: navbarTitle, logo },
   } = useThemeConfig();
   const { imageClassName, titleClassName, ...propsRest } = props;
-  const logoLink = useBaseUrl(logo?.href || "/");
+  const logoLink = useBaseUrl(logo?.href || '/');
   // If visible title is shown, fallback alt text should be
   // an empty string to mark the logo as decorative.
-  const fallbackAlt = navbarTitle ? "" : title;
+  const fallbackAlt = navbarTitle ? '' : title;
   // Use logo alt text if provided (including empty string),
   // and provide a sensible fallback otherwise.
   const alt = logo?.alt ?? fallbackAlt;
@@ -57,7 +57,7 @@ export default function Logo(props) {
         xmlns="http://www.w3.org/2000/svg"
         style={{ marginRight: 10 }}
       >
-        {false ? { color: "#d35e36" } : null}
+        {false ? { color: '#d35e36' } : null}
         <g fill="none">
           <path
             fill="#f58962"

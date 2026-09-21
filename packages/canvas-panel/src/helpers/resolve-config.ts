@@ -1,6 +1,8 @@
 import { CanvasPanelProps } from '../web-components/canvas-panel';
 
-export async function resolveConfig(preset: string): Promise<Partial<CanvasPanelProps> | null> {
+export async function resolveConfig(
+  preset: string,
+): Promise<Partial<CanvasPanelProps> | null> {
   if (!preset) {
     return null;
   }

@@ -1,6 +1,13 @@
 import type { Annotation } from '@iiif/parser/presentation-3/types';
-import type { AnnotationNormalized, AnnotationPageNormalized } from '@iiif/parser/presentation-3-normalized/types';
-import { useStyleHelper, useVault, useVirtualAnnotationPage as useVirtualAnnotationPageBase } from 'react-iiif-vault/core';
+import type {
+  AnnotationNormalized,
+  AnnotationPageNormalized,
+} from '@iiif/parser/presentation-3-normalized/types';
+import {
+  useStyleHelper,
+  useVault,
+  useVirtualAnnotationPage as useVirtualAnnotationPageBase,
+} from 'react-iiif-vault/core';
 import { useMemo, useRef } from 'react';
 import { useRegisterPublicApi } from './use-register-public-api';
 import { BoxStyle } from '@atlas-viewer/atlas/react';
@@ -12,12 +19,15 @@ export function useVirtualAnnotationPage(): readonly [
   {
     readonly addAnnotation: (
       id: string | Annotation | VaultActivatedAnnotation | AnnotationNormalized,
-      atIndex?: number
+      atIndex?: number,
     ) => void;
-    readonly removeAnnotation: (id: string | Annotation | VaultActivatedAnnotation | AnnotationNormalized) => void;
-  }
+    readonly removeAnnotation: (
+      id: string | Annotation | VaultActivatedAnnotation | AnnotationNormalized,
+    ) => void;
+  },
 ] {
-  const [fullPage, { addAnnotation, removeAnnotation }] = useVirtualAnnotationPageBase();
+  const [fullPage, { addAnnotation, removeAnnotation }] =
+    useVirtualAnnotationPageBase();
   const vault = useVault();
   const styles = useStyleHelper();
   const sources = useRef<Record<any, any>>([]);
@@ -32,7 +42,10 @@ export function useVirtualAnnotationPage(): readonly [
         },
         get(id) {
           if (virtualId) {
-            const page: AnnotationPageNormalized = vault.get({ id: virtualId, type: 'AnnotationPage' });
+            const page: AnnotationPageNormalized = vault.get({
+              id: virtualId,
+              type: 'AnnotationPage',
+            });
             const found = (page.items || []).find((item) => item.id === id);
             return found ? vault.get(found) : null;
           }
@@ -43,7 +56,10 @@ export function useVirtualAnnotationPage(): readonly [
         },
         getAll() {
           if (virtualId) {
-            const page: AnnotationPageNormalized = vault.get({ id: virtualId, type: 'AnnotationPage' });
+            const page: AnnotationPageNormalized = vault.get({
+              id: virtualId,
+              type: 'AnnotationPage',
+            });
             return page ? vault.get(page.items) || [] : [];
           }
           return [];
@@ -58,7 +74,11 @@ export function useVirtualAnnotationPage(): readonly [
         },
         addEventListener(event: string, cb: () => void): any {
           if (virtualId) {
-            return eventsHelper.addEventListener({ id: virtualId, type: 'AnnotationPage' }, event, cb);
+            return eventsHelper.addEventListener(
+              { id: virtualId, type: 'AnnotationPage' },
+              event,
+              cb,
+            );
           }
         },
         applyHTMLProperties(
@@ -67,7 +87,7 @@ export function useVirtualAnnotationPage(): readonly [
             href?: string;
             target?: string;
             title?: string;
-          }>
+          }>,
         ) {
           if (virtualId) {
             styles.applyStyles(virtualId, 'html', props);

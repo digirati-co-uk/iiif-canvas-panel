@@ -1,9 +1,7 @@
 {
   "title": "Canvas attributes",
   "framework": "vanilla",
-  "files": [
-    "index.html"
-  ],
+  "files": ["index.html"],
   "group": "Show Canvas",
   "height": 700,
   "description": "Select a manifest and canvas using HTML attributes."

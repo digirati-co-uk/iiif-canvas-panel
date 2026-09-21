@@ -33,10 +33,11 @@ jobs:
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-${{ matrix.node }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key:
+            ${{ runner.os }}-${{ matrix.node }}-pnpm-store-${{
+            hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.node }}-pnpm-store-
-
 
       - run: pnpm i --frozen-lockfile
 
@@ -68,9 +69,9 @@ jobs:
       - name: Publish package and representative StackBlitz templates
         id: preview
         run: >-
-          pnpm exec pkg-pr-new publish './packages/canvas-panel'
-          --no-compact --commentWithSha
-          --template './sandboxes/{00-intro/intro-script,choices-react,vue-carousel}.csb'
+          pnpm exec pkg-pr-new publish './packages/canvas-panel' --no-compact
+          --commentWithSha --template
+          './sandboxes/{00-intro/intro-script,choices-react,vue-carousel}.csb'
 
       - name: Build docs against the published preview
         env:

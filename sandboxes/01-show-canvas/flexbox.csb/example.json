@@ -1,10 +1,7 @@
 {
   "title": "Flexbox styling",
   "framework": "vanilla",
-  "files": [
-    "src/styles.css",
-    "index.html"
-  ],
+  "files": ["src/styles.css", "index.html"],
   "group": "Show Canvas",
   "height": 700,
   "description": "See how the viewer fits into a flexbox layout."

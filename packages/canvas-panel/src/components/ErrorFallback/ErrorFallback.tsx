@@ -9,8 +9,14 @@ export function ErrorFallback({
   aspectRatio,
   height = 512,
   width,
-}: Partial<FallbackProps> & { aspectRatio?: number; height?: number; width?: number }) {
-  const style = aspectRatio ? { paddingTop: `${aspectRatio * 100}%` } : { height, width };
+}: Partial<FallbackProps> & {
+  aspectRatio?: number;
+  height?: number;
+  width?: number;
+}) {
+  const style = aspectRatio
+    ? { paddingTop: `${aspectRatio * 100}%` }
+    : { height, width };
   const Img = 'img' as any;
 
   useEffect(() => {

@@ -6,6 +6,4 @@ sidebar_position: 7
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
-
-
 <GitHubDiscussion ghid="20" />

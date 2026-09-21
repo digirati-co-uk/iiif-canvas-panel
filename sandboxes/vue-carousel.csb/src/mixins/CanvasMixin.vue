@@ -1,7 +1,7 @@
 <script>
 export default {
-  name: "CanvasMixin",
-  inject: ["canvas"],
+  name: 'CanvasMixin',
+  inject: ['canvas'],
   data() {
     return {
       canvas: this.canvas,

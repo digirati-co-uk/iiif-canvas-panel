@@ -1,4 +1,7 @@
-import { encodeContentState, decodeContentState } from '../src/helpers/content-state/content-state';
+import {
+  encodeContentState,
+  decodeContentState,
+} from '../src/helpers/content-state/content-state';
 import { describe, expect, it } from 'vitest';
 import { Vault } from '@iiif/helpers/vault';
 import { Vault as PreviewVault } from 'react-iiif-vault';
@@ -26,7 +29,12 @@ describe('IIIF 4 dependency integration', () => {
       height: 800,
       images: [],
     });
-    expect(canvas).toMatchObject({ id: canvasId, type: 'Canvas', width: 1000, height: 800 });
+    expect(canvas).toMatchObject({
+      id: canvasId,
+      type: 'Canvas',
+      width: 1000,
+      height: 800,
+    });
   });
 
   it('loads Presentation 4 canvas data natively and through the Presentation 3 compatibility model', async () => {
@@ -36,7 +44,9 @@ describe('IIIF 4 dependency integration', () => {
       id: manifestId,
       type: 'Manifest',
       label: { en: ['Compatibility'] },
-      items: [{ id: canvasId, type: 'Canvas', width: 1000, height: 800, items: [] }],
+      items: [
+        { id: canvasId, type: 'Canvas', width: 1000, height: 800, items: [] },
+      ],
     };
     for (const vault of [new PreviewVault(), new PreviewVault4()]) {
       await vault.load(manifestId, manifest);
@@ -59,14 +69,19 @@ describe('normalized range navigation', () => {
         id: rangeId,
         type: 'Range',
         items: [{ id: `${canvasId}#xywh=10,20,300,400`, type: 'Canvas' }],
-      }
+      },
     );
     expect(range?.items[0].type).toBe('SpecificResource');
     expect(getRangeTarget(vault, range!)).toMatchObject({
       canvasId,
       fragment: 'xywh=10,20,300,400',
       selector: `${canvasId}#xywh=10,20,300,400`,
-      parsedSelector: { selector: { type: 'BoxSelector', spatial: { x: 10, y: 20, width: 300, height: 400 } } },
+      parsedSelector: {
+        selector: {
+          type: 'BoxSelector',
+          spatial: { x: 10, y: 20, width: 300, height: 400 },
+        },
+      },
     });
   });
 
@@ -77,8 +92,14 @@ describe('normalized range navigation', () => {
       {
         id: rangeId,
         type: 'Range',
-        items: [{ id: `${rangeId}/child`, type: 'Range', items: [{ id: canvasId, type: 'Canvas' }] }],
-      }
+        items: [
+          {
+            id: `${rangeId}/child`,
+            type: 'Range',
+            items: [{ id: canvasId, type: 'Canvas' }],
+          },
+        ],
+      },
     );
     const target = getRangeTarget(vault, range!);
     expect(target?.canvasId).toBe(canvasId);
@@ -88,14 +109,20 @@ describe('normalized range navigation', () => {
 
   it('returns no navigation target for an empty range', async () => {
     const vault = new Vault();
-    const range = await vault.load({ id: rangeId, type: 'Range' }, { id: rangeId, type: 'Range', items: [] });
+    const range = await vault.load(
+      { id: rangeId, type: 'Range' },
+      { id: rangeId, type: 'Range', items: [] },
+    );
     expect(getRangeTarget(vault, range!)).toBeUndefined();
   });
 });
 
 // Node 22 and browsers provide the same base64 globals; no Buffer shim is needed.
 it('round-trips Unicode content state using browser base64 APIs', () => {
-  const state = JSON.stringify({ id: 'https://example.org/canvas', label: '日本語 café 🖼️' });
+  const state = JSON.stringify({
+    id: 'https://example.org/canvas',
+    label: '日本語 café 🖼️',
+  });
   const encoded = encodeContentState(state);
   expect(encoded).toMatch(/^[A-Za-z0-9_-]+$/);
   expect(decodeContentState(encoded)).toBe(state);

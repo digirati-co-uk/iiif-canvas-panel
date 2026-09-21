@@ -25,16 +25,33 @@ export const RegionHighlight: React.FC<{
   hrefTarget?: string;
   children?: any;
   title?: string;
-}> = ({ children, interactive, region, onClick, onSave, isEditing, className, style, ...props }) => {
+}> = ({
+  children,
+  interactive,
+  region,
+  onClick,
+  onSave,
+  isEditing,
+  className,
+  style,
+  ...props
+}) => {
   const mode = useMode();
 
   const saveCallback = useCallback(
     (bounds: any) => {
       if (onSave) {
-        onSave({ id: region.id, x: region.x, y: region.y, height: region.height, width: region.width, ...bounds });
+        onSave({
+          id: region.id,
+          x: region.x,
+          y: region.y,
+          height: region.height,
+          width: region.width,
+          ...bounds,
+        });
       }
     },
-    [onSave, region.id, region.x, region.y, region.height, region.width]
+    [onSave, region.id, region.x, region.y, region.height, region.width],
   );
 
   return (

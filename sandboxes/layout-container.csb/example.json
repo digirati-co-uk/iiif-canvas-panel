@@ -1,9 +1,7 @@
 {
   "title": "Layout container",
   "framework": "vanilla",
-  "files": [
-    "index.html"
-  ],
+  "files": ["index.html"],
   "group": "Components",
   "height": 700,
   "description": "Arrange viewer components inside a layout container."

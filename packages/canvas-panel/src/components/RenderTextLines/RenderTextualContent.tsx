@@ -28,7 +28,11 @@ export function RenderTextualContent({
           width={(annotation.target as any).selector.spatial.width}
           style={{ userSelect: textSelectionEnabled ? 'text' : undefined }}
         >
-          <RenderTextFragment annotationId={annotation.id} interactive={textSelectionEnabled} relative />
+          <RenderTextFragment
+            annotationId={annotation.id}
+            interactive={textSelectionEnabled}
+            relative
+          />
         </svg>
       </VaultProvider>
     </HTMLPortal>

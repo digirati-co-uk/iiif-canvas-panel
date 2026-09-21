@@ -1,9 +1,14 @@
 import { useLayoutEffect, useState } from 'react';
 import { resolveConfig } from '../helpers/resolve-config';
 
-export function usePresetConfig<T>(preset?: string, onChange?: (query: string, config: Partial<T>) => void) {
+export function usePresetConfig<T>(
+  preset?: string,
+  onChange?: (query: string, config: Partial<T>) => void,
+) {
   const [_isReady, setIsReady] = useState(false);
-  const [internalConfig, setInternalConfig] = useState<{ __loaded?: true } & Partial<T>>({});
+  const [internalConfig, setInternalConfig] = useState<
+    { __loaded?: true } & Partial<T>
+  >({});
   const isConfigBlocking = preset && !internalConfig.__loaded;
   const isReady = !!((!preset || internalConfig.__loaded) && _isReady);
 
@@ -17,7 +22,10 @@ export function usePresetConfig<T>(preset?: string, onChange?: (query: string, c
             // Media queries.
 
             const queries = Object.keys(media || {});
-            const queryList = queries.map((query) => ({ query, mql: window.matchMedia(query) }));
+            const queryList = queries.map((query) => ({
+              query,
+              mql: window.matchMedia(query),
+            }));
             const getValue = () => {
               if (!queryList.length || !media) {
                 return { __loaded: true, ...conf };

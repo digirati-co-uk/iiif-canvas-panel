@@ -1,10 +1,7 @@
 {
   "title": "React choices example",
   "framework": "react",
-  "files": [
-    "App.tsx",
-    "styles.css"
-  ],
+  "files": ["App.tsx", "styles.css"],
   "group": "Frameworks",
   "description": "Toggle image choices and adjust their opacity using React controls."
 }

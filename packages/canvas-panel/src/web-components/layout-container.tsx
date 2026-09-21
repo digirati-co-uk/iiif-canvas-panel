@@ -7,7 +7,8 @@ import { createElement as h } from 'react';
 
 export function LayoutContainer({ children, ...props }: any) {
   const vault = useExistingVault();
-  const { setIsReady, atlasProps, isReady, className } = useGenericAtlasProps(props);
+  const { setIsReady, atlasProps, isReady, className } =
+    useGenericAtlasProps(props);
 
   return (
     <VaultProvider vault={vault}>
@@ -19,7 +20,11 @@ export function LayoutContainer({ children, ...props }: any) {
         className={className || ''}
         {...atlasProps}
       >
-        {isReady ? <SceneHTML><slot>{children}</slot></SceneHTML> : null}
+        {isReady ? (
+          <SceneHTML>
+            <slot>{children}</slot>
+          </SceneHTML>
+        ) : null}
       </NestedAtlas>
     </VaultProvider>
   );

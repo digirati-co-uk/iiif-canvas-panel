@@ -6,23 +6,30 @@ title: Simple Viewer
 # Building a Simple Viewer
 
 import CodeBlock from '@theme/CodeBlock';
-import { GitHubDiscussion } from "../../GitHubDiscussion.js";
+import { GitHubDiscussion } from '../../GitHubDiscussion.js';
 import source from '!!raw-loader!../../static/demos/simplest-viewer.html';
 
-This is a very minimal IIIF viewer that can load a manifest, display thumbnails, and load canvases in response to user navigation through the thumbnails.
+This is a very minimal IIIF viewer that can load a manifest, display thumbnails,
+and load canvases in response to user navigation through the thumbnails.
 
-You can see it running at /demos/simplest-viewer.html <a href="/demos/simplest-viewer.html" target="_blank">Simplest Viewer</a>.
+You can see it running at /demos/simplest-viewer.html
 
+<a href="/demos/simplest-viewer.html" target="_blank">
+  Simplest Viewer
+</a>
+.
 
-_The code below shows how CP plus a few other UI components, combined with vault, can load manifests, render thumbnails, and show the canvases. The code is simple against a vault-normalised Presentation 3 representation._
+_The code below shows how CP plus a few other UI components, combined with
+vault, can load manifests, render thumbnails, and show the canvases. The code is
+simple against a vault-normalised Presentation 3 representation._
 
 <CodeBlock
   language="html"
   title="Simple viewer"
   metastring="{30-32}"
-  showLineNumbers>
-    {source}
+  showLineNumbers
+>
+  {source}
 </CodeBlock>
-
 
 <GitHubDiscussion ghid="20" />

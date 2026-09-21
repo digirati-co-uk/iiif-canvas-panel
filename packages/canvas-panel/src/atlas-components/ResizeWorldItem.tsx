@@ -8,12 +8,19 @@ export const ResizeWorldItem: FC<
   JSX.IntrinsicElements['worldObject'] & {
     handleSize?: number;
     resizable?: boolean;
-    onSave: (pos: Partial<{ x: number; y: number; width: number; height: number }>) => void;
+    onSave: (
+      pos: Partial<{ x: number; y: number; width: number; height: number }>,
+    ) => void;
   }
 > = ({ handleSize = 9, resizable, onSave, children, ...props }) => {
   const { portalRef, mode, mouseEvent, isEditing } = useResizeWorldItem(
-    { x: props.x || 0, y: props.y || 0, width: props.width, height: props.height },
-    onSave
+    {
+      x: props.x || 0,
+      y: props.y || 0,
+      width: props.width,
+      height: props.height,
+    },
+    onSave,
   );
 
   const translate = useMemo(() => mouseEvent('translate'), [mouseEvent]);
@@ -47,7 +54,11 @@ export const ResizeWorldItem: FC<
                   height: '100%',
                   border: '1px dashed #999',
                   boxSizing: 'border-box',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
 
@@ -67,7 +78,11 @@ export const ResizeWorldItem: FC<
                   zIndex: 999,
                   boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
                   border: '1px solid #999',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
 
@@ -86,7 +101,11 @@ export const ResizeWorldItem: FC<
                   zIndex: 999,
                   boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
                   border: '1px solid #999',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
 
@@ -105,7 +124,11 @@ export const ResizeWorldItem: FC<
                   zIndex: 999,
                   boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
                   border: '1px solid rgba(0,0,0,.5)',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
 
@@ -124,7 +147,11 @@ export const ResizeWorldItem: FC<
                   zIndex: 999,
                   boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
                   border: '1px solid #999',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
 
@@ -143,7 +170,11 @@ export const ResizeWorldItem: FC<
                   zIndex: 999,
                   boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
                   border: '1px solid #999',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
 
@@ -162,7 +193,11 @@ export const ResizeWorldItem: FC<
                   zIndex: 999,
                   boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
                   border: '1px solid #999',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
 
@@ -181,7 +216,11 @@ export const ResizeWorldItem: FC<
                   zIndex: 999,
                   boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
                   border: '1px solid #999',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
 
@@ -200,7 +239,11 @@ export const ResizeWorldItem: FC<
                   zIndex: 999,
                   boxShadow: '0px 2px 3px 0 rgba(0,0,0,0.5)',
                   border: '1px solid #999',
-                  pointerEvents: isEditing ? 'none' : mode === 'sketch' ? 'initial' : 'none',
+                  pointerEvents: isEditing
+                    ? 'none'
+                    : mode === 'sketch'
+                      ? 'initial'
+                      : 'none',
                 }}
               />
             </Fragment>

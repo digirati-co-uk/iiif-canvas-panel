@@ -1,43 +1,61 @@
-import { useLayoutEffect, useState, useRef } from "react";
+import { useLayoutEffect, useState, useRef } from 'react';
 
 export function DrawingBoxes1() {
   const viewer = useRef();
   const [choice, setChoice] = useState();
 
-
   useLayoutEffect(() => {
     viewer.current.addEventListener('choice', (e) => {
       setChoice(e.detail.choice);
     });
-  }, [])
+  }, []);
 
-  const disabledChoice = choice ? choice.items.filter(i => i.selected).length === 1 : false;
-
+  const disabledChoice = choice
+    ? choice.items.filter((i) => i.selected).length === 1
+    : false;
 
   return (
     <>
-      <script id="base-config" type="application/json">{`{"height": 512, "width": 512}`}</script>
+      <script
+        id="base-config"
+        type="application/json"
+      >{`{"height": 512, "width": 512}`}</script>
       <style id="my-style">{`
       .example-annotation {
         border: 3px solid blue;
         background: rgba(255, 0, 0, 0.1);
       }
     `}</style>
-      {choice ? choice.items.map((item, idx) => {
-        return <div key={item.id}>
-          <input type="checkbox" disabled={disabledChoice && item.selected} onChange={(e) => {
-
-              viewer.current.makeChoice(item.id, { deselect: item.selected, deselectOthers: false });
-
-          }} checked={item.selected}/>
-          <strong>{item.label.en.join('')}</strong>
-          <input type="range" min={0} max={100} onChange={e => {
-            viewer.current.applyStyles(item.id, {
-              opacity: e.target.value/100,
-            });
-          }} />
-        </div>
-      }) : null}
+      {choice
+        ? choice.items.map((item, idx) => {
+            return (
+              <div key={item.id}>
+                <input
+                  type="checkbox"
+                  disabled={disabledChoice && item.selected}
+                  onChange={(e) => {
+                    viewer.current.makeChoice(item.id, {
+                      deselect: item.selected,
+                      deselectOthers: false,
+                    });
+                  }}
+                  checked={item.selected}
+                />
+                <strong>{item.label.en.join('')}</strong>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  onChange={(e) => {
+                    viewer.current.applyStyles(item.id, {
+                      opacity: e.target.value / 100,
+                    });
+                  }}
+                />
+              </div>
+            );
+          })
+        : null}
       {/*<canvas-panel*/}
       {/*  ref={viewer}*/}
       {/*  choice-id={`https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-xray/full/max/0/default.jpg#opacity=0.5,https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-natural/full/max/0/default.jpg#opacity=0.25`}*/}

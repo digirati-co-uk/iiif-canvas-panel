@@ -57,7 +57,7 @@ tracker.
 Below is an example of a Zoom Event:
 
 ```javascript
-el.addEventListener("zoom", (ev) => {
+el.addEventListener('zoom', (ev) => {
   ev.detail.scaleFactor; // 0.123456
   ev.details.max; // 1
   ev.details.min; // 0.123456
@@ -92,7 +92,7 @@ cp.transition((tm) => {
         easing: cp.easingFunctions().easeOutExpo,
         duration: 2000,
       },
-    }
+    },
   );
 });
 ```
@@ -115,7 +115,7 @@ Since there are so many events, the firing of them is completely opt-in\*. The
 new event is:
 
 ```js
-el.addEventListener("move", (e) => {
+el.addEventListener('move', (e) => {
   e.detail.x;
   e.detail.y;
   e.detail.width;
@@ -141,7 +141,7 @@ cp.applyHTMLProperties(canvas, { onClick: () => void });
 or..
 
 ```js
-cp.events.addEventListener(canvas, "onClick", () => {
+cp.events.addEventListener(canvas, 'onClick', () => {
   // event.
 });
 ```

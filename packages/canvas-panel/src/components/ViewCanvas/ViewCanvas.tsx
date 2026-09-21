@@ -31,7 +31,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
   const aspectRatio =
     !props.displayOptions.viewport && canvas
       ? props.displayOptions.homePosition
-        ? props.displayOptions.homePosition.width / props.displayOptions.homePosition.height
+        ? props.displayOptions.homePosition.width /
+          props.displayOptions.homePosition.height
         : canvas.width / canvas.height
       : undefined;
 
@@ -45,7 +46,8 @@ export function ViewCanvas(props: ViewCanvasProps) {
     }
 
     // Update?
-    (el as any).annotationPageManager.availablePageIds = manager.availablePageIds;
+    (el as any).annotationPageManager.availablePageIds =
+      manager.availablePageIds;
     (el as any).annotationPageManager.enabledPageIds = manager.enabledPageIds;
     (el as any).annotationPageManager.setPageEnabled = manager.setPageEnabled;
     (el as any).annotationPageManager.setPageDisabled = manager.setPageDisabled;
@@ -63,10 +65,19 @@ export function ViewCanvas(props: ViewCanvasProps) {
     });
   }, [manager.availablePageIds, props.followAnnotations]);
 
-  useVaultSelector((state) => (ctx.canvas ? state.iiif.entities.Canvas[ctx.canvas] : null), []);
+  useVaultSelector(
+    (state) => (ctx.canvas ? state.iiif.entities.Canvas[ctx.canvas] : null),
+    [],
+  );
 
   const [displayOptions, containerProps] = useMemo(() => {
-    const { width, height, homePosition: _, containerProps, ...rest } = props.displayOptions;
+    const {
+      width,
+      height,
+      homePosition: _,
+      containerProps,
+      ...rest
+    } = props.displayOptions;
     const homePosition =
       props.displayOptions.homePosition && canvas
         ? targetToPixels(props.displayOptions.homePosition as any, canvas)
@@ -112,7 +123,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
         aspectRatio={aspectRatio}
         containerProps={{
           onKeyDown: onKeyDownContainer,
-          ...(containerProps || {}),
+          ...containerProps,
         }}
         className={props.className}
         background={props.background}
@@ -140,7 +151,7 @@ export function ViewCanvas(props: ViewCanvasProps) {
                   id: `${canvas.id}#xywh=${e.x},${e.y},${e.width},${e.height}`,
                   type: 'Canvas',
                   partOf: [{ id: manifest.id, type: 'Manifest' }],
-                })
+                }),
               );
             }
             setAnnoMode(false);

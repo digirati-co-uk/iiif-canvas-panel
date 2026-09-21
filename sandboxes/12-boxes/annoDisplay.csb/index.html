@@ -1,23 +1,23 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Styling annotations</title>
-<style id="my-style">
-  .example-annotation {
-    background: rgba(50, 0, 200, 0.4);
-  }
-</style>
-<canvas-panel
-  render="canvas"
-  viewport="false"
-  height="1024"
-  canvas-id="https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1"
-  manifest-id="https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json"
-  region="1000,1500,1500,1000"
-  highlight="1250,1780,400,400"
-  highlight-css-class="example-annotation"
-  style-id="my-style"
-></canvas-panel>
-<script type="module" src="./src/index.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Styling annotations</title>
+  <style id="my-style">
+    .example-annotation {
+      background: rgba(50, 0, 200, 0.4);
+    }
+  </style>
+  <canvas-panel
+    render="canvas"
+    viewport="false"
+    height="1024"
+    canvas-id="https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1"
+    manifest-id="https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json"
+    region="1000,1500,1500,1000"
+    highlight="1250,1780,400,400"
+    highlight-css-class="example-annotation"
+    style-id="my-style"
+  ></canvas-panel>
+  <script type="module" src="./src/index.js"></script>
 </html>

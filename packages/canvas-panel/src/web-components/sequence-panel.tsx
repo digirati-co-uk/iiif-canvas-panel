@@ -7,10 +7,18 @@ import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { RegisterPublicApi } from '../hooks/use-register-public-api';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { createElement as h } from 'react';
-import { parseBool, parseNumber, parseContentStateParameter } from '../helpers/parse-attributes';
+import {
+  parseBool,
+  parseNumber,
+  parseContentStateParameter,
+} from '../helpers/parse-attributes';
 import { useState, useLayoutEffect } from 'react';
 import { baseAttributes } from '../helpers/base-attributes';
-import { normaliseAxis, parseContentState, serialiseContentState } from '../helpers/content-state/content-state';
+import {
+  normaliseAxis,
+  parseContentState,
+  serialiseContentState,
+} from '../helpers/content-state/content-state';
 import { normaliseContentState } from '../helpers/content-state/content-state';
 
 export type SequencePanelProps = GenericAtlasComponent<{
@@ -68,21 +76,44 @@ export function SequencePanel(props: SequencePanelProps) {
   } = useGenericAtlasProps(props);
   const [manifestId, setManifestId, , manifestIdRef] = useProp('manifestId');
   const [rangeId, , , rangeIdRef] = useProp('rangeId');
-  const [startCanvas, setStartCanvas, , startCanvasRef] = useProp('startCanvas');
+  const [startCanvas, setStartCanvas, , startCanvasRef] =
+    useProp('startCanvas');
   const [margin] = useProp('margin', { parse: parseNumber, defaultValue: 0 });
-  const [pagingEnabled] = useProp('pagingEnabled', { parse: parseBool, defaultValue: true });
-  const [textSelectionEnabled] = useProp('textSelectionEnabled', { parse: parseBool, defaultValue: true });
-  const [textEnabled] = useProp('textEnabled', { parse: parseBool, defaultValue: false });
-  const [followAnnotations] = useProp('followAnnotations', { parse: parseBool, defaultValue: true });
-  const [unknownContentState, , setParsedContentState] = useProp('iiifContent', {
-    parse: parseContentStateParameter,
+  const [pagingEnabled] = useProp('pagingEnabled', {
+    parse: parseBool,
+    defaultValue: true,
   });
+  const [textSelectionEnabled] = useProp('textSelectionEnabled', {
+    parse: parseBool,
+    defaultValue: true,
+  });
+  const [textEnabled] = useProp('textEnabled', {
+    parse: parseBool,
+    defaultValue: false,
+  });
+  const [followAnnotations] = useProp('followAnnotations', {
+    parse: parseBool,
+    defaultValue: true,
+  });
+  const [unknownContentState, , setParsedContentState] = useProp(
+    'iiifContent',
+    {
+      parse: parseContentStateParameter,
+    },
+  );
   const contentState =
-    unknownContentState && unknownContentState.type !== 'remote-content-state' ? unknownContentState : null;
+    unknownContentState && unknownContentState.type !== 'remote-content-state'
+      ? unknownContentState
+      : null;
   const contentStateToLoad =
-    unknownContentState && unknownContentState.type === 'remote-content-state' ? unknownContentState.id : null;
+    unknownContentState && unknownContentState.type === 'remote-content-state'
+      ? unknownContentState.id
+      : null;
   const [error, setError] = useState<Error | null>();
-  const [skipSizes] = useProp('skipSizes', { parse: parseBool, defaultValue: false });
+  const [skipSizes] = useProp('skipSizes', {
+    parse: parseBool,
+    defaultValue: false,
+  });
 
   useRegisterWebComponentApi((htmlComponent: HTMLElement) => {
     return {
@@ -98,12 +129,17 @@ export function SequencePanel(props: SequencePanelProps) {
       },
 
       getContentState() {
-        const _manifestId = manifestIdRef?.current ? manifestIdRef?.current : manifestId;
+        const _manifestId = manifestIdRef?.current
+          ? manifestIdRef?.current
+          : manifestId;
         // not sure if there's a better way to get at this?
         const el = webComponent.current;
         const sequenceInfo = (el as any).sequence;
 
-        const _canvasId = sequenceInfo.items[sequenceInfo.sequence[sequenceInfo.currentSequenceIndex][0]].id;
+        const _canvasId =
+          sequenceInfo.items[
+            sequenceInfo.sequence[sequenceInfo.currentSequenceIndex][0]
+          ].id;
 
         // eslint-disable-next-line prefer-const
         let { x, y, width, height } = runtime?.current || {};
@@ -161,7 +197,11 @@ export function SequencePanel(props: SequencePanelProps) {
         })
         .catch((err) => {
           console.error(err);
-          setError(new Error(`Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`));
+          setError(
+            new Error(
+              `Failed to load content state from ${contentStateToLoad} \n\n ${err.toString()}`,
+            ),
+          );
         });
     }
   }, [contentStateToLoad, error]);
@@ -170,10 +210,15 @@ export function SequencePanel(props: SequencePanelProps) {
     if (contentState) {
       if (contentState.target.length) {
         const firstTarget = contentState.target[0];
-        if (firstTarget.type === 'SpecificResource' && firstTarget.source.type === 'Canvas') {
-          const manifestSource = ('partOf' in firstTarget.source ? firstTarget.source.partOf || [] : []).find(
-            (s) => s.type === 'Manifest'
-          );
+        if (
+          firstTarget.type === 'SpecificResource' &&
+          firstTarget.source.type === 'Canvas'
+        ) {
+          const manifestSource = (
+            'partOf' in firstTarget.source
+              ? firstTarget.source.partOf || []
+              : []
+          ).find((s) => s.type === 'Manifest');
 
           // not sure if there's a better way to get at this?
           const el = webComponent.current;
@@ -183,7 +228,10 @@ export function SequencePanel(props: SequencePanelProps) {
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
-          if (firstTarget.selector && firstTarget.selector.type === 'BoxSelector') {
+          if (
+            firstTarget.selector &&
+            firstTarget.selector.type === 'BoxSelector'
+          ) {
             const { x, y, width, height } = firstTarget.selector.spatial;
             runtime?.current?.world.gotoRegion({
               x,
@@ -240,7 +288,9 @@ export function SequencePanel(props: SequencePanelProps) {
         </VirtualAnnotationProvider>
       </VaultProvider>
       {inlineStyles ? <style>{inlineStyles}</style> : null}
-      {inlineStyleSheet ? <link rel="stylesheet" href={inlineStyleSheet} /> : null}
+      {inlineStyleSheet ? (
+        <link rel="stylesheet" href={inlineStyleSheet} />
+      ) : null}
     </RegisterPublicApi.Provider>
   );
 }

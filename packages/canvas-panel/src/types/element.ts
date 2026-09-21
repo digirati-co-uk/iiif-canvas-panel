@@ -22,9 +22,15 @@ export interface CanvasPanelElement extends HTMLElement {
   getManifestId(): string | undefined;
   getDefaultChoiceIds(): string[];
   setDefaultChoiceIds(ids: string[]): void;
-  makeChoice(id: string, options?: { deselect?: boolean; deselectOthers?: boolean }): void;
+  makeChoice(
+    id: string,
+    options?: { deselect?: boolean; deselectOthers?: boolean },
+  ): void;
   goHome(immediate?: boolean): void;
-  goToTarget(target: { x: number; y: number; width: number; height: number }, options?: { padding?: number; nudge?: boolean; immediate?: boolean }): void;
+  goToTarget(
+    target: { x: number; y: number; width: number; height: number },
+    options?: { padding?: number; nudge?: boolean; immediate?: boolean },
+  ): void;
   zoomIn(point?: { x: number; y: number }): void;
   zoomOut(point?: { x: number; y: number }): void;
   zoomBy(factor: number, point?: { x: number; y: number }): void;
@@ -44,14 +50,35 @@ export interface CanvasPanelElement extends HTMLElement {
   setClassName(resource: string | { id: string }, className: string): void;
   withAtlas(callback: (runtime: Runtime) => void): void;
   getContentState(): Omit<ContentStateEvent, 'selection'>;
-  getPosition(): { x: number | undefined; y: number | undefined; width: number | undefined; height: number | undefined };
+  getPosition(): {
+    x: number | undefined;
+    y: number | undefined;
+    width: number | undefined;
+    height: number | undefined;
+  };
   enableContentStateSelection(callback: ContentStateCallback): void;
   disableContentStateSelection(): void;
   setContentStateFromText(text: string, immediate?: boolean): void;
-  addEventListener<K extends keyof CanvasPanelEventMap>(type: K, listener: (this: CanvasPanelElement, event: CanvasPanelEventMap[K]) => void, options?: boolean | AddEventListenerOptions): void;
-  addEventListener(type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | AddEventListenerOptions): void;
-  removeEventListener<K extends keyof CanvasPanelEventMap>(type: K, listener: (this: CanvasPanelElement, event: CanvasPanelEventMap[K]) => void, options?: boolean | EventListenerOptions): void;
-  removeEventListener(type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | EventListenerOptions): void;
+  addEventListener<K extends keyof CanvasPanelEventMap>(
+    type: K,
+    listener: (this: CanvasPanelElement, event: CanvasPanelEventMap[K]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+  addEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject | null,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+  removeEventListener<K extends keyof CanvasPanelEventMap>(
+    type: K,
+    listener: (this: CanvasPanelElement, event: CanvasPanelEventMap[K]) => void,
+    options?: boolean | EventListenerOptions,
+  ): void;
+  removeEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject | null,
+    options?: boolean | EventListenerOptions,
+  ): void;
 }
 
 declare global {

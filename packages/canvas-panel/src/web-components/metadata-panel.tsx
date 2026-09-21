@@ -1,6 +1,11 @@
 import { useSyncedState } from '../hooks/use-synced-state';
 import { parseBool, parseNumber } from '../helpers/parse-attributes';
-import { ManifestContext, useExistingVault, useExternalManifest, VaultProvider } from 'react-iiif-vault/core';
+import {
+  ManifestContext,
+  useExistingVault,
+  useExternalManifest,
+  VaultProvider,
+} from 'react-iiif-vault/core';
 import { globalVault, Vault } from '@iiif/helpers';
 import { Fragment, createElement as h } from 'react';
 import { MetaDataDisplay } from '../components/MetadataDisplay/MetadataDisplay';
@@ -28,9 +33,18 @@ export function MetadataPanel(props: MetadataPanelProps) {
   const [labelStyle] = useSyncedState(props.labelStyle);
   const [separator] = useSyncedState(props.separator);
   const [labelWidth] = useSyncedState(props.labelWidth, { parse: parseNumber });
-  const [bordered] = useSyncedState(props.bordered, { parse: parseBool, defaultValue: false });
-  const [allowHtml] = useSyncedState(props.allowHtml, { parse: parseBool, defaultValue: false });
-  const [showEmptyMessage] = useSyncedState(props.showEmptyMessage, { parse: parseBool, defaultValue: false });
+  const [bordered] = useSyncedState(props.bordered, {
+    parse: parseBool,
+    defaultValue: false,
+  });
+  const [allowHtml] = useSyncedState(props.allowHtml, {
+    parse: parseBool,
+    defaultValue: false,
+  });
+  const [showEmptyMessage] = useSyncedState(props.showEmptyMessage, {
+    parse: parseBool,
+    defaultValue: false,
+  });
 
   if (!manifestId) {
     return <slot name="no-manifest" />;

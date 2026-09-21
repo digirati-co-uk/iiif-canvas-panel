@@ -1,7 +1,7 @@
 <script>
 export default {
-  name: "Manifest",
-  inject: ["vault"],
+  name: 'Manifest',
+  inject: ['vault'],
   props: {
     manifestId: String,
   },

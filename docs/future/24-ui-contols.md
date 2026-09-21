@@ -4,7 +4,6 @@ sidebar_position: 24
 
 # UI controls
 
-
 ### Deep zoom controls
 
 ```html

@@ -1,10 +1,7 @@
 {
   "title": "Virtual Annotation page",
   "framework": "vanilla",
-  "files": [
-    "src/index.js",
-    "index.html"
-  ],
+  "files": ["src/index.js", "index.html"],
   "group": "Annotations",
   "description": "Add annotations to a virtual annotation page."
 }

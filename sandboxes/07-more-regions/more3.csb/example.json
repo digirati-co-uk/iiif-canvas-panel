@@ -1,9 +1,7 @@
 {
   "title": "More regions example 2",
   "framework": "vanilla",
-  "files": [
-    "index.html"
-  ],
+  "files": ["index.html"],
   "group": "More Regions",
   "description": "Compare regions of the same canvas."
 }

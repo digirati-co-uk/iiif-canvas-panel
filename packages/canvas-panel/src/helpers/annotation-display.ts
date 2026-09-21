@@ -2,7 +2,11 @@ import { Vault } from '@iiif/helpers';
 import { ClassList } from './class-list';
 import type { Reference } from '@iiif/parser/presentation-3/types';
 import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas/react';
-import { createStylesHelper, StyledHelper, createEventsHelper } from '@iiif/helpers';
+import {
+  createStylesHelper,
+  StyledHelper,
+  createEventsHelper,
+} from '@iiif/helpers';
 import { AnnotationNormalized } from '@iiif/parser/presentation-3-normalized/types';
 
 export class AnnotationDisplay {
@@ -27,10 +31,15 @@ export class AnnotationDisplay {
 
   constructor(source: string | AnnotationNormalized | Reference<'Annotation'>) {
     this.__annotation =
-      typeof source === 'string' ? { id: source, type: 'Annotation' } : { id: source.id, type: 'Annotation' };
+      typeof source === 'string'
+        ? { id: source, type: 'Annotation' }
+        : { id: source.id, type: 'Annotation' };
     this.classList = new ClassList((className: string) => {
       if (this.__stylesHelper) {
-        this.__stylesHelper.applyStyles(this.__annotation, 'html', { ...this.htmlProps, className });
+        this.__stylesHelper.applyStyles(this.__annotation, 'html', {
+          ...this.htmlProps,
+          className,
+        });
       }
     });
     this.source = source;
@@ -83,7 +92,9 @@ export class AnnotationDisplay {
     if (this.__eventsHelper) {
       this.__eventsHelper.removeEventListener(this.__annotation, name, handler);
     }
-    this.handlers = this.handlers.filter((h) => h[0] === name && h[1] === handler);
+    this.handlers = this.handlers.filter(
+      (h) => h[0] === name && h[1] === handler,
+    );
   }
 
   bindToVault(vault: Vault) {
@@ -121,7 +132,11 @@ export class AnnotationDisplay {
       // @todo remove styles somehow?
       if (this.__eventsHelper) {
         for (const [name, handler] of this.handlers) {
-          this.__eventsHelper.removeEventListener(this.__annotation, name, handler);
+          this.__eventsHelper.removeEventListener(
+            this.__annotation,
+            name,
+            handler,
+          );
         }
       }
 

@@ -1,10 +1,7 @@
 {
   "title": "Intro script",
   "framework": "vanilla",
-  "files": [
-    "src/index.ts",
-    "index.html"
-  ],
+  "files": ["src/index.ts", "index.html"],
   "group": "Intro",
   "description": "Load a manifest and display a canvas. Pan and zoom to explore the image.",
   "highlights": {

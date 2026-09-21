@@ -1,9 +1,7 @@
 {
   "title": "Styling annotations",
   "framework": "vanilla",
-  "files": [
-    "index.html"
-  ],
+  "files": ["index.html"],
   "group": "Boxes",
   "description": "Explore CSS styling for displayed annotations."
 }

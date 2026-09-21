@@ -1,106 +1,114 @@
 metadata-panel {
-    border-spacing: 0;
-    max-width: 100%;
-    width: 100%;
-    flex-wrap: wrap;
-    padding: 1em 1.5em;
-    overflow: hidden;
-    box-sizing: border-box;
-    min-width: calc(290 + 1.5em);
+  border-spacing: 0;
+  max-width: 100%;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 1em 1.5em;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-width: calc(290 + 1.5em);
 }
 
-metadata-panel table { font-size: 0.8em }
-metadata-panel[size="lg"] table { font-size: 1em; }
-metadata-panel[size="md"] table { font-size: 0.8em; }
-metadata-panel[size="sm"] table { font-size: 0.65em; }
+metadata-panel table {
+  font-size: 0.8em;
+}
+metadata-panel[size='lg'] table {
+  font-size: 1em;
+}
+metadata-panel[size='md'] table {
+  font-size: 0.8em;
+}
+metadata-panel[size='sm'] table {
+  font-size: 0.65em;
+}
 
 /** Metadata key */
 
 metadata-panel .metadata-key {
-    font-size: 1em;
-    text-decoration: none;
-    align-items: center;
+  font-size: 1em;
+  text-decoration: none;
+  align-items: center;
 }
 metadata-panel .metadata-key span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
 }
 
 metadata-panel .metadata-key {
-    max-width: 12em;
-    margin-right: 1em;
-    padding: 0.7em;
-    min-width: 16em;
+  max-width: 12em;
+  margin-right: 1em;
+  padding: 0.7em;
+  min-width: 16em;
 }
-metadata-panel[bordered="true"] .metadata-key {
-    border-right: 1px solid #eee;
-}
-
-metadata-panel[variation="list"] .metadata-key {
-    max-width: 100%;
-    display: block;
-    margin-bottom: 0.5em;
-    margin-right: 0;
-    min-width: 0;
-    padding: 0 0 0.25em;
-}
-metadata-panel[variation="list"][bordered="true"] .metadata-key {
-    border-right: none;
-    border-bottom: 1px solid #eee;
+metadata-panel[bordered='true'] .metadata-key {
+  border-right: 1px solid #eee;
 }
 
-metadata-panel[label-style="muted"] .metadata-key {
-    color: #999;
-    font-size: 1em;
+metadata-panel[variation='list'] .metadata-key {
+  max-width: 100%;
+  display: block;
+  margin-bottom: 0.5em;
+  margin-right: 0;
+  min-width: 0;
+  padding: 0 0 0.25em;
 }
-metadata-panel[label-style="bold"] .metadata-key {
-    color: #000000;
-    font-weight: bold;
-    font-size: 1em;
+metadata-panel[variation='list'][bordered='true'] .metadata-key {
+  border-right: none;
+  border-bottom: 1px solid #eee;
 }
-metadata-panel[label-style="caps"] .metadata-key {
-    text-transform: uppercase;
-    color: #999;
-    font-size: 1em;
+
+metadata-panel[label-style='muted'] .metadata-key {
+  color: #999;
+  font-size: 1em;
 }
-metadata-panel[label-style="small-caps"] .metadata-key {
-    font-size: 0.85em;
-    text-transform: uppercase;
-    font-weight: bold;
+metadata-panel[label-style='bold'] .metadata-key {
+  color: #000000;
+  font-weight: bold;
+  font-size: 1em;
+}
+metadata-panel[label-style='caps'] .metadata-key {
+  text-transform: uppercase;
+  color: #999;
+  font-size: 1em;
+}
+metadata-panel[label-style='small-caps'] .metadata-key {
+  font-size: 0.85em;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 /** Metadata value */
 
 metadata-panel .metadata-value {
-    font-size: 1em;
-    padding: 0.7em 1em;
+  font-size: 1em;
+  padding: 0.7em 1em;
 }
-metadata-panel[variation="list"] .metadata-value {
-    display: block;
-    padding: 0;
-    margin-bottom: 1em;
+metadata-panel[variation='list'] .metadata-value {
+  display: block;
+  padding: 0;
+  margin-bottom: 1em;
 }
 
 metadata-panel .metadata-value {
-    font-size: 1em;
-    color: #000000;
-    text-decoration: rgb(0, 0, 0);
-    word-break: break-word;
-    white-space: pre-line;
+  font-size: 1em;
+  color: #000000;
+  text-decoration: rgb(0, 0, 0);
+  word-break: break-word;
+  white-space: pre-line;
 }
 metadata-panel .metadata-value a {
-    color: #4070d9;
+  color: #4070d9;
 }
 
 metadata-panel .metadata-row {
-    font-size: 1em;
-    min-width: 240px;
+  font-size: 1em;
+  min-width: 240px;
 }
 
-metadata-panel[variation="list"] .metadata-row {
-    min-width: 240px;
-    display: block;
-    margin-bottom: 1.5em;
+metadata-panel[variation='list'] .metadata-row {
+  min-width: 240px;
+  display: block;
+  margin-bottom: 1.5em;
 }

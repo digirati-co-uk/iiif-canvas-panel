@@ -5,7 +5,11 @@ export type ContentState =
   | string
   | (Annotation & { '@context'?: string })
   | (StateSource & { '@context'?: string })
-  | Array<string | (Annotation & { '@context'?: string }) | (StateSource & { '@context'?: string })>;
+  | Array<
+      | string
+      | (Annotation & { '@context'?: string })
+      | (StateSource & { '@context'?: string })
+    >;
 
 export type StateSource = {
   id: string;
@@ -43,9 +47,14 @@ export function normaliseAxis(x?: number) {
   return x;
 }
 
-type ValidationResponse = readonly [false, { reason?: string }] | readonly [true];
+type ValidationResponse =
+  | readonly [false, { reason?: string }]
+  | readonly [true];
 
-export function validateContentState(annotation: ContentState, strict = false): ValidationResponse {
+export function validateContentState(
+  annotation: ContentState,
+  strict = false,
+): ValidationResponse {
   // Valid content state.
   if (typeof annotation === 'string') {
     if (annotation.startsWith('{')) {
@@ -83,23 +92,35 @@ export function validateContentState(annotation: ContentState, strict = false): 
 }
 
 export function serialiseContentState(annotation: ContentState): string {
-  return encodeContentState(typeof annotation === 'string' ? annotation : JSON.stringify(annotation));
+  return encodeContentState(
+    typeof annotation === 'string' ? annotation : JSON.stringify(annotation),
+  );
 }
 
 export function parseContentState(state: string): ContentState;
 export function parseContentState(state: string, async: false): ContentState;
-export async function parseContentState(state: string, async: true): Promise<ContentState>;
-export function parseContentState(state: string, asyncOrFetcher?: boolean): ContentState | Promise<ContentState> {
+export async function parseContentState(
+  state: string,
+  async: true,
+): Promise<ContentState>;
+export function parseContentState(
+  state: string,
+  asyncOrFetcher?: boolean,
+): ContentState | Promise<ContentState> {
   state = state.trim();
 
   if (state[0] === '{') {
     // we might have json.
-    return asyncOrFetcher ? Promise.resolve(JSON.parse(state)) : JSON.parse(state);
+    return asyncOrFetcher
+      ? Promise.resolve(JSON.parse(state))
+      : JSON.parse(state);
   }
 
   if (state.startsWith('http')) {
     if (!asyncOrFetcher) {
-      throw new Error('Cannot fetch remote fetch with async=false in parseContentState');
+      throw new Error(
+        'Cannot fetch remote fetch with async=false in parseContentState',
+      );
     }
     // resolve.
     return fetch(state).then((r) => r.json());
@@ -127,13 +148,17 @@ function restorePadding(s: string) {
   const pad = s.length % 4;
 
   if (pad === 1) {
-    throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+    throw new Error(
+      'InvalidLengthError: Input base64url string is the wrong length to determine padding',
+    );
   }
 
   return s + (pad ? '===='.slice(0, 4 - pad) : '');
 }
 
-export function normaliseContentState(state: ContentState): NormalisedContentState {
+export function normaliseContentState(
+  state: ContentState,
+): NormalisedContentState {
   if (!state) {
     throw new Error('Content state is empty');
   }
@@ -151,7 +176,9 @@ export function normaliseContentState(state: ContentState): NormalisedContentSta
   for (const source of state) {
     if (typeof source === 'string') {
       // Note: this is unlikely to happen in conjunction with parseContentState()
-      throw new Error('Content state is a [String] type and cannot be inferred');
+      throw new Error(
+        'Content state is a [String] type and cannot be inferred',
+      );
     }
 
     // If we DO have annotation, then this is all we should be returning.

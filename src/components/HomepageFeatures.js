@@ -8,8 +8,8 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        A family of useful component abstractions for rapid development
-        of content that features IIIF resources.
+        A family of useful component abstractions for rapid development of
+        content that features IIIF resources.
       </>
     ),
   },
@@ -18,8 +18,8 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Components for working with annotations and text help you focus on 
-        what your app does rather than on composition and drawing.
+        Components for working with annotations and text help you focus on what
+        your app does rather than on composition and drawing.
       </>
     ),
   },
@@ -28,14 +28,14 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Use with React, Vue and other frameworks. Great to use from 
-        TypeScript or plain JavaScript.
+        Use with React, Vue and other frameworks. Great to use from TypeScript
+        or plain JavaScript.
       </>
     ),
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({ Svg, title, description }) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">

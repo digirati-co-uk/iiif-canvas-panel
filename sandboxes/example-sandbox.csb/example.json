@@ -1,9 +1,7 @@
 {
   "title": "Example",
   "framework": "vanilla",
-  "files": [
-    "index.html"
-  ],
+  "files": ["index.html"],
   "group": "Components",
   "description": "Pan and zoom around a canvas composed of multiple images."
 }
