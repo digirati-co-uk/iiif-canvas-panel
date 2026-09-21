@@ -14,33 +14,33 @@ import { Sandbox } from '@site/Sandbox';
 
 You want to highlight a region of the Canvas, and style the way you highlight it. You might have already initially constrained the viewport to a particular part of the canvas (as in [Regions](./regions)).
 
-Consider Canvas Panel showing a painting:
+Consider Canvas Panel showing a photograph:
 
 ```html
 <canvas-panel
-   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
-   manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
+   canvas-id="https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1"
+   manifest-id="https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json"
 />
 ```
 
 <canvas-panel
-   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
-   manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
+   canvas-id="https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1"
+   manifest-id="https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json"
 />
 
 Then showing a detail via the addition of a `region` attribute:
 
 ```html
 <canvas-panel
-   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
-   manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
+   canvas-id="https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1"
+   manifest-id="https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json"
    region="1105,1548,701,720"
 />
 ```
 
 <canvas-panel
-   canvas-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/canvas/123"
-   manifest-id="https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest"
+   canvas-id="https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1"
+   manifest-id="https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json"
    region="1105,1548,701,720"
 />
 

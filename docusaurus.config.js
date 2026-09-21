@@ -1,27 +1,6 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
-const isPr =
-  process.env.PULL_REQUEST === "true" || process.env.PREVIEW_BUILD === "true";
-
-function getPreview() {
-  try {
-    const commit = require("child_process")
-      .execSync("git rev-parse HEAD")
-      .toString()
-      .trim()
-      .slice(0, 8);
-
-    if (commit) {
-      return `https://pkg.csb.dev/digirati-co-uk/iiif-canvas-panel/commit/${commit}/@digirati/canvas-panel-web-components`;
-    }
-  } catch (e) {
-    //
-  }
-
-  return "*";
-}
-
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: "Canvas Panel",
@@ -29,23 +8,11 @@ module.exports = {
   url: "https://canvas-panel.digirati.com/",
   baseUrl: "/",
   onBrokenLinks: "throw",
-  stylesheets: [
-    "https://cdn.jsdelivr.net/npm/@codesandbox/sandpack-react/dist/index.css",
-  ],
-  scripts: [
-    // 'https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest',
-    "https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.64",
-    // 'https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js'
-  ],
-  // clientModules: [
-  //   require.resolve('./packages/canvas-panel/dist/bundle.js'),
-  // ],
-  customFields: {
-    canvasPanelVersion:
-      isPr && !process.env.CANVAS_PANEL_VERSION
-        ? getPreview()
-        : process.env.CANVAS_PANEL_VERSION || "*",
-  },
+  // Docusaurus serves and watches the workspace build in development and copies it
+  // into the production site. Both the docs and Sandpack use these same assets.
+  staticDirectories: ["static", "packages/canvas-panel/dist", ".docs-runtime"],
+  stylesheets: ["/index.css"],
+  scripts: ["/index.iife.js", "/docs-helpers.iife.js"],
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "digirati-co-uk", // Usually your GitHub org/user name.
@@ -125,6 +92,16 @@ module.exports = {
     },
   },
   plugins: [
+    function workspaceReload() {
+      return {
+        name: "canvas-panel-workspace-reload",
+        configureWebpack() {
+          // Docusaurus disables this by default; our watched browser bundle is
+          // a static asset, so it needs a full reload rather than React HMR.
+          return { devServer: { liveReload: true } };
+        },
+      };
+    },
     [
       require.resolve("@cmfcmf/docusaurus-search-local"),
       {

@@ -29,7 +29,7 @@ In any canvas rendering scenario, if the canvas has `linking` annotations availa
         "type": "Canvas",
         "partOf": [
             {
-                "id": "https://data.ng-london.org.uk/iiif/0CWR-0001-0000-0000/manifest",
+                "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json",
                 "type": "Manifest"
             }
         ]
@@ -51,7 +51,7 @@ There are several different scenarios to consider here.
 
 ## Adding links to the Canvas
 
-One is similar to explicit highlighting, as [Drawing boxes](../examples/highlighting-regions) - the only difference being that the target on the canvas is a clickable link. 
+One is similar to explicit highlighting, as [Drawing boxes](../examples/highlighting-regions) - the only difference being that the target on the canvas is a clickable link.
 
 Here we are adding a linking annotation to the canvas:
 
@@ -74,20 +74,20 @@ Here we are adding a linking annotation to the canvas:
   ​anno.target = linkBox;
 
   // we'll come back to what this might be later
-  anno.body = "https://artgallery.yale.edu/collections/objects/34001"; 
- 
+  anno.body = "https://artgallery.yale.edu/collections/objects/34001";
+
   ​// create anno in vault
   ​vault.load("my-anno", anno);
 
-  // TODO - still think of a better name than DisplayAnnotation - 
+  // TODO - still think of a better name than DisplayAnnotation -
   // it's a visual and sometimes interactive _thing_ on the canvas.
   // compare this with #12 - we're constructing our DisplayAnnotation
   ​const displayAnno = new DisplayAnnotation(vault.FromRef("my-anno"));
   ​displayAnno.cssClass = "link-shape";
       ​
   ​cp.displayAnnotations.add(displayAnno);
-  
-</script> 
+
+</script>
 ```
 
 By default here, because the body of the anno is a bare link, Canvas Panel can turn this into a hyperlink.
@@ -98,7 +98,7 @@ How about you can provide a function to process the body?
 
 <!-- TODO: GH-107, GH-94 -->
 ```js title="stepping in to generate the link"
-// cp will call this. The Body class is like Target - it's not a raw W3C anno body, 
+// cp will call this. The Body class is like Target - it's not a raw W3C anno body,
 // it's a wrapper with helpers.
 function getLinkFromBody(body) {
     const cs = body.toContentState();
@@ -150,7 +150,7 @@ All other annotations could just be each wrapped with DisplayAnnotation instance
 <!-- allow cp default behaviour in anno rendering, but at least provide some styles -->
 <canvas-panel id="cp"
     highlight-css-class="anno-hilite"
-    link-css-class="anno-link"    
+    link-css-class="anno-link"
 />
 ```
 

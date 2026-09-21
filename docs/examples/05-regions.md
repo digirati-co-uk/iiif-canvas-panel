@@ -18,9 +18,9 @@ import { Sandbox } from '@site/Sandbox';
 
 
 <div style={{ height: '240px', overflow: 'hidden', marginBottom: 30, position: 'relative' }}>
-<image-service 
+<image-service
    height="240"
-   preset="static" 
+   preset="static"
    src="https://iiif.wellcomecollection.org/image/b14658197.jp2" region="2449,1062,1695,965" />
 
 </div>
@@ -82,7 +82,7 @@ How to make the viewport go full screen?
 
 Full screen is a user-land feature that could be added:
 
-See [common viewer features page](../../docs/applications/simple-viewer-with-common-features) 
+See [common viewer features page](../../docs/applications/simple-viewer-with-common-features)
 
 :::
 
@@ -129,7 +129,7 @@ const myTarget = { x: 0, y: 0, width: 100, height: 100 };
 cp.goToTarget(myTarget);
 
 const myTarget2 = { x: 2000, y: 2000, width: 2000, height: 1500 }
-const myOptions = { padding: 20, nudge: true, immediate: true } 
+const myOptions = { padding: 20, nudge: true, immediate: true }
 cp.goToTarget(myTarget2, myOptions);
 ```
 
@@ -137,11 +137,11 @@ The following is not yet supported:
 
 ```js
 const myTarget2 = { x: 2000, y: 2000, width: 2000, height: 1500 }
-const myOptions = { 
-   padding: 20, 
+const myOptions = {
+   padding: 20,
    nudge: true,
-   transition: "transform 500ms ease-out" 
-} 
+   transition: "transform 500ms ease-out"
+}
 cp.goToTarget(myTarget, myOptions);
 // The syntax of transition is the same as CSS transition
 // https://developer.mozilla.org/en-US/docs/Web/CSS/transition
@@ -170,18 +170,18 @@ This is an example of using Canvas Panel as a component of _some other piece of 
 
 ### Using content state
 
-In the following, `https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json` is a content state at a URL. This will have been made by an editor at content-creation time, using a [Content State Selector](../future/content-state-selector). It's a full JSON content state that looks like this:
+In the following, `https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json` is a content state at a URL. This will have been made by an editor at content-creation time, using a [Content State Selector](../future/content-state-selector). It's a full JSON content state that looks like this:
 
 ```json
 {
   "type": "Annotation",
   "motivation": ["contentState"],
   "target": {
-    "id": "https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json#xywh=50,990,2100,1755",
+    "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1#xywh=50,990,2100,1755",
     "type": "Canvas",
     "partOf": [
       {
-        "id": "https://iiifmediawiki.herokuapp.com/presentation/File:Baigneurs_a_Asnieres.jpg",
+        "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json",
         "type": "Manifest"
       }
     ]
@@ -193,37 +193,35 @@ The content-management template author will then produce code that will output s
 
 ```html
 <div class="canvas-figure">
-    <canvas-panel 
+    <canvas-panel
           preset="responsive"
-          iiif-content="https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json"
+          iiif-content="https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json"
            />
     <p class="figure-text">
        Fig. 75<br/>
-       Georges Seurat (1859-1891)
-       <strong>Bathers at Asnières 1884 (detail)</strong><br/>
-       <em>Oil on Canvas</em><br/>
-       24.1 × 31.1 cm (9 1/2 × 12 1/4 in.)<br/>
-       The National Gallery, London<br/>
+       Photograph from the 2019 IIIF Conference
+       <strong>Göttingen (detail)</strong><br/>
+       IIIF Cookbook image-service example<br/>
     </p>
 </div>
 ```
 
 That is, the content-managed data for this widget is the figure text, and a content state pointing to the relevant part of an IIIF resource.
 
-As the template author has the content state handy, they can use it to create a link to another page that would let the user explore the painting in mode detail (but still initialised on the boy-with-straw-hat detail):
+As the template author has the content state handy, they can use it to create a link to another page that would let the user explore the photograph in more detail (initially showing the same region):
 
 ```html
-<a href="https://getty.edu/iiif-viewer?iiif-content=https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json">View this painting</a>
+<a href="https://getty.edu/iiif-viewer?iiif-content=https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json">View this photograph</a>
 ```
 
 or, make the canvas panel image the link:
 
 ```html
-<a href="https://getty.edu/iiif-viewer?iiif-content=https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json">
-    <canvas-panel 
+<a href="https://getty.edu/iiif-viewer?iiif-content=https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json">
+    <canvas-panel
           preset="responsive"
           width="300"
-          iiif-content="https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json"
+          iiif-content="https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json"
            />
 </a>
 ```

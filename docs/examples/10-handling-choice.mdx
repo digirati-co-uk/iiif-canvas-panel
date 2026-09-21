@@ -18,7 +18,7 @@ But sometimes, the multiple images form a set of choices, for the user to pick
 from. Multispectral images are an example of this.
 
 For further details on this scenario, see the IIIF Cookbook
-[Choice example](https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/).
+[Choice example](https://iiif.io/api/cookbook/recipe/0033-choice/).
 (TODO - replace with published link)
 
 You don't necessarily need to know in advance that the Canvas has resources with
@@ -141,7 +141,7 @@ This is a more realistic use of Canvas Panel's choice-handling capability:
 There is an additional helper that can be used to extract choices.
 
 ```js
-import { createPaintingAnnotationsHelper } from "@iiif/vault-helpers";
+import { createPaintingAnnotationsHelper } from "@iiif/helpers/painting-annotations";
 
 const helper = createPaintingAnnotationsHelper(element.vault);
 const choice = helper.extractChoices(

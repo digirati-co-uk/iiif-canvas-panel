@@ -21,7 +21,7 @@ jobs:
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         with:
-          version: 9
+          version: 10.33.2
           run_install: false
 
       - name: Get pnpm store directory
@@ -41,7 +41,15 @@ jobs:
       - run: pnpm i --frozen-lockfile
 
       - working-directory: packages/canvas-panel
-        run: pnpm run build
+        run: pnpm run typecheck
+
+      - working-directory: packages/canvas-panel
+        run: pnpm test
+
+      - run: pnpm build
+
+      - working-directory: packages/canvas-panel
+        run: pnpm run check:package
 
       - working-directory: packages/canvas-panel
         run: pnpm dlx pkg-pr-new publish

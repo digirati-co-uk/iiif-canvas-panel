@@ -10,13 +10,13 @@ import { GitHubDiscussion } from "../../GitHubDiscussion.js";
 
 Vault is the library used by Canvas Panel to load, normalise and track IIIF resources. If using Canvas Panel solely as a tag, controlling its behaviour by setting attributes, you don't need to interact with Vault directly. But if you are bringing IIIF to Canvas Panel via script, you use Vault to manage IIIF resources.
 
-Any IIIF resource loaded into Vault is then available _through_ Vault as _normalised_, 100% compliant IIIF Presentation API 3.0, even if it started out as IIIF Presentation 2.0, or 2.1. This process of normalisation gives you a consistent programming interface, without having to worry about the various forms that the JSON-LD can take before version 3 of the Presentation API. It also allows you to develop event-driven applications, because you can associate event listeners directly with the IIIF resources managed and tracked in Vault. You can also _subscribe_ to changes in the data in Vault, reacting to changes in the resources managed by Vault.
+Any IIIF resource loaded into Vault is then available _through_ Vault as _normalised_, a consistent IIIF Presentation API 3 model, even if it started out as IIIF Presentation 2.0, or 2.1. This process of normalisation gives you a consistent programming interface, without having to worry about the various forms that the JSON-LD can take before version 3 of the Presentation API. It also allows you to develop event-driven applications, because you can associate event listeners directly with the IIIF resources managed and tracked in Vault. You can also _subscribe_ to changes in the data in Vault, reacting to changes in the resources managed by Vault.
 
 This documentation site is full of examples showing Vault usage alongside Canvas Panel. But it helps to begin by showing how Vault is used for general IIIF purposes, before introducing its use with Canvas Panel.
 
 ## Installation
 
-If you have Canvas Panel available on your page, you already have Vault, too. But you can use it on its own, without Canvas Panel. See the [installation instructions](../../docs/installation) for the full details. In the following example, Vault is loaded from a CDN, avoiding any need to build or run a server.
+If you have Canvas Panel available on your page, you already have Vault, too. But you can use it on its own, without Canvas Panel. See the [installation instructions](../../docs/installation) for the full details. The following examples use imports from `@iiif/helpers@4` in an application bundler. Install it together with `@iiif/parser@4`.
 
 The next few examples use this HTML page to help make the demonstration visible.
 
@@ -33,13 +33,13 @@ The next few examples use this HTML page to help make the demonstration visible.
   <body>
     <div class="container">
         <div id="app"></div>
-        <pre id="data"></pre>  
-    </div>    
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
-    <script>
+        <pre id="data"></pre>
+    </div>
+    <script type="module">
+        import { Vault } from "@iiif/helpers/vault";
 
-        let manifestUri = "https://digirati-co-uk.github.io/journal.json";        
-        const vault = new IIIFVault.Vault();
+        let manifestUri = "https://digirati-co-uk.github.io/journal.json";
+        const vault = new Vault();
 
         // a couple of helpers for displaying what we find
         function show(obj, label){
@@ -50,7 +50,7 @@ The next few examples use this HTML page to help make the demonstration visible.
         function append(element){
             document.getElementById("app").appendChild(element);
         }
-        
+
         async function demo(){
             // ##################################################################
             // the script snippets in the following examples should be added here
@@ -156,7 +156,7 @@ show(allCanvases[0], "The first of allCanvases - all obtained in one operation")
 This `get` function gives us access to any resource in the Manifest:
 
 ```js
-const provider = vault.get(manifest.provider[0]); 
+const provider = vault.get(manifest.provider[0]);
 show(provider, "Provider - an Agent");
 const logo = provider.logo[0]; // A logo for the manifest publisher
 const img = document.createElement("img");
@@ -166,16 +166,16 @@ append(img);
 
 ## Additional helpers
 
-The `vault-helpers` library brings some additional utilities. Add another `script` tag immediately after the existing Vault one, and create a thumbnail _helper_:
+The `@iiif/helpers` package includes utilities for thumbnails and labels. Import
+these alongside Vault in your application's script:
 
-```html
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
-    <script>
+```js
+import { Vault } from '@iiif/helpers/vault';
+import { createThumbnailHelper } from '@iiif/helpers/thumbnail';
+import { getValue } from '@iiif/helpers/i18n';
 
-    let manifestUri = "https://digirati-co-uk.github.io/journal.json";        
-    const vault = new IIIFVault.Vault();
-    const thumbHelper = VaultHelpers.createThumbnailHelper(vault);  // NEW - make a thumbnail helper
+const vault = new Vault();
+const thumbHelper = createThumbnailHelper(vault);
 ```
 
 Now we can use this to help build user interface:
@@ -197,9 +197,9 @@ The `getBestThumbnailAtSize` is a helper function that will attempt to find the 
 
 ### Other helpers
 
-The vault-helpers library includes other helpers, including some used in other parts of this documentation (for example, see `getValue` below). 
+The `@iiif/helpers` library includes other helpers, including some used in other parts of this documentation (for example, see `getValue` below).
 
-A full list can be found at [https://github.com/IIIF-Commons/vault-helpers](https://github.com/IIIF-Commons/vault-helpers).
+A full list can be found at [https://github.com/IIIF-Commons/iiif-helpers](https://github.com/IIIF-Commons/iiif-helpers).
 
 :::
 
@@ -245,7 +245,7 @@ In vault's view of this canvas, `items[0]` is a reference to an object already l
 
 :::info
 
-> TODO - How can we tell this? If it didn't have a label it would look the same as a ref. 
+> TODO - How can we tell this? If it didn't have a label it would look the same as a ref.
 
 > THIS SECTION NEEDS WORK PENDING SOME VAULT CHANGES:
 
@@ -265,7 +265,7 @@ let loadedAnnoPage; // this will be the last loaded but here we know there's onl
 for(const annoPage of canvas10.annotations)
 {
     // the .annotations property is an array of 0..n AnnotationPage resources.
-    console.log(VaultHelpers.getValue(annoPage.label)); 
+    console.log(getValue(annoPage.label));
     // how do we know these are not inline?
     let embedded = annoPage.items && !vault.requestStatus(annoPage);
     if(!embedded){
@@ -303,7 +303,7 @@ Vault merges the object graph, so if you had a canvas with:
 {"id": "http://example.org/annotation-page-1", "type": "AnnotationPage"}
 ```
 
-And then loaded that data into Vault, and then constructed your own additional annotations in-memory (e.g., in an app), 
+And then loaded that data into Vault, and then constructed your own additional annotations in-memory (e.g., in an app),
 and then called this:
 
 ```js
@@ -319,7 +319,7 @@ vault.load('http://example.org/annotation-page-1', myInMemoryAnnotations);
 At this stage the `demo()` function is getting a little cluttered. Keeping the rest of the page intact, remove the contents of the demo function and start again with this:
 
 ```js
-async function demo(){  
+async function demo(){
     // ##################################################################
     // the script snippets in the following examples should be added here
     // ##################################################################
@@ -342,14 +342,14 @@ let resourceMeta = vault.getResourceMeta(manifest.id);
 show(resourceMeta, "stored custom metadata");
 ```
 
-Having stored this data, we can now _subscribe_ to changes in it, via Vault's `subscribe` function - `function subscribe(selector, subscription)`, where `selector` is a function in which you return the particular slice of Vault you want to subscribe to, and `subscription` is a function that Vault will call when that slice changes. 
+Having stored this data, we can now _subscribe_ to changes in it, via Vault's `subscribe` function - `function subscribe(selector, subscription)`, where `selector` is a function in which you return the particular slice of Vault you want to subscribe to, and `subscription` is a function that Vault will call when that slice changes.
 
-Vault calls your suscription callback with two arguments: `(selection, vault)`, where `selection` is the part of the state you subscribed to, and `vault` is a ref to Vault itself, 
+Vault calls your suscription callback with two arguments: `(selection, vault)`, where `selection` is the part of the state you subscribed to, and `vault` is a ref to Vault itself,
 so you can handle this callback without an existing reference to vault (e.g., in another library or external code). Often you won't need this second `vault` argument, as in the immediate example below:
 
 ```js
 const unsubscribe1 = await vault.subscribe(
-    state => state.iiif.meta[manifest.id], // define the selection 
+    state => state.iiif.meta[manifest.id], // define the selection
     selection => show(selection, "selection callback") // handle a change to that selection
 );
 ```
@@ -382,9 +382,9 @@ await vault.subscribe(
 );
 
 // we see this:
-await vault.setMetaValue([manifest.id, 'MyCustomStorage', 'myKey'], 'myValue3'); 
+await vault.setMetaValue([manifest.id, 'MyCustomStorage', 'myKey'], 'myValue3');
 // but now, we don't see this:
-await vault.setMetaValue([manifest.id, 'MyCustomStorage2', 'myKey2'], 'myValue4'); 
+await vault.setMetaValue([manifest.id, 'MyCustomStorage2', 'myKey2'], 'myValue4');
 ```
 
 ### Subscribing to IIIF changes
@@ -395,7 +395,7 @@ The above shows subscriptions on arbitrary data, but we're more likely to be int
 const canvas10 = vault.get(manifest.items[10]);
 const annotationPageId = canvas10.annotations[0].id;
 
-// we can subscribe to changes on this Annotation Page:            
+// we can subscribe to changes on this Annotation Page:
 await vault.subscribe(
     state => {
         // When this slice of the store changes...
@@ -405,7 +405,7 @@ await vault.subscribe(
     },
     annotationPage => {
         console.log("(callback on change) " + annotationPage.items.length + " items");
-        show([VaultHelpers.getValue(annotationPage.label), annotationPage.items.length + " items"], "Annotation Page");
+        show([getValue(annotationPage.label), annotationPage.items.length + " items"], "Annotation Page");
     }
 );
 ```
@@ -438,7 +438,7 @@ The set of metadata that Vault can track for any resource includes an _event man
 
 ```js
 show(vault.getResourceMeta(manifest.id).eventManager, "Event manager for " + manifest.id);
-// undefined 
+// undefined
 
 // Introducing another helper
 const events = VaultHelpers.createEventsHelper(vault);
@@ -448,7 +448,7 @@ events.addEventListener(manifest, 'onClick', (e) => {
     console.log("clicked", this);
 })
 
-// Now we have one - 
+// Now we have one -
 show(vault.getResourceMeta(manifest.id).eventManager, "Event manager for " + manifest.id);
 ```
 
@@ -464,8 +464,8 @@ append(manifestButton);
 await vault.subscribe(
     state => state.iiif.meta[manifest.id],
     selection => {
-        if (selection && selection.eventManager) {      
-            // selection.eventManager.onClick is an array of event handlers that you can attach to your DOM elements.                 
+        if (selection && selection.eventManager) {
+            // selection.eventManager.onClick is an array of event handlers that you can attach to your DOM elements.
             manifestButton.addEventListener("click", selection.eventManager.onClick[0].callback);
         }
     }
@@ -481,7 +481,7 @@ vault.setMetaValue(["ViewerState", "LoadedResources", "CurrentManifest"], manife
 await vault.subscribe(
     state => state.iiif.meta["ViewerState"],
     selection => {
-        if (selection && selection.LoadedResources) {      
+        if (selection && selection.LoadedResources) {
             LoadManifest(selection.LoadedResources.CurrentManifest);
         }
     }
@@ -492,14 +492,14 @@ For clarity, add this `LoadManifest` function to the script after the demo() fun
 
 ```js
 async function LoadManifest(manifestId){
-    
-    const manifest = await vault.loadManifest(manifestId); 
+
+    const manifest = await vault.loadManifest(manifestId);
     const events = VaultHelpers.createEventsHelper(vault);
-    const thumbHelper = VaultHelpers.createThumbnailHelper(vault); 
+    const thumbHelper = VaultHelpers.createThumbnailHelper(vault);
 
     for(const canvas of manifest.items){
         // give these handlers a scope, we may wish to have other click handlers for the same canvases elsewhere
-        events.addEventListener(canvas, 'onClick', () => show(vault.get(canvas)), ["Thumbs"]); 
+        events.addEventListener(canvas, 'onClick', () => show(vault.get(canvas)), ["Thumbs"]);
     }
 
     await vault.subscribe(
@@ -508,13 +508,13 @@ async function LoadManifest(manifestId){
             // selection is the manifest. When the manifest changes...
             document.getElementById("app").innerHTML = "";
             for (const canvas of selection.items) {
-                // ...create an image element for each canvas         
+                // ...create an image element for each canvas
                 const thumb = document.createElement("img");
 
                 // You can interact with an eventManager for a resource:
                 // const canvasManager = vault.getResourceMeta(canvas.id).eventManager;
                 // thumb.addEventListener("click", canvasManager.onClick[0].callback);
-                
+
                 // Or use this more convenient API - note we have retrieved the event listeners for our Thumbs scope.
                 const props = events.getListenersAsProps(canvas, "Thumbs");
                 thumb.addEventListener("click", props.onClick);
@@ -531,4 +531,4 @@ async function LoadManifest(manifestId){
 
 It may be difficult to see the changes in the Canvas JSON as you click different thumbnails, as the structure is the same for all. Look at the canvas labels to see that the page number is different.
 
-Read more on Vault here. 
+Read more on Vault here.

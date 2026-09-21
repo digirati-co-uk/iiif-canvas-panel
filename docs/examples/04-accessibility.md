@@ -2,6 +2,9 @@
 sidebar_position: 4
 ---
 
+import { GitHubDiscussion } from "@site/GitHubDiscussion.js";
+
+
 # Accessibility
 
 <img src="https://cdn.pixabay.com/photo/2018/09/24/08/37/pixel-3699343_960_720.png" />
@@ -63,10 +66,10 @@ Canvas Panel can be controlled via the keyboard. Once it has focus (through stan
 
  - The arrow keys Move the viewport.
  - The + and - keys zoom in and out (without holding _Shift_)
- - The 0 key returns the viewport to its "home" start position. 
- 
+ - The 0 key returns the viewport to its "home" start position.
+
  You can try this on the previous example - use the tab order to enter or leave the canvas panel; when in focus, the keys above can be used to navigate.
- 
+
 ## Capturing user actions
 
 CP is just a web component. You can style it, add event listeners... anything you can do with a div. You can attach a click event listener to it, handle it and call CP's zoom action. A double click on Canvas Panel to zoom should be a standard browser-provided event handler on the element, followed by an API call to zoom.
