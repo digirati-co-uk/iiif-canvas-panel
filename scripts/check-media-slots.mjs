@@ -222,6 +222,40 @@ try {
   await audioFrame.waitForFunction(() => document.querySelector("canvas-panel").getMediaSlots()[0].volume < 1);
   await audioFrame.locator("#seek").press("ArrowRight");
   await audioFrame.waitForFunction(() => document.querySelector("canvas-panel").getMediaSlots()[0].currentTime > 0);
+  // Lazy template ownership and a factory replacement use the same native outlets.
+  await page.goto(`${process.env.DOCS_URL || "http://127.0.0.1:3000"}/all-sandboxes#lazy-slots`);
+  const lazyIframe = page.locator('.docs-example-preview iframe[src$="/lazy-slots/"]');
+  await lazyIframe.waitFor();
+  const lazy = await (await lazyIframe.elementHandle()).contentFrame();
+  await lazy.waitForFunction(() => document.querySelector("canvas-panel")?.getMediaSlots?.()[0]?.ready);
+  assert.equal(await lazy.locator('[slot="video-controls"]').count(), 1);
+  await lazy.evaluate(() => {
+    window.lazyPanel = document.querySelector("canvas-panel");
+    window.originalPlayer = window.lazyPanel.shadowRoot.querySelector("video");
+  });
+  await lazy.locator("#replace").check();
+  await lazy.waitForFunction(() => window.originalPlayer.hidden);
+  assert.equal(await lazy.locator('video[slot="video"]').count(), 1);
+  await lazy.locator('[slot="video-controls"] button').click();
+  await lazy.waitForFunction(() => !document.querySelector('video[slot="video"]').paused);
+  assert.equal(await lazy.evaluate(() => window.originalPlayer.paused), true);
+  await lazy.locator('[slot="video-controls"] button').click();
+  // A failed replacement hands control back to the default node.
+  await lazy.evaluate(() => document.querySelector('video[slot="video"]').dispatchEvent(new Event("error")));
+  await lazy.waitForFunction(() => !window.originalPlayer.hidden);
+  await lazy.locator("#replace").uncheck();
+  assert.equal(await lazy.locator('video[slot="video"]').count(), 0);
+  assert.match(await lazy.locator("#status").textContent(), /cleaned up/);
+  await lazy.evaluate(() => {
+    window.starterTemplate = window.lazyPanel.querySelector("template");
+    window.lazyPanel.remove();
+  });
+  await lazy.waitForFunction(() => window.lazyPanel.getSlots().length === 0);
+  assert.equal(await lazy.evaluate(() => window.lazyPanel.querySelector('[slot="video-controls"]')), null);
+  await lazy.evaluate(() => document.body.append(window.lazyPanel));
+  await lazy.waitForFunction(() => window.lazyPanel.getMediaSlots()[0]?.ready);
+  assert.equal(await lazy.evaluate(() => window.lazyPanel.querySelector("template") === window.starterTemplate), true);
+  assert.equal(await lazy.locator('[slot="video-controls"]').count(), 1);
   assert.deepEqual(errors, []);
   console.log(
     "Media slots: real browser playback, native fallback, independent panels, reassignment and reconnect passed.",

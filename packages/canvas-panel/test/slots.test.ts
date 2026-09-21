@@ -1,0 +1,44 @@
+// @vitest-environment happy-dom
+import { expect, it, vi } from "vitest";
+import { createSlots } from "../src/library/slots";
+
+it("creates only active template/factory content, preserves authored nodes and cleans up once", async () => {
+  const host = document.createElement("div");
+  const shadow = host.attachShadow({ mode: "open" });
+  const outlet = document.createElement("slot");
+  outlet.name = "video-controls";
+  shadow.append(outlet);
+  const slots = createSlots(host);
+  host.innerHTML = '<template data-canvas-panel-slot="video-controls"><button>Lazy</button></template>';
+  const template = host.firstElementChild!;
+  const factoryDispose = vi.fn();
+  const factory = vi.fn(() => ({ element: document.createElement("button"), dispose: factoryDispose }));
+  const descriptor = { key: "one", type: "controls" as const, slotName: outlet.name };
+  expect(host.querySelector("button")).toBeNull();
+  const dispose = slots.mount(outlet, descriptor);
+  expect(host.querySelector("button")?.slot).toBe(outlet.name);
+  expect(slots.getSnapshot()).toHaveLength(1);
+  const error = vi.fn();
+  host.addEventListener("slot-error", error);
+  const unregister = slots.register(outlet.name, factory);
+  expect(error).toHaveBeenCalledTimes(1);
+  expect(factory).not.toHaveBeenCalled();
+  template.remove();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  expect(factory).toHaveBeenCalledTimes(1);
+  const owned = host.querySelector("button");
+  const authored = document.createElement("section");
+  authored.slot = outlet.name;
+  host.append(authored);
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  expect(owned?.isConnected).toBe(false);
+  expect(factoryDispose).toHaveBeenCalledTimes(1);
+  dispose();
+  expect(authored.parentElement).toBe(host);
+  expect(slots.getSnapshot()).toEqual([]);
+  unregister();
+  expect(factoryDispose).toHaveBeenCalledTimes(1);
+  const again = slots.mount(outlet, { ...descriptor, key: "two" });
+  expect(authored.parentElement).toBe(host);
+  again();
+});

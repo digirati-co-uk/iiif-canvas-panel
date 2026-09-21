@@ -1,7 +1,8 @@
 {
-  "title": "Overlay controls",
+  "title": "Deep zoom with slotted viewer controls",
   "framework": "vanilla",
   "files": ["index.html", "src/index.js", "src/styles.css"],
   "group": "Components",
-  "description": "Use the overlaid controls to zoom and return to the home view."
+  "description": "Zoom, pan and rotate a tiled IIIF image using a lazy overlay slot and declarative data-attribute controls.",
+  "height": 680
 }

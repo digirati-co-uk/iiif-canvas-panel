@@ -5,11 +5,15 @@ import {
   useContext,
   useLayoutEffect,
   useRef,
+  useState,
+  useSyncExternalStore,
   type CSSProperties,
   type ReactNode,
 } from "react";
 import { ReactVaultContext, Vault } from "react-iiif-vault/core";
 import { defineCustomElements } from "./elements";
+import type { PanelSlot } from "./library/slots";
+import type { MediaSlotSnapshot } from "./library/media-slots";
 import type { CanvasPanelElement, CanvasPanelEventMap } from "./types/element";
 
 export interface CanvasPanelProps {
@@ -21,6 +25,9 @@ export interface CanvasPanelProps {
   height?: number | string;
   preset?: "zoom" | "static" | "responsive";
   rotation?: number;
+  viewRotation?: number;
+  enableTouchRotation?: boolean;
+  touchRotationSnap?: number;
   interactive?: boolean;
   nativeControls?: boolean;
   choiceIds?: string[];
@@ -28,6 +35,7 @@ export interface CanvasPanelProps {
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
+  renderSlot?: (slot: PanelSlot) => ReactNode;
   onReady?: (element: CanvasPanelElement) => void;
   onCanvasChange?: (detail: { canvasId: string | undefined }) => void;
   onChoice?: (detail: CanvasPanelEventMap["choice"]["detail"]) => void;
@@ -39,6 +47,8 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
   const inherited = useContext(ReactVaultContext).vault;
   const fallback = useRef<Vault | null>(null);
   const element = useRef<CanvasPanelElement | null>(null);
+  const [node, setNode] = useState<CanvasPanelElement | null>(null);
+  const slots = usePanelSlots(node);
   const live = useRef(props);
   live.current = props;
   const initialCanvas = useRef(props.defaultCanvasId);
@@ -46,6 +56,7 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
   const ref = useCallback(
     (node: CanvasPanelElement | null) => {
       element.current = node;
+      setNode(node);
       if (typeof forwardedRef === "function") return forwardedRef(node);
       if (forwardedRef) forwardedRef.current = node;
     },
@@ -54,7 +65,11 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
 
   useLayoutEffect(() => {
     const node = element.current!;
-    const ready = () => live.current.onReady?.(node);
+    let readyDelivered = false;
+    const ready = () => {
+      readyDelivered = true;
+      live.current.onReady?.(node);
+    };
     const change = (event: CanvasPanelEventMap["canvas-change"]) => {
       if (live.current.canvasId === undefined) live.current.onCanvasChange?.({ canvasId: event.detail.canvas });
     };
@@ -75,6 +90,8 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
     defineCustomElements();
     if (initialCanvas.current !== undefined && live.current.canvasId === undefined)
       node.setAttribute("canvas-id", initialCanvas.current);
+    // An already registered element can connect before this effect, including StrictMode replay.
+    if (node.ready && !readyDelivered) ready();
     return () => {
       node.removeEventListener("ready", ready);
       node.removeEventListener("canvas-change", change);
@@ -94,6 +111,9 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
       height: typeof props.height === "number" ? props.height : undefined,
       preset: props.preset,
       rotation: props.rotation,
+      "view-rotation": props.viewRotation,
+      "enable-touch-rotation": props.enableTouchRotation,
+      "touch-rotation-snap": props.touchRotationSnap,
       interactive: props.interactive,
       "native-controls": props.nativeControls,
       "choice-id": props.choiceIds?.join(","),
@@ -112,6 +132,9 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
     props.height,
     props.preset,
     props.rotation,
+    props.viewRotation,
+    props.enableTouchRotation,
+    props.touchRotationSnap,
     props.interactive,
     props.nativeControls,
     props.choiceIds,
@@ -130,5 +153,28 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
       },
     },
     props.children,
+    slots.map((slot) => {
+      const child = props.renderSlot?.(slot);
+      return child == null ? null : createElement("div", { key: slot.key, slot: slot.slotName }, child);
+    }),
   );
 });
+
+const noSlots: readonly PanelSlot[] = Object.freeze([]);
+const noMedia: readonly MediaSlotSnapshot[] = Object.freeze([]);
+const emptySubscribe = () => () => {};
+const emptySlots = () => noSlots;
+const emptyMedia = () => noMedia;
+
+/** These subscribe in the host React tree; controls keep their application's context. */
+export function usePanelSlots(element: CanvasPanelElement | null) {
+  return useSyncExternalStore(element?.subscribeSlots || emptySubscribe, element?.getSlots || emptySlots, emptySlots);
+}
+export function useMediaSlots(element: CanvasPanelElement | null) {
+  return useSyncExternalStore(
+    element?.subscribeMediaSlots || emptySubscribe,
+    element?.getMediaSlots || emptyMedia,
+    emptyMedia,
+  );
+}
+export type { PanelSlot, MediaSlotSnapshot };

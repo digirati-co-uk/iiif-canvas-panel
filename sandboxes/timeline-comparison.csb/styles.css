@@ -1,0 +1,38 @@
+body {
+  margin: 20px;
+  font:
+    15px/1.5 system-ui,
+    sans-serif;
+  color: #282828;
+}
+h2 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+section {
+  max-width: 760px;
+  margin: 24px 0;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+.controls input {
+  flex: 1;
+  min-width: 0;
+  accent-color: #335b7a;
+}
+.controls output {
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+}
+button,
+select {
+  padding: 6px 10px;
+  font: inherit;
+}
+canvas-panel {
+  display: block;
+}

@@ -1,3 +1,4 @@
+import { PanelOutlet } from "../NativeMedia/PanelOutlet";
 import { createElement as h } from "react";
 import { FallbackProps } from "react-error-boundary";
 import { useEffect } from "react";
@@ -23,7 +24,7 @@ export function ErrorFallback({
   }, [error]);
 
   return (
-    <slot name="fallback">
+    <PanelOutlet name="fallback">
       <div
         role="alert"
         style={{
@@ -66,6 +67,6 @@ export function ErrorFallback({
           </style>
         </div>
       </div>
-    </slot>
+    </PanelOutlet>
   );
 }

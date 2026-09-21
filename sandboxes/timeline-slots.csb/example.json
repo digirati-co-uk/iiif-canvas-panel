@@ -1,0 +1,7 @@
+{
+  "title": "Mixed-media timeline",
+  "group": "V2 integration",
+  "files": ["index.html", "main.ts", "styles.css", "manifest.json"],
+  "description": "Image, video and text share the upstream timeline controller. This cookbook fork shortens the sequence to twelve seconds.",
+  "height": 620
+}

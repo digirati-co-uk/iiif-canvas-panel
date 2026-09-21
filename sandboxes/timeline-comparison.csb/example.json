@@ -1,0 +1,7 @@
+{
+  "title": "Timeline: React and web components",
+  "group": "V2 integration",
+  "framework": "react",
+  "files": ["App.tsx", "styles.css", "manifest.json"],
+  "height": 1000
+}

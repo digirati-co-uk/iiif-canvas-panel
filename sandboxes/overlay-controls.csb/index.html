@@ -2,22 +2,50 @@
 <html lang="en">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Overlay controls</title>
-
+  <title>Deep zoom with slotted viewer controls</title>
+  <h1>Explore Göttingen</h1>
+  <p>
+    Drag to pan, scroll to zoom, or use two fingers to zoom and rotate. All controls below use slot data attributes.
+  </p>
   <canvas-panel
-    id="cp"
     preset="zoom"
-    width="500"
-    iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzYtY29tcG9zaXRpb24tZnJvbS1tdWx0aXBsZS1pbWFnZXMlMkZjYW52YXMlMkZwMSUyM3h5d2glM0QzNTY5JTJDNzYxJTJDMTg1MSUyQzIwNTklMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzYtY29tcG9zaXRpb24tZnJvbS1tdWx0aXBsZS1pbWFnZXMlMkZtYW5pZmVzdC5qc29uJTIyJTJDJTIydHlwZSUyMiUzQSUyMk1hbmlmZXN0JTIyJTdEJTVEJTdE"
-    style="position: absolute"
+    height="520"
+    click-to-enable-zoom="false"
+    touch-rotation-snap="90"
+    manifest-id="https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json"
+    canvas-id="https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1"
   >
-    <div style="position: absolute; top: 10px; right: 10px; z-index: 11">
-      <button class="osd" onClick="cp.zoomIn()">🔍+</button>
-      <button class="osd" onClick="cp.zoomOut()">🔍–</button>
-      <button class="osd" onClick="cp.goHome()">🏠</button>
-      <button class="osd" onClick="(cp.requestFullscreen || cp.webkitRequestFullscreen).call(cp)">⤢</button>
-    </div>
+    <p slot="loading" role="status">Loading Göttingen…</p>
+    <template data-canvas-panel-slot="overlay">
+      <div class="viewer-controls" data-canvas-panel-bind role="group" aria-label="Viewer controls">
+        <div class="buttons">
+          <button type="button" data-action="zoom-in" disabled>Zoom in</button>
+          <button type="button" data-action="zoom-out" disabled>Zoom out</button>
+          <button type="button" data-action="go-home" disabled>Home</button>
+          <button type="button" data-action="rotate-left" aria-label="Rotate left 90 degrees" disabled>↶ 90°</button>
+          <button type="button" data-action="rotate-right" aria-label="Rotate right 90 degrees" disabled>↷ 90°</button>
+          <button type="button" data-action="reset-rotation" disabled>Reset rotation</button>
+        </div>
+        <label
+          >Rotation
+          <input
+            type="range"
+            min="-360"
+            max="360"
+            step="1"
+            value="0"
+            data-action="set-view-rotation"
+            data-bind="view-rotation"
+            disabled
+          />
+          <output data-bind="view-rotation">0</output>°
+        </label>
+        <label
+          ><input type="checkbox" data-action="set-touch-rotation" data-bind="touch-rotation" checked disabled />
+          Two-finger rotation (90° snap)</label
+        >
+      </div>
+    </template>
   </canvas-panel>
-
   <script type="module" src="./src/index.js"></script>
 </html>

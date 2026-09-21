@@ -46,3 +46,7 @@ pnpm test:demos          # also checks React/Vue and navigation; needs internet
 
 Use `DOCS_URL=http://127.0.0.1:3001` to check a production server. The check verifies that the site serves the workspace
 bundle and exercises rendering, default and updated dimensions, responsive sizing, zoom, and home inside Docusaurus.
+
+The v2 preview includes native media/timeline slots, lazy templates, replacement media and React-owned controls. See
+[the slot reference](docs/api-reference/slots.md) and the `/all-sandboxes` gallery. Run `pnpm test:media-slots` and
+`pnpm test:timeline` against the docs server to check their browser behavior.

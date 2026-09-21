@@ -1,0 +1,42 @@
+body {
+  margin: 20px;
+  color: #292929;
+  font:
+    15px/1.5 system-ui,
+    sans-serif;
+}
+h1 {
+  font-size: 22px;
+}
+canvas-panel {
+  display: block;
+  max-width: 720px;
+  margin-top: 16px;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #242424;
+  color: white;
+  padding: 12px;
+}
+.controls input {
+  flex: 1;
+  min-width: 0;
+  accent-color: #a9c8dd;
+}
+.controls button {
+  font: inherit;
+  padding: 4px 12px;
+}
+.controls output {
+  min-width: 4ch;
+  font-variant-numeric: tabular-nums;
+}
+.replacement {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

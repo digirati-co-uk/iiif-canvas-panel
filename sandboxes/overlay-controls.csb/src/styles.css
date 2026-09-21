@@ -1,11 +1,73 @@
-html,
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
+  padding: 20px;
+  background: #f4f1eb;
+  color: #202b32;
+  font:
+    16px/1.5 system-ui,
+    sans-serif;
 }
-button.osd {
-  color: white;
-  background: transparent;
-  border: 1px solid white;
-  padding: 0.4em;
-  min-width: 3em;
+h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+canvas-panel {
+  display: block;
+  position: relative;
+  background: #17232c;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.viewer-controls {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fffffff2;
+  pointer-events: auto;
+}
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+button {
+  padding: 8px 12px;
+  border: 1px solid #89959b;
+  border-radius: 5px;
+  background: white;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover {
+  background: #e6eef1;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+input[type="range"] {
+  flex: 1;
+  min-width: 50px;
+}
+output {
+  min-width: 4ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+:focus-visible {
+  outline: 3px solid #006f9e;
+  outline-offset: 3px;
 }

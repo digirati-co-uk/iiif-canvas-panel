@@ -202,6 +202,9 @@ export function defineImageService() {
       "home-cover",
       "tile-format",
       "rotation",
+      "view-rotation",
+      "enable-touch-rotation",
+      "touch-rotation-snap",
       "background",
     ],
     {

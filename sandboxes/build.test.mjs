@@ -83,3 +83,14 @@ test("Twoslash resolves real example types, ID assertions, sibling files and the
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+test("direct Vault consumers resolve the same installed core as Canvas Panel", async () => {
+  const { createRequire } = await import("node:module");
+  const runtime = createRequire(new URL("../packages/canvas-panel/package.json", import.meta.url));
+  const core = runtime.resolve("react-iiif-vault/core");
+  for (const example of await collectExamples()) {
+    if (!JSON.parse(example.files["package.json"]).dependencies["react-iiif-vault"]) continue;
+    const consumer = createRequire(new URL(`${example.path}/package.json`, import.meta.url));
+    assert.equal(consumer.resolve("react-iiif-vault/core"), core, `${example.id}: duplicated Vault context`);
+  }
+});

@@ -1,3 +1,4 @@
+import { PanelOutlet } from "./NativeMedia/PanelOutlet";
 import { FC, ReactNode } from "react";
 import { ManifestContext, useExternalManifest } from "react-iiif-vault/core";
 import { Spinner } from "./spinner";
@@ -24,7 +25,11 @@ export const ManifestLoader: FC<ManifestLoaderProps> = ({ manifestId, children }
   }
 
   if (!isLoaded || !manifest) {
-    return <Spinner />;
+    return (
+      <PanelOutlet name="loading">
+        <Spinner />
+      </PanelOutlet>
+    );
   }
 
   return <ManifestContext manifest={manifest.id}>{children}</ManifestContext>;

@@ -1,3 +1,4 @@
+import type { PanelSlot, SlotFactory } from "../library/slots";
 import type { MediaSlotSnapshot } from "../library/media-slots";
 import type { Vault } from "@iiif/helpers";
 import type { ChoiceDescription } from "@iiif/helpers/painting-annotations";
@@ -9,6 +10,7 @@ import type { ContentStateEvent, ContentStateCallback } from "./content-state";
 
 export interface CanvasPanelEventMap extends HTMLElementEventMap {
   ready: CustomEvent<void>;
+  "slot-error": CustomEvent<{ slotName: string; message: string }>;
   "media-action-error": CustomEvent<{ key: string; action: "play"; error: string }>;
   "canvas-request": CustomEvent<{ canvasId: string }>;
   choice: CustomEvent<{ choice: ChoiceDescription }>;
@@ -19,6 +21,9 @@ export interface CanvasPanelEventMap extends HTMLElementEventMap {
 /** Implemented public API. Call methods after the element has connected/whenReady. */
 export interface CanvasPanelElement extends HTMLElement {
   vault: Vault;
+  getSlots(): readonly PanelSlot[];
+  subscribeSlots(listener: () => void): () => void;
+  registerSlot(name: string, factory: SlotFactory): () => void;
   getMediaSlots(): readonly MediaSlotSnapshot[];
   subscribeMediaSlots(listener: () => void): () => void;
   readonly ready: boolean;
@@ -43,6 +48,11 @@ export interface CanvasPanelElement extends HTMLElement {
   getMinZoom(): number;
   setRotation(rotation: string | number): void;
   getRotation(): number | undefined;
+  setViewRotation(degrees: number): void;
+  getViewRotation(): number | undefined;
+  rotateBy(degrees?: number, point?: { x: number; y: number }, immediate?: boolean): void;
+  setTouchRotationEnabled(enabled: boolean): void;
+  getTouchRotationEnabled(): boolean | undefined;
   setHighlight(highlight: Selector | Selector[] | undefined): void;
   setTarget(target: Selector | Selector[] | undefined): void;
   clearTarget(): void;

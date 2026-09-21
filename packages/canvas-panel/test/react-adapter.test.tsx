@@ -15,6 +15,7 @@ it("shares the host Vault, preserves children, and requests controlled navigatio
   const vault = new Vault();
   const ref = createRef<CanvasPanelElement>();
   const change = vi.fn();
+  const ready = vi.fn();
   expect(
     renderToString(
       <CanvasPanel>
@@ -27,7 +28,15 @@ it("shares the host Vault, preserves children, and requests controlled navigatio
       root.render(
         <StrictMode>
           <VaultProvider vault={vault}>
-            <CanvasPanel ref={ref} canvasId="" onCanvasChange={change}>
+            <CanvasPanel
+              ref={ref}
+              canvasId=""
+              viewRotation={45}
+              enableTouchRotation={false}
+              touchRotationSnap={0}
+              onCanvasChange={change}
+              onReady={ready}
+            >
               <button slot="overlay">Control</button>
             </CanvasPanel>
           </VaultProvider>
@@ -35,6 +44,10 @@ it("shares the host Vault, preserves children, and requests controlled navigatio
       ),
     );
     expect(ref.current?.vault).toBe(vault);
+    expect(ref.current?.getAttribute("view-rotation")).toBe("45");
+    expect(ref.current?.getAttribute("enable-touch-rotation")).toBe("false");
+    expect(ref.current?.getAttribute("touch-rotation-snap")).toBe("0");
+    expect(ready).toHaveBeenCalledWith(ref.current);
     const child = host.querySelector("button");
     const originalCanvas = ref.current?.getCanvasId();
     await act(async () => ref.current!.setCanvas("https://example.org/requested"));

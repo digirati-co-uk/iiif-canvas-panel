@@ -1,4 +1,7 @@
 export const baseAttributes = [
+  "view-rotation",
+  "enable-touch-rotation",
+  "touch-rotation-snap",
   "width",
   "native-controls",
   "height",

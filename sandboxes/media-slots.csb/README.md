@@ -6,9 +6,9 @@ inactive. Native playback controls remain available as an accessible fallback.
 
 Add `data-canvas-panel-bind` to the assigned root to bind ordinary starter HTML. Buttons use `data-action` with `play`,
 `pause`, `toggle-play`, `mute`, `unmute` or `toggle-mute`. Range inputs use `seek` (seconds, on change) or `set-volume`
-(0–1, on input). `data-bind` accepts `current-time`, `duration`, `volume` and `play-label`. `data-format="time"` formats
-seconds; an unknown duration displays `--:--`. Label every range and use native buttons. Text bindings only update
-leaves, never HTML or elements containing children.
+(0–1, on input). `data-bind` accepts `current-time`, `duration`, `volume`, `play-label`, `label` and `summary`.
+`data-format="time"` formats seconds; an unknown duration displays `--:--`. Label every range and use native buttons.
+Text bindings only update leaves, never HTML or elements containing children.
 
 Framework-owned controls should omit the automatic binding opt-in and subscribe instead:
 
@@ -29,4 +29,4 @@ Actions retained after disposal do nothing. Playback failures appear in `error` 
 panel. Seeks outside available seekable ranges and invalid numeric values are ignored. The new scoped volume action uses
 0–1; the older `panel.mediaActions.setVolume()` retains its 0–100 convention.
 
-This example covers simple media. Timeline controllers, replacement media and lazy slot factories are separate work.
+See the timeline and lazy-slots examples for aggregate playback, templates, factories and replacement media.

@@ -1,3 +1,4 @@
+import { TimelineControls, TimelineMedia, TimelineText } from "../Timeline/Timeline";
 import { useEffect, useMemo } from "react";
 import {
   useCanvas,
@@ -18,6 +19,8 @@ import {
   CanvasStrategyProvider,
   CanvasWorldObject,
   RenderCanvasScene,
+  RenderComplexTimelineScene,
+  ScenePresentationProvider,
   useStrategy,
 } from "react-iiif-vault/canvas-panel/scene";
 import { SceneMedia, SceneUnsupported } from "./presentation";
@@ -54,7 +57,7 @@ export function AtlasCanvas(props: AtlasCanvasProps) {
   const canvas = useCanvas();
   return (
     <CanvasStrategyProvider
-      strategies={["images", "media"]}
+      strategies={["images", "media", "complex-timeline"]}
       defaultChoices={props.defaultChoices}
       annotationPageManagerId={manifest?.id || canvas?.id}
     >
@@ -241,6 +244,22 @@ function AtlasCanvasContent({
         ))}
         {annotations}
       </CanvasWorldObject>
+    );
+  }
+  if (strategy.type === "complex-timeline") {
+    return (
+      <ScenePresentationProvider
+        presentation={{ Media: TimelineMedia, Text: TimelineText, Unsupported: SceneUnsupported }}
+      >
+        <CanvasWorldObject x={x} y={y}>
+          <RenderComplexTimelineScene
+            strategy={strategy}
+            imageOptions={{ isStatic, enableSizes: !skipSizes, enableThumbnail: !disableThumbnail, useFloorCalc }}
+          >
+            <TimelineControls />
+          </RenderComplexTimelineScene>
+        </CanvasWorldObject>
+      </ScenePresentationProvider>
     );
   }
   return (

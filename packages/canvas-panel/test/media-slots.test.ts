@@ -87,3 +87,31 @@ it("binds only opted-in roots, respects cancellation and releases replaced contr
   expect(play).toHaveBeenCalledTimes(1);
   binding.dispose();
 });
+
+it("adapts the shared timeline clock and invalidates its scoped actions on cleanup", async () => {
+  const { createComplexTimelineStore } = await import("react-iiif-vault/canvas-panel/scene");
+  const controller = createComplexTimelineStore({
+    complexTimeline: { type: "complex-timeline", duration: 12, items: [], keyframes: [], highlights: [] },
+  });
+  const slots = createMediaSlots(document.createElement("div"));
+  const binding = slots.attachTimeline(controller.store, "canvas", { label: "Timeline", summary: "" });
+  const first = slots.getSnapshot()[0];
+  expect(first.slotName).toBe("timeline-controls");
+  expect(first.ready).toBe(true);
+  first.actions.seek(5);
+  expect(controller.getSnapshot().primeTime).toBe(5);
+  first.actions.seek(2);
+  expect(slots.getSnapshot()[0].currentTime).toBe(2);
+  first.actions.setVolume(0.4);
+  expect(controller.getSnapshot().volume).toBe(40);
+  await first.actions.play();
+  expect(slots.getSnapshot()[0].paused).toBe(false);
+  const snapshot = slots.getSnapshot();
+  controller.store.setState({ primeTime: 2.01 });
+  expect(slots.getSnapshot()).toBe(snapshot);
+  binding.dispose();
+  first.actions.seek(8);
+  expect(controller.getSnapshot().primeTime).toBe(2.01);
+  expect(slots.getSnapshot()).toEqual([]);
+  controller.dispose();
+});

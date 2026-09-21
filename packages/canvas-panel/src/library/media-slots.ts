@@ -92,9 +92,17 @@ export function createMediaSlots(host: HTMLElement) {
             timeline.getState().setVolume(volume * 100);
         },
       });
+      let lastError: unknown = null;
       const update = () => {
         if (!active) return;
         const state = timeline.getState();
+        if (state.playbackError && state.playbackError !== lastError)
+          host.dispatchEvent(
+            new CustomEvent("media-action-error", {
+              detail: { key, action: "play", error: String(state.playbackError) },
+            }),
+          );
+        lastError = state.playbackError;
         const next: MediaSlotSnapshot = Object.freeze({
           ...metadata,
           key,

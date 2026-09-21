@@ -1,0 +1,7 @@
+{
+  "title": "Lazy templates and replacement media",
+  "group": "V2 integration",
+  "framework": "vanilla",
+  "files": ["index.html", "main.ts", "styles.css"],
+  "height": 640
+}

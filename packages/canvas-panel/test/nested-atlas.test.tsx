@@ -49,21 +49,34 @@ it("retains the runtime across host updates and disposes it on disconnect", asyn
   try {
     await act(async () =>
       render(
-        <NestedAtlas width={480} height={320}>
+        <NestedAtlas width={480} height={320} viewRotation={45}>
           {null}
         </NestedAtlas>,
         host,
       ),
     );
+    const runtime = created.mock.results[0].value.runtime as any;
+    expect(runtime.viewRotation).toBe(45);
+    runtime.viewRotation = 90;
     await act(async () =>
       render(
-        <NestedAtlas width={360} height={240} className="updated">
+        <NestedAtlas viewRotation={45} width={360} height={240} className="updated">
           {null}
         </NestedAtlas>,
         host,
       ),
     );
     expect(created).toHaveBeenCalledTimes(1);
+    expect(runtime.viewRotation).toBe(90);
+    await act(async () =>
+      render(
+        <NestedAtlas viewRotation={0} className="updated">
+          {null}
+        </NestedAtlas>,
+        host,
+      ),
+    );
+    expect(runtime.viewRotation).toBe(0);
     expect(host.querySelector(".updated")).not.toBeNull();
     await act(async () => render(null, host));
     expect(dispose).toHaveBeenCalledTimes(1);

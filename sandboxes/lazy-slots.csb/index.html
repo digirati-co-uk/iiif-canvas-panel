@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lazy slots</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <h1>Lazy native slots</h1>
+  <p>The controls template mounts when video is active. The optional factory supplies a replacement video.</p>
+  <label><input id="replace" type="checkbox" /> Use a factory-created video</label>
+  <canvas-panel native-controls="false" height="360" preset="static">
+    <p slot="loading" role="status">Loading the cookbook manifest…</p>
+    <template data-canvas-panel-slot="video-controls">
+      <div class="controls" data-canvas-panel-bind>
+        <button type="button" data-action="toggle-play" data-bind="play-label" disabled>Play</button>
+        <input
+          type="range"
+          aria-label="Playback position"
+          min="0"
+          step="0.1"
+          data-action="seek"
+          data-bind="current-time"
+          disabled
+        />
+        <output data-bind="current-time" data-format="time">0:00</output>
+      </div>
+    </template>
+  </canvas-panel>
+  <p id="status" role="status"></p>
+  <script type="module" src="./main.ts"></script>
+</html>

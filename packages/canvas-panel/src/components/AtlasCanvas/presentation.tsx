@@ -1,3 +1,4 @@
+import { PanelOutlet } from "../NativeMedia/PanelOutlet";
 import { createElement as h, useLayoutEffect, useState } from "react";
 import { useAtlas } from "@atlas-viewer/atlas/react";
 import { useCanvas, useThumbnail } from "react-iiif-vault/core";
@@ -28,7 +29,15 @@ export function SceneMedia({ item }: SceneMediaProps) {
 export function SceneUnsupported({ reason }: UnsupportedSceneProps) {
   const thumbnail = useThumbnail({ maxWidth: 256, maxHeight: 256 });
   const canvas = useCanvas();
-  if (canvas && thumbnail?.type === "fixed")
-    return <SingleImage uri={thumbnail.id} target={{ x: 0, y: 0, width: canvas.width, height: canvas.height }} />;
-  throw new Error(reason);
+  const hasThumbnail = canvas && thumbnail?.type === "fixed";
+  return (
+    <>
+      {hasThumbnail ? (
+        <SingleImage uri={thumbnail.id} target={{ x: 0, y: 0, width: canvas.width, height: canvas.height }} />
+      ) : null}
+      <SceneHTML>
+        <PanelOutlet name="unsupported">{hasThumbnail ? null : <p role="status">{reason}</p>}</PanelOutlet>
+      </SceneHTML>
+    </>
+  );
 }

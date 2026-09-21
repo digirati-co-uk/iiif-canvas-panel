@@ -33,7 +33,8 @@
     "test:example-packages": "node sandboxes/check-consumers.mjs",
     "test:example-ui": "node scripts/check-examples.mjs",
     "test:react-consumer": "node scripts/check-react-consumer.mjs",
-    "test:media-slots": "node scripts/check-media-slots.mjs"
+    "test:media-slots": "node scripts/check-media-slots.mjs",
+    "test:timeline": "node scripts/check-timeline.mjs"
   },
   "dependencies": {
     "@cmfcmf/docusaurus-search-local": "^2.0.1",

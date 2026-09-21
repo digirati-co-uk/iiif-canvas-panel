@@ -35,6 +35,9 @@ export type GenericAtlasComponent<T = Record<never, never>, Props = any> = T & {
   x?: number | string;
   y?: number | string;
   rotation?: number | string;
+  viewRotation?: number | string;
+  enableTouchRotation?: boolean | "true" | "false";
+  touchRotationSnap?: number | string;
   nested?: boolean | string;
   enableNavigator?: boolean;
   enablePanOnWait?: boolean;

@@ -1,0 +1,24 @@
+{
+  "name": "timeline-slots",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Shared IIIF timeline with native media presentation and aggregate controls",
+  "scripts": {
+    "start": "vite --host 0.0.0.0",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@atlas-viewer/atlas": "https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb",
+    "@digirati/canvas-panel-web-components": "workspace:*",
+    "react": "19.2.8",
+    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@2af9a3c",
+    "react-reconciler": "0.33.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "6.0.3",
+    "vite": "8.3.0"
+  }
+}

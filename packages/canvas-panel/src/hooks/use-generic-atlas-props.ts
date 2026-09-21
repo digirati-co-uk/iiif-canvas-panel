@@ -142,6 +142,17 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     },
   );
 
+  const [viewRotation, , , viewRotationRef] = useSyncedState(props.viewRotation ?? internalConfig.viewRotation, {
+    parse: parseNumber,
+  });
+  const [enableTouchRotation, , , enableTouchRotationRef] = useSyncedState(
+    props.enableTouchRotation ?? internalConfig.enableTouchRotation ?? true,
+    { parse: parseBool },
+  );
+  const [touchRotationSnap] = useSyncedState(props.touchRotationSnap ?? internalConfig.touchRotationSnap ?? 90, {
+    parse: parseNumber,
+  });
+
   const [rotation, setRotation, , rotationRef] = useSyncedState(props.rotation, { parse: parseNumber });
 
   const [highlight, setHighlight, , highlightRef] = useSyncedState(props.highlight || internalConfig.highlight, {
@@ -521,6 +532,20 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       setRotation: (newRotation: string | number) => {
         htmlComponent.setAttribute("rotation", newRotation.toString());
       },
+      getViewRotation: () => runtime.current?.viewRotation ?? viewRotationRef.current,
+      setViewRotation(degrees: number) {
+        if (!Number.isFinite(degrees)) throw new RangeError("View rotation must be finite");
+        if (runtime.current) runtime.current.viewRotation = degrees;
+        htmlComponent.setAttribute("view-rotation", String(degrees));
+      },
+      rotateBy(degrees = 90, point?: { x: number; y: number }, immediate = false) {
+        runtime.current?.world.rotateBy(degrees, point, immediate);
+      },
+      getTouchRotationEnabled: () => runtime.current?.touchRotationEnabled ?? enableTouchRotationRef.current,
+      setTouchRotationEnabled(enabled: boolean) {
+        runtime.current?.setTouchRotationEnabled(enabled);
+        htmlComponent.setAttribute("enable-touch-rotation", String(enabled));
+      },
       getHighlight: () => {
         return highlightRef.current;
       },
@@ -860,6 +885,10 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     [setIsReady],
   );
 
+  useEffect(() => {
+    runtime.current?.setTouchRotationEnabled(enableTouchRotation ?? true);
+  }, [enableTouchRotation, runtimeVersion]);
+
   const atlasProps = useMemo(() => {
     return {
       children: null,
@@ -867,6 +896,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       responsive,
       viewport,
       enableNavigator,
+      viewRotation,
       // Defaults for now.
       onCreated,
       homePosition:
@@ -885,6 +915,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
                 interactive,
                 unstable_webglRenderer: render === "webgl",
                 controllerConfig: {
+                  touchRotationSnap,
                   ignoreSingleFingerTouch: ignoreSingleFingerTouch,
                   enablePanOnWait: enablePanOnWait,
                   requireMetaKeyForWheelZoom: requireMetaKeyForWheelZoom,
@@ -900,6 +931,8 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   }, [
     responsive,
     viewport,
+    viewRotation,
+    touchRotationSnap,
     target,
     render,
     enableNavigator,

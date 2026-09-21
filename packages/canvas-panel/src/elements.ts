@@ -19,3 +19,5 @@ export function defineCustomElements() {
 }
 
 export type { MediaSlotSnapshot, MediaActions } from "./library/media-slots";
+
+export type { PanelSlot, SlotFactory } from "./library/slots";

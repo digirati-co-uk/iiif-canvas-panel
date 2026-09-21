@@ -1,0 +1,58 @@
+body {
+  margin: 16px;
+  color: #222;
+  font:
+    14px/1.5 system-ui,
+    sans-serif;
+}
+canvas-panel {
+  display: block;
+  max-width: 600px;
+}
+h1 {
+  margin: 16px 0 8px;
+  font-size: 20px;
+}
+p {
+  margin: 8px 0;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  font-variant-numeric: tabular-nums;
+}
+.seek {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+input {
+  width: 100%;
+  min-width: 0;
+  accent-color: #444;
+}
+button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f5f5f5;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover:not(:disabled),
+button[aria-pressed="true"] {
+  background: #ddd;
+}
+:focus-visible {
+  outline: 2px solid #444;
+  outline-offset: 3px;
+}
+:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

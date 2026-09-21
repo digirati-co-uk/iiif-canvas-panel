@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mixed-media timeline</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <canvas-panel id="panel" width="600" height="300" interactive="false">
+    <section slot="timeline-controls" data-canvas-panel-bind>
+      <h1 data-bind="label"></h1>
+      <p data-bind="summary"></p>
+      <div class="controls">
+        <button type="button" data-action="toggle-play" data-bind="play-label" disabled>Play</button>
+        <label class="seek"
+          >Seek
+          <input type="range" data-action="seek" data-bind="current-time" min="0" max="0" step="0.1" value="0" disabled
+        /></label>
+        <span data-bind="current-time" data-format="time">0:00</span>
+        <span aria-hidden="true">/</span>
+        <span data-bind="duration" data-format="time">--:--</span>
+        <button type="button" data-action="toggle-mute" aria-pressed="false" disabled>Mute</button>
+      </div>
+    </section>
+  </canvas-panel>
+  <p id="status" role="status">Loading timeline…</p>
+  <p><a href="https://iiif.io/api/cookbook/recipe/0489-multimedia-canvas/">Original IIIF cookbook recipe</a></p>
+  <script type="module" src="./main.ts"></script>
+</html>

@@ -17,12 +17,12 @@
     "dev:bundle": "tsdown --config ./tsdown.umd.ts --watch"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb",
+    "@atlas-viewer/atlas": "https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@5ba1e3d",
     "@atlas-viewer/iiif-image-api": "2.2.2",
     "@iiif/helpers": "4.0.0",
     "@iiif/parser": "4.0.1",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77"
+    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@2af9a3c"
   },
   "devDependencies": {
     "@tsdown/css": "^0.23.0",
@@ -31,11 +31,11 @@
     "happy-dom": "^20.14.5",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "react-reconciler": "0.33.0",
     "tsdown": "^0.23.0",
     "typescript": "~6.0.3",
     "vite": "^8.3.0",
-    "vitest": "^5.0.1",
-    "react-reconciler": "0.33.0"
+    "vitest": "^5.0.1"
   },
   "publishConfig": {
     "access": "public"

@@ -185,6 +185,9 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
     };
   }, [name, optionsKey, props.enableNavigator]);
   useLayoutEffect(() => {
+    if (preset && props.viewRotation !== undefined) preset.runtime.viewRotation = props.viewRotation;
+  }, [preset, props.viewRotation]);
+  useLayoutEffect(() => {
     measureRef.current();
   }, [props.width, props.height, props.aspectRatio]);
   useLayoutEffect(() => {

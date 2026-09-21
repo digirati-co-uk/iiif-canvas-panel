@@ -1,3 +1,4 @@
+import { PanelOutlet } from "../components/NativeMedia/PanelOutlet";
 import { SceneHTML } from "../components/AtlasCanvas/presentation";
 import { createElement as h } from "react";
 import { FC, useCallback, useEffect, useLayoutEffect, useRef } from "react";
@@ -378,6 +379,9 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       >
         <SceneHTML>
           <slot name="atlas" />
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+            <PanelOutlet name="overlay" type="overlay" />
+          </div>
         </SceneHTML>
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}
       </ViewCanvas>

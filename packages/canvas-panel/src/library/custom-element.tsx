@@ -1,5 +1,13 @@
 import { ChoiceEventContext, createChoiceEventChannel } from "../helpers/eventbus";
-import { createElement as h, useLayoutEffect, useRef, useSyncExternalStore, type ComponentType } from "react";
+import {
+  createElement as h,
+  useLayoutEffect,
+  useRef,
+  useSyncExternalStore,
+  useContext,
+  type ComponentType,
+} from "react";
+import { createSlots, SlotsContext } from "./slots";
 import { render } from "./dom-renderer";
 import { Vault } from "react-iiif-vault/core";
 import { ContextBridge, useContextValues, type ContextValues } from "./context-bridge";
@@ -15,7 +23,30 @@ import {
 function MediaOutlet({ store, name }: { store: MediaSlots; name: string }) {
   const slots = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot);
   const slot = useRef<HTMLSlotElement>(null);
-  const active = slots.some((entry) => entry.slotName === name);
+  const context = useContext(SlotsContext);
+  const entry = slots.find((entry) => entry.slotName === name);
+  const active = !!entry;
+  useLayoutEffect(() => {
+    if (!entry || !slot.current) return;
+    const outlet = slot.current;
+    const unmount = context?.mount(outlet, {
+      key: entry.key,
+      slotName: name,
+      type: "controls",
+      canvasId: entry.canvasId,
+      resourceId: entry.resourceId,
+      mediaType: entry.mediaType,
+      getMediaState: () => store.getSnapshot().find((item) => item.key === entry.key),
+    });
+    return () => {
+      const host = (outlet.getRootNode() as ShadowRoot).host as HTMLElement;
+      if (outlet.assignedElements().some((node) => node.contains(document.activeElement))) {
+        if (!host.hasAttribute("tabindex")) host.tabIndex = -1;
+        host.focus();
+      }
+      unmount?.();
+    };
+  }, [context, store, entry?.key, name]);
   useLayoutEffect(() => {
     if (!slot.current) return;
     const binding = bindMediaControls(slot.current, () => store.getSnapshot().find((entry) => entry.slotName === name));
@@ -24,14 +55,14 @@ function MediaOutlet({ store, name }: { store: MediaSlots; name: string }) {
       unsubscribe();
       binding.dispose();
     };
-  }, [store, name]);
+  }, [store, name, active]);
   return h(
     "div",
     { hidden: !active, inert: !active, part: "media-controls" },
     h(
       "slot",
       { name, ref: slot },
-      name.startsWith("timeline-controls")
+      active && name.startsWith("timeline-controls")
         ? h(
             "div",
             { "data-canvas-panel-bind": "", style: { display: "flex", gap: 12, alignItems: "center", padding: 12 } },
@@ -95,17 +126,21 @@ function ElementContent({ element, Component, values }: any) {
     ContextBridge,
     { values },
     h(
-      ChoiceEventContext.Provider,
-      { value: element._choices },
+      SlotsContext.Provider,
+      { value: element._slots },
       h(
-        MediaSlotsContext.Provider,
-        { value: element._mediaSlots },
+        ChoiceEventContext.Provider,
+        { value: element._choices },
         h(
-          NativeMediaControlsContext.Provider,
-          { value: element._props["native-controls"] !== "false" },
-          h(Component, { ...element._props, children: h(ContextSlot) }),
+          MediaSlotsContext.Provider,
+          { value: element._mediaSlots },
+          h(
+            NativeMediaControlsContext.Provider,
+            { value: element._props["native-controls"] !== "false" },
+            h(Component, { ...element._props, children: h(ContextSlot) }),
+          ),
+          h(MediaOutlets, { store: element._mediaSlots }),
         ),
-        h(MediaOutlets, { store: element._mediaSlots }),
       ),
     ),
   );
@@ -122,6 +157,10 @@ export default function register(Component: ComponentType<any>, name: string, at
     _explicitVault = false;
     _session = 0;
     _choices = createChoiceEventChannel();
+    _slots = createSlots(this);
+    getSlots = this._slots.getSnapshot;
+    subscribeSlots = this._slots.subscribe;
+    registerSlot = this._slots.register;
     _mediaSlots = createMediaSlots(this);
     getMediaSlots = this._mediaSlots.getSnapshot;
     subscribeMediaSlots = this._mediaSlots.subscribe;
