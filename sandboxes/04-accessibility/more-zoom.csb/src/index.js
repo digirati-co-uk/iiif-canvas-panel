@@ -7,4 +7,5 @@ const cp = /** @type {import("@digirati/canvas-panel-web-components").CanvasPane
 );
 if (!cp) throw new Error("Missing canvas-panel #cp");
 
+// Switch from the initial non-interactive preset when the user opts in.
 cp.addEventListener("click", () => cp.setAttribute("preset", "zoom"));

@@ -6,13 +6,14 @@ import { fileURLToPath } from "node:url";
 
 const root = new URL("../", import.meta.url);
 const pkg = JSON.parse(await readFile(new URL("package.json", root), "utf8"));
-for (const format of ["import", "require"]) {
-  const entry = pkg.exports["."][format];
-  await access(new URL(entry.default, root));
-  await access(new URL(entry.types, root));
-  const declarations = await readFile(new URL(entry.types, root), "utf8");
-  assert(!declarations.includes(".build/types/"), "Declarations must use public dependency exports");
-}
+for (const name of [".", "./elements", "./react"])
+  for (const format of ["import", "require"]) {
+    const entry = pkg.exports[name][format];
+    await access(new URL(entry.default, root));
+    await access(new URL(entry.types, root));
+    const declarations = await readFile(new URL(entry.types, root), "utf8");
+    assert(!declarations.includes(".build/types/"), "Declarations must use public dependency exports");
+  }
 await access(new URL(pkg.types, root));
 await access(new URL(pkg.exports["./dist/index.css"], root));
 await access(new URL(pkg.exports["./dist/index.iife.js"], root));
@@ -36,8 +37,16 @@ async function inspect(file) {
     await inspect(createRequire(file).resolve(specifier));
   }
 }
-for (const format of ["import", "require"])
-  await inspect(fileURLToPath(new URL(pkg.exports["."][format].default, root)));
+for (const name of [".", "./elements", "./react"])
+  for (const format of ["import", "require"])
+    await inspect(fileURLToPath(new URL(pkg.exports[name][format].default, root)));
 const script = await readFile(new URL(pkg.exports["./dist/index.iife.js"], root), "utf8");
 assert(!/node_modules\/(?:react-dom|preact|@preact)\//.test(script), "Standalone script embeds an old DOM runtime");
 console.log("React/Atlas scene dependency graphs contain no React DOM, Preact or editor runtime.");
+
+const globalScript = await readFile(new URL(pkg.exports["./dist/react-global.iife.js"], root), "utf8");
+assert(!/react\.production\.js|react\.development\.js/.test(globalScript), "Global script must not embed React");
+assert(
+  !/node_modules\/(?:react-dom|preact|@preact)\//.test(globalScript),
+  "Global script imports a forbidden DOM renderer",
+);

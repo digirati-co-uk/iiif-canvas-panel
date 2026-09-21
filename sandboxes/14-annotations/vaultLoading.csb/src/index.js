@@ -8,11 +8,12 @@ const cp = /** @type {import("@digirati/canvas-panel-web-components").CanvasPane
 if (!cp) throw new Error("Missing canvas-panel #cp");
 
 async function demo() {
-  // vault load annotation from URL:
+  // Compare external annotations with matching, different and missing IDs.
   const annoIdTest = "https://tomcrane.github.io/scratch/cp/annos/test-with-same-id.json";
   const annoIdDifferentId = "https://tomcrane.github.io/scratch/cp/annos/test-with-different-id.json";
   const annoIdNoId = "https://tomcrane.github.io/scratch/cp/annos/test-with-no-id.json";
 
+  // Inline resources can be loaded into the same Vault without a network request.
   const annoWithoutIdObj = {
     type: "Annotation",
     motivation: ["highlighting"],
@@ -35,12 +36,16 @@ async function demo() {
   let msg = "\nLoading some individual annotations:";
   const annoTest = await cp.vault.load(annoIdTest);
   msg += "\nloaded anno with id [" + annoTest.id + "] from url " + annoIdTest;
+
   const annoDifferentId = await cp.vault.load(annoIdDifferentId);
   msg += "\nloaded anno with id [" + annoDifferentId.id + "] from url " + annoIdDifferentId;
+
   const annoNoId = await cp.vault.load(annoIdNoId);
   msg += "\nloaded anno with id [" + annoNoId.id + "] from url " + annoIdNoId;
+
   const annoWithoutId = await cp.vault.load("ignored-but-required", annoWithoutIdObj);
   msg += "\nloaded anno with id [" + annoWithoutId.id + "] inline";
+
   const annoWithId = await cp.vault.load(annoWithIdObj);
   msg += "\nloaded anno with id [" + annoWithId.id + "] inline";
 

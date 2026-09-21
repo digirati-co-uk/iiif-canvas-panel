@@ -31,7 +31,8 @@
     "build:examples": "pnpm --filter @canvas-panel/examples build",
     "test:examples": "pnpm --filter @canvas-panel/examples test && pnpm --filter @canvas-panel/examples typecheck && pnpm --filter @canvas-panel/examples exec tsc -p ../tsconfig.examples.json",
     "test:example-packages": "node sandboxes/check-consumers.mjs",
-    "test:example-ui": "node scripts/check-examples.mjs"
+    "test:example-ui": "node scripts/check-examples.mjs",
+    "test:react-consumer": "node scripts/check-react-consumer.mjs"
   },
   "dependencies": {
     "@cmfcmf/docusaurus-search-local": "^2.0.1",
@@ -46,7 +47,8 @@
     "clsx": "^1.1.1",
     "prism-react-renderer": "^2.4.1",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "@docusaurus/theme-classic": "3.10.2"
   },
   "browserslist": {
     "production": [
@@ -71,7 +73,9 @@
     "raw-loader": "4.0.2",
     "tsdown": "^0.23.0",
     "typescript": "~6.0.3",
-    "yargs": "^18.2.0"
+    "yargs": "^18.2.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}": "oxlint --fix",

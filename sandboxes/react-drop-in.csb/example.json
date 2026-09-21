@@ -1,0 +1,8 @@
+{
+  "title": "React drop-in with a shared Vault",
+  "framework": "react",
+  "group": "V2 integration",
+  "files": ["App.tsx", "manifest.ts"],
+  "height": 600,
+  "description": "Use the React adapter under an existing VaultProvider. Test controlled navigation, projected children and disconnect/reconnect."
+}

@@ -17,6 +17,8 @@ export default {
       },
     };
   },
+
+  // Descendants react when the shared manifest reference becomes available.
   created() {
     this.vault.loadManifest(this.manifestId).then((manifest) => {
       if (manifest.id !== this.manifestId) {
@@ -25,6 +27,7 @@ export default {
       this.context.current = manifest;
     });
   },
+
   setup(props, { slots }) {
     return () => slots.default();
   },

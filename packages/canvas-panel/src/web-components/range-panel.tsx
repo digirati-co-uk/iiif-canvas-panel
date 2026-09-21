@@ -94,7 +94,7 @@ function ManifestRanges(props: RangePanelProps) {
 
 const rangePanelProps = ["manifest-id", "config-id", "canvas-id", "auto-scroll", "selected-range"];
 
-if (typeof window !== "undefined") {
+export function defineRangePanel() {
   register(RangePanel, "range-panel", rangePanelProps, {
     shadow: false,
     onConstruct(instance: any) {

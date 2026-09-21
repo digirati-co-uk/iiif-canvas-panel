@@ -20,6 +20,9 @@ importers:
       '@docusaurus/preset-classic':
         specifier: 3.10.2
         version: 3.10.2(@algolia/client-search@5.46.0)(@mdx-js/react@3.1.1(@types/react@19.3.0)(react@19.2.8))(@types/react@19.3.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(search-insights@2.17.3)(typescript@6.0.3)
+      '@docusaurus/theme-classic':
+        specifier: 3.10.2
+        version: 3.10.2(@types/react@19.3.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.3)
       '@docusaurus/theme-common':
         specifier: 3.10.2
         version: 3.10.2(@docusaurus/plugin-content-docs@3.10.2(@mdx-js/react@3.1.1(@types/react@19.3.0)(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -51,6 +54,12 @@ importers:
       '@types/node':
         specifier: ^22.20.4
         version: 22.20.4
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -102,9 +111,6 @@ importers:
       react-iiif-vault:
         specifier: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77
         version: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77(@atlas-viewer/atlas@https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8))(@types/react@19.3.0)(immer@9.0.21)(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
-      react-reconciler:
-        specifier: 0.33.0
-        version: 0.33.0(react@19.2.8)
     devDependencies:
       '@tsdown/css':
         specifier: ^0.23.0
@@ -124,6 +130,9 @@ importers:
       react-dom:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
+      react-reconciler:
+        specifier: 0.33.0
+        version: 0.33.0(react@19.2.8)
       tsdown:
         specifier: ^0.23.0
         version: 0.23.0(@tsdown/css@0.23.0)(@vue/language-core@3.3.11)(typescript@6.0.3)(unrun@0.2.19)
@@ -683,6 +692,37 @@ importers:
         specifier: 8.3.0
         version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)
 
+  sandboxes/explicit-registration.csb:
+    dependencies:
+      '@atlas-viewer/atlas':
+        specifier: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb
+        version: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      '@digirati/canvas-panel-web-components':
+        specifier: workspace:*
+        version: link:../../packages/canvas-panel
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-iiif-vault:
+        specifier: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77
+        version: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77(@atlas-viewer/atlas@https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8))(@types/react@19.3.0)(immer@9.0.21)(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      react-reconciler:
+        specifier: 0.33.0
+        version: 0.33.0(react@19.2.8)
+    devDependencies:
+      '@types/react':
+        specifier: 19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: 19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vite:
+        specifier: 8.3.0
+        version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)
+
   sandboxes/external-stylesheet.csb:
     dependencies:
       '@digirati/canvas-panel-web-components':
@@ -757,6 +797,71 @@ importers:
         specifier: 19.2.8
         version: 19.2.8
     devDependencies:
+      vite:
+        specifier: 8.3.0
+        version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)
+
+  sandboxes/react-drop-in.csb:
+    dependencies:
+      '@atlas-viewer/atlas':
+        specifier: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb
+        version: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      '@digirati/canvas-panel-web-components':
+        specifier: workspace:*
+        version: link:../../packages/canvas-panel
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-dom:
+        specifier: 19.2.8
+        version: 19.2.8(react@19.2.8)
+      react-iiif-vault:
+        specifier: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77
+        version: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77(@atlas-viewer/atlas@https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8))(@types/react@19.3.0)(immer@9.0.21)(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      react-reconciler:
+        specifier: 0.33.0
+        version: 0.33.0(react@19.2.8)
+    devDependencies:
+      '@types/react':
+        specifier: 19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: 19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vite:
+        specifier: 8.3.0
+        version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)
+
+  sandboxes/react-global.csb:
+    dependencies:
+      '@atlas-viewer/atlas':
+        specifier: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb
+        version: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      '@digirati/canvas-panel-web-components':
+        specifier: workspace:*
+        version: link:../../packages/canvas-panel
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-iiif-vault:
+        specifier: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77
+        version: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77(@atlas-viewer/atlas@https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8))(@types/react@19.3.0)(immer@9.0.21)(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      react-reconciler:
+        specifier: 0.33.0
+        version: 0.33.0(react@19.2.8)
+    devDependencies:
+      '@types/react':
+        specifier: 19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: 19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
       vite:
         specifier: 8.3.0
         version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)
@@ -12388,10 +12493,6 @@ packages:
 
   postcss@8.5.28:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
-    engines: {node: ^10 || ^12 || >=14}
-
-  postcss@8.5.6:
-    resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
 
   preact@10.28.0:
@@ -24120,13 +24221,13 @@ snapshots:
 
   css-loader@5.2.7(webpack@5.103.0(esbuild@0.25.12)):
     dependencies:
-      icss-utils: 5.1.0(postcss@8.5.6)
+      icss-utils: 5.1.0(postcss@8.5.28)
       loader-utils: 2.0.4
-      postcss: 8.5.6
-      postcss-modules-extract-imports: 3.1.0(postcss@8.5.6)
-      postcss-modules-local-by-default: 4.2.0(postcss@8.5.6)
-      postcss-modules-scope: 3.2.1(postcss@8.5.6)
-      postcss-modules-values: 4.0.0(postcss@8.5.6)
+      postcss: 8.5.28
+      postcss-modules-extract-imports: 3.1.0(postcss@8.5.28)
+      postcss-modules-local-by-default: 4.2.0(postcss@8.5.28)
+      postcss-modules-scope: 3.2.1(postcss@8.5.28)
+      postcss-modules-values: 4.0.0(postcss@8.5.28)
       postcss-value-parser: 4.2.0
       schema-utils: 3.3.0
       semver: 7.7.3
@@ -26942,10 +27043,6 @@ snapshots:
   icss-utils@5.1.0(postcss@8.5.28):
     dependencies:
       postcss: 8.5.28
-
-  icss-utils@5.1.0(postcss@8.5.6):
-    dependencies:
-      postcss: 8.5.6
 
   identity-obj-proxy@3.0.0:
     dependencies:
@@ -30508,10 +30605,6 @@ snapshots:
     dependencies:
       postcss: 8.5.28
 
-  postcss-modules-extract-imports@3.1.0(postcss@8.5.6):
-    dependencies:
-      postcss: 8.5.6
-
   postcss-modules-local-by-default@1.2.0:
     dependencies:
       css-selector-tokenizer: 0.7.3
@@ -30531,13 +30624,6 @@ snapshots:
       postcss-selector-parser: 7.1.1
       postcss-value-parser: 4.2.0
 
-  postcss-modules-local-by-default@4.2.0(postcss@8.5.6):
-    dependencies:
-      icss-utils: 5.1.0(postcss@8.5.6)
-      postcss: 8.5.6
-      postcss-selector-parser: 7.1.1
-      postcss-value-parser: 4.2.0
-
   postcss-modules-scope@1.1.0:
     dependencies:
       css-selector-tokenizer: 0.7.3
@@ -30551,11 +30637,6 @@ snapshots:
   postcss-modules-scope@3.2.1(postcss@8.5.28):
     dependencies:
       postcss: 8.5.28
-      postcss-selector-parser: 7.1.1
-
-  postcss-modules-scope@3.2.1(postcss@8.5.6):
-    dependencies:
-      postcss: 8.5.6
       postcss-selector-parser: 7.1.1
 
   postcss-modules-values@1.3.0:
@@ -30572,11 +30653,6 @@ snapshots:
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.28)
       postcss: 8.5.28
-
-  postcss-modules-values@4.0.0(postcss@8.5.6):
-    dependencies:
-      icss-utils: 5.1.0(postcss@8.5.6)
-      postcss: 8.5.6
 
   postcss-modules@2.0.0:
     dependencies:
@@ -30912,7 +30988,7 @@ snapshots:
 
   postcss-safe-parser@5.0.2:
     dependencies:
-      postcss: 8.5.6
+      postcss: 8.5.28
 
   postcss-selector-matches@4.0.0:
     dependencies:
@@ -31013,12 +31089,6 @@ snapshots:
   postcss@8.5.28:
     dependencies:
       nanoid: 3.3.19
-      picocolors: 1.1.1
-      source-map-js: 1.2.1
-
-  postcss@8.5.6:
-    dependencies:
-      nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
 

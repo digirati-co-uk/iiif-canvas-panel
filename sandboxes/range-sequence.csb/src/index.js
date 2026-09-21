@@ -8,20 +8,19 @@ const prev = document.getElementById("prev");
 const total = document.getElementById("total");
 
 document.getElementById("range").addEventListener("range-change", (e) => {
-  // seq.setAttribute("canvas-id", e.detail.canvasId);
-  // if (e.detail.fragment && e.detail.fragment.startsWith("xywh=")) {
-  //   seq.setAttribute("target", e.detail.fragment.slice(5));
-  // }
+  // Start the newly selected range at its first sequence position.
 
   if (seq.sequence) {
     seq.sequence.setSequenceIndex(0);
   }
+
   seq.setAttribute("range-id", e.detail.range.id);
   seq.setAttribute("canvas-id", e.detail.canvasId);
 
   document.getElementById("range").setAttribute("selected-range", e.detail.range.id);
 });
 
+// Reflect the active sequence position in the counter and navigation buttons.
 seq.addEventListener("sequence-change", (e) => {
   console.log(e.detail, e.detail.total - 1 <= e.detail.index);
 
@@ -32,6 +31,7 @@ seq.addEventListener("sequence-change", (e) => {
   } else {
     prev.removeAttribute("disabled");
   }
+
   if (e.detail.total - 1 <= e.detail.index) {
     next.setAttribute("disabled", "true");
   } else {

@@ -1,0 +1,7 @@
+{
+  "title": "Explicit web-component registration",
+  "group": "V2 integration",
+  "files": ["index.html", "main.ts"],
+  "description": "Assign a Vault before upgrade, register elements idempotently and move the same panel through disconnect/reconnect.",
+  "height": 520
+}

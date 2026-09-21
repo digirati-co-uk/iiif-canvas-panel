@@ -8,6 +8,7 @@ import type { ContentStateEvent, ContentStateCallback } from "./content-state";
 
 export interface CanvasPanelEventMap extends HTMLElementEventMap {
   ready: CustomEvent<void>;
+  "canvas-request": CustomEvent<{ canvasId: string }>;
   choice: CustomEvent<{ choice: ChoiceDescription }>;
   "canvas-change": CustomEvent<{ canvas: string | undefined }>;
   "cp-load-error": ErrorEvent;

@@ -9,6 +9,8 @@ async function show() {
     document.getElementById("cp")
   );
   if (!cp) throw new Error("Missing canvas-panel #cp");
+
+  // Region coordinates use canvas pixels, not browser pixels.
   await cp.vault.loadManifest("https://iiif.wellcomecollection.org/presentation/b14658197");
   cp.setCanvas("https://iiif.wellcomecollection.org/presentation/b14658197/canvases/b14658197.jp2");
 

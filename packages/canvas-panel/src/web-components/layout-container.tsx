@@ -29,7 +29,7 @@ export function LayoutContainer({ children, ...props }: any) {
   );
 }
 
-if (typeof window !== "undefined") {
+export function defineLayoutElements() {
   const config = {
     shadow: true,
     onConstruct(instance: any) {

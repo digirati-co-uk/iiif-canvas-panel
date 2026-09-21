@@ -6,11 +6,14 @@
 
 <script>
 import { ref } from "vue";
+
 export default {
   name: "App",
   setup() {
+    // Reactive values are passed directly to the custom element's attributes.
     const manifestId = ref("https://digirati-co-uk.github.io/wunder.json");
     const canvasId = ref("https://digirati-co-uk.github.io/wunder/canvases/0");
+
     return { manifestId, canvasId };
   },
 };

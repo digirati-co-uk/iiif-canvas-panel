@@ -53,6 +53,8 @@ jobs:
 
       - run: pnpm exec playwright install --with-deps chromium
 
+      - run: pnpm test:react-consumer
+
       - name: Check documentation example interactions
         run: |
           pnpm exec docusaurus serve --port 3000 --no-open &

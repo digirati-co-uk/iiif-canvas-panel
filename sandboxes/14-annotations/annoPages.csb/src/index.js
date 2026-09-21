@@ -11,21 +11,23 @@ async function demo() {
   const manifestWithAnnotations = await cp.vault.loadManifest(
     "https://iiif.wellcomecollection.org/presentation/b18035723",
   );
+
   const canvas10 = cp.vault.get(manifestWithAnnotations.items[10]);
   cp.setCanvas(canvas10.id);
+
   for (const annoPage of canvas10.annotations) {
-    // the .annotations property is an array of 0..n AnnotationPage resources.
-    // how do we know these are not inline?
+    // External annotation pages must be loaded separately from the manifest.
     let embedded = annoPage.items && !cp.vault.requestStatus(annoPage);
+
     if (!embedded) {
       console.log(annoPage.id + " needs to be loaded");
-      // As a resource external to the manifest, we load annotations specifically, from their id:
+
+      // Resolve the page by its IIIF ID before displaying its annotations.
       const loadedAnnoPage = await cp.vault.load(annoPage.id);
       // These are now loaded into the Vault
       await showSomeAnnotations(canvas10.id, loadedAnnoPage);
     }
   }
-  //document.getElementById("output").innerText = msg;
 }
 
 async function showSomeAnnotations(canvasId, annoPage) {

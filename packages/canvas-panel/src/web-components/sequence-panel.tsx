@@ -259,7 +259,7 @@ export function SequencePanel(props: SequencePanelProps) {
   );
 }
 
-if (typeof window !== "undefined") {
+export function defineSequencePanel() {
   const config = {
     shadow: true,
     onConstruct(instance: any) {

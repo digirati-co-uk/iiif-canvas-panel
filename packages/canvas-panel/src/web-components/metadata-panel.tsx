@@ -81,7 +81,7 @@ const metadataPanelProps = [
   "show-empty-message",
 ];
 
-if (typeof window !== "undefined") {
+export function defineMetadataPanel() {
   register(MetadataPanel, "metadata-panel", metadataPanelProps, {
     shadow: false,
     onConstruct(instance: any) {

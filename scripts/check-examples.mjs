@@ -1,3 +1,4 @@
+import { wunderUrl, wunderFixture } from "./fixtures/wunder.mjs";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { chromium, webkit } from "playwright";
@@ -59,6 +60,7 @@ try {
       });
     },
   );
+  await page.route(wunderUrl, (route) => route.fulfill({ json: wunderFixture }));
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
   // Source is in the generated HTML, even without JavaScript or the preview service.
@@ -232,6 +234,48 @@ try {
   assert.equal(failures, 2);
 
   const catalog = JSON.parse(await readFile(".docs-examples/catalog.json", "utf8"));
+  // V2 integration examples are fixtures even before they have documentation articles.
+  frame = await open("react-drop-in");
+  await frame.getByRole("status").filter({ hasText: "Using the application Vault" }).waitFor();
+  await frame.getByRole("checkbox", { name: "Lock navigation" }).check();
+  await frame.getByRole("button", { name: "Next canvas" }).click();
+  assert.equal(
+    await frame.locator("canvas-panel").evaluate((el) => el.getCanvasId()),
+    "https://digirati-co-uk.github.io/wunder/canvases/2",
+  );
+  await frame.getByRole("checkbox", { name: "Lock navigation" }).uncheck();
+  await frame.getByRole("button", { name: "Next canvas" }).click();
+  await frame.waitForFunction(() => document.querySelector("canvas-panel").getCanvasId().endsWith("/3"));
+  await frame.getByRole("button", { name: "React-owned child: 0" }).click();
+  await frame.getByRole("button", { name: "React-owned child: 1" }).waitFor();
+  await frame.getByRole("button", { name: "Unmount panel" }).click();
+  assert.equal(await frame.locator("canvas-panel").count(), 0);
+  await frame.getByRole("button", { name: "Mount panel" }).click();
+  await frame.waitForFunction(() => document.querySelector("canvas-panel")?.getCanvasId?.()?.endsWith("/3"));
+
+  await page.goto(`${base}/all-sandboxes#explicit-registration`);
+  const registrationFrame = page.locator('.docs-example-preview iframe[src$="/explicit-registration/"]');
+  await registrationFrame.scrollIntoViewIfNeeded();
+  frame = await (await registrationFrame.elementHandle()).contentFrame();
+  await frame.getByRole("button", { name: "Register elements" }).click();
+  await frame.getByRole("status").filter({ hasText: "Pre-upgrade Vault preserved" }).waitFor();
+  await frame.getByRole("button", { name: "Authored child: 0" }).click();
+  await frame.getByRole("button", { name: "Reconnect panel" }).click();
+  await frame.getByRole("button", { name: "Authored child: 1" }).click();
+  await frame.getByRole("button", { name: "Authored child: 2" }).waitFor();
+
+  await page.goto(`${base}/all-sandboxes#react-global`);
+  const globalFrame = page.locator('.docs-example-preview iframe[src$="/react-global/"]');
+  await globalFrame.scrollIntoViewIfNeeded();
+  frame = await (await globalFrame.elementHandle()).contentFrame();
+  await frame.getByRole("button", { name: "Load viewer script" }).click();
+  await frame.getByRole("status").filter({ hasText: "Pre-upgrade Vault preserved" }).waitFor();
+  await frame.waitForFunction(() => {
+    const canvas = document.querySelector("canvas-panel")?.shadowRoot?.querySelector("canvas");
+    const pixel = canvas?.getContext("2d")?.getImageData(canvas.width / 2, canvas.height / 2, 1, 1).data;
+    return pixel?.[0] === 36 && pixel?.[1] === 99;
+  });
+
   const assets = new Set();
   for (const example of catalog.examples) {
     const url = `${base}/examples/${example.id}/`;

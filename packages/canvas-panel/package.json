@@ -22,8 +22,7 @@
     "@iiif/helpers": "4.0.0",
     "@iiif/parser": "4.0.1",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77",
-    "react-reconciler": "0.33.0"
+    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77"
   },
   "devDependencies": {
     "@tsdown/css": "^0.23.0",
@@ -35,7 +34,8 @@
     "tsdown": "^0.23.0",
     "typescript": "~6.0.3",
     "vite": "^8.3.0",
-    "vitest": "^5.0.1"
+    "vitest": "^5.0.1",
+    "react-reconciler": "0.33.0"
   },
   "publishConfig": {
     "access": "public"
@@ -55,9 +55,31 @@
     },
     "./dist/index.iife.js": "./dist/index.iife.js",
     "./package.json": "./package.json",
-    "./dist/index.css": "./dist/index.css"
+    "./dist/index.css": "./dist/index.css",
+    "./elements": {
+      "import": {
+        "types": "./dist/elements.d.mts",
+        "default": "./dist/elements.mjs"
+      },
+      "require": {
+        "types": "./dist/elements.d.cts",
+        "default": "./dist/elements.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react.d.mts",
+        "default": "./dist/react.mjs"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
+    },
+    "./dist/react-global.iife.js": "./dist/react-global.iife.js"
   },
   "peerDependencies": {
-    "react": "^19.2.0"
+    "react": "^19.2.0",
+    "react-reconciler": "~0.33.0"
   }
 }

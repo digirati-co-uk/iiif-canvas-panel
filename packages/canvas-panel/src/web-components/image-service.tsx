@@ -169,7 +169,7 @@ function WrappedImageService(props: ImageServiceProps) {
   );
 }
 
-if (typeof window !== "undefined") {
+export function defineImageService() {
   register(
     WrappedImageService,
     "image-service",

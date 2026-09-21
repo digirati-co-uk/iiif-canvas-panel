@@ -49,6 +49,7 @@ export default {
   },
 
   methods: {
+    // Vue updates the canvas attribute; reset the viewport for the new page.
     handlerClick(canvas) {
       this.currentCanvas = canvas;
       if (this.$refs.viewer) {

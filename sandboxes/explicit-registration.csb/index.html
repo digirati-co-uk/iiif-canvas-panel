@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Explicit registration</title>
+
+  <p><a href="https://digirati-co-uk.github.io/wunder.json" target="_blank" rel="noreferrer">View IIIF manifest</a></p>
+  <button id="register" disabled>Register elements</button>
+  <button id="reconnect" disabled>Reconnect panel</button>
+  <p role="status" id="status">Loading IIIF manifest…</p>
+  <div id="mount">
+    <canvas-panel id="panel" width="600" height="360">
+      <button id="child">Authored child: 0</button>
+    </canvas-panel>
+  </div>
+
+  <script type="module" src="./main.ts"></script>
+</html>

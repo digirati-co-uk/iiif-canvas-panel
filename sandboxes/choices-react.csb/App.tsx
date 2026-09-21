@@ -8,14 +8,19 @@ export default function App() {
   const viewer = useRef<CanvasPanelElement>(null);
   const [choice, setChoice] =
     useState<Extract<CanvasPanelEventMap["choice"]["detail"]["choice"], { type: "single-choice" }>>();
+
+  // Keep at least one painting choice visible.
   const disabledChoice = choice ? choice.items.filter((i) => i.selected).length === 1 : false;
 
+  // Listen for the element's choice data, then remove the listener on unmount.
   useLayoutEffect(() => {
     const element = viewer.current;
     if (!element) return;
+
     const onChoice = (event: CanvasPanelEventMap["choice"]) => {
       if (event.detail.choice.type === "single-choice") setChoice(event.detail.choice);
     };
+
     element.addEventListener("choice", onChoice);
     return () => element.removeEventListener("choice", onChoice);
   }, []);
@@ -37,6 +42,7 @@ export default function App() {
                         deselectOthers: false,
                       });
                     }
+
                     viewer.current?.makeChoice(item.id, {
                       deselect: item.selected,
                       deselectOthers: false,
@@ -44,6 +50,7 @@ export default function App() {
                   }}
                   checked={item.selected}
                 />
+
                 <strong>{item.label?.en?.join("") || item.id}</strong>
                 <input
                   type="range"

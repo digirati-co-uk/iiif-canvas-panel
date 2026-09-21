@@ -18,12 +18,14 @@ export default {
     Manifest,
     ManifestThumbnailList,
   },
+  // Share one Vault and thumbnail helper with the descendant components.
   provide() {
     return {
       vault: this.vault,
       thumbs: this.thumbs,
     };
   },
+
   data() {
     const vault = globalVault();
     return {

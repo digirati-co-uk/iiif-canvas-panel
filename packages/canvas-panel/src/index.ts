@@ -1,9 +1,7 @@
-import "./web-components/layout-container";
-import "./web-components/canvas-panel";
-import "./web-components/image-service";
-import "./web-components/sequence-panel";
-import "./web-components/metadata-panel";
-import "./web-components/range-panel";
+import { defineCustomElements } from "./elements";
 
+defineCustomElements();
+
+export { defineCustomElements } from "./elements";
 export * from "./helpers/annotation-display";
 export type { CanvasPanelElement, CanvasPanelEventMap } from "./types/element";

@@ -1,0 +1,7 @@
+{
+  "title": "Standalone script with global React",
+  "group": "V2 integration",
+  "files": ["index.html", "main.ts"],
+  "description": "Supply React once and load the React-global viewer script. The viewer does not bundle another React runtime.",
+  "height": 520
+}

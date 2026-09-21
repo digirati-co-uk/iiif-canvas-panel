@@ -161,7 +161,11 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
       vault,
 
       setCanvas: (id: string) => {
-        htmlComponent.setAttribute("canvas-id", id);
+        if (
+          htmlComponent.dispatchEvent(new CustomEvent("canvas-request", { cancelable: true, detail: { canvasId: id } }))
+        ) {
+          htmlComponent.setAttribute("canvas-id", id);
+        }
       },
       setManifest: (id: string) => {
         htmlComponent.setAttribute("manifest-id", id);
@@ -302,7 +306,15 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
           const manifestSource = ("partOf" in firstTarget.source ? firstTarget.source.partOf || [] : []).find(
             (s) => s.type === "Manifest",
           );
-          setCanvasId(firstTarget.source.id);
+          if (
+            webComponent.current?.dispatchEvent(
+              new CustomEvent("canvas-request", {
+                cancelable: true,
+                detail: { canvasId: firstTarget.source.id },
+              }),
+            )
+          )
+            setCanvasId(firstTarget.source.id);
           if (manifestSource) {
             setManifestId(manifestSource.id);
           }
@@ -387,7 +399,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
   );
 };
 
-if (typeof window !== "undefined") {
+export function defineCanvasPanel() {
   register(CanvasPanel, "canvas-panel", canvasPanelAttributes, {
     shadow: true,
     onConstruct(instance: any) {
