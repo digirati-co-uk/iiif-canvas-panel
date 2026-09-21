@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'preact/compat';
+import { useLayoutEffect, useState } from 'react';
 import { resolveConfig } from '../helpers/resolve-config';
 
 export function usePresetConfig<T>(preset?: string, onChange?: (query: string, config: Partial<T>) => void) {

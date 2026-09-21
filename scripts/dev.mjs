@@ -4,9 +4,14 @@ import { spawn } from "node:child_process";
 const build = spawn("pnpm", ["build:runtime"], { stdio: "inherit" });
 const code = await new Promise((resolve) => build.on("exit", resolve));
 if (code !== 0) process.exit(code || 1);
+const examplesBuild = spawn("pnpm", ["build:examples"], { stdio: "inherit" });
+const examplesCode = await new Promise((resolve) => examplesBuild.on("exit", resolve));
+if (examplesCode !== 0) process.exit(examplesCode || 1);
 
 const children = [
   ["--filter", "@digirati/canvas-panel-web-components", "dev:bundle"],
+  ["--filter", "@digirati/canvas-panel-web-components", "exec", "tsdown", "--watch", "--no-clean"],
+  ["--filter", "@canvas-panel/examples", "watch"],
   ["dev:docs"],
   ["dev:app"],
 ].map((args) =>

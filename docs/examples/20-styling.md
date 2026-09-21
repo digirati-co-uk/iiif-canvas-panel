@@ -4,11 +4,7 @@ sidebar_position: 20
 
 # Styling
 
-import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
-import opacity from '@site/sandboxes/20-styling/opacity.csb/_load';
-import opacity2 from '@site/sandboxes/20-styling/opacity2.csb/_load';
-import flexbox from '@site/sandboxes/01-show-canvas/flexbox.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 <!-- Stephen
 Needs a really good example of how to make it stick to 4 sides of container
@@ -159,19 +155,19 @@ styles.
 <canvas-panel stylesheet="https://example.org/styles.css"></canvas-panel>
 ```
 
-<Sandbox project={externalStylesheet} />
+<Example id="external-stylesheet-sandbox" />
 
 ## Styling with FlexBox
 
 To demonstrate how canvas panel can flex to fill its container, it's best to open this demo in the code sandbox and then open the preview in a new window.
 
-<Sandbox project={flexbox} />
+<Example id="flexbox" />
 
 ## Opacity
 
 You can set the opacity of resources via their `id`. In this case, the `id` of the image resource that is the body of the painting annotation:
 
-<Sandbox project={opacity2} />
+<Example id="opacity-2" />
 
 You can also set the opacity of a particular item within a Choice:
 
@@ -182,7 +178,7 @@ You can also set the opacity of a particular item within a Choice:
 />                                                       Useful for static rendering -----^
 ```
 
-<Sandbox project={opacity} />
+<Example id="opacity" />
 
 Tile rendering is not as optimised when applying opacity. Canvas Panel does not layer multiple tiles when zooming - just one layer of tiles, so no nice blending, otherwise you'd see through to the fallback layers with the opacity.
 

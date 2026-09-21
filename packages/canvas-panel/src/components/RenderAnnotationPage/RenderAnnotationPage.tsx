@@ -1,8 +1,8 @@
-import { FC } from 'preact/compat';
-import { Fragment, h } from 'preact';
+import { FC } from 'react';
+import { Fragment, createElement as h } from 'react';
 import { RenderAnnotation } from '../RenderAnnotation/RenderAnnotation';
-import { useStyles, useVaultSelector } from 'react-iiif-vault';
-import { BoxStyle } from '@atlas-viewer/atlas';
+import { useStyles, useVaultSelector } from 'react-iiif-vault/core';
+import { BoxStyle } from '@atlas-viewer/atlas/react';
 
 export const RenderAnnotationPage: FC<{
   page: { id: string; type: 'AnnotationPage'; items?: ReadonlyArray<{ id: string }> };

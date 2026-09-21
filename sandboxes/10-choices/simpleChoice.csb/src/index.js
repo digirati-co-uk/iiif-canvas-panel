@@ -1,4 +1,5 @@
-import '@digirati/canvas-panel-web-components/dist/index.iife.js';
+import "@digirati/canvas-panel-web-components/dist/index.css";
+import '@digirati/canvas-panel-web-components';
 import { getValue } from '@iiif/helpers/i18n';
 import './styles.css';
 

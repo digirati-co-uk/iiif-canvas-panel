@@ -1,0 +1,9 @@
+{
+  "title": "Responsive JSON config",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Responsive",
+  "description": "Resize the preview window to change the canvas and height through media queries."
+}

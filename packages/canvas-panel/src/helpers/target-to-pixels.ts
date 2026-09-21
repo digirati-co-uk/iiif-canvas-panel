@@ -1,4 +1,4 @@
-import { Projection } from '@atlas-viewer/atlas';
+import { Projection } from '@atlas-viewer/atlas/react';
 
 export function targetToPixels(
   { unit, ...target }: Projection & { unit: 'percent' | 'pixel' },

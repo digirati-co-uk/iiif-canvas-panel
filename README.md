@@ -14,26 +14,23 @@ pnpm dev
 - Application playground: http://127.0.0.1:5173
 - Deterministic rendering smoke test: http://127.0.0.1:5173/test/smoke.html
 
-Package source changes rebuild the browser bundle and reload the docs, including
-editable examples and standalone demos. Vite updates the application directly.
-Docs changes reload through Docusaurus. Ctrl-C stops all three processes.
-The docs use the workspace package, not a CDN release; the served bundle is
-`/index.iife.js`, with `/index.css`. Sandpack compiles edited examples remotely,
-so editable previews still require internet access. The local build is passed into
-the preview as virtual files, including when running on localhost.
+Package source changes rebuild the browser bundle and ESM package, then update
+locally built example previews. Vite updates the application directly. Docs changes
+reload through Docusaurus. Ctrl-C stops the development processes.
+
+Examples use ordinary Vite projects with readable source and isolated inline
+previews. Editing opens StackBlitz with the same source and package; local exports
+include the current build and declarations. See [the example authoring guide](sandboxes/README.md)
+for adding examples, package previews and checks.
 
 ```sh
-pnpm build               # package, example helpers, then production documentation
+pnpm build               # package, examples, then production documentation
 pnpm serve               # serve build/ locally
-pnpm dev:docs            # docs only, after pnpm build:runtime
+pnpm dev:docs            # docs only, after pnpm build:runtime and pnpm build:examples
 pnpm dev:app             # application only
 pnpm --filter @digirati/canvas-panel-web-components typecheck
 pnpm --filter @digirati/canvas-panel-web-components test
 ```
-
-The current browser build retains the Preact/manual Atlas renderer while the v2
-React reconciler work proceeds. Its renderer is isolated from Docusaurus React.
-See [the v2 plan](V2-REVIEW-AND-PLAN.md) for the remaining migration.
 
 The search plugin's Cheerio version is pinned to its compatible CommonJS release;
 remove that override when upgrading Docusaurus and the search plugin together.
@@ -43,7 +40,7 @@ Browser regression checks (with the docs server running):
 ```sh
 pnpm exec playwright install chromium
 pnpm test:docs
-pnpm test:demos          # also checks editable React/Vue and navigation; needs internet
+pnpm test:demos          # also checks React/Vue and navigation; needs internet
 ```
 
 Use `DOCS_URL=http://127.0.0.1:3001` to check a production server. The check verifies

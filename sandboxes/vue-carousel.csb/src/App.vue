@@ -10,8 +10,8 @@
 
 <script>
 import { globalVault } from "@iiif/helpers/vault";
-import Manifest from "./components/Manifest";
-import ManifestThumbnailList from "./components/ManifestThumbnailList";
+import Manifest from "./components/Manifest.vue";
+import ManifestThumbnailList from "./components/ManifestThumbnailList.vue";
 import { createThumbnailHelper } from "@iiif/helpers/thumbnail";
 
 export default {

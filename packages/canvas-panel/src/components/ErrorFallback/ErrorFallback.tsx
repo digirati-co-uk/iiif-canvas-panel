@@ -1,6 +1,6 @@
-import { h } from 'preact';
+import { createElement as h } from 'react';
 import { FallbackProps } from 'react-error-boundary';
-import { useEffect } from 'preact/compat';
+import { useEffect } from 'react';
 import { errorEventChannel } from '../../helpers/eventbus';
 
 export function ErrorFallback({

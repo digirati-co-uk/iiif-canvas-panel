@@ -1,24 +1,8 @@
-# Vue 3 - Example carousel
+# Vue carousel
 
-## Project setup
-```
-yarn install
-```
+Select a thumbnail to change the displayed canvas.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+In this repository: `pnpm --filter vue-3-carousel start`.
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+In an exported project: `npm install`, then `npm start`.
+Run `npm run build` to build a static preview.

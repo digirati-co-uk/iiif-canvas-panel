@@ -4,8 +4,7 @@ sidebar_position: 11
 
 # Working with React
 
-import exampleReact from '@site/sandboxes/choices-react.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 Import the browser bundle once in your client entry, then render custom elements
 with their hyphenated HTML attributes. Use a ref for imperative methods and
@@ -34,4 +33,4 @@ through the ESM entry is part of the upcoming renderer migration.
 
 The example below switches painting choices and changes their opacity:
 
-<Sandbox project={exampleReact} />
+<Example id="react-choices-example" />

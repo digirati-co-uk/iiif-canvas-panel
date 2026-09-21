@@ -1,48 +1,35 @@
 // @vitest-environment happy-dom
-import { h, render } from 'preact';
-import { act } from 'preact/test-utils';
+import { act } from 'react';
 import { expect, it, vi } from 'vitest';
+import { render } from '../src/library/dom-renderer';
 import { NestedAtlas } from '../src/components/NestedAtlas/NestedAtlas';
-
-vi.mock('@atlas-viewer/atlas', async () => {
-  const { useEffect } = await import('preact/hooks');
+(globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
+const dispose = vi.fn();
+const resize = vi.fn();
+const created = vi.fn(() => ({
+  runtime: { world: { addLayoutSubscriber: () => () => {} }, resize, setOptions() {}, goHome() {}, setHomePosition() {}, updateNextFrame() {} },
+  unmount: dispose,
+}));
+vi.mock('@atlas-viewer/atlas/react', async () => {
+  const { createContext } = await import('react');
   return {
-    // Atlas uses onCreated as a dependency of its scene component. A new
-    // callback can remount that component even when the runtime is unchanged.
-    AtlasAuto: ({ onCreated, children }: { onCreated: (preset: unknown) => void; children: unknown }) => {
-      useEffect(() => {
-        onCreated({ runtime: { updateNextFrame() {} } });
-      }, [onCreated]);
-      return children;
-    },
-    useAtlas: () => null,
+    AtlasContext: createContext(null), BoundsContext: createContext(null), ModeContext: createContext('explore'),
+    defaultPreset: (...args: any[]) => created(...args), staticPreset: (...args: any[]) => created(...args),
+    ReactAtlas: { render() {}, unmountComponentAtNode(_runtime: any, cb: any) { cb(); } },
   };
 });
-
-it('does not recreate the Atlas scene when readiness or display props change', () => {
+it('retains the runtime across host updates and disposes it on disconnect', async () => {
   const host = document.createElement('div');
-  const created = vi.fn();
+  const original = globalThis.ResizeObserver;
+  globalThis.ResizeObserver = class { observe() {} disconnect() {} } as any;
+  const rect = { width: 480, height: 320, toJSON: () => ({ width: 480, height: 320 }) };
+  const bounds = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue(rect as any);
   try {
-    act(() =>
-      render(
-        <NestedAtlas onCreated={created}>
-          <span>Scene</span>
-        </NestedAtlas>,
-        host
-      )
-    );
+    await act(async () => render(<NestedAtlas width={480} height={320}>{null}</NestedAtlas>, host));
+    await act(async () => render(<NestedAtlas width={360} height={240} className="updated">{null}</NestedAtlas>, host));
     expect(created).toHaveBeenCalledTimes(1);
-    act(() =>
-      render(
-        <NestedAtlas onCreated={created} className="updated">
-          <span>Scene</span>
-        </NestedAtlas>,
-        host
-      )
-    );
-    expect(created).toHaveBeenCalledTimes(1);
-    expect(host.textContent).toBe('Scene');
-  } finally {
-    act(() => render(null, host));
-  }
+    expect(host.querySelector('.updated')).not.toBeNull();
+    await act(async () => render(null, host));
+    expect(dispose).toHaveBeenCalledTimes(1);
+  } finally { bounds.mockRestore(); globalThis.ResizeObserver = original; }
 });

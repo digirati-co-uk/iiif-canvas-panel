@@ -5,8 +5,7 @@ sidebar_position: 15
 # Working with Annotation Pages
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-import annoPages from '@site/sandboxes/15-annotations-in-bulk/annoPage.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 <!-- Stephen: anno page styling not working! -->
 
@@ -17,7 +16,7 @@ AnnotationPages can be used to partition annotations for any purpose, and should
 Canvas Panel can then load, display and style whole annotation pages - that is, display all the annotations in one AnnotationPage, and style all the annotations in one AnnotationPage.
 
 
-<Sandbox label="Loading and styling Annotation pages" stacked project={annoPages} />
+<Example label="Loading and styling Annotation pages" id="external-annotation-pages" />
 
 
 Canvas Panel's `AnnotationPageManager` has the following helpers:

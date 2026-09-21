@@ -16,7 +16,7 @@
       "dom",
       "esnext"
     ],
-    "jsx": "react",
+    "jsx": "react-jsx",
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
@@ -36,9 +36,7 @@
     "outDir": "./dist/types",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "rootDir": "./src",
-    "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment"
+    "rootDir": "./src"
   },
   "include": [
     "./src/**/*",

@@ -6,15 +6,7 @@ hide_title: true
 # Showing a region of the Canvas
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-import region1 from '@site/sandboxes/05-regions/region1.csb/_load';
-import region2 from '@site/sandboxes/05-regions/region2.csb/_load';
-import region3 from '@site/sandboxes/05-regions/region3.csb/_load';
-import region4 from '@site/sandboxes/05-regions/region4.csb/_load';
-import region5 from '@site/sandboxes/05-regions/region5.csb/_load';
-import region6 from '@site/sandboxes/05-regions/region6.csb/_load';
-import more2 from '@site/sandboxes/07-more-regions/more2.csb/_load';
-import more3 from '@site/sandboxes/07-more-regions/more3.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 
 <div style={{ height: '240px', overflow: 'hidden', marginBottom: 30, position: 'relative' }}>
@@ -32,19 +24,19 @@ This might be part of a Canvas, or a region of an image service. This can be spe
 
 If you just have an image service:
 
-<Sandbox stacked project={region1} />
+<Example id="regions-1" />
 
 If you have a canvas ID, within a manifest:
 
-<Sandbox stacked project={region2} />
+<Example id="regions-2" />
 
 Another variation is a content state that supplies the canvas, but doesn't supply a region:
 
-<Sandbox stacked project={region3} />
+<Example id="regions-3" />
 
 And if that content state does supply the region itself, then it's all you would need:
 
-<Sandbox stacked project={region4} />
+<Example id="regions-4" />
 
 ([See this content state decoded](https://base64url.herokuapp.com/?iiif-content=JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYud2VsbGNvbWVjb2xsZWN0aW9uLm9yZyUyRnByZXNlbnRhdGlvbiUyRmIxNDY1ODE5NyUyRmNhbnZhc2VzJTJGYjE0NjU4MTk3LmpwMiUyM3h5d2glM0QyNDQ5JTJDMTA2MiUyQzE2OTUlMkM5NjUlMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYud2VsbGNvbWVjb2xsZWN0aW9uLm9yZyUyRnByZXNlbnRhdGlvbiUyRmIxNDY1ODE5NyUyMiUyQyUyMnR5cGUlMjIlM0ElMjJNYW5pZmVzdCUyMiU3RCU1RCU3RA))
 
@@ -90,7 +82,7 @@ See [common viewer features page](../../docs/applications/simple-viewer-with-com
 ## Setting regions programmatically
 
 
-<Sandbox stacked project={region5} />
+<Example id="regions-5" />
 
 
 > Canvas Panel always shows _one_ canvas. That canvas is accessible via the Vault. However, that canvas might be a _synthetic_ canvas that the developer  dynamically and composited other canvases and content onto. Your app might be using a wrapping layout component around Canvas Panel, e.g., to layout a manifest as a strip (with zones) so you don't have to explicitly do the compositing.
@@ -155,7 +147,7 @@ cp.goHome();
 ```
 
 
-<Sandbox stacked project={region6} />
+<Example id="regions-6" />
 
 
 For more on developing Annotation functionality, displaying annotations, and working with bodies and targets, see [Annotations](./annotations).
@@ -226,14 +218,14 @@ or, make the canvas panel image the link:
 </a>
 ```
 
-<Sandbox stacked project={more2} />
+<Example id="more-regions-1" />
 
 
 ### Not using content state
 
 An alternative would be where the developer has the region and IIIF information to hand directly, in which case they don't need a stored content state, or they are using the info from the content state directly:
 
-<Sandbox stacked project={more3} />
+<Example id="more-regions-2" />
 
 
 

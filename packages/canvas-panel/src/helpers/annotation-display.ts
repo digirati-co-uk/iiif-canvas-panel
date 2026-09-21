@@ -1,7 +1,7 @@
 import { Vault } from '@iiif/helpers';
 import { ClassList } from './class-list';
 import type { Reference } from '@iiif/parser/presentation-3/types';
-import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas';
+import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas/react';
 import { createStylesHelper, StyledHelper, createEventsHelper } from '@iiif/helpers';
 import { AnnotationNormalized } from '@iiif/parser/presentation-3-normalized/types';
 

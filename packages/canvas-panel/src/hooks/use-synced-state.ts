@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, RefObject, useLayoutEffect } from 'preact/compat';
+import { useCallback, useRef, useState, RefObject, useLayoutEffect } from 'react';
 
 export function useSyncedState<T, V = T>(
   propValue: T,

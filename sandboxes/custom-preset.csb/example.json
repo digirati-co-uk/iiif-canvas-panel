@@ -1,0 +1,9 @@
+{
+  "title": "Custom preset JSON",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Components",
+  "description": "Configure the viewer with a JSON preset referenced from the HTML."
+}

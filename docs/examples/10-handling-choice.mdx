@@ -5,10 +5,7 @@ sidebar_position: 10
 # Handling Choice
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-import choicesReactSandbox from "@site/sandboxes/choices-react.csb/_load";
-import simpleChoice from "@site/sandboxes/10-choices/simpleChoice.csb/_load";
-import choice1 from "@site/sandboxes/10-choices/choice1.csb/_load";
-import { Sandbox } from "@site/Sandbox";
+import { Example } from "@site/Example";
 
 A Canvas have have multiple images. Sometimes, they are all a part of the scene
 to be rendered and the developer doesn't have to do anything extra - Canvas
@@ -55,7 +52,7 @@ resources each of which have their own set of choices.
 />
 ```
 
-<Sandbox stacked project={choice1} />
+<Example id="choice-example" />
 
 Here the value of `choice-id` is the `id` of the content resource within a set
 of choices. You don't need to specify which set of choices, in the rare event
@@ -104,7 +101,7 @@ A choice event will look like the following:
 
 :::
 
-<Sandbox project={simpleChoice} />
+<Example id="choice-react" />
 
 Canvas panel also has the additional helpers for scenarios where you don't want
 to react to the choice event:
@@ -134,7 +131,7 @@ generating the markup on the server):
 
 This is a more realistic use of Canvas Panel's choice-handling capability:
 
-<Sandbox project={choicesReactSandbox} />
+<Example id="react-choices-example" />
 
 ## Additional choice helper API
 

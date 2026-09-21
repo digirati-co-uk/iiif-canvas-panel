@@ -9,8 +9,8 @@ module.exports = {
   baseUrl: "/",
   onBrokenLinks: "throw",
   // Docusaurus serves and watches the workspace build in development and copies it
-  // into the production site. Both the docs and Sandpack use these same assets.
-  staticDirectories: ["static", "packages/canvas-panel/dist", ".docs-runtime"],
+  // into the production site. Documentation uses these assets; examples are separately built Vite pages.
+  staticDirectories: ["static", "packages/canvas-panel/dist", ".docs-runtime", ".docs-examples"],
   stylesheets: ["/index.css"],
   scripts: ["/index.iife.js", "/docs-helpers.iife.js"],
   onBrokenMarkdownLinks: "warn",
@@ -33,7 +33,7 @@ module.exports = {
         },
         { to: "/about", label: "About", position: "left" },
         { to: "/glossary", label: "Glossary", position: "left" },
-        { to: "/all-sandboxes", label: "Sandboxes", position: "left" },
+        { to: "/all-sandboxes", label: "Examples", position: "left" },
         {
           href: "https://github.com/digirati-co-uk/iiif-canvas-panel",
           label: "GitHub",

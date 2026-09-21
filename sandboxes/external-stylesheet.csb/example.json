@@ -1,0 +1,9 @@
+{
+  "title": "External stylesheet",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Components",
+  "description": "Apply an external stylesheet to the viewer and compare it with the page styles."
+}

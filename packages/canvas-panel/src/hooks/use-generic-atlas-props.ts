@@ -1,9 +1,10 @@
+import type { AtlasProps } from '@atlas-viewer/atlas';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
-import { RefObject, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
-import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault';
+import { RefObject, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault/core';
 import type { ChoiceDescription } from '@iiif/helpers/painting-annotations';
-import { BoxStyle, Runtime, AtlasProps, easingFunctions } from '@atlas-viewer/atlas';
+import { BoxStyle, Runtime, easingFunctions } from '@atlas-viewer/atlas/react';
 import { useSyncedState } from './use-synced-state';
 import {
   parseBool,
@@ -16,11 +17,12 @@ import type { Reference, Selector } from '@iiif/parser/presentation-3/types';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
 import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/helpers';
-import { useEffect } from 'preact/compat';
+import { useEffect } from 'react';
 import { globalVault } from '@iiif/helpers';
-import { choiceEventChannel, errorEventChannel } from '../helpers/eventbus';
+import { useChoiceEventChannel, errorEventChannel } from '../helpers/eventbus';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
+  const choiceEventChannel = useChoiceEventChannel();
   const webComponent = useRef<HTMLElement>();
   const ZOOM_OUT_FACTOR = 0.75;
   const ZOOM_IN_FACTOR = 1.0 / 0.75;

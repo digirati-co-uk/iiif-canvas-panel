@@ -1,8 +1,8 @@
-import { useAnnotation, useCanvas, useResourceEvents, useStyles, useVault, VaultProvider } from 'react-iiif-vault';
-import { FC, useMemo } from 'preact/compat';
-import { h } from 'preact';
+import { useAnnotation, useCanvas, useResourceEvents, useStyles, useVault, VaultProvider } from 'react-iiif-vault/core';
+import { FC, useMemo } from 'react';
+import { createElement as h } from 'react';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
-import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas';
+import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas/react';
 import { RenderTextualContent } from '../RenderTextLines/RenderTextualContent';
 import { HTMLPortal } from '../../atlas-components/HTMLPortal';
 

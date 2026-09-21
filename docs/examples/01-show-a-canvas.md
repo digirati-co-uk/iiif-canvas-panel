@@ -5,10 +5,7 @@ sidebar_position: 1
 # Render any Canvas
 
 import { GitHubDiscussion } from "@site/GitHubDiscussion.js";
-import renderCanvasContentState from '@site/sandboxes/01-show-canvas/canvas-content-state.csb/_load';
-import renderCanvasAttributes from '@site/sandboxes/01-show-canvas/canvas-attributes.csb/_load';
-import flexbox from '@site/sandboxes/01-show-canvas/flexbox.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 The [quick start](../intro) showed the basics of rendering a canvas. The power of Canvas Panel is more apparent when you render a canvas that isn't the 99% use case - when the canvas:
 
@@ -57,14 +54,14 @@ The default value of `preset` is "zoom" - this can be set explicitly but is not 
 
 The other likely rendering option is `responsive` - which on its own will cause canvas panel to render the region, without a viewport:
 
-<Sandbox project={renderCanvasContentState} />
+<Example id="canvas-content-state" />
 
 The above example encodes the region of the canvas, and the manifest that canvas belongs to, into a content state - you can see it [decoded here](https://base64url.herokuapp.com/?iiif-content=JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzYtY29tcG9zaXRpb24tZnJvbS1tdWx0aXBsZS1pbWFnZXMlMkZjYW52YXMlMkZwMSUyM3h5d2glM0QzNTY5JTJDNzYxJTJDMTg1MSUyQzIwNTklMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzYtY29tcG9zaXRpb24tZnJvbS1tdWx0aXBsZS1pbWFnZXMlMkZtYW5pZmVzdC5qc29uJTIyJTJDJTIydHlwZSUyMiUzQSUyMk1hbmlmZXN0JTIyJTdEJTVEJTdE). The same result can be achieved with attributes:
 
 
-<Sandbox project={renderCanvasAttributes} />
+<Example id="canvas-attributes" />
 
 
 ## Flexbox and styling
 
-<Sandbox project={flexbox} />
+<Example id="flexbox" />

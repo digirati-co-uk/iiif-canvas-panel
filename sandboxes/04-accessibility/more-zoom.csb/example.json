@@ -1,0 +1,10 @@
+{
+  "title": "Enabling zoom events",
+  "framework": "vanilla",
+  "files": [
+    "index.html",
+    "src/index.js"
+  ],
+  "group": "Accessibility",
+  "description": "Try the controls for enabling zoom interactions."
+}

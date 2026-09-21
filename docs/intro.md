@@ -2,8 +2,7 @@
 sidebar_position: 1
 ---
 
-import introScript from '@site/sandboxes/00-intro/intro-script.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 # Quick start
 
@@ -216,7 +215,7 @@ Content states can be used to point at any part of a Canvas:
 
 You can also work with the Canvas from script. This is more typical in client-side applications. The attribute-based approach is more useful in rendering IIIF content server-side. You can tell Canvas Panel to do the same thing as the attributes above like this:
 
-<Sandbox stacked project={introScript} />
+<Example id="intro-script" />
 
 
 ## What is Vault?

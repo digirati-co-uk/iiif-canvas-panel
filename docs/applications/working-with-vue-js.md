@@ -5,8 +5,7 @@ sidebar_position: 10
 # Working with Vue.js
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-import exampleVue from '@site/sandboxes/vue-carousel.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 Register the browser bundle once in your client entry:
 
@@ -33,4 +32,4 @@ with `@choice="onChoice"`; their payload is in `event.detail`.
 
 
 
-<Sandbox project={exampleVue} />
+<Example id="vue-3-carousel" />

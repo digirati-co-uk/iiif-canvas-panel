@@ -1,80 +1,38 @@
-import { FC, forwardRef, useLayoutEffect, useRef, render } from 'preact/compat';
-import { Box, useAfterFrame, useRuntime } from '@atlas-viewer/atlas';
-import { h } from 'preact';
+import { createElement as h, forwardRef, useLayoutEffect, useRef, useState } from 'react';
+import { Box, useAfterFrame, useRuntime } from '@atlas-viewer/atlas/react';
 import { Box as BoxComponent } from '.';
-import { useReducer } from 'preact/compat';
+import { DOMContent } from '../library/DOMContent';
 
-export const HTMLPortal: FC<{
-  backgroundColor?: string;
-  interactive?: boolean;
-  relative?: boolean;
-  children?: any;
-  style?: any;
+export const HTMLPortal = forwardRef<Box, {
+  backgroundColor?: string; interactive?: boolean; relative?: boolean; children?: any; style?: any;
   target?: { x: number; y: number; width: number; height: number };
-}> = forwardRef<
-  Box,
-  {
-    backgroundColor?: string;
-    interactive?: boolean;
-    children?: any;
-    relative?: boolean;
-    target?: { x: number; y: number; width: number; height: number };
-  }
->(({ children, ...props }, fwdRef) => {
-  const ref = useRef<HTMLDivElement>();
+}>(({ children, relative, ...props }, forwarded) => {
   const runtime = useRuntime();
-  const lastScale = useRef(0);
-  const boxRef = useRef<Box>();
-  const [inv, invalidate] = useReducer((t) => t + 1, 0);
-
-  useAfterFrame(() => {
-    if (props.relative) {
-      const relativeBox = ref.current;
-      if (relativeBox && runtime) {
-        const scaleFactor = runtime.getScaleFactor();
-        if (lastScale.current !== scaleFactor) {
-          lastScale.current = scaleFactor;
-          relativeBox.style.transformOrigin = '0 0';
-          relativeBox.style.transform = `scale(${1 / lastScale.current})`;
-          relativeBox.style.width = `${lastScale.current * 100}%`;
-          relativeBox.style.height = `${lastScale.current * 100}%`;
-        }
-      }
-    }
-  }, [props.relative]);
-
+  const box = useRef<Box | null>(null);
+  const relativeElement = useRef<HTMLDivElement>(null);
+  const [container, setContainer] = useState<Element | null>(null);
   useLayoutEffect(() => {
-    const box = boxRef.current;
-    if (!box) {
-      const timeout = setTimeout(invalidate, 100);
-      return () => {
-        clearTimeout(timeout);
-      };
+    const instance = box.current;
+    if (!instance) return;
+    const created = () => setContainer(instance.__host.element);
+    if (instance.__host) created();
+    else instance.__onCreate = created;
+    if (typeof forwarded === 'function') forwarded(instance);
+    else if (forwarded) forwarded.current = instance;
+    return () => {
+      instance.__onCreate = undefined;
+      if (typeof forwarded === 'function') forwarded(null);
+      else if (forwarded) forwarded.current = null;
+    };
+  }, [forwarded]);
+  useAfterFrame(() => {
+    if (relative && relativeElement.current && runtime) {
+      const scale = runtime.getScaleFactor();
+      Object.assign(relativeElement.current.style, { transformOrigin: '0 0', transform: `scale(${1 / scale})`, width: `${scale * 100}%`, height: `${scale * 100}%` });
     }
-    if (fwdRef && box) {
-      if (typeof fwdRef === 'function') {
-        (fwdRef as any)(box);
-      } else {
-        (fwdRef as any).current = box;
-      }
-    }
-    if (box && box.__host) {
-      if (props.relative) {
-        render(<div ref={ref as any}>{children}</div>, box.__host.element);
-      } else {
-        render(children as any, box.__host.element);
-      }
-    } else if (box) {
-      box.__onCreate = () => {
-        if (props.relative) {
-          render(<div ref={ref as any}>{children}</div>, box.__host.element);
-        } else {
-          render(children as any, box.__host.element);
-        }
-      };
-    }
-    return () => void 0;
-  }, [inv, fwdRef, children, boxRef, props.relative]);
-
-  return <BoxComponent html ref={boxRef} {...props} />;
+  }, [relative]);
+  return <>
+    <BoxComponent html ref={box} {...props} />
+    <DOMContent container={container}>{relative ? <div ref={relativeElement}>{children}</div> : children}</DOMContent>
+  </>;
 });

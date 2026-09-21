@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { createElement as h } from 'react';
 import { ErrorBoundary as _ErrorBoundary } from 'react-error-boundary';
 import { ViewCanvasProps } from './ViewCanvas.types';
 import { AtlasCanvas } from '../AtlasCanvas/AtlasCanvas';
@@ -10,9 +10,9 @@ import {
   useAnnotationPageManager,
   useManifest,
   useVault,
-} from 'react-iiif-vault';
+} from 'react-iiif-vault/core';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
-import { useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { serialiseContentState } from '../../helpers/content-state/content-state';
 import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
 import { targetToPixels } from '../../helpers/target-to-pixels';

@@ -5,9 +5,7 @@ sidebar_position: 2
 # Rendering modes
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-import respPreset1 from '@site/sandboxes/02-responsive/custom-preset-1.csb/_load';
-import respPreset2 from '@site/sandboxes/02-responsive/custom-preset-2.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 ## Responsive Images
 
@@ -95,7 +93,7 @@ Rather than nested within HTML elements, `image-service` and `canvas-panel` can 
 
 You can mix values supplied as tag attributes and attributes supplied as JSON. For a (contrived) example, you might want to set the manifest ID on the web component, but vary the canvas in two different JSON presets:
 
-<Sandbox project={respPreset1} />
+<Example id="responsive-1" />
 
 (This is better viewed by launching the separate code sandbox, click the icon in the bottom-right corner then resize the output frame).
 
@@ -103,7 +101,7 @@ This example is deliberately unusual; the canvas itself changes at a particular 
 
 More typical might be showing a different region of the Canvas, or different aspect ratio images, at different points:
 
-<Sandbox project={respPreset2} />
+<Example id="responsive-2" />
 
 The `image-service` component can also take the same media-query syntax. 
 

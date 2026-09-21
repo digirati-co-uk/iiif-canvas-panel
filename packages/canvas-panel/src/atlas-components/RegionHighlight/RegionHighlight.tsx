@@ -1,7 +1,7 @@
-import React, { useCallback } from 'preact/compat';
+import React, { useCallback } from 'react';
 import { ResizeWorldItem } from '../ResizeWorldItem';
-import { BoxStyle, useMode } from '@atlas-viewer/atlas';
-import { h } from 'preact';
+import { BoxStyle, useMode } from '@atlas-viewer/atlas/react';
+import { createElement as h } from 'react';
 import { Box, WorldObject } from '..';
 
 type RegionHighlightType = {

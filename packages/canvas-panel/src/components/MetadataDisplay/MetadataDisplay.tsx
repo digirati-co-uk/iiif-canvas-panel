@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import type { InternationalString } from '@iiif/parser/presentation-3/types';
-import { h } from 'preact';
+import { createElement as h } from 'react';
 import { getValue } from '@iiif/helpers';
 import './MetadataDisplay.css';
 

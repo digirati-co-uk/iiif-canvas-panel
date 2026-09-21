@@ -1,0 +1,9 @@
+{
+  "title": "Regions example (image service)",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Regions",
+  "description": "Display a region of an image-service canvas."
+}

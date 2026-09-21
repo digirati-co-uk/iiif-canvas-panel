@@ -1,8 +1,8 @@
-import { RangeContext, useManifest, useVault } from 'react-iiif-vault';
+import { RangeContext, useManifest, useVault } from 'react-iiif-vault/core';
 import { findManifestSelectedRange, getValue } from '@iiif/helpers';
 import { ViewRange } from './ViewRange';
-import { h } from 'preact';
-import { Fragment, useLayoutEffect } from 'preact/compat';
+import { createElement as h } from 'react';
+import { Fragment, useLayoutEffect } from 'react';
 import type { RangeNormalized } from '@iiif/parser/presentation-3-normalized/types';
 import './RangeDisplay.css';
 

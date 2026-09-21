@@ -1,9 +1,9 @@
-import { FC } from 'preact/compat';
-import { ManifestContext, useExternalManifest } from 'react-iiif-vault';
+import { FC } from 'react';
+import { ManifestContext, useExternalManifest } from 'react-iiif-vault/core';
 import { Spinner } from './spinner';
-import { h } from 'preact';
+import { createElement as h } from 'react';
 import { ErrorFallback } from './ErrorFallback/ErrorFallback';
-import { useEffect } from 'preact/compat';
+import { useEffect } from 'react';
 
 export type ManifestLoaderProps = {
   manifestId: string;

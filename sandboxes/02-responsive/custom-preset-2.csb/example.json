@@ -1,0 +1,9 @@
+{
+  "title": "Responsive JSON config 2",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Responsive",
+  "description": "Resize the preview window to change the displayed region through media queries."
+}

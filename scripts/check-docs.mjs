@@ -267,15 +267,9 @@ try {
   if (process.argv.includes("--demos")) {
     async function sandbox(name, tag = "canvas-panel") {
       await page.goto(`${base}/all-sandboxes#${name}`);
-      await page.locator("iframe").first().scrollIntoViewIfNeeded();
-      let frame;
-      for (let attempt = 0; attempt < 60; attempt++) {
-        frame = page
-          .frames()
-          .find((frame) => frame.url().includes("sandpack.codesandbox.io"));
-        if (frame && (await frame.locator(tag).count())) break;
-        await page.waitForTimeout(500);
-      }
+      const iframe = page.locator(`iframe[src$="/${name}.html"]`);
+      await iframe.scrollIntoViewIfNeeded();
+      const frame = await (await iframe.elementHandle()).contentFrame();
       assert(frame, `Missing preview for ${name}`);
       await frame.waitForFunction((tag) => {
         const element = document.querySelector(tag);

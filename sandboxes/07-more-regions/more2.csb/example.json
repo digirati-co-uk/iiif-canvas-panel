@@ -1,0 +1,9 @@
+{
+  "title": "Canvas panel as an href",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "More Regions",
+  "description": "Use a responsive canvas region as a link to another page."
+}

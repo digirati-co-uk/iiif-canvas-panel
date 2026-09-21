@@ -4,14 +4,13 @@ sidebar_position: 4
 
 # Simple viewer - common features
 
-import overlays from '@site/sandboxes/overlay-controls.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 Canvas Panel is a component of a IIIF viewer, rather than a viewer in its own right.
 
 However, there are several expected viewer features, that Canvas Panel helps implement. 
 
-<Sandbox stacked project={overlays} />
+<Example id="overlay-controls" />
 
 ## Placing buttons on top of the Canvas
 

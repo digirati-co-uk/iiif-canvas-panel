@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { access, readFile } from 'node:fs/promises';
-import { createRequire } from 'node:module';
+import { createRequire, isBuiltin } from 'node:module';
+import ts from 'typescript';
 import { fileURLToPath } from 'node:url';
 
 const root = new URL('../', import.meta.url);
@@ -20,3 +21,21 @@ const cjs = createRequire(import.meta.url)(fileURLToPath(new URL(pkg.exports['.'
 assert.equal(typeof esm.AnnotationDisplay, 'function');
 assert.equal(typeof cjs.AnnotationDisplay, 'function');
 console.log('ESM, CommonJS, declaration paths and legacy script path resolve.');
+
+// Follow the shipped entry graphs, including transitive chunks and dependencies.
+const forbidden = /^(?:react-dom|preact|@preact|@floating-ui|polygon-editor)(?:\/|$)|^@atlas-viewer\/atlas$/;
+const seen = new Set();
+async function inspect(file) {
+  if (seen.has(file) || /\.(json|css)$/.test(file)) return;
+  seen.add(file);
+  const source = await readFile(file, 'utf8');
+  for (const { fileName: specifier } of ts.preProcessFile(source, true, true).importedFiles) {
+    if (['exports', 'require', 'module'].includes(specifier) || isBuiltin(specifier)) continue;
+    assert(!forbidden.test(specifier), `${file} imports forbidden runtime ${specifier}`);
+    await inspect(createRequire(file).resolve(specifier));
+  }
+}
+for (const format of ['import', 'require']) await inspect(fileURLToPath(new URL(pkg.exports['.'][format].default, root)));
+const script = await readFile(new URL(pkg.exports['./dist/index.iife.js'], root), 'utf8');
+assert(!/node_modules\/(?:react-dom|preact|@preact)\//.test(script), 'Standalone script embeds an old DOM runtime');
+console.log('React/Atlas scene dependency graphs contain no React DOM, Preact or editor runtime.');

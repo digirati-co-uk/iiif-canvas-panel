@@ -17,22 +17,16 @@
     "dev:bundle": "tsdown --config ./tsdown.umd.ts --watch"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "3.2.5",
+    "@atlas-viewer/atlas": "https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb",
     "@atlas-viewer/iiif-image-api": "2.2.2",
     "@iiif/helpers": "4.0.0",
     "@iiif/parser": "4.0.1",
-    "@preact/compat": "17.*",
-    "@react-hook/media-query": "^1.1.1",
-    "preact": "^10.*",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@0c2c25b",
-    "react-reconciler": "0.33.0",
-    "tsdown": "^0.17.4"
+    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77",
+    "react-reconciler": "0.33.0"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.3.0",
     "@types/jest": "^28.1.4",
-    "@types/preact-custom-element": "^4.0.1",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.13",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
@@ -44,14 +38,14 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "happy-dom": "^6.0.3",
     "jest": "^28.1.2",
-    "preact-render-to-string": "^5.2.0",
     "prettier": "^2.5.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "ts-jest": "^28.0.5",
     "typescript": "^5.9.3",
     "vite": "^2.9.5",
-    "vitest": "^0.18.0"
+    "vitest": "^0.18.0",
+    "tsdown": "^0.17.4"
   },
   "publishConfig": {
     "access": "public"
@@ -72,5 +66,8 @@
     "./dist/index.iife.js": "./dist/index.iife.js",
     "./package.json": "./package.json",
     "./dist/index.css": "./dist/index.css"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0"
   }
 }

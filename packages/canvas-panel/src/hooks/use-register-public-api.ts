@@ -5,11 +5,11 @@ import type {
   ManifestNormalized,
 } from '@iiif/parser/presentation-3-normalized/types';
 import { Vault } from '@iiif/helpers';
-import { createContext } from 'preact';
-import { useContext, useEffect, useRef } from 'preact/compat';
+import { createContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { AnnotationDisplay } from '../helpers/annotation-display';
-import { ParsedSelector } from 'react-iiif-vault';
-import { BoxStyle } from '@atlas-viewer/atlas';
+import { ParsedSelector } from 'react-iiif-vault/core';
+import { BoxStyle } from '@atlas-viewer/atlas/react';
 import { useLayoutEffect } from 'react';
 
 type TBC = any;

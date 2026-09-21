@@ -1,0 +1,9 @@
+{
+  "title": "Regions using content state",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Regions",
+  "description": "Use IIIF content state to select the initial region of a canvas."
+}

@@ -1,7 +1,8 @@
-import '@digirati/canvas-panel-web-components/dist/index.iife.js';
+import "@digirati/canvas-panel-web-components/dist/index.css";
+import '@digirati/canvas-panel-web-components';
 import './styles.css';
 
-// click the sandbox Run button to run this demo
+// click Run example to run this demo
 
 async function show(){
     const cp = document.getElementById("cp");

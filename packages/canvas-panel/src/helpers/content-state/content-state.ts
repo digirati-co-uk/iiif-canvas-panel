@@ -1,5 +1,5 @@
 import type { Annotation } from '@iiif/parser/presentation-3/types';
-import { expandTarget, SupportedTarget } from 'react-iiif-vault';
+import { expandTarget, SupportedTarget } from 'react-iiif-vault/core';
 
 export type ContentState =
   | string

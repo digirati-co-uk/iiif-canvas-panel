@@ -1,8 +1,8 @@
 import { getValue } from '@iiif/helpers';
-import { RangeContext, useRange, useVault } from 'react-iiif-vault';
+import { RangeContext, useRange, useVault } from 'react-iiif-vault/core';
 
 import { useMemo } from 'react';
-import { h } from 'preact';
+import { createElement as h } from 'react';
 import type { RangeNormalized } from '@iiif/parser/presentation-3-normalized/types';
 import { getRangeTarget } from '../../helpers/range-target';
 

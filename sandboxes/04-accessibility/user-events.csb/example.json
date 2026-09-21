@@ -1,0 +1,10 @@
+{
+  "title": "Capturing events",
+  "framework": "vanilla",
+  "files": [
+    "src/index.js",
+    "index.html"
+  ],
+  "group": "Accessibility",
+  "description": "Use the buttons or double-click the canvas to change the zoom."
+}

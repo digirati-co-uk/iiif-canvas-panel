@@ -48,8 +48,37 @@ jobs:
 
       - run: pnpm build
 
+      - run: pnpm test:examples
+
+      - run: pnpm test:example-packages
+
+      - run: pnpm exec playwright install --with-deps chromium
+
+      - name: Check documentation example interactions
+        run: |
+          pnpm exec docusaurus serve --port 3000 --no-open &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID"' EXIT
+          curl --retry 30 --retry-delay 1 --retry-connrefused --fail http://localhost:3000/ >/dev/null
+          pnpm test:example-ui
+
       - working-directory: packages/canvas-panel
         run: pnpm run check:package
 
-      - working-directory: packages/canvas-panel
-        run: pnpm dlx pkg-pr-new publish
+      - name: Publish package and representative StackBlitz templates
+        id: preview
+        run: >-
+          pnpm exec pkg-pr-new publish './packages/canvas-panel'
+          --no-compact --commentWithSha
+          --template './sandboxes/{00-intro/intro-script,choices-react,vue-carousel}.csb'
+
+      - name: Build docs against the published preview
+        env:
+          EXAMPLE_PACKAGE: ${{ steps.preview.outputs.urls }}
+        run: pnpm build:examples && pnpm exec docusaurus build
+
+      - name: Save documentation preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-preview
+          path: build

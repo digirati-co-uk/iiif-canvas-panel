@@ -1,7 +1,8 @@
-import { h } from 'preact';
-import { FC, useCallback, useEffect, useLayoutEffect, useRef } from 'preact/compat';
-import register from '../library/preact-custom-element';
-import { CanvasContext, VaultProvider } from 'react-iiif-vault';
+import { SceneHTML } from '../components/AtlasCanvas/presentation';
+import { createElement as h } from 'react';
+import { FC, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import register from '../library/custom-element';
+import { CanvasContext, VaultProvider } from 'react-iiif-vault/core';
 import { RegisterPublicApi, UseRegisterPublicApi } from '../hooks/use-register-public-api';
 import { ViewCanvas } from '../components/ViewCanvas/ViewCanvas';
 import { ManifestLoader } from '../components/manifest-loader';
@@ -10,14 +11,15 @@ import { normaliseAxis, parseContentState, serialiseContentState } from '../help
 import { normaliseContentState } from '../helpers/content-state/content-state';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
-import { useState } from 'preact/compat';
+import { useState } from 'react';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { VirtualAnnotationProvider } from '../hooks/use-virtual-annotation-page-context';
 import { ContentStateCallback, ContentStateEvent } from '../types/content-state';
-import { DrawBox, easingFunctions, Projection } from '@atlas-viewer/atlas';
+import { easingFunctions, Projection } from '@atlas-viewer/atlas/react';
+import { DrawBox } from '../atlas-components/DrawBox';
 import { ContentState } from '@iiif/helpers';
 import { baseAttributes } from '../helpers/base-attributes';
-import { choiceEventChannel } from '../helpers/eventbus';
+import { useChoiceEventChannel } from '../helpers/eventbus';
 
 export type CanvasPanelProps = GenericAtlasComponent<
   {
@@ -52,6 +54,7 @@ const canvasPanelAttributes = [
 ];
 
 export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
+  const choiceEventChannel = useChoiceEventChannel();
   const {
     vault,
     webComponent,
@@ -336,7 +339,7 @@ export const CanvasPanel: FC<CanvasPanelProps> = (props) => {
         homeCover={homeCover}
         useFloorCalc={useFloorCalc}
       >
-        <slot name="atlas" />
+        <SceneHTML><slot name="atlas" /></SceneHTML>
         {contentStateCallback ? <DrawBox onCreate={onDrawBox} /> : null}
       </ViewCanvas>
       {/* Default slot. */}
@@ -361,14 +364,6 @@ if (typeof window !== 'undefined') {
   register(CanvasPanel, 'canvas-panel', canvasPanelAttributes, {
     shadow: true,
     onConstruct(instance: any) {
-      Object.defineProperty(instance, 'vault', {
-        get(): any {
-          return instance._props.vault;
-        },
-        set(v): any {
-          instance._props.vault = v;
-        },
-      });
       instance._props = {
         __registerPublicApi: (api: any) => {
           Object.assign(instance, api(instance));

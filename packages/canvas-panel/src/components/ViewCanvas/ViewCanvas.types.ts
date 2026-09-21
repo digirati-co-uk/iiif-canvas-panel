@@ -1,8 +1,10 @@
-import { AtlasProps } from '@atlas-viewer/atlas';
-import { ParsedSelector } from 'react-iiif-vault';
+import type { AtlasProps } from '@atlas-viewer/atlas';
+import { ParsedSelector } from 'react-iiif-vault/core';
 import { SizeParameter } from '../../helpers/size-parameter';
 
 export type AtlasDisplayOptions = AtlasProps & {
+  role?: string;
+  title?: string;
   width?: number;
   height?: number;
   aspectRatio?: number;

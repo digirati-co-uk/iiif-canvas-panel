@@ -4,3 +4,6 @@ node_modules
 *.log
 
 .docs-runtime
+
+.docs-examples
+.example-consumer
