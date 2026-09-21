@@ -7,17 +7,21 @@ const browserType = process.env.EXAMPLE_BROWSER === 'webkit' ? webkit : chromium
 const browser = await browserType.launch({ headless: true });
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
-  const canvasId = 'https://digirati-co-uk.github.io/wunder/canvases/2';
-  await page.route('https://digirati-co-uk.github.io/wunder.json', (route) => route.fulfill({ json: {
-    id: 'https://digirati-co-uk.github.io/wunder.json', type: 'Manifest', items: [{
-      id: canvasId, type: 'Canvas', width: 960, height: 640, items: [{
-        id: `${canvasId}/page`, type: 'AnnotationPage', items: [{
-          id: `${canvasId}/painting`, type: 'Annotation', motivation: 'painting', target: canvasId,
-          body: { id: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640"><rect width="960" height="640" fill="#2463a7"/></svg>'), type: 'Image', format: 'image/svg+xml', width: 960, height: 640 },
+  const flexManifest = 'https://iiif.io/api/cookbook/recipe/0036-composition-from-multiple-images/manifest.json';
+  await page.route((url) => url.href === 'https://digirati-co-uk.github.io/wunder.json' || url.href === flexManifest, (route) => {
+    const manifestId = route.request().url();
+    const canvasId = manifestId === flexManifest ? manifestId.replace('manifest.json', 'canvas/p1') : 'https://digirati-co-uk.github.io/wunder/canvases/2';
+    return route.fulfill({ json: {
+      id: manifestId, type: 'Manifest', items: [{
+        id: canvasId, type: 'Canvas', width: 960, height: 640, items: [{
+          id: `${canvasId}/page`, type: 'AnnotationPage', items: [{
+            id: `${canvasId}/painting`, type: 'Annotation', motivation: 'painting', target: canvasId,
+            body: { id: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640"><rect width="960" height="640" fill="#2463a7"/></svg>'), type: 'Image', format: 'image/svg+xml', width: 960, height: 640 },
+          }],
         }],
       }],
-    }],
-  } }));
+    } });
+  });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   // Source is in the generated HTML, even without JavaScript or the preview service.
@@ -29,7 +33,7 @@ try {
     await iframe.scrollIntoViewIfNeeded();
     const frame = await (await iframe.elementHandle()).contentFrame();
     await frame.waitForFunction(() => document.querySelector('canvas-panel')?.getCanvasId?.(), null, { timeout: 60000 });
-    if (id === 'intro-script') await frame.waitForFunction(() => {
+    if (id === 'intro-script' || id === 'flexbox') await frame.waitForFunction(() => {
       const canvas = document.querySelector('canvas-panel').shadowRoot.querySelector('canvas');
       const pixel = canvas?.getContext('2d')?.getImageData(canvas.width / 2, canvas.height / 2, 1, 1).data;
       return pixel && pixel[0] === 36 && pixel[1] === 99 && pixel[2] === 167;
@@ -51,6 +55,23 @@ try {
   await page.getByRole('button', { name: /Switch between dark and light mode/ }).click();
   await page.waitForFunction((background) => getComputedStyle(document.querySelector('.docs-example-header')).backgroundColor !== background, lightBackground);
   await page.screenshot({ path: `/tmp/canvas-example-${browserType.name()}-dark.png`, fullPage: true });
+
+  frame = await open('flexbox');
+  for (const size of [{ width: 600, height: 450 }, { width: 360, height: 300 }]) {
+    await frame.locator('.resize').evaluate((element, size) => {
+      element.style.boxSizing = 'border-box';
+      element.style.flex = 'none';
+      element.style.width = `${size.width}px`;
+      element.style.height = `${size.height}px`;
+    }, size);
+    await frame.waitForFunction(({ width, height }) => {
+      const panel = document.querySelector('canvas-panel');
+      const canvas = panel.shadowRoot.querySelector('canvas');
+      const rect = canvas.getBoundingClientRect();
+      const pixel = canvas.getContext('2d').getImageData(canvas.width / 2, canvas.height / 2, 1, 1).data;
+      return rect.width === width - 60 && rect.height === height - 60 && pixel[0] === 36 && pixel[1] === 99 && pixel[2] === 167;
+    }, size);
+  }
 
   frame = await open('react-choices-example');
   const checkbox = frame.locator('input[type=checkbox]').nth(1);

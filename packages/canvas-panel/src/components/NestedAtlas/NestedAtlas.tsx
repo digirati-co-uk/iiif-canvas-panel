@@ -223,8 +223,10 @@ function AtlasHost(props: AtlasDisplayOptions & { children: any }) {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        width: props.width || '100%',
-        height,
+        display: 'var(--atlas-container-display, block)',
+        flex: 'var(--atlas-container-flex, none)',
+        width: `var(--atlas-container-width, ${typeof props.width === 'number' ? `${props.width}px` : props.width || '100%'})`,
+        height: `var(--atlas-container-height, ${typeof height === 'number' ? `${height}px` : height || 'auto'})`,
         aspectRatio: height ? undefined : props.aspectRatio,
         background: props.background,
         ...props.containerProps?.style,
