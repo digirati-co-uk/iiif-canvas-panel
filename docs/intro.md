@@ -2,8 +2,7 @@
 sidebar_position: 1
 ---
 
-import introScript from '@site/sandboxes/00-intro/intro-script.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 # Quick start
 
@@ -18,12 +17,13 @@ You can see how to use Canvas Panel to build a [Manifest Viewer](../../docs/appl
 
 ## How do I get Canvas Panel?
 
-An easy way to try things out is to simply include a reference to Canvas Panel on (CDN). See [Installation](./installation) for more options.
+An easy way to try things out is to load the bundled browser script. These docs serve the current workspace build at `/index.iife.js`. See [Installation](./installation) for more options.
 
 ```html
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
+    <link rel="stylesheet" href="/index.css" />
+    <script src="/index.iife.js"></script>
 </head>
 <body>
     <h1>Canvas Panel</h1>
@@ -85,7 +85,7 @@ Canvas Panel generally fills up the available width, with a default height. You 
       manifest-id="https://digirati-co-uk.github.io/wunder.json">
     </canvas-panel>
   </div>
-      
+
   <div style={{ marginBottom: '10px' }}>
     <canvas-panel
       preset="responsive"
@@ -106,7 +106,7 @@ Canvas Panel generally fills up the available width, with a default height. You 
       manifest-id="https://digirati-co-uk.github.io/wunder.json">
     </canvas-panel>
   </div>
-      
+
   <div style={{ marginBottom: '10px' }}>
     <canvas-panel
       preset="responsive"
@@ -137,7 +137,7 @@ You can also render the viewport statically, without the pan and zoom behaviour:
 
 The addition of `preset="static"` changes the behaviour of the component on the web page; now you can't zoom in. This becomes more useful when combined with other behaviours later.
 
-The above examples use _presets_ - with the default being `zoom`. 
+The above examples use _presets_ - with the default being `zoom`.
 
 Note that the second of the two canvas panels above uses the `region` attribute to render just one part of the Canvas.
 
@@ -187,21 +187,21 @@ Content states can be used to point at any part of a Canvas:
         manifest-id="https://digirati-co-uk.github.io/wunder.json">
       </canvas-panel>
     </div>
-    
+
     <div style={{ marginBottom: '10px' }}>
       <canvas-panel
         preset="responsive"
         iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMCUyM3h5d2glM0Q3NDQlMkMxMTM2JTJDMTAyNCUyQzEwMTAlMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlci5qc29uJTIyJTJDJTIydHlwZSUyMiUzQSUyMk1hbmlmZXN0JTIyJTdEJTVEJTdE"
       />
     </div>
-    
+
     <div style={{ marginBottom: '10px' }}>
       <canvas-panel
         preset="responsive"
         iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmRpZ2lyYXRpLWNvLXVrLmdpdGh1Yi5pbyUyRnd1bmRlciUyRmNhbnZhc2VzJTJGMCUyM3h5d2glM0Q0NjYlMkMyMjIxJTJDMTYxMiUyQzQ1MCUyMiUyQyUyMnR5cGUlMjIlM0ElMjJDYW52YXMlMjIlMkMlMjJwYXJ0T2YlMjIlM0ElNUIlN0IlMjJpZCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGZGlnaXJhdGktY28tdWsuZ2l0aHViLmlvJTJGd3VuZGVyLmpzb24lMjIlMkMlMjJ0eXBlJTIyJTNBJTIyTWFuaWZlc3QlMjIlN0QlNUQlN0Q"
       />
     </div>
-    
+
     <div style={{ marginBottom: '10px' }}>
       <canvas-panel
         preset="responsive"
@@ -215,12 +215,12 @@ Content states can be used to point at any part of a Canvas:
 
 You can also work with the Canvas from script. This is more typical in client-side applications. The attribute-based approach is more useful in rendering IIIF content server-side. You can tell Canvas Panel to do the same thing as the attributes above like this:
 
-<Sandbox stacked project={introScript} />
+<Example id="intro-script" />
 
 
 ## What is Vault?
 
-By default, all `canvas-panel` elements on the page share a common instance of a [Vault](./api-reference/vault). The Vault library is used to load and manage IIIF resources, rather than passing them directly to Canvas Panel as JSON blobs. In the example above, we load a IIIF Manifest into the same vault, which we can obtain from Canvas Panel. Then we tell Canvas Panel to display a canvas from this manifest. This is simpler and safer than loading the manifest yourself, as JSON via `fetch()`, determining its version and traversing it. 
+By default, all `canvas-panel` elements on the page share a common instance of a [Vault](./api-reference/vault). The Vault library is used to load and manage IIIF resources, rather than passing them directly to Canvas Panel as JSON blobs. In the example above, we load a IIIF Manifest into the same vault, which we can obtain from Canvas Panel. Then we tell Canvas Panel to display a canvas from this manifest. This is simpler and safer than loading the manifest yourself, as JSON via `fetch()`, determining its version and traversing it.
 
 Under the hood, Vault manages the HTTP fetch operations and optimises internal storage of all the IIIF resources in use on a page. Vault normalises all IIIF to the Presentation 3 specification, allowing you to take advantage of a consistent programming interface regardless of the source IIIF. Vault also has the advantage of making your IIIF strongly-typed when used via TypeScript.
 
@@ -250,7 +250,7 @@ The Canvas Panel library also includes a web component for use when you only hav
 It takes most of the same attributes, but has a `src` property that points to an image service, rather than canvas references or content states.
 
 ```html
-<image-service 
+<image-service
   preset="responsive"
   src="https://iiif.wellcomecollection.org/image/L0007430">
 </image-service>
@@ -262,7 +262,7 @@ A further component is available to help with layout: positioning more than one 
 
 ```html
 <layout-container width="800" preset="zoom">
-    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0" /> 
+    <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0010.JP2" x="0" />
     <image-service nested src="https://iiif.wellcomecollection.org/image/b18035723_0011.JP2" x="2411" />
 </layout-container>
 ```

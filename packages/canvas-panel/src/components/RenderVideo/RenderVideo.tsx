@@ -1,10 +1,16 @@
-import { SingleVideo, useSimpleMediaPlayer } from 'react-iiif-vault';
-import { h } from 'preact';
+import { useLayoutEffect } from 'react';
+import { SingleVideo, useSimpleMediaPlayer } from 'react-iiif-vault/core';
+import { createElement as h } from 'react';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 
 export function RenderVideo({ media }: { media: SingleVideo }) {
   const [{ element, currentTime, progress }, state, actions] = useSimpleMediaPlayer({ duration: media.duration });
   const playPause = actions.playPause;
+
+  useLayoutEffect(() => {
+    const player = element.current;
+    return () => player?.pause();
+  }, [media.url]);
 
   useRegisterPublicApi((el: any) => {
     el.mediaActions = actions;

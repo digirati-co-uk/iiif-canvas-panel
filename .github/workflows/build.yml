@@ -1,0 +1,84 @@
+name: Build + test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['22']
+
+    name: Node ${{ matrix.node }} build
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 10.33.2
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-${{ matrix.node }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node }}-pnpm-store-
+
+
+      - run: pnpm i --frozen-lockfile
+
+      - working-directory: packages/canvas-panel
+        run: pnpm run typecheck
+
+      - working-directory: packages/canvas-panel
+        run: pnpm test
+
+      - run: pnpm build
+
+      - run: pnpm test:examples
+
+      - run: pnpm test:example-packages
+
+      - run: pnpm exec playwright install --with-deps chromium
+
+      - name: Check documentation example interactions
+        run: |
+          pnpm exec docusaurus serve --port 3000 --no-open &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID"' EXIT
+          curl --retry 30 --retry-delay 1 --retry-connrefused --fail http://localhost:3000/ >/dev/null
+          pnpm test:example-ui
+
+      - working-directory: packages/canvas-panel
+        run: pnpm run check:package
+
+      - name: Publish package and representative StackBlitz templates
+        id: preview
+        run: >-
+          pnpm exec pkg-pr-new publish './packages/canvas-panel'
+          --no-compact --commentWithSha
+          --template './sandboxes/{00-intro/intro-script,choices-react,vue-carousel}.csb'
+
+      - name: Build docs against the published preview
+        env:
+          EXAMPLE_PACKAGE: ${{ steps.preview.outputs.urls }}
+        run: pnpm build:examples && pnpm exec docusaurus build
+
+      - name: Save documentation preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-preview
+          path: build

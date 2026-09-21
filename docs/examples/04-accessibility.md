@@ -2,13 +2,14 @@
 sidebar_position: 4
 ---
 
+import { GitHubDiscussion } from "@site/GitHubDiscussion.js";
+
+
 # Accessibility
 
 <img src="https://cdn.pixabay.com/photo/2018/09/24/08/37/pixel-3699343_960_720.png" />
 
-import zoomDemo from '@site/sandboxes/04-accessibility/user-events.csb/_load';
-import moreZoom from '@site/sandboxes/04-accessibility/more-zoom.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 This topic divides into two categories. The first is the accessibility of the user interfaces of the applications that you will build using Canvas Panel. Can people _drive_ the interface, make it do what they want, through multiple input mechanisms.
 
@@ -63,15 +64,15 @@ Canvas Panel can be controlled via the keyboard. Once it has focus (through stan
 
  - The arrow keys Move the viewport.
  - The + and - keys zoom in and out (without holding _Shift_)
- - The 0 key returns the viewport to its "home" start position. 
- 
+ - The 0 key returns the viewport to its "home" start position.
+
  You can try this on the previous example - use the tab order to enter or leave the canvas panel; when in focus, the keys above can be used to navigate.
- 
+
 ## Capturing user actions
 
 CP is just a web component. You can style it, add event listeners... anything you can do with a div. You can attach a click event listener to it, handle it and call CP's zoom action. A double click on Canvas Panel to zoom should be a standard browser-provided event handler on the element, followed by an API call to zoom.
 
-<Sandbox stacked project={zoomDemo} />
+<Example id="user-events" />
 
 The internal event system is different, e.g., clicking on an annotation within CP. But for externally facing events, we think developers should use the standard web event model.
 
@@ -79,7 +80,7 @@ There are many kinds of interaction that do not require CP to expose a specific 
 
 Should Canvas Panel, _by default_, render as a static image and only become a zoomable element on interaction? You could implement this behaviour manually:
 
-<Sandbox stacked project={moreZoom} />
+<Example id="enabling-zoom" />
 
 
 ## Accessible content

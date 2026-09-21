@@ -1,10 +1,10 @@
-import { CanvasContext as _CanvasContext, useRange, useSimpleViewer, useVisibleCanvases } from 'react-iiif-vault';
+import { CanvasContext as _CanvasContext, useRange, useSimpleViewer, useVisibleCanvases } from 'react-iiif-vault/core';
 import { AtlasCanvas } from './AtlasCanvas/AtlasCanvas';
 import { SizeParameter } from '../helpers/size-parameter';
-import { h } from 'preact';
-import { Fragment, useEffect, useRef } from 'preact/compat';
+import { createElement as h } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { useRegisterPublicApi } from '../hooks/use-register-public-api';
-import { choiceEventChannel } from '../helpers/eventbus';
+import { useChoiceEventChannel } from '../helpers/eventbus';
 
 const CanvasContext = _CanvasContext as any;
 
@@ -25,6 +25,7 @@ interface RenderAllCanvasesProps {
 }
 
 export function RenderAllCanvases(props: RenderAllCanvasesProps) {
+  const choiceEventChannel = useChoiceEventChannel();
   const canvases = useVisibleCanvases();
   const sequence = useSimpleViewer();
   const range = useRange();

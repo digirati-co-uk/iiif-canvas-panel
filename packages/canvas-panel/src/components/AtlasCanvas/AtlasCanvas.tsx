@@ -1,32 +1,27 @@
-import React, { FC, useEffect, useLayoutEffect, useMemo } from 'preact/compat';
+import { useEffect, useMemo } from 'react';
 import {
   useCanvas,
-  useResources,
   parseSpecificResource,
-  useResourceEvents,
-  useRenderingStrategy,
-  useThumbnail,
   useVault,
   useVaultSelector,
   useAnnotationPageManager,
   useManifest,
-} from 'react-iiif-vault';
-import { createStylesHelper, SingleChoice, createPaintingAnnotationsHelper } from '@iiif/vault-helpers';
-import { Fragment, h } from 'preact';
-import { WorldObject, SingleImage } from '../../atlas-components';
+} from 'react-iiif-vault/core';
+import { SingleChoice, createPaintingAnnotationsHelper } from '@iiif/helpers';
+import { Fragment, createElement as h } from 'react';
 import { RenderAnnotationPage } from '../RenderAnnotationPage/RenderAnnotationPage';
 import { RegionHighlight } from '../../atlas-components/RegionHighlight/RegionHighlight';
 import { SizeParameter } from '../../helpers/size-parameter';
 import { Debug } from '../../hooks/debug';
-import { DrawBox } from '@atlas-viewer/atlas';
+import { DrawBox } from '../../atlas-components/DrawBox';
+import { CanvasStrategyProvider, CanvasWorldObject, RenderCanvasScene, useStrategy } from 'react-iiif-vault/canvas-panel/scene';
+import { SceneMedia, SceneUnsupported } from './presentation';
 import { RenderImage } from '../RenderImage/RenderImage';
 import { useVirtualAnnotationPageContext } from '../../hooks/use-virtual-annotation-page-context';
-import { RenderAudio } from '../RenderAudio/RenderAudio';
-import { RenderVideo } from '../RenderVideo/RenderVideo';
 import { RenderTextLines } from '../RenderTextLines/RenderTextLines';
 import { sortAnnotationPages } from '../../helpers/sort-annotation-pages';
-import { choiceEventChannel } from '../../helpers/eventbus';
-import { AnnotationPageNormalized, ContentResource } from '@iiif/presentation-3';
+import { useChoiceEventChannel } from '../../helpers/eventbus';
+import type { ContentResource } from '@iiif/parser/presentation-3/types';
 
 interface AtlasCanvasProps {
   x?: number;
@@ -49,7 +44,15 @@ interface AtlasCanvasProps {
   useFloorCalc?: boolean;
 }
 
-export function AtlasCanvas({
+export function AtlasCanvas(props: AtlasCanvasProps) {
+  const manifest = useManifest();
+  const canvas = useCanvas();
+  return <CanvasStrategyProvider strategies={['images', 'media']} defaultChoices={props.defaultChoices}
+    annotationPageManagerId={manifest?.id || canvas?.id}>
+    <AtlasCanvasContent {...props} />
+  </CanvasStrategyProvider>;
+}
+function AtlasCanvasContent({
   x,
   y,
   highlight,
@@ -67,16 +70,12 @@ export function AtlasCanvas({
   rotation,
   useFloorCalc,
 }: AtlasCanvasProps) {
+  const choiceEventChannel = useChoiceEventChannel();
   const manifest = useManifest();
   const canvas = useCanvas();
-  const elementProps = useResourceEvents(canvas, ['deep-zoom']);
   const [virtualPage] = useVirtualAnnotationPageContext();
   const vault = useVault();
-  const helper = useMemo(() => createStylesHelper(vault as any), [vault]);
-  const [strategy, actions] = useRenderingStrategy({
-    strategies: ['images', 'media'],
-    defaultChoices: defaultChoices?.map(({ id }) => id),
-  });
+  const { strategy, actions } = useStrategy();
 
   const manager = useAnnotationPageManager(manifest?.id || canvas?.id);
   const fullPages = useVaultSelector(
@@ -92,7 +91,11 @@ export function AtlasCanvas({
     const vaulthelper = createPaintingAnnotationsHelper(vault);
     // get all painting annotations for a canvas
     if (canvas?.id) {
-      const enabledChoices = defaultChoices?.map(({ id }) => id) || [];
+      // Report the current selection, not only the initial choice-id attribute.
+      const enabledChoices =
+        strategy.type === 'images'
+          ? strategy.images.map((image) => image.id)
+          : defaultChoices?.map(({ id }) => id) || [];
       const vaultAnnotations = vaulthelper.getAllPaintingAnnotations(canvas.id);
       // Extract choices (if any) from a canvas
 
@@ -139,10 +142,8 @@ export function AtlasCanvas({
           });
         }
       }
-      // this returns 1 choice
-      const choices = vaulthelper.extractChoices(canvas.id);
     }
-  }, [canvas?.id, actions, defaultChoices]);
+  }, [canvas?.id, strategy, defaultChoices]);
 
   const pageTypes = useMemo(() => sortAnnotationPages(manager.availablePageIds, vault as any), fullPages);
   const hasTextLines = !!pageTypes.pageMapping.supplementing?.length;
@@ -150,7 +151,7 @@ export function AtlasCanvas({
 
   useEffect(() => {
     const unsubscribeOnMakeChoice = choiceEventChannel.on('onMakeChoice', (payload: { id: any; options: any }) => {
-      actions.makeChoice(payload.id, payload.options);
+      actions?.makeChoice(payload.id, payload.options);
     });
     return () => {
       unsubscribeOnMakeChoice();
@@ -168,64 +169,8 @@ export function AtlasCanvas({
     }
   }, [canvas?.id, textEnabled]);
 
-  useEffect(() => {
-    if (defaultChoices) {
-      for (const choice of defaultChoices) {
-        if (typeof choice.opacity !== 'undefined') {
-          helper.applyStyles({ id: choice.id }, 'atlas', {
-            opacity: choice.opacity,
-          });
-        }
-      }
-    }
-  }, [defaultChoices]);
-
-  const thumbnail = useThumbnail({ maxWidth: 256, maxHeight: 256 });
   if (!canvas) {
     return null;
-  }
-
-  if (strategy.type === 'media') {
-    if (strategy.media.type !== 'Sound' && strategy.media.type !== 'Video') {
-      throw new Error('Unknown media type');
-    }
-
-    return (
-      <WorldObject
-        key={strategy.type}
-        height={canvas.height || 1000}
-        width={canvas.width || 1000}
-        x={x}
-        y={y}
-        {...elementProps}
-      >
-        {strategy.media.type === 'Sound' ? <RenderAudio media={strategy.media} /> : null}
-        {strategy.media.type === 'Video' ? <RenderVideo media={strategy.media} /> : null}
-      </WorldObject>
-    );
-  }
-
-  if (strategy.type === 'unknown') {
-    if (thumbnail && thumbnail.type === 'fixed') {
-      return (
-        <WorldObject height={canvas.height} width={canvas.width} x={x} y={y}>
-          <SingleImage
-            uri={thumbnail.id}
-            target={{ x: 0, y: 0, width: canvas.width, height: canvas.height }}
-            display={
-              thumbnail.width && thumbnail.height
-                ? ({
-                    width: thumbnail.width,
-                    height: thumbnail.height,
-                  } as any)
-                : undefined
-            }
-          />
-        </WorldObject>
-      );
-    }
-
-    throw new Error('Unknown image strategy');
   }
 
   const annotations = (
@@ -266,29 +211,21 @@ export function AtlasCanvas({
       ) : null}
     </Fragment>
   );
-  return (
-    <WorldObject key={strategy.type} height={canvas.height} width={canvas.width} x={x} y={y} {...elementProps}>
-      {strategy.type === 'images'
-        ? strategy.images.map((image, idx) => {
-            return (
-              <RenderImage
-                isStatic={isStatic}
-                key={image.id}
-                image={image}
-                id={image.id}
-                rotation={rotation}
-                annotationId={image.annotationId}
-                thumbnail={idx === 0 && !disableThumbnail ? (thumbnail as any) : undefined}
-                virtualSizes={virtualSizes}
-                annotations={annotations}
-                skipSizes={skipSizes}
-                skipThumbnail={disableThumbnail}
-                useFloorCalc={useFloorCalc}
-              />
-            );
-          })
-        : null}
-      {/* This is required to fix a race condition. */}
-    </WorldObject>
-  );
+  // The shared scene takes one candidate list. Legacy virtual sizes must be
+  // resolved per image service, so compose the same shared image nodes here.
+  if (strategy.type === 'images' && (virtualSizes.length || (rotation && strategy.images.length > 1))) {
+    return <CanvasWorldObject x={x} y={y}>
+      {strategy.images.map(image => <RenderImage key={image.id} id={image.id} image={image}
+        virtualSizes={virtualSizes} skipSizes={skipSizes} skipThumbnail={disableThumbnail}
+        isStatic={isStatic} rotation={rotation} useFloorCalc={useFloorCalc} />)}
+      {annotations}
+    </CanvasWorldObject>;
+  }
+  return <RenderCanvasScene x={x} y={y} isStatic={isStatic} rotation={rotation}
+    enableSizes={!skipSizes} enableThumbnail={!disableThumbnail} enableAnnotations={false}
+    useFloorCalc={useFloorCalc}
+    presentation={{ Media: SceneMedia, Unsupported: SceneUnsupported, AnnotationPage: IgnoreAnnotationPage }}>
+    {strategy.type === 'images' ? annotations : null}
+  </RenderCanvasScene>;
 }
+function IgnoreAnnotationPage() { return null; }

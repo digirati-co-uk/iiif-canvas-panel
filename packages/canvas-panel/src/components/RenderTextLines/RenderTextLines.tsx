@@ -1,6 +1,6 @@
-import { useAnnotationPage, useCanvas, useStyles, useVault, VaultProvider } from 'react-iiif-vault';
-import { h } from 'preact';
-import { BoxStyle } from '@atlas-viewer/atlas';
+import { useAnnotationPage, useCanvas, useStyles, useVault, VaultProvider } from 'react-iiif-vault/core';
+import { createElement as h } from 'react';
+import { BoxStyle } from '@atlas-viewer/atlas/react';
 import { HTMLPortal } from '../../atlas-components/HTMLPortal';
 import { WorldObject } from '../../atlas-components';
 import { RenderTextFragment } from './RenderTextFragment';

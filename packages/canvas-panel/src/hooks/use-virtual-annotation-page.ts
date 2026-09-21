@@ -1,10 +1,11 @@
-import { Annotation, AnnotationNormalized, AnnotationPageNormalized } from '@iiif/presentation-3';
-import { useStyleHelper, useVault, useVirtualAnnotationPage as useVirtualAnnotationPageBase } from 'react-iiif-vault';
-import { useMemo, useRef } from 'preact/compat';
+import type { Annotation } from '@iiif/parser/presentation-3/types';
+import type { AnnotationNormalized, AnnotationPageNormalized } from '@iiif/parser/presentation-3-normalized/types';
+import { useStyleHelper, useVault, useVirtualAnnotationPage as useVirtualAnnotationPageBase } from 'react-iiif-vault/core';
+import { useMemo, useRef } from 'react';
 import { useRegisterPublicApi } from './use-register-public-api';
-import { BoxStyle } from '@atlas-viewer/atlas';
-import { createEventsHelper } from '@iiif/vault-helpers';
-import { VaultActivatedAnnotation } from 'react-iiif-vault/.build/types/hooks/useVirtualAnnotationPage';
+import { BoxStyle } from '@atlas-viewer/atlas/react';
+import { createEventsHelper } from '@iiif/helpers';
+import { VaultActivatedAnnotation } from 'react-iiif-vault/core';
 
 export function useVirtualAnnotationPage(): readonly [
   AnnotationPageNormalized | null,

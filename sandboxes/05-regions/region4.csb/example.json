@@ -1,0 +1,9 @@
+{
+  "title": "Regions using content state 2",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Regions",
+  "description": "Specify a canvas region using an encoded content state."
+}

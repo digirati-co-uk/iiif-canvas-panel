@@ -6,3 +6,4 @@ import './web-components/metadata-panel';
 import './web-components/range-panel';
 
 export * from './helpers/annotation-display';
+export type { CanvasPanelElement, CanvasPanelEventMap } from './types/element';

@@ -13,7 +13,10 @@
     </div>
 
     <div v-if="manifest.current" class="thumb-list">
-      <div
+      <button
+          type="button"
+          :aria-label="`Show canvas ${canvas.id}`"
+          :aria-pressed="currentCanvas?.id === canvas.id"
           v-bind:key="canvas.id"
           v-for="canvas in manifest.current?.items"
           v-on:click="handlerClick(canvas)"
@@ -21,14 +24,14 @@
         <IIIFCanvas v-bind:canvasId="canvas.id">
           <CanvasThumbnail :active="currentCanvas.id === canvas.id"/>
         </IIIFCanvas>
-      </div>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import IIIFCanvas from "./IIIFCanvas";
-import CanvasThumbnail from "./CanvasThumbnail";
+import IIIFCanvas from "./IIIFCanvas.vue";
+import CanvasThumbnail from "./CanvasThumbnail.vue";
 
 export default {
   name: "ManifestThumbnailList",
@@ -86,8 +89,13 @@ export default {
   padding: 1em;
 }
 
-.thumb-list > div ~ div {
+.thumb-list > button ~ button {
   margin-left: 1em;
 }
 
+</style>
+
+<style>
+.thumb-list > button { background: transparent; border: 0; padding: 0; }
+.thumb-list > button:focus-visible { outline: 3px solid white; outline-offset: 3px; }
 </style>

@@ -6,21 +6,13 @@ hide_title: true
 # Showing a region of the Canvas
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-import region1 from '@site/sandboxes/05-regions/region1.csb/_load';
-import region2 from '@site/sandboxes/05-regions/region2.csb/_load';
-import region3 from '@site/sandboxes/05-regions/region3.csb/_load';
-import region4 from '@site/sandboxes/05-regions/region4.csb/_load';
-import region5 from '@site/sandboxes/05-regions/region5.csb/_load';
-import region6 from '@site/sandboxes/05-regions/region6.csb/_load';
-import more2 from '@site/sandboxes/07-more-regions/more2.csb/_load';
-import more3 from '@site/sandboxes/07-more-regions/more3.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 
 <div style={{ height: '240px', overflow: 'hidden', marginBottom: 30, position: 'relative' }}>
-<image-service 
+<image-service
    height="240"
-   preset="static" 
+   preset="static"
    src="https://iiif.wellcomecollection.org/image/b14658197.jp2" region="2449,1062,1695,965" />
 
 </div>
@@ -32,19 +24,19 @@ This might be part of a Canvas, or a region of an image service. This can be spe
 
 If you just have an image service:
 
-<Sandbox stacked project={region1} />
+<Example id="regions-1" />
 
 If you have a canvas ID, within a manifest:
 
-<Sandbox stacked project={region2} />
+<Example id="regions-2" />
 
 Another variation is a content state that supplies the canvas, but doesn't supply a region:
 
-<Sandbox stacked project={region3} />
+<Example id="regions-3" />
 
 And if that content state does supply the region itself, then it's all you would need:
 
-<Sandbox stacked project={region4} />
+<Example id="regions-4" />
 
 ([See this content state decoded](https://base64url.herokuapp.com/?iiif-content=JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYud2VsbGNvbWVjb2xsZWN0aW9uLm9yZyUyRnByZXNlbnRhdGlvbiUyRmIxNDY1ODE5NyUyRmNhbnZhc2VzJTJGYjE0NjU4MTk3LmpwMiUyM3h5d2glM0QyNDQ5JTJDMTA2MiUyQzE2OTUlMkM5NjUlMjIlMkMlMjJ0eXBlJTIyJTNBJTIyQ2FudmFzJTIyJTJDJTIycGFydE9mJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYud2VsbGNvbWVjb2xsZWN0aW9uLm9yZyUyRnByZXNlbnRhdGlvbiUyRmIxNDY1ODE5NyUyMiUyQyUyMnR5cGUlMjIlM0ElMjJNYW5pZmVzdCUyMiU3RCU1RCU3RA))
 
@@ -82,7 +74,7 @@ How to make the viewport go full screen?
 
 Full screen is a user-land feature that could be added:
 
-See [common viewer features page](../../docs/applications/simple-viewer-with-common-features) 
+See [common viewer features page](../../docs/applications/simple-viewer-with-common-features)
 
 :::
 
@@ -90,7 +82,7 @@ See [common viewer features page](../../docs/applications/simple-viewer-with-com
 ## Setting regions programmatically
 
 
-<Sandbox stacked project={region5} />
+<Example id="regions-5" />
 
 
 > Canvas Panel always shows _one_ canvas. That canvas is accessible via the Vault. However, that canvas might be a _synthetic_ canvas that the developer  dynamically and composited other canvases and content onto. Your app might be using a wrapping layout component around Canvas Panel, e.g., to layout a manifest as a strip (with zones) so you don't have to explicitly do the compositing.
@@ -129,7 +121,7 @@ const myTarget = { x: 0, y: 0, width: 100, height: 100 };
 cp.goToTarget(myTarget);
 
 const myTarget2 = { x: 2000, y: 2000, width: 2000, height: 1500 }
-const myOptions = { padding: 20, nudge: true, immediate: true } 
+const myOptions = { padding: 20, nudge: true, immediate: true }
 cp.goToTarget(myTarget2, myOptions);
 ```
 
@@ -137,11 +129,11 @@ The following is not yet supported:
 
 ```js
 const myTarget2 = { x: 2000, y: 2000, width: 2000, height: 1500 }
-const myOptions = { 
-   padding: 20, 
+const myOptions = {
+   padding: 20,
    nudge: true,
-   transition: "transform 500ms ease-out" 
-} 
+   transition: "transform 500ms ease-out"
+}
 cp.goToTarget(myTarget, myOptions);
 // The syntax of transition is the same as CSS transition
 // https://developer.mozilla.org/en-US/docs/Web/CSS/transition
@@ -155,7 +147,7 @@ cp.goHome();
 ```
 
 
-<Sandbox stacked project={region6} />
+<Example id="regions-6" />
 
 
 For more on developing Annotation functionality, displaying annotations, and working with bodies and targets, see [Annotations](./annotations).
@@ -170,18 +162,18 @@ This is an example of using Canvas Panel as a component of _some other piece of 
 
 ### Using content state
 
-In the following, `https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json` is a content state at a URL. This will have been made by an editor at content-creation time, using a [Content State Selector](../future/content-state-selector). It's a full JSON content state that looks like this:
+In the following, `https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json` is a content state at a URL. This will have been made by an editor at content-creation time, using a [Content State Selector](../future/content-state-selector). It's a full JSON content state that looks like this:
 
 ```json
 {
   "type": "Annotation",
   "motivation": ["contentState"],
   "target": {
-    "id": "https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json#xywh=50,990,2100,1755",
+    "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1#xywh=50,990,2100,1755",
     "type": "Canvas",
     "partOf": [
       {
-        "id": "https://iiifmediawiki.herokuapp.com/presentation/File:Baigneurs_a_Asnieres.jpg",
+        "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json",
         "type": "Manifest"
       }
     ]
@@ -193,49 +185,47 @@ The content-management template author will then produce code that will output s
 
 ```html
 <div class="canvas-figure">
-    <canvas-panel 
+    <canvas-panel
           preset="responsive"
-          iiif-content="https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json"
+          iiif-content="https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json"
            />
     <p class="figure-text">
        Fig. 75<br/>
-       Georges Seurat (1859-1891)
-       <strong>Bathers at Asnières 1884 (detail)</strong><br/>
-       <em>Oil on Canvas</em><br/>
-       24.1 × 31.1 cm (9 1/2 × 12 1/4 in.)<br/>
-       The National Gallery, London<br/>
+       Photograph from the 2019 IIIF Conference
+       <strong>Göttingen (detail)</strong><br/>
+       IIIF Cookbook image-service example<br/>
     </p>
 </div>
 ```
 
 That is, the content-managed data for this widget is the figure text, and a content state pointing to the relevant part of an IIIF resource.
 
-As the template author has the content state handy, they can use it to create a link to another page that would let the user explore the painting in mode detail (but still initialised on the boy-with-straw-hat detail):
+As the template author has the content state handy, they can use it to create a link to another page that would let the user explore the photograph in more detail (initially showing the same region):
 
 ```html
-<a href="https://getty.edu/iiif-viewer?iiif-content=https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json">View this painting</a>
+<a href="https://getty.edu/iiif-viewer?iiif-content=https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json">View this photograph</a>
 ```
 
 or, make the canvas panel image the link:
 
 ```html
-<a href="https://getty.edu/iiif-viewer?iiif-content=https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json">
-    <canvas-panel 
+<a href="https://getty.edu/iiif-viewer?iiif-content=https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json">
+    <canvas-panel
           preset="responsive"
           width="300"
-          iiif-content="https://iiif-canvas-panel.netlify.app/extra-fixtures/boy-with-straw-hat.json"
+          iiif-content="https://canvas-panel.digirati.com/extra-fixtures/gottingen-detail.json"
            />
 </a>
 ```
 
-<Sandbox stacked project={more2} />
+<Example id="more-regions-1" />
 
 
 ### Not using content state
 
 An alternative would be where the developer has the region and IIIF information to hand directly, in which case they don't need a stored content state, or they are using the info from the content state directly:
 
-<Sandbox stacked project={more3} />
+<Example id="more-regions-2" />
 
 
 

@@ -1,6 +1,6 @@
 import { parseSize, SizeParameter } from './size-parameter';
-import { Selector } from '@iiif/presentation-3';
-import { ParsedSelector, parseSelector } from 'react-iiif-vault';
+import type { Selector } from '@iiif/parser/presentation-3/types';
+import { ParsedSelector, parseSelector } from 'react-iiif-vault/core';
 import {
   ContentState,
   normaliseContentState,

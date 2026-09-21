@@ -4,11 +4,7 @@ sidebar_position: 20
 
 # Styling
 
-import externalStylesheet from '@site/sandboxes/external-stylesheet.csb/_load';
-import opacity from '@site/sandboxes/20-styling/opacity.csb/_load';
-import opacity2 from '@site/sandboxes/20-styling/opacity2.csb/_load';
-import flexbox from '@site/sandboxes/01-show-canvas/flexbox.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 <!-- Stephen
 Needs a really good example of how to make it stick to 4 sides of container
@@ -19,20 +15,20 @@ A discussion of styling quirks
 You can also style image services using their image service ID (no canvas ID)
  -->
 
-There are 3 types of object you can style: 
+There are 3 types of object you can style:
 
 * Canvases
 * Annotation pages
 * Annotations
 
-As there is no representation of an Annotation Page in the viewer, this style is used as a cascade for styling 
+As there is no representation of an Annotation Page in the viewer, this style is used as a cascade for styling
 annotations. Any styles applied to annotation pages will be applied to annotations inside. This allows you to style
 full sets of annotations at once.
 
 Canvases only support opacity. Annotations support box styles, but may also have custom CSS applied to them.
 
 Styles can be applied either by using a **vault helper** or by using a property from the web component. If you use the
-Vault helper you can apply styles prior to rendering your canvas panel. If you use the Vault Helper you should ensure 
+Vault helper you can apply styles prior to rendering your canvas panel. If you use the Vault Helper you should ensure
 that you pass in a scope of `atlas` as the 3rd argument.
 
 ## Box styles
@@ -74,7 +70,7 @@ interface BoxStyles {
 
 ### States
 
-You can set hover and active states, that support all the above properties. This can be used to create some basic 
+You can set hover and active states, that support all the above properties. This can be used to create some basic
 interactivity for your annotations. These should be enough for most cases and avoid de-optimising and using CSS classes
 directly.
 
@@ -96,8 +92,8 @@ If you decide to use [Vault helpers](https://github.com/IIIF-Commons/vault-helpe
 in the correct scope when you apply styles.
 
 ```ts
-import { createStyleHelper } from '@iiif/vault-helpers';
-import { globalVault } from '@iiif/vault';
+import { createStyleHelper } from '@iiif/helpers/styles';
+import { globalVault } from '@iiif/helpers/vault';
 
 const helper = createStyleHelper(globalVault());
 
@@ -159,30 +155,30 @@ styles.
 <canvas-panel stylesheet="https://example.org/styles.css"></canvas-panel>
 ```
 
-<Sandbox project={externalStylesheet} />
+<Example id="external-stylesheet-sandbox" />
 
 ## Styling with FlexBox
 
 To demonstrate how canvas panel can flex to fill its container, it's best to open this demo in the code sandbox and then open the preview in a new window.
 
-<Sandbox project={flexbox} />
+<Example id="flexbox" />
 
 ## Opacity
 
 You can set the opacity of resources via their `id`. In this case, the `id` of the image resource that is the body of the painting annotation:
 
-<Sandbox project={opacity2} />
+<Example id="opacity-2" />
 
 You can also set the opacity of a particular item within a Choice:
 
 ```html
-<canvas-panel 
-  iiif-content="http://example.org/canvas-1.json" 
-  choice-id="http://example.org/choice-set-a/3, http://example.org/choice-set-b/7#opacity=0.5" 
+<canvas-panel
+  iiif-content="http://example.org/canvas-1.json"
+  choice-id="http://example.org/choice-set-a/3, http://example.org/choice-set-b/7#opacity=0.5"
 />                                                       Useful for static rendering -----^
 ```
 
-<Sandbox project={opacity} />
+<Example id="opacity" />
 
 Tile rendering is not as optimised when applying opacity. Canvas Panel does not layer multiple tiles when zooming - just one layer of tiles, so no nice blending, otherwise you'd see through to the fallback layers with the opacity.
 

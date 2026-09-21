@@ -1,4 +1,5 @@
-import { ChoiceDescription } from 'react-iiif-vault';
+import { createContext, useContext } from 'react';
+import type { ChoiceDescription } from '@iiif/helpers/painting-annotations';
 
 type EventKey = string | symbol;
 type EventHandler<T = any> = (payload: T) => void;
@@ -16,7 +17,7 @@ interface EventBusConfig {
   onError: (...params: any[]) => void;
 }
 
-export const choiceEventChannel = eventbus<{
+export function createChoiceEventChannel() { return eventbus<{
   /**
    * When the `makeChoice` api is called
    *
@@ -44,7 +45,10 @@ export const choiceEventChannel = eventbus<{
    *
    */
   onResetSeen: () => void;
-}>();
+}>(); }
+
+export const ChoiceEventContext = createContext(createChoiceEventChannel());
+export const useChoiceEventChannel = () => useContext(ChoiceEventContext);
 
 export const errorEventChannel = eventbus<{
   /**

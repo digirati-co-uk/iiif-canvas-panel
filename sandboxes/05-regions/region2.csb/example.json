@@ -1,0 +1,9 @@
+{
+  "title": "Regions example",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Regions",
+  "description": "Set the initial viewport using the region attribute."
+}

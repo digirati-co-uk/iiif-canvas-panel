@@ -1,7 +1,7 @@
-import { useAfterFrame, useRuntime } from '@atlas-viewer/atlas';
+import { useAfterFrame, useRuntime } from '@atlas-viewer/atlas/react';
 import { RegionHighlight } from '../atlas-components/RegionHighlight/RegionHighlight';
-import { Fragment, h } from 'preact';
-import { useState } from 'preact/compat';
+import { Fragment, createElement as h } from 'react';
+import { useState } from 'react';
 
 export function Debug() {
   const rt = useRuntime();

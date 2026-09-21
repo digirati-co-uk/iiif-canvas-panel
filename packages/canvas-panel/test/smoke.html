@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Canvas Panel dependency smoke test</title>
+  <style>
+    body {
+      font: 16px system-ui;
+      margin: 24px;
+      background: white;
+      color: #222;
+    }
+    canvas-panel {
+      display: block;
+      width: 480px;
+      height: 320px;
+    }
+  </style>
+  <h1>Canvas Panel dependency smoke test</h1>
+  <p>The canvas should show a blue rectangle with an orange centre, without remote IIIF requests.</p>
+  <div id="viewer"></div>
+  <button id="home" type="button">Go home</button>
+  <button id="zoom" type="button">Zoom in</button>
+  <p id="status" role="status">Loading fixture…</p>
+  <script type="module">
+    import '../src/index.ts';
+    import { Vault } from 'react-iiif-vault/core';
+
+    const canvasId = 'https://example.org/smoke/canvas';
+    const image =
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640"><rect width="960" height="640" fill="#2463a7"/><rect x="320" y="160" width="320" height="320" fill="#f69a35"/></svg>'
+      );
+    const vault = new Vault();
+    await vault.load(canvasId, {
+      id: canvasId,
+      type: 'Canvas',
+      width: 960,
+      height: 640,
+      items: [
+        {
+          id: `${canvasId}/page`,
+          type: 'AnnotationPage',
+          items: [
+            {
+              id: `${canvasId}/painting`,
+              type: 'Annotation',
+              motivation: 'painting',
+              target: canvasId,
+              body: { id: image, type: 'Image', width: 960, height: 640, format: 'image/svg+xml' },
+            },
+          ],
+        },
+      ],
+    });
+    const panel = document.createElement('canvas-panel');
+    panel.vault = vault;
+    panel.setAttribute('canvas-id', canvasId);
+    panel.setAttribute('width', '480');
+    panel.setAttribute('height', '320');
+    panel.addEventListener('cp-load-error', (event) => {
+      document.querySelector('#status').textContent = `Failed: ${event.message}`;
+    });
+    document.querySelector('#viewer').append(panel);
+    document.querySelector('#home').onclick = () => panel.goHome();
+    document.querySelector('#zoom').onclick = () => panel.zoomIn();
+    const deadline = performance.now() + 5000;
+    function checkPaint() {
+      const canvas = panel.shadowRoot.querySelector('canvas');
+      const context = canvas?.getContext('2d');
+      if (context && canvas.width && canvas.height) {
+        const pixel = context.getImageData(canvas.width / 2, canvas.height / 2, 1, 1).data;
+        if (pixel[0] === 246 && pixel[1] === 154 && pixel[2] === 53 && panel.getCanvasId() === canvasId) {
+          document.querySelector('#status').textContent =
+            'Passed: canvas painted and initial public getter is correct.';
+          document.body.dataset.result = 'passed';
+          return;
+        }
+      }
+      if (performance.now() > deadline) {
+        document.querySelector('#status').textContent = 'Failed: canvas did not paint within five seconds.';
+        document.body.dataset.result = 'failed';
+        return;
+      }
+      requestAnimationFrame(checkPaint);
+    }
+    requestAnimationFrame(checkPaint);
+  </script>
+</html>

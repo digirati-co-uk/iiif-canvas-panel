@@ -1,6 +1,6 @@
-import { Annotation } from '@iiif/presentation-3';
-import { useVault, VaultProvider } from 'react-iiif-vault';
-import { h } from 'preact';
+import type { Annotation } from '@iiif/parser/presentation-3/types';
+import { useVault, VaultProvider } from 'react-iiif-vault/core';
+import { createElement as h } from 'react';
 import { HTMLPortal } from '../../atlas-components/HTMLPortal';
 import { RenderTextFragment } from './RenderTextFragment';
 

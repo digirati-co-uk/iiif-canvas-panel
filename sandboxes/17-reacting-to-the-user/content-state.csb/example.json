@@ -1,0 +1,9 @@
+{
+  "title": "Content state",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Reacting To The User",
+  "description": "Explore a viewer configured with IIIF content state."
+}

@@ -3,8 +3,7 @@ sidebar_position: 3
 title: <sequence-panel />
 ---
 
-import sequencePanel from '@site/sandboxes/sequence-panel.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 Sequence panel is canvas panel for sequences of canvases, either inside a Manifest or a Range.
 
@@ -30,7 +29,7 @@ You don't have access to the same APIs for creating display annotations with the
 ></sequence-panel>
 ```
 
-<Sandbox project={sequencePanel} />
+<Example id="sequence-panel" />
 
 
 With sequence panel you get access in javascript through the API to the current sequence of canvases, along with some

@@ -1,0 +1,11 @@
+{
+  "title": "Regions go to target",
+  "framework": "vanilla",
+  "files": [
+    "src/index.js",
+    "index.html"
+  ],
+  "group": "Regions",
+  "autorun": false,
+  "description": "Run the example to move to a target with padding and transition options."
+}

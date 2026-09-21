@@ -1,0 +1,9 @@
+{
+  "title": "Simple vue example",
+  "framework": "vue",
+  "files": [
+    "src/App.vue"
+  ],
+  "group": "Frameworks",
+  "description": "Bind manifest and canvas IDs from a Vue component."
+}

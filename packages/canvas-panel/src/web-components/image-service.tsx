@@ -1,5 +1,5 @@
-import { h } from 'preact';
-import register from '../library/preact-custom-element';
+import { createElement as h } from 'react';
+import register from '../library/custom-element';
 import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
 import { RenderImage } from '../components/RenderImage/RenderImage';
 import {
@@ -7,8 +7,8 @@ import {
   ImageWithOptionalService,
   useLoadImageService,
   VaultProvider,
-} from 'react-iiif-vault';
-import { useMemo } from 'preact/compat';
+} from 'react-iiif-vault/core';
+import { useMemo } from 'react';
 import { ErrorFallback } from '../components/ErrorFallback/ErrorFallback';
 import { ErrorBoundary as _ErrorBoundary } from 'react-error-boundary';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
@@ -77,7 +77,7 @@ export function ImageService(props: ImageServiceProps) {
       setTileFormat((service as any).preferredFormats[0]);
     }
 
-    if (service && service.height && service.width && statusOf !== 'loading') {
+    if (service && service.height && service.width && statusOf?.status !== 'loading') {
       return {
         id: src,
         width: service.width,

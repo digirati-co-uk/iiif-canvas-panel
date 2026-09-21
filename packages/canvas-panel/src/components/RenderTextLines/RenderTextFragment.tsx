@@ -1,7 +1,7 @@
-import { useAnnotation } from 'react-iiif-vault';
-import { BoxSelector } from '@iiif/vault-helpers/.build/types/annotation-targets/selector-types';
-import { Fragment } from 'preact/compat';
-import { h } from 'preact';
+import { useAnnotation } from 'react-iiif-vault/core';
+import { BoxSelector } from '@iiif/helpers';
+import { Fragment } from 'react';
+import { createElement as h } from 'react';
 
 export function RenderTextFragment({
   annotationId,

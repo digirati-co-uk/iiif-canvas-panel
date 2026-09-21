@@ -1,0 +1,9 @@
+{
+  "title": "Choice example",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Choices",
+  "description": "Explore a canvas that offers a choice of images."
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Styling: opacity",
+  "framework": "vanilla",
+  "files": [
+    "index.html",
+    "src/index.js"
+  ],
+  "group": "Styling",
+  "description": "Compare image opacity settings on a canvas."
+}

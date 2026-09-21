@@ -1,8 +1,8 @@
-import { FC, useMemo } from 'preact/compat';
+import { FC, useMemo } from 'react';
 import { HTMLPortal } from './HTMLPortal';
-import { useResizeWorldItem } from '@atlas-viewer/atlas';
+import { useResizeWorldItem } from '@atlas-viewer/atlas/react';
 import { WorldObject } from '.';
-import { Fragment, h } from 'preact';
+import { Fragment, createElement as h } from 'react';
 
 export const ResizeWorldItem: FC<
   JSX.IntrinsicElements['worldObject'] & {

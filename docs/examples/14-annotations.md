@@ -5,9 +5,7 @@ sidebar_position: 14
 # Working with Annotations
 
 import { GitHubDiscussion } from "../../GitHubDiscussion.js";
-import vaultLoading from '@site/sandboxes/14-annotations/vaultLoading.csb/_load';
-import annoPages from '@site/sandboxes/14-annotations/annoPages.csb/_load';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 
 <!-- NB the original version of this doc ument has been moved to notes/14-annotations-hidden.md -->
@@ -23,7 +21,7 @@ You can add an annotation to the Vault, and you can add whole annotation pages a
 
 The following sandbox shows a few patterns for working with annotations - both existing annotations, and new ones that you add to Vault.
 
-<Sandbox stacked project={vaultLoading} />
+<Example id="loading-annotation-pages" />
 
 
 ## Annotation Display
@@ -53,7 +51,7 @@ Canvas Panel provides an additional class, `AnnotationDisplay`, that turns an an
 ## Loading Annotation Pages
 
 
-<Sandbox stacked project={annoPages} />
+<Example id="virtual-annotation-pages" />
 
 
 ## Canvas Panel's managed annotations

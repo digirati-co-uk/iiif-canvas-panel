@@ -1,0 +1,10 @@
+{
+  "title": "Annotation styling with JS",
+  "framework": "vanilla",
+  "files": [
+    "src/index.js",
+    "index.html"
+  ],
+  "group": "Boxes",
+  "description": "Apply annotation styles through the JavaScript API."
+}

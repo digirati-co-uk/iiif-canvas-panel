@@ -10,10 +10,9 @@ Layout container is currently best for non-changing viewports. Nested web compon
 responsive to changes in attributes due to a bug with an underlying library. If you want to build a book viewer, check [Sequence panel](./sequence-panel.md)
 :::
 
-import layoutContainer from '@site/sandboxes/layout-container.csb/_load';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { Sandbox } from '@site/Sandbox';
+import { Example } from '@site/Example';
 
 A common requirement when building a more complex viewer application is to show multiple canvases, or images, at the same time, for example:
 
@@ -72,7 +71,7 @@ The same thing can be done with canvas-panel instances:
 The canvas-panel and/or image-service components can then be positioned within the World-space using the `x` and `y` properties.
 
 
-<Sandbox stacked project={layoutContainer} />
+<Example id="layout-container" />
 
 # Reacting to events
 

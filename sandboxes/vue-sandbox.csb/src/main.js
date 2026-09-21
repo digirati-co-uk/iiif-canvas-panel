@@ -1,3 +1,4 @@
+import "@digirati/canvas-panel-web-components/dist/index.css";
 import { createApp } from 'vue'
 import '@digirati/canvas-panel-web-components';
 import App from './App.vue'

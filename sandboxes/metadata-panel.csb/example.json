@@ -1,0 +1,9 @@
+{
+  "title": "Metadata panel",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Components",
+  "description": "Read the metadata supplied by a IIIF manifest."
+}

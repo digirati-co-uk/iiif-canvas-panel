@@ -1,0 +1,10 @@
+{
+  "title": "Canvas content state",
+  "framework": "vanilla",
+  "files": [
+    "index.html"
+  ],
+  "group": "Show Canvas",
+  "height": 700,
+  "description": "Load a canvas using an encoded IIIF content state."
+}

@@ -2,8 +2,7 @@
 sidebar_position: 1
 ---
 
-import presetSandbox from "@site/sandboxes/custom-preset.csb/_load";
-import { Sandbox } from "@site/Sandbox";
+import { Example } from "@site/Example";
 
 # Attributes
 
@@ -68,7 +67,8 @@ See [Other Options](../future/other-options) for further details.
 ### preferred-qualities
 
 :::caution This is an upcoming feature and may not use your preferred quality
-chosen and default to `default` :::
+chosen and default to `default`
+:::
 
 Tell canvas panel to favour one or more qualities when it constructs requests to
 image services.
@@ -429,4 +429,4 @@ You can supply these properties to canvas panel:
 You can also do this directly on the page in a script block. This may be a more
 typical approach:
 
-<Sandbox project={presetSandbox} />
+<Example id="custom-preset" />

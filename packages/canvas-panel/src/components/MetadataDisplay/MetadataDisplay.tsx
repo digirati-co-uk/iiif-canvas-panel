@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { InternationalString } from '@iiif/presentation-3';
-import { h } from 'preact';
-import { getValue } from '@iiif/vault-helpers';
+import type { InternationalString } from '@iiif/parser/presentation-3/types';
+import { createElement as h } from 'react';
+import { getValue } from '@iiif/helpers';
 import './MetadataDisplay.css';
 
 type FacetConfig = {

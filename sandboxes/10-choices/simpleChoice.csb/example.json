@@ -1,0 +1,10 @@
+{
+  "title": "Listing choices",
+  "framework": "vanilla",
+  "files": [
+    "src/index.js",
+    "index.html"
+  ],
+  "group": "Choices",
+  "description": "Inspect the available image choices for a canvas."
+}

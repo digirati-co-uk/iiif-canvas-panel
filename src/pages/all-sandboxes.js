@@ -1,114 +1,39 @@
-import React, { useEffect, useState } from "react";
-import Layout from "@theme/Layout";
-import { Sandbox } from "@site/Sandbox";
-
-const ctx = require.context("../../sandboxes", true, /package\.json$/);
-const ctxL = require.context("../../sandboxes", true, /_load\.ts$/);
-const ctxR = require.context("../../sandboxes", true, /README\.md$/);
-const allSandboxes = ctx.keys().map((key) => {
-  const found = ctxL
-    .keys()
-    .find((r) => r.startsWith(key.slice(0, -1 * "/package.json".length)));
-  const readMe = ctxR
-    .keys()
-    .find((r) => r.startsWith(key.slice(0, -1 * "/package.json".length)));
-
-  return {
-    pkg: ctx(key),
-    key,
-    loader: found ? ctxL(found) : null,
-    readMe: readMe ? ctxR(readMe) : null,
-  };
-});
-
-function getCurrent() {
-  if (typeof window !== "undefined") {
-    return window.location.hash.slice(1);
-  }
-
-  return "";
-}
+import React, { useEffect, useState } from 'react';
+import Layout from '@theme/Layout';
+import { Example, examples } from '@site/Example';
 
 export default function AllSandboxes() {
-  const [current, _setCurrent] = useState(getCurrent);
-  const sandbox = allSandboxes.find((t) => t.pkg.name === current);
-
+  const [current, setCurrent] = useState('');
+  const [search, setSearch] = useState('');
+  const [framework, setFramework] = useState('');
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("hashchange", () => {
-        window.scrollTo({ top: 0 });
-
-        _setCurrent(getCurrent());
-      });
-    }
+    const update = () => setCurrent(window.location.hash.slice(1));
+    update();
+    window.addEventListener('hashchange', update);
+    return () => window.removeEventListener('hashchange', update);
   }, []);
-
-  const ReadMe = sandbox?.readMe?.default;
-
-  return (
-    <Layout
-      title={`All sandboxes`}
-      description="Description will go into a meta tag in <head />"
-    >
-      <div
-        style={{
-          display: "flex",
-          maxWidth: 1600,
-          margin: "0 auto",
-          padding: "1em",
-        }}
-      >
-        <div style={{ marginRight: "1em" }}>
-          <h3>All sandboxes</h3>
-          <ul
-            style={{
-              margin: 0,
-              padding: 0,
-              maxHeight: 820,
-              overflow: "auto",
-            }}
-          >
-            {allSandboxes.map((sandbox, i) => (
-              <li
-                key={i}
-                style={{
-                  margin: 0,
-                  listStyle: "none",
-                  padding: 5,
-                  borderRadius: 5,
-                  cursor: "pointer",
-                  background: sandbox.pkg.name === current ? "#F2F2F2" : "",
-                  color: sandbox.pkg.name === current ? "#DB6263" : "",
-                }}
-              >
-                <a href={`#${sandbox.pkg.name}`}>
-                  {sandbox.pkg.description || sandbox.pkg.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <main style={{ flex: 1, minWidth: 0 }}>
-          {sandbox ? (
-            sandbox.loader ? (
-              <div key={current} id={current}>
-                {ReadMe ? (
-                  <ReadMe />
-                ) : (
-                  <h1>{sandbox.pkg.description || sandbox.pkg.name}</h1>
-                )}
-                <Sandbox project={sandbox.loader.default} />
-              </div>
-            ) : (
-              <div>
-                Invalid sandbox, missing <code>./_load.ts</code>
-              </div>
-            )
-          ) : (
-            <div>Choose sandbox</div>
-          )}
-        </main>
-      </div>
-    </Layout>
-  );
+  const filtered = examples.filter((example) => (!framework || example.framework === framework) &&
+    `${example.title} ${example.group}`.toLowerCase().includes(search.toLowerCase()));
+  const groups = [...new Set(filtered.map((example) => example.group))];
+  const selected = examples.find((example) => example.id === current);
+  return <Layout title="Examples" description="Explore Canvas Panel examples and edit them in StackBlitz.">
+    <div className="docs-example-gallery">
+      <aside aria-label="Find an example">
+        <h1>Examples</h1>
+        <label>Search examples<input type="search" value={search} onChange={(event) => setSearch(event.target.value)} /></label>
+        <label>Framework<select value={framework} onChange={(event) => setFramework(event.target.value)}>
+          <option value="">All frameworks</option><option value="vanilla">HTML / JavaScript</option><option value="react">React</option><option value="vue">Vue</option>
+        </select></label>
+        <nav aria-label="Examples by topic">
+          {groups.map((group) => <div key={group}><h2>{group}</h2><ul>
+            {filtered.filter((example) => example.group === group).map((example) => <li key={example.id}>
+              <a href={`#${example.id}`} aria-current={current === example.id ? 'page' : undefined}>{example.title}</a>
+            </li>)}
+          </ul></div>)}
+          {!filtered.length && <p>No matching examples.</p>}
+        </nav>
+      </aside>
+      <main>{selected ? <Example id={selected.id} /> : <p>Choose an example to explore its source and live preview.</p>}</main>
+    </div>
+  </Layout>;
 }

@@ -1,10 +1,10 @@
 import { useSyncedState } from '../hooks/use-synced-state';
 import { parseBool, parseNumber } from '../helpers/parse-attributes';
-import { ManifestContext, useExistingVault, useExternalManifest, VaultProvider } from 'react-iiif-vault';
-import { globalVault, Vault } from '@iiif/vault';
-import { Fragment, h } from 'preact';
+import { ManifestContext, useExistingVault, useExternalManifest, VaultProvider } from 'react-iiif-vault/core';
+import { globalVault, Vault } from '@iiif/helpers';
+import { Fragment, createElement as h } from 'react';
 import { MetaDataDisplay } from '../components/MetadataDisplay/MetadataDisplay';
-import register from '../library/preact-custom-element';
+import register from '../library/custom-element';
 
 export interface MetadataPanelProps {
   vault?: Vault;

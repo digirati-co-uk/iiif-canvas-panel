@@ -1,19 +1,16 @@
-import {
-  ChoiceBody,
-  Annotation,
+import type { ChoiceBody, Annotation, Reference, Selector } from '@iiif/parser/presentation-3/types';
+import type {
   AnnotationNormalized,
   CanvasNormalized,
   ManifestNormalized,
-  Reference,
-  Selector,
-} from '@iiif/presentation-3';
-import { Vault } from '@iiif/vault';
-import { createContext } from 'preact';
-import {useContext, useEffect, useRef} from 'preact/compat';
+} from '@iiif/parser/presentation-3-normalized/types';
+import { Vault } from '@iiif/helpers';
+import { createContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { AnnotationDisplay } from '../helpers/annotation-display';
-import { ParsedSelector } from 'react-iiif-vault';
-import { BoxStyle } from '@atlas-viewer/atlas';
-import {useLayoutEffect} from "react";
+import { ParsedSelector } from 'react-iiif-vault/core';
+import { BoxStyle } from '@atlas-viewer/atlas/react';
+import { useLayoutEffect } from 'react';
 
 type TBC = any;
 
@@ -108,10 +105,7 @@ export type UseRegisterPublicApi = {
     annotations: {
       add(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;
       // Proposed.
-      getAll(): Array<{
-        annotation: AnnotationNormalized;
-        meta: TBC;
-      }>;
+      getAll(): AnnotationNormalized[];
       get(annotationId: string): AnnotationNormalized | null;
       getSource(annotationId: string): string | Annotation | AnnotationDisplay | AnnotationNormalized | null;
       remove(annotation: string | Annotation | AnnotationDisplay | AnnotationNormalized): void;

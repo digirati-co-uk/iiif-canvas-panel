@@ -1,8 +1,9 @@
-import register from '../library/preact-custom-element';
-import { useExistingVault, VaultProvider } from 'react-iiif-vault';
+import { SceneHTML } from '../components/AtlasCanvas/presentation';
+import register from '../library/custom-element';
+import { useExistingVault, VaultProvider } from 'react-iiif-vault/core';
 import { useGenericAtlasProps } from '../hooks/use-generic-atlas-props';
 import { NestedAtlas } from '../components/NestedAtlas/NestedAtlas';
-import { h } from 'preact';
+import { createElement as h } from 'react';
 
 export function LayoutContainer({ children, ...props }: any) {
   const vault = useExistingVault();
@@ -18,7 +19,7 @@ export function LayoutContainer({ children, ...props }: any) {
         className={className || ''}
         {...atlasProps}
       >
-        {isReady ? <slot>{children}</slot> : null}
+        {isReady ? <SceneHTML><slot>{children}</slot></SceneHTML> : null}
       </NestedAtlas>
     </VaultProvider>
   );

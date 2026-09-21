@@ -1,8 +1,10 @@
+import type { AtlasProps } from '@atlas-viewer/atlas';
 import { GenericAtlasComponent } from '../types/generic-atlas-component';
 import { usePresetConfig } from './use-preset-config';
-import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/compat';
-import { useImageServiceLoader, useExistingVault, ChoiceDescription } from 'react-iiif-vault';
-import { BoxStyle, Runtime, AtlasProps, easingFunctions } from '@atlas-viewer/atlas';
+import { RefObject, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useImageServiceLoader, useExistingVault } from 'react-iiif-vault/core';
+import type { ChoiceDescription } from '@iiif/helpers/painting-annotations';
+import { BoxStyle, Runtime, easingFunctions } from '@atlas-viewer/atlas/react';
 import { useSyncedState } from './use-synced-state';
 import {
   parseBool,
@@ -11,15 +13,16 @@ import {
   parseOptionalSelector,
   parseSizeParameter,
 } from '../helpers/parse-attributes';
-import { Reference, Selector } from '@iiif/presentation-3';
+import type { Reference, Selector } from '@iiif/parser/presentation-3/types';
 import { AnnotationDisplay } from '../helpers/annotation-display';
 import { ImageCandidateRequest } from '@atlas-viewer/iiif-image-api';
-import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/vault-helpers';
-import { useEffect } from 'preact/compat';
-import { globalVault } from '@iiif/vault';
-import { choiceEventChannel, errorEventChannel } from '../helpers/eventbus';
+import { createEventsHelper, createStylesHelper, createThumbnailHelper } from '@iiif/helpers';
+import { useEffect } from 'react';
+import { globalVault } from '@iiif/helpers';
+import { useChoiceEventChannel, errorEventChannel } from '../helpers/eventbus';
 
 export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtlasComponent<T>) {
+  const choiceEventChannel = useChoiceEventChannel();
   const webComponent = useRef<HTMLElement>();
   const ZOOM_OUT_FACTOR = 0.75;
   const ZOOM_IN_FACTOR = 1.0 / 0.75;
@@ -171,7 +174,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   function useProp<K extends keyof T, V = T[K]>(
     prop: K,
     options: { parse?: (input: T[K]) => V; defaultValue?: V } = {}
-  ): readonly [V, (newValue: T[K]) => void, (newValue: V) => void, Ref<V | undefined>] {
+  ): readonly [V, (newValue: T[K]) => void, (newValue: V) => void, RefObject<V | undefined>] {
     return useSyncedState<T[K], V>((props as any)[prop] || internalConfig[prop], options);
   }
 
@@ -807,6 +810,16 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
     return () => void 0;
   }, [disableKeyboardNavigation]);
 
+  const onCreated = useCallback(
+    (rt: { runtime: Runtime }) => {
+      setIsWorldReady('');
+      setIsReady(true);
+      setRuntimeVersion(rt.runtime.id);
+      runtime.current = rt.runtime;
+    },
+    [setIsReady]
+  );
+
   const atlasProps = useMemo(() => {
     return {
       children: null,
@@ -815,13 +828,7 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       viewport,
       enableNavigator,
       // Defaults for now.
-      onCreated: (rt: { runtime: Runtime }) => {
-        // @todo this means ready, but does not mean first item is in the world.
-        setIsWorldReady('');
-        setIsReady(true);
-        setRuntimeVersion(rt.runtime.id);
-        runtime.current = rt.runtime;
-      },
+      onCreated,
       homePosition:
         target && target.selector && target.selector.type === 'BoxSelector' ? target.selector.spatial : undefined,
       renderPreset:
@@ -850,7 +857,24 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
       role: a11yRole,
       title: a11yTitle,
     } as AtlasProps & { nested?: boolean };
-  }, [responsive, viewport, target, render, enableNavigator, internalConfig, a11yRole, a11yTitle]);
+  }, [
+    responsive,
+    viewport,
+    target,
+    render,
+    enableNavigator,
+    a11yRole,
+    a11yTitle,
+    width,
+    height,
+    nested,
+    interactive,
+    ignoreSingleFingerTouch,
+    enablePanOnWait,
+    requireMetaKeyForWheelZoom,
+    panOnWaitDelay,
+    onCreated,
+  ]);
   return {
     atlasProps,
     background,

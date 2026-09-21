@@ -1,8 +1,9 @@
-import { Vault } from '@iiif/vault';
+import { Vault } from '@iiif/helpers';
 import { ClassList } from './class-list';
-import { AnnotationNormalized, Reference } from '@iiif/presentation-3';
-import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas';
-import { createStylesHelper, StyledHelper, createEventsHelper } from '@iiif/vault-helpers';
+import type { Reference } from '@iiif/parser/presentation-3/types';
+import { BoxStyle, mergeStyles } from '@atlas-viewer/atlas/react';
+import { createStylesHelper, StyledHelper, createEventsHelper } from '@iiif/helpers';
+import { AnnotationNormalized } from '@iiif/parser/presentation-3-normalized/types';
 
 export class AnnotationDisplay {
   __vault: Vault | null = null;

@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { createElement as h } from 'react';
 
 export function Spinner(props: any) {
   return (

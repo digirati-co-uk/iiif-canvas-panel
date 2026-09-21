@@ -1,0 +1,10 @@
+{
+  "title": "Styling: opacity on one image",
+  "framework": "vanilla",
+  "files": [
+    "src/index.js",
+    "index.html"
+  ],
+  "group": "Styling",
+  "description": "Apply opacity to one image resource within a multi-image canvas."
+}

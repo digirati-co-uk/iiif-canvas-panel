@@ -1,42 +1,32 @@
 {
   "name": "@digirati/canvas-panel-web-components",
   "version": "1.0.73",
-  "typings": "./dist/types/index.d.ts",
-  "main": "./dist/bundle.js",
+  "main": "./dist/index.cjs",
+  "type": "module",
   "files": [
     "dist"
   ],
   "license": "MIT",
   "scripts": {
-    "build": "node ./esbuild.mjs && yarn run build-types",
-    "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "prepublishOnly": "NODE_ENV=production yarn build"
-  },
-  "resolutions": {
-    "@atlas-viewer/iiif-image-api": "^2.1.2",
-    "@iiif/presentation-3": ">=1.0.6",
-    "@iiif/vault": "^0.9.18",
-    "@iiif/parser": "1.*",
-    "@atlas-viewer/atlas": "2.0.17",
-    "nanoid": "3.1.25"
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check:package": "node scripts/check-package.mjs",
+    "build": "tsdown && tsdown --config ./tsdown.umd.ts",
+    "prepack": "NODE_ENV=production tsdown && tsdown --config ./tsdown.umd.ts",
+    "dev:bundle": "tsdown --config ./tsdown.umd.ts --watch"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "2.0.17",
+    "@atlas-viewer/atlas": "https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb",
     "@atlas-viewer/iiif-image-api": "2.2.2",
-    "@iiif/presentation-2": "^1.0.4",
-    "@iiif/presentation-3": "^1.1.3",
-    "@iiif/vault": "^0.9.22",
-    "@iiif/vault-helpers": "^0.9.11",
-    "@preact/compat": "17.*",
-    "@react-hook/media-query": "^1.1.1",
-    "preact": "^10.*",
+    "@iiif/helpers": "4.0.0",
+    "@iiif/parser": "4.0.1",
     "react-error-boundary": "^3.1.4",
-    "react-iiif-vault": "^0.9.21"
+    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77",
+    "react-reconciler": "0.33.0"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.3.0",
     "@types/jest": "^28.1.4",
-    "@types/preact-custom-element": "^4.0.1",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.13",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
@@ -48,14 +38,36 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "happy-dom": "^6.0.3",
     "jest": "^28.1.2",
-    "preact-render-to-string": "^5.2.0",
     "prettier": "^2.5.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "ts-jest": "^28.0.5",
-    "typescript": "^4.6.2",
+    "typescript": "^5.9.3",
     "vite": "^2.9.5",
-    "vitest": "^0.18.0"
+    "vitest": "^0.18.0",
+    "tsdown": "^0.17.4"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./dist/index.iife.js": "./dist/index.iife.js",
+    "./package.json": "./package.json",
+    "./dist/index.css": "./dist/index.css"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0"
   }
 }

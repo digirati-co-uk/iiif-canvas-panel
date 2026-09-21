@@ -1,10 +1,16 @@
-import { MediaPlayerProvider, SingleAudio, useSimpleMediaPlayer } from 'react-iiif-vault';
+import { useLayoutEffect } from 'react';
+import { MediaPlayerProvider, SingleAudio, useSimpleMediaPlayer } from 'react-iiif-vault/core';
 import { ReactNode } from 'react';
-import { h } from 'preact';
+import { createElement as h } from 'react';
 import { useRegisterPublicApi } from '../../hooks/use-register-public-api';
 
 export function RenderAudio({ media, children }: { media: SingleAudio; children?: ReactNode }) {
   const [{ element, currentTime, progress }, state, actions] = useSimpleMediaPlayer({ duration: media.duration });
+
+  useLayoutEffect(() => {
+    const player = element.current;
+    return () => player?.pause();
+  }, [media.url]);
 
   useRegisterPublicApi((el: any) => {
     el.mediaActions = actions;

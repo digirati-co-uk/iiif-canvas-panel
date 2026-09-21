@@ -1,47 +1,22 @@
 {
   "name": "vue-3-carousel",
-  "description": "Vue 3 Example Carousel",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Vue 3 Example Carousel",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "start": "vite --host 0.0.0.0",
+    "build": "vite build"
   },
   "dependencies": {
-    "@digirati/canvas-panel-web-components": "*",
-    "@iiif/vault": "0.9.14",
-    "@iiif/vault-helpers": "0.9.4",
-    "core-js": "^3.6.5",
-    "vue": "^3.0.0-0"
+    "@digirati/canvas-panel-web-components": "workspace:*",
+    "@iiif/helpers": "4.0.0",
+    "@iiif/parser": "4.0.1",
+    "react": "19.2.8",
+    "vue": "3.5.43"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0-0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0-0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "keywords": []
+    "vite": "7.3.6",
+    "@vitejs/plugin-vue": "6.0.9"
+  }
 }

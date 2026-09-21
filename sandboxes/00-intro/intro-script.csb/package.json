@@ -1,8 +1,20 @@
 {
   "name": "intro-script",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "description": "Intro script",
-  "main": "./src/index.js",
+  "scripts": {
+    "start": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
-    "@digirati/canvas-panel-web-components": "*"
+    "@digirati/canvas-panel-web-components": "workspace:*",
+    "react": "19.2.8"
+  },
+  "devDependencies": {
+    "vite": "7.3.6",
+    "typescript": "5.9.3"
   }
 }
