@@ -1,0 +1,171 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 32px 20px;
+  background: #fff;
+  color: #222;
+  font:
+    15px/1.5 system-ui,
+    sans-serif;
+}
+
+main {
+  max-width: 640px;
+  margin: auto;
+}
+/* Audio needs no visual canvas. Its native media element still owns playback. */
+canvas-panel {
+  display: block;
+  --atlas-container-display: none;
+}
+
+.player {
+  padding: 32px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.summary {
+  margin: 8px 0 0;
+  color: #555;
+}
+.summary:empty {
+  display: none;
+}
+
+.timeline {
+  margin-top: 28px;
+}
+input[type="range"] {
+  display: block;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  accent-color: #444;
+  cursor: pointer;
+}
+.time {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
+  color: #666;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.transport {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.play {
+  min-width: 120px;
+  padding: 0 24px;
+  border-radius: 6px;
+  background: #333;
+  color: #fff;
+  font-weight: 600;
+}
+.play:hover:not(:disabled) {
+  background: #111;
+}
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.volume input {
+  width: 84px;
+}
+.mute {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #555;
+}
+.mute:hover:not(:disabled) {
+  background: #eee;
+}
+.pause-icon,
+.muted-mark,
+.player[data-playing="true"] .play-icon,
+.mute[aria-pressed="true"] .sound-waves {
+  display: none;
+}
+.player[data-playing="true"] .pause-icon,
+.mute[aria-pressed="true"] .muted-mark {
+  display: block;
+}
+.status {
+  margin: 20px 0 0;
+  color: #666;
+  font-size: 12px;
+}
+.source {
+  margin: 18px 0 0;
+  color: #666;
+  font-size: 12px;
+  text-align: center;
+}
+.source a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+:focus-visible {
+  outline: 3px solid #444;
+  outline-offset: 4px;
+}
+:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  body {
+    padding: 24px 12px;
+  }
+  .player {
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .play {
+    min-width: 104px;
+    padding: 0 18px;
+  }
+  .volume input {
+    width: 56px;
+  }
+}

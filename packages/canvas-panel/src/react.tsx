@@ -22,6 +22,7 @@ export interface CanvasPanelProps {
   preset?: "zoom" | "static" | "responsive";
   rotation?: number;
   interactive?: boolean;
+  nativeControls?: boolean;
   choiceIds?: string[];
   id?: string;
   className?: string;
@@ -94,6 +95,7 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
       preset: props.preset,
       rotation: props.rotation,
       interactive: props.interactive,
+      "native-controls": props.nativeControls,
       "choice-id": props.choiceIds?.join(","),
     };
     for (const [name, value] of Object.entries(attributes)) {
@@ -111,6 +113,7 @@ export const CanvasPanel = forwardRef<CanvasPanelElement, CanvasPanelProps>(func
     props.preset,
     props.rotation,
     props.interactive,
+    props.nativeControls,
     props.choiceIds,
   ]);
 

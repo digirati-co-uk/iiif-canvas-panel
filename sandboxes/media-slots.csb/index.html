@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Native media slots</title>
+  <link rel="stylesheet" href="./styles.css" />
+
+  <p><a href="https://iiif.io/api/cookbook/recipe/0003-mvm-video/manifest.json">IIIF cookbook: Lunchroom Manners</a></p>
+  <canvas-panel
+    id="panel"
+    manifest-id="https://iiif.io/api/cookbook/recipe/0003-mvm-video/manifest.json"
+    canvas-id="https://iiif.io/api/cookbook/recipe/0003-mvm-video/canvas"
+    width="600"
+    height="360"
+    native-controls="false"
+  >
+    <!-- native-controls="false" hides the browser UI; these buttons provide the controls. -->
+    <!-- Native slot assignment keeps this HTML in the author's document. -->
+    <div slot="video-controls" class="controls" data-canvas-panel-bind>
+      <button type="button" data-action="toggle-play" data-bind="play-label" disabled>Play</button>
+
+      <label class="seek">
+        <span class="sr-only">Seek</span>
+        <input type="range" data-action="seek" data-bind="current-time" min="0" max="0" step="0.1" value="0" disabled />
+      </label>
+      <span class="time">
+        <span data-bind="current-time" data-format="time">0:00</span>
+        <span class="time-divider" aria-hidden="true">/</span>
+        <span data-bind="duration" data-format="time">--:--</span>
+      </span>
+
+      <button class="mute" type="button" data-action="toggle-mute" aria-pressed="false" disabled>
+        <span class="sr-only">Mute</span>
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          aria-hidden="true"
+        >
+          <path d="M11 5 6 9H3v6h3l5 4Z" stroke-linejoin="round" />
+          <path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" stroke-linecap="round" />
+          <path class="muted-mark" d="m16 9 6 6m0-6-6 6" stroke-linecap="round" />
+        </svg>
+      </button>
+
+      <label class="volume">
+        <span class="sr-only">Volume</span>
+        <input
+          type="range"
+          data-action="set-volume"
+          data-bind="volume"
+          min="0"
+          max="1"
+          step="0.05"
+          value="1"
+          disabled
+        />
+      </label>
+    </div>
+  </canvas-panel>
+
+  <p id="status" role="status">Loading video…</p>
+  <script type="module" src="./main.ts"></script>
+</html>

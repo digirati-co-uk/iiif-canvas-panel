@@ -1,0 +1,7 @@
+{
+  "title": "Audio player with metadata bindings",
+  "group": "V2 integration",
+  "files": ["index.html", "styles.css", "main.ts", "manifest.json"],
+  "description": "Audio controls with label and summary bound to a local fork of the IIIF cookbook manifest.",
+  "height": 540
+}

@@ -1,0 +1,129 @@
+body {
+  margin: 16px;
+  color: #243247;
+  font:
+    16px/1.5 system-ui,
+    sans-serif;
+}
+
+canvas-panel {
+  display: block;
+  max-width: 600px;
+}
+
+/* Slotted controls stay in the document, so ordinary page CSS styles them. */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  color: #f1f5f9;
+  background: #18212f;
+  border-top: 1px solid #303c4e;
+  border-radius: 0 0 10px 10px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.controls button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  min-width: 54px;
+  height: 36px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: #334155;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.controls button:hover:not(:disabled) {
+  background: #475569;
+}
+
+.controls .mute {
+  min-width: 36px;
+  padding: 0;
+  background: transparent;
+}
+
+.muted-mark,
+.mute[aria-pressed="true"] .sound-waves {
+  display: none;
+}
+
+.mute[aria-pressed="true"] .muted-mark {
+  display: block;
+}
+
+.controls label {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* The seek bar takes the remaining space; the other controls keep their size. */
+.seek {
+  flex: 1 1 0;
+}
+
+.volume {
+  flex: 0 0 64px;
+}
+
+.time {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.time-divider {
+  margin: 0 3px;
+  color: #94a3b8;
+}
+
+.controls input {
+  width: 100%;
+  min-width: 0;
+  height: 24px;
+  margin: 0;
+  accent-color: #93c5fd;
+  cursor: pointer;
+}
+
+.controls :focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+.controls :disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Labels remain available to screen readers without crowding the toolbar. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 400px) {
+  .controls {
+    gap: 6px;
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .volume {
+    flex-basis: 44px;
+  }
+}

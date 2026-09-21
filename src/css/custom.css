@@ -205,6 +205,22 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
   background: var(--ifm-color-emphasis-200);
   font-weight: 600;
 }
+.cookbook-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.cookbook-controls label {
+  min-width: 0;
+}
+.cookbook-controls button,
+.cookbook-controls select {
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  max-width: 100%;
+}
 @media (min-width: 1100px) {
   .docs-example--split .docs-example-content {
     display: grid;

@@ -1,8 +1,73 @@
 import { ChoiceEventContext, createChoiceEventChannel } from "../helpers/eventbus";
-import { createElement as h, useLayoutEffect, type ComponentType } from "react";
+import { createElement as h, useLayoutEffect, useRef, useSyncExternalStore, type ComponentType } from "react";
 import { render } from "./dom-renderer";
 import { Vault } from "react-iiif-vault/core";
 import { ContextBridge, useContextValues, type ContextValues } from "./context-bridge";
+
+import {
+  MediaSlotsContext,
+  NativeMediaControlsContext,
+  createMediaSlots,
+  bindMediaControls,
+  type MediaSlots,
+} from "./media-slots";
+
+function MediaOutlet({ store, name }: { store: MediaSlots; name: string }) {
+  const slots = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot);
+  const slot = useRef<HTMLSlotElement>(null);
+  const active = slots.some((entry) => entry.slotName === name);
+  useLayoutEffect(() => {
+    if (!slot.current) return;
+    const binding = bindMediaControls(slot.current, () => store.getSnapshot().find((entry) => entry.slotName === name));
+    const unsubscribe = store.subscribe(binding.refresh);
+    return () => {
+      unsubscribe();
+      binding.dispose();
+    };
+  }, [store, name]);
+  return h(
+    "div",
+    { hidden: !active, inert: !active, part: "media-controls" },
+    h(
+      "slot",
+      { name, ref: slot },
+      name.startsWith("timeline-controls")
+        ? h(
+            "div",
+            { "data-canvas-panel-bind": "", style: { display: "flex", gap: 12, alignItems: "center", padding: 12 } },
+            h(
+              "button",
+              { type: "button", "data-action": "toggle-play", "data-bind": "play-label", disabled: true },
+              "Play",
+            ),
+            h("input", {
+              type: "range",
+              min: 0,
+              max: 0,
+              step: 0.1,
+              "aria-label": "Timeline position",
+              "data-action": "seek",
+              "data-bind": "current-time",
+              disabled: true,
+            }),
+            h("span", { "data-bind": "current-time", "data-format": "time" }, "0:00"),
+            h("span", { "aria-hidden": true }, "/"),
+            h("span", { "data-bind": "duration", "data-format": "time" }, "--:--"),
+          )
+        : null,
+    ),
+  );
+}
+function MediaOutlets({ store }: { store: MediaSlots }) {
+  const slots = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot);
+  const names = new Set([
+    "video-controls",
+    "audio-controls",
+    "timeline-controls",
+    ...slots.map((entry) => entry.slotName),
+  ]);
+  return [...names].map((name) => h(MediaOutlet, { key: name, store, name }));
+}
 
 const contextEvent = "canvas-panel-context";
 const camelCase = (name: string) => name.replace(/-(\w)/g, (_, char: string) => char.toUpperCase());
@@ -32,7 +97,16 @@ function ElementContent({ element, Component, values }: any) {
     h(
       ChoiceEventContext.Provider,
       { value: element._choices },
-      h(Component, { ...element._props, children: h(ContextSlot) }),
+      h(
+        MediaSlotsContext.Provider,
+        { value: element._mediaSlots },
+        h(
+          NativeMediaControlsContext.Provider,
+          { value: element._props["native-controls"] !== "false" },
+          h(Component, { ...element._props, children: h(ContextSlot) }),
+        ),
+        h(MediaOutlets, { store: element._mediaSlots }),
+      ),
     ),
   );
 }
@@ -48,6 +122,9 @@ export default function register(Component: ComponentType<any>, name: string, at
     _explicitVault = false;
     _session = 0;
     _choices = createChoiceEventChannel();
+    _mediaSlots = createMediaSlots(this);
+    getMediaSlots = this._mediaSlots.getSnapshot;
+    subscribeMediaSlots = this._mediaSlots.subscribe;
     constructor() {
       super();
       this._root = options.shadow ? this.attachShadow({ mode: "open" }) : this;

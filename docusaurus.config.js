@@ -33,6 +33,7 @@ module.exports = {
         { to: "/about", label: "About", position: "left" },
         { to: "/glossary", label: "Glossary", position: "left" },
         { to: "/all-sandboxes", label: "Examples", position: "left" },
+        { to: "/cookbook", label: "Cookbook", position: "left" },
         {
           href: "https://github.com/digirati-co-uk/iiif-canvas-panel",
           label: "GitHub",

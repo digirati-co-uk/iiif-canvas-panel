@@ -1,5 +1,6 @@
 export const baseAttributes = [
   "width",
+  "native-controls",
   "height",
   "target",
   "region",

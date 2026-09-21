@@ -770,6 +770,19 @@ export function useGenericAtlasProps<T = Record<never, never>>(props: GenericAtl
   useLayoutEffect(() => {
     if (webComponent.current && !disableKeyboardNavigation) {
       const keydownHandler = (e: KeyboardEvent) => {
+        // Slotted form controls keep their native keyboard behaviour.
+        if (
+          e.defaultPrevented ||
+          e
+            .composedPath()
+            .some(
+              (node) =>
+                node instanceof HTMLElement &&
+                (node.matches("input, textarea, select, button, audio, video, [role=slider]") ||
+                  node.isContentEditable),
+            )
+        )
+          return;
         if (runtime.current && runtime.current.transitionManager) {
           const tm = runtime.current.transitionManager;
           const points = !tm.pendingTransition.done ? tm.pendingTransition.to : runtime.current.target;

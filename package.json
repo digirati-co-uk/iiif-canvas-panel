@@ -32,7 +32,8 @@
     "test:examples": "pnpm --filter @canvas-panel/examples test && pnpm --filter @canvas-panel/examples typecheck && pnpm --filter @canvas-panel/examples exec tsc -p ../tsconfig.examples.json",
     "test:example-packages": "node sandboxes/check-consumers.mjs",
     "test:example-ui": "node scripts/check-examples.mjs",
-    "test:react-consumer": "node scripts/check-react-consumer.mjs"
+    "test:react-consumer": "node scripts/check-react-consumer.mjs",
+    "test:media-slots": "node scripts/check-media-slots.mjs"
   },
   "dependencies": {
     "@cmfcmf/docusaurus-search-local": "^2.0.1",

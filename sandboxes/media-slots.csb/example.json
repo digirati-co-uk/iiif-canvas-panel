@@ -1,0 +1,7 @@
+{
+  "title": "Native video controls slot",
+  "group": "V2 integration",
+  "files": ["index.html", "styles.css", "main.ts"],
+  "description": "Real IIIF video with authored HTML controls, scoped media snapshots and optional native playback controls.",
+  "height": 640
+}

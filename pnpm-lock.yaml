@@ -641,6 +641,37 @@ importers:
         specifier: 8.3.0
         version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)
 
+  sandboxes/audio-slots.csb:
+    dependencies:
+      '@atlas-viewer/atlas':
+        specifier: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb
+        version: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      '@digirati/canvas-panel-web-components':
+        specifier: workspace:*
+        version: link:../../packages/canvas-panel
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-iiif-vault:
+        specifier: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77
+        version: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77(@atlas-viewer/atlas@https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8))(@types/react@19.3.0)(immer@9.0.21)(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      react-reconciler:
+        specifier: 0.33.0
+        version: 0.33.0(react@19.2.8)
+    devDependencies:
+      '@types/react':
+        specifier: 19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: 19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vite:
+        specifier: 8.3.0
+        version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)
+
   sandboxes/choices-react.csb:
     dependencies:
       '@digirati/canvas-panel-web-components':
@@ -745,6 +776,37 @@ importers:
         specifier: 19.2.8
         version: 19.2.8
     devDependencies:
+      vite:
+        specifier: 8.3.0
+        version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)
+
+  sandboxes/media-slots.csb:
+    dependencies:
+      '@atlas-viewer/atlas':
+        specifier: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb
+        version: https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      '@digirati/canvas-panel-web-components':
+        specifier: workspace:*
+        version: link:../../packages/canvas-panel
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-iiif-vault:
+        specifier: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77
+        version: https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77(@atlas-viewer/atlas@https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb(@iiif/helpers@4.0.0(@iiif/parser@4.0.1))(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8))(@types/react@19.3.0)(immer@9.0.21)(react-dom@19.2.8(react@19.2.8))(react-reconciler@0.33.0(react@19.2.8))(react@19.2.8)
+      react-reconciler:
+        specifier: 0.33.0
+        version: 0.33.0(react@19.2.8)
+    devDependencies:
+      '@types/react':
+        specifier: 19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: 19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
       vite:
         specifier: 8.3.0
         version: 8.3.0(@types/node@25.0.2)(esbuild@0.28.2)(jiti@1.21.7)(terser@5.44.1)(yaml@2.9.1)

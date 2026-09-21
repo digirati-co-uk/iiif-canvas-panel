@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IIIF audio player</title>
+  <link rel="stylesheet" href="./styles.css" />
+
+  <main>
+    <canvas-panel id="panel" native-controls="false" interactive="false">
+      <!-- The whole player is ordinary authored HTML, projected into the native audio slot. -->
+      <section slot="audio-controls" class="player" data-canvas-panel-bind aria-label="Audio player">
+        <header>
+          <!-- Canvas metadata takes precedence, with the manifest as a fallback. -->
+          <h1 data-bind="label"></h1>
+          <p class="summary" data-bind="summary"></p>
+        </header>
+
+        <div class="timeline">
+          <label class="sr-only" for="seek">Playback position</label>
+          <input
+            id="seek"
+            type="range"
+            data-action="seek"
+            data-bind="current-time"
+            min="0"
+            max="0"
+            step="0.1"
+            value="0"
+            disabled
+          />
+          <div class="time">
+            <span data-bind="current-time" data-format="time">0:00</span
+            ><span data-bind="duration" data-format="time">--:--</span>
+          </div>
+        </div>
+
+        <div class="transport">
+          <button class="play" type="button" data-action="toggle-play" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path class="play-icon" d="M7 4v16l14-8Z" />
+              <path class="pause-icon" d="M6 4h4v16H6zm8 0h4v16h-4Z" />
+            </svg>
+            <span data-bind="play-label">Play</span>
+          </button>
+
+          <div class="volume">
+            <button class="mute" type="button" data-action="toggle-mute" aria-pressed="false" disabled>
+              <span class="sr-only">Mute</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                aria-hidden="true"
+              >
+                <path d="M11 5 6 9H3v6h3l5 4Z" stroke-linejoin="round" />
+                <path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" stroke-linecap="round" />
+                <path class="muted-mark" d="m16 9 6 6m0-6-6 6" stroke-linecap="round" />
+              </svg>
+            </button>
+            <label class="sr-only" for="volume">Volume</label>
+            <input
+              id="volume"
+              type="range"
+              data-action="set-volume"
+              data-bind="volume"
+              min="0"
+              max="1"
+              step="0.05"
+              value="1"
+              disabled
+            />
+          </div>
+        </div>
+        <p id="status" class="status" role="status">Loading recording…</p>
+      </section>
+    </canvas-panel>
+    <p class="source">From the <a href="https://iiif.io/api/cookbook/recipe/0002-mvm-audio/">IIIF audio cookbook</a></p>
+  </main>
+  <script type="module" src="./main.ts"></script>
+</html>

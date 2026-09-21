@@ -1,0 +1,24 @@
+{
+  "name": "audio-slots",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A styled audio player using native slots and a real IIIF cookbook manifest",
+  "scripts": {
+    "start": "vite --host 0.0.0.0",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@digirati/canvas-panel-web-components": "workspace:*",
+    "react": "19.2.8",
+    "react-iiif-vault": "https://pkg.pr.new/digirati-co-uk/react-iiif-vault/react-iiif-vault@1c82c77",
+    "@atlas-viewer/atlas": "https://pkg.pr.new/atlas-viewer/atlas/@atlas-viewer/atlas@a2c97eb",
+    "react-reconciler": "0.33.0"
+  },
+  "devDependencies": {
+    "vite": "8.3.0",
+    "typescript": "6.0.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0"
+  }
+}

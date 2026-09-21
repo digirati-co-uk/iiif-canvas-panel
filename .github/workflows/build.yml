@@ -62,6 +62,7 @@ jobs:
           trap 'kill "$SERVER_PID"' EXIT
           curl --retry 30 --retry-delay 1 --retry-connrefused --fail http://localhost:3000/ >/dev/null
           pnpm test:example-ui
+          pnpm test:media-slots
 
       - working-directory: packages/canvas-panel
         run: pnpm run check:package

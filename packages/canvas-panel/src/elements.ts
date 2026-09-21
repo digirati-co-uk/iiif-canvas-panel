@@ -17,3 +17,5 @@ export function defineCustomElements() {
   defineMetadataPanel();
   defineRangePanel();
 }
+
+export type { MediaSlotSnapshot, MediaActions } from "./library/media-slots";

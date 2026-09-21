@@ -1,3 +1,4 @@
+import type { MediaSlotSnapshot } from "../library/media-slots";
 import type { Vault } from "@iiif/helpers";
 import type { ChoiceDescription } from "@iiif/helpers/painting-annotations";
 import type { Selector, Annotation } from "@iiif/parser/presentation-3/types";
@@ -8,6 +9,7 @@ import type { ContentStateEvent, ContentStateCallback } from "./content-state";
 
 export interface CanvasPanelEventMap extends HTMLElementEventMap {
   ready: CustomEvent<void>;
+  "media-action-error": CustomEvent<{ key: string; action: "play"; error: string }>;
   "canvas-request": CustomEvent<{ canvasId: string }>;
   choice: CustomEvent<{ choice: ChoiceDescription }>;
   "canvas-change": CustomEvent<{ canvas: string | undefined }>;
@@ -17,6 +19,8 @@ export interface CanvasPanelEventMap extends HTMLElementEventMap {
 /** Implemented public API. Call methods after the element has connected/whenReady. */
 export interface CanvasPanelElement extends HTMLElement {
   vault: Vault;
+  getMediaSlots(): readonly MediaSlotSnapshot[];
+  subscribeMediaSlots(listener: () => void): () => void;
   readonly ready: boolean;
   whenReady(callback: () => void): void;
   setCanvas(id: string): void;

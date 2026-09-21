@@ -1,3 +1,4 @@
+import { MediaSlotsContext, NativeMediaControlsContext } from "./media-slots";
 import { ChoiceEventContext } from "../helpers/eventbus";
 import { createElement as h, Fragment, useContext, type Context, type ReactNode } from "react";
 import {
@@ -30,6 +31,8 @@ const contexts: Context<any>[] = [
   BoundsContext,
   ModeContext,
   ChoiceEventContext,
+  MediaSlotsContext,
+  NativeMediaControlsContext,
 ];
 export type ContextValues = any[];
 export function useContextValues() {
