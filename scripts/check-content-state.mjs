@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { chromium } from "playwright";
 
-const base = process.env.DOCS_URL || "http://127.0.0.1:3000";
+const base = "http://canvas-panel.test";
 const intro = await readFile("docs/intro.md", "utf8");
 const states = [
   ...intro.split("Content states can be used to point at any part of a Canvas:")[1].matchAll(/iiif-content="([^"]+)"/g),
@@ -13,6 +13,11 @@ const browser = await chromium.launch({
 });
 try {
   const page = await browser.newPage();
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.route(`${base}/index.iife.js`, (route) =>
+    route.fulfill({ path: "packages/canvas-panel/dist/index.iife.js", contentType: "text/javascript" }),
+  );
   await page.route(`${base}/content-state-check`, (route) =>
     route.fulfill({
       contentType: "text/html",
@@ -83,14 +88,15 @@ try {
           const position = panel.getPosition?.();
           const container = panel.shadowRoot?.querySelector(".atlas-container");
           const image = panel.shadowRoot?.querySelector("img");
+          const tolerance = (2 * w) / width; // Allow two screen pixels of Atlas viewport rounding.
           return (
             image?.complete &&
             image.naturalWidth > 0 &&
             position &&
-            Math.abs(position.x - x) < 2 &&
-            Math.abs(position.y - y) < 2 &&
-            Math.abs(position.width - w) < 2 &&
-            Math.abs(position.height - h) < 2 &&
+            Math.abs(position.x - x) < tolerance &&
+            Math.abs(position.y - y) < tolerance &&
+            Math.abs(position.width - w) < tolerance &&
+            Math.abs(position.height - h) < tolerance &&
             container.clientWidth === width &&
             Math.abs(container.clientHeight - (width * h) / w) < 2
           );
@@ -100,6 +106,7 @@ try {
       );
     }
   }
+  assert.deepEqual(errors, []);
   console.log("Passed: all three docs content-state crops and responsive resizing.");
 } finally {
   await browser.close();
