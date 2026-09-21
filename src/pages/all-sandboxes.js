@@ -35,11 +35,13 @@ export default function AllSandboxes() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      window.addEventListener("hashchange", () => {
+      const onHashChange = () => {
         window.scrollTo({ top: 0 });
 
         _setCurrent(getCurrent());
-      });
+      };
+      window.addEventListener("hashchange", onHashChange);
+      return () => window.removeEventListener("hashchange", onHashChange);
     }
   }, []);
 

@@ -1,4 +1,4 @@
-import "@digirati/canvas-panel-web-components";
+import "@digirati/canvas-panel-web-components/dist/index.iife.js";
 import "./styles.css";
 
 const cp = document.getElementById("cp");
@@ -14,7 +14,7 @@ async function demo() {
     motivation: ["highlighting"],
     target: {
       id:
-        "https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json#xywh=50,990,2100,1755",
+        "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1#xywh=50,990,2100,1755",
       type: "Canvas"
     }
   };
@@ -25,7 +25,7 @@ async function demo() {
     motivation: ["highlighting"],
     target: {
       id:
-        "https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json#xywh=50,990,2100,1755",
+        "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1#xywh=50,990,2100,1755",
       type: "Canvas"
     }
   };

@@ -1,11 +1,11 @@
-import "@digirati/canvas-panel-web-components";
+import "@digirati/canvas-panel-web-components/dist/index.iife.js";
 import "./styles.css";
 
 const cp = document.getElementById("cp");
 
 async function demo() {
   const manifestWithAnnotations = await cp.vault.loadManifest(
-    "https://digirati-co-uk.github.io/wunder.json"
+    "https://iiif.wellcomecollection.org/presentation/b18035723"
   );
   const canvas10 = cp.vault.get(manifestWithAnnotations.items[10]);
   cp.setCanvas(canvas10.id);
@@ -30,7 +30,7 @@ async function showSomeAnnotations(canvasId, annoPage) {
   const displayAnno = cp.createAnnotationDisplay(w3cAnno);
   // displayAnno.className = "my-class";
   displayAnno.applyStyle({
-    background: "red"
+    backgroundColor: "red"
   });
   await new Promise((r) => setTimeout(r, 1000));
   cp.annotations.add(displayAnno);
@@ -38,7 +38,7 @@ async function showSomeAnnotations(canvasId, annoPage) {
   const newAnno = {
     type: "Annotation",
     motivation: ["tagging"],
-    target: canvasId + "#300,300,500,500"
+    target: canvasId + "#xywh=300,300,500,500"
   };
   const annoWithId = await cp.vault.load("fake-id", newAnno);
   const displayAnno2 = cp.createAnnotationDisplay(annoWithId);
@@ -52,7 +52,7 @@ async function showSomeAnnotations(canvasId, annoPage) {
   const linkingAnno = {
     type: "Annotation",
     motivation: ["linking"],
-    target: canvasId + "#300,900,500,500"
+    target: canvasId + "#xywh=300,900,500,500"
   };
   const linkingAnnoWithId = await cp.vault.load("fake-id-2", linkingAnno);
   const displayAnno3 = cp.createAnnotationDisplay(linkingAnnoWithId);

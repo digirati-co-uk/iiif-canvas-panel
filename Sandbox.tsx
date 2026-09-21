@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import "@codesandbox/sandpack-react/dist/index.css";
 import {
   SandpackProvider,
   SandpackLayout,
@@ -15,6 +16,8 @@ import {
 } from "@codesandbox/sandpack-react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
+let runtimeFiles: Promise<string[]>;
+
 export function Sandbox(
   _props: {
     stacked?: boolean;
@@ -26,17 +29,93 @@ export function Sandbox(
   const { project, label, ...props } = _props;
   const isDarkTheme = false;
 
+  // Transfer the local build through Sandpack's virtual files. A remote iframe
+  // cannot fetch localhost scripts under browser private-network restrictions.
+  const [runtime, setRuntime] = useState<string[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    let active = true;
+    runtimeFiles ||= Promise.all(
+      ["index.iife.js", "docs-helpers.iife.js", "index.css"].map(
+        async (file) => {
+          const response = await fetch(`${ctx.siteConfig.baseUrl}${file}`);
+          if (!response.ok)
+            throw new Error(`Could not load ${file}: ${response.status}`);
+          return response.text();
+        }
+      )
+    );
+    runtimeFiles
+      .then((files) => {
+        if (active) setRuntime(files);
+      })
+      .catch((error) => {
+        if (active) setError(error.message);
+      });
+    return () => {
+      active = false;
+    };
+  }, [ctx.siteConfig.baseUrl]);
   const options = { editorHeight: 542, ...project.options, ...props.options };
+  const customSetup = {
+    ...project.customSetup,
+    ...props.customSetup,
+    dependencies: {
+      ...project.customSetup?.dependencies,
+      ...props.customSetup?.dependencies,
+    },
+  };
+  delete customSetup.dependencies["@digirati/canvas-panel-web-components"];
+  delete customSetup.dependencies["@iiif/helpers"];
+  delete customSetup.dependencies["@iiif/parser"];
+  const files = {
+    ...project.files,
+    ...props.files,
+    "/node_modules/@digirati/canvas-panel-web-components/package.json": {
+      code: JSON.stringify({
+        name: "@digirati/canvas-panel-web-components",
+        main: "index.js",
+      }),
+      hidden: true,
+    },
+    "/node_modules/@digirati/canvas-panel-web-components/index.js": {
+      code: runtime
+        ? `require('./dist/index.css'); module.exports = new Function(${JSON.stringify(
+            runtime[0] + "; return CanvasPanel;"
+          )})();`
+        : "",
+      hidden: true,
+    },
+    "/node_modules/@digirati/canvas-panel-web-components/dist/index.iife.js": {
+      code: "module.exports = require('../index.js');",
+      hidden: true,
+    },
+    "/node_modules/@digirati/canvas-panel-web-components/dist/index.css": {
+      code: runtime?.[2] || "",
+      hidden: true,
+    },
+    ...Object.fromEntries(
+      ["vault", "i18n", "thumbnail"].map((name) => [
+        `/node_modules/@iiif/helpers/${name}.js`,
+        { code: "module.exports = require('./index.js');", hidden: true },
+      ])
+    ),
+    "/node_modules/@iiif/helpers/index.js": {
+      code: runtime
+        ? `module.exports = new Function(${JSON.stringify(
+            runtime[1] + "; return CanvasPanelHelpers;"
+          )})();`
+        : "",
+      hidden: true,
+    },
+    "/node_modules/@iiif/helpers/package.json": {
+      code: JSON.stringify({ name: "@iiif/helpers", main: "index.js" }),
+      hidden: true,
+    },
+  };
 
-  if (
-    project.customSetup &&
-    project.customSetup.dependencies &&
-    project.customSetup.dependencies["@digirati/canvas-panel-web-components"] &&
-    ctx.siteConfig.customFields.canvasPanelVersion
-  ) {
-    project.customSetup.dependencies["@digirati/canvas-panel-web-components"] =
-      (ctx.siteConfig.customFields.canvasPanelVersion as string) || "*";
-  }
+  if (error) return <p role="alert">Example failed to load: {error}</p>;
+  if (!runtime) return <p>Loading example…</p>;
 
   return (
     <div
@@ -78,6 +157,8 @@ export function Sandbox(
         }
         {...project}
         {...props}
+        customSetup={customSetup}
+        files={files}
         options={options}
       />
     </div>

@@ -1,4 +1,4 @@
-import "@digirati/canvas-panel-web-components";
+import "@digirati/canvas-panel-web-components/dist/index.iife.js";
 import "./styles.css";
 
 // There are three painting annotations on this canvas, the ids of the image resources are:

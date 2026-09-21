@@ -1,4 +1,4 @@
-import "@digirati/canvas-panel-web-components";
+import "@digirati/canvas-panel-web-components/dist/index.iife.js";
 
 const seq = document.getElementById("sequence");
 const next = document.getElementById("next");

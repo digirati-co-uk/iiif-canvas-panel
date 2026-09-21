@@ -1,6 +1,6 @@
 <template>
   <Manifest
-    manifestId="https://data.getty.edu/museum/api/iiif/826/manifest.json"
+    manifestId="https://iiif.wellcomecollection.org/presentation/b18035723"
   >
     <div>
       <ManifestThumbnailList />
@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import { globalVault } from "@iiif/vault";
+import { globalVault } from "@iiif/helpers/vault";
 import Manifest from "./components/Manifest";
 import ManifestThumbnailList from "./components/ManifestThumbnailList";
-import { createThumbnailHelper } from "@iiif/vault-helpers";
+import { createThumbnailHelper } from "@iiif/helpers/thumbnail";
 
 export default {
   name: "App",

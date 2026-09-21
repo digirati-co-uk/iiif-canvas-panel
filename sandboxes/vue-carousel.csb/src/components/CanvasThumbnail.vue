@@ -1,5 +1,5 @@
 <template>
-  <div :v-if="thumbnail.current" :class="active ? 'image image--active' : 'image'">
+  <div v-if="thumbnail.current" :class="active ? 'image image--active' : 'image'">
     <img :src="thumbnail.current?.id" alt="thumbnail" />
   </div>
 </template>

@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@digirati/canvas-panel-web-components": "*",
-    "@iiif/vault": "0.9.14",
-    "@iiif/vault-helpers": "0.9.4",
     "core-js": "^3.6.5",
-    "vue": "^3.0.0-0"
+    "vue": "^3.0.0-0",
+    "@iiif/helpers": "4.0.0",
+    "@iiif/parser": "4.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

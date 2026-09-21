@@ -1,4 +1,4 @@
-import '@digirati/canvas-panel-web-components';
+import '@digirati/canvas-panel-web-components/dist/index.iife.js';
 import './styles.css';
 
 // click the sandbox Run button to run this demo

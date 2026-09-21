@@ -43,9 +43,9 @@
 
       /* #cp { height:100% } */
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest/dist/bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault@latest/dist/index.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
+    <link rel="stylesheet" href="/index.css" />
+    <script src="/index.iife.js"></script>
+    <script src="/docs-helpers.iife.js"></script>
   </head>
   <body>
     <h1>A bookreader using Canvas Panel and Layout Container</h1>
@@ -83,8 +83,8 @@
       function $(id) {
         return document.getElementById(id);
       }
-      const vault = new IIIFVault.Vault();
-      const thumbHelper = VaultHelpers.createThumbnailHelper(vault);
+      const vault = new CanvasPanelHelpers.Vault();
+      const thumbHelper = CanvasPanelHelpers.createThumbnailHelper(vault);
       let manifest;
 
       async function loadManifest() {
@@ -103,13 +103,13 @@
           // sequencePanel.setAttribute('text-selection-enabled', 'true');
           viewportContainer.appendChild(sequencePanel);
 
-          $("manifestLabel").innerText = VaultHelpers.getValue(manifest.label);
+          $("manifestLabel").innerText = CanvasPanelHelpers.getValue(manifest.label);
           let thumbsHtml = "";
           let counter = 1;
           // for brevity we will assume that the manifest is "paged", the viewingDirection is left-to-right.
           thumbsHtml += '<div class="tc"></div>';
           for (const canvas of vault.get(manifest.items)) {
-            const label = VaultHelpers.getValue(canvas.label);
+            const label = CanvasPanelHelpers.getValue(canvas.label);
             const cvThumb = await thumbHelper.getBestThumbnailAtSize(canvas, {
               maxWidth: 100,
               maxHeight: 200,

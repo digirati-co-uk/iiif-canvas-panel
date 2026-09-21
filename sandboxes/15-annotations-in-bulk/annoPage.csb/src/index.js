@@ -1,11 +1,11 @@
-import "@digirati/canvas-panel-web-components";
+import "@digirati/canvas-panel-web-components/dist/index.iife.js";
 import "./styles.css";
 
 const cp = document.getElementById("cp");
 
 async function demo() {
   const manifestWithAnnotations = await cp.vault.loadManifest(
-    "https://digirati-co-uk.github.io/wunder.json"
+    "https://iiif.wellcomecollection.org/presentation/b18035723"
   );
   const canvas10 = cp.vault.get(manifestWithAnnotations.items[10]);
   cp.setCanvas(canvas10.id);

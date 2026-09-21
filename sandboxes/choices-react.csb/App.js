@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import "./styles.css";
-import "@digirati/canvas-panel-web-components";
+import "@digirati/canvas-panel-web-components/dist/index.iife.js";
 
 export default function App() {
   const viewer = useRef();
@@ -10,9 +10,10 @@ export default function App() {
     : false;
 
   useLayoutEffect(() => {
-    viewer.current.addEventListener("choice", (e) => {
-      setChoice(e.detail.choice);
-    });
+    const element = viewer.current;
+    const onChoice = (event) => setChoice(event.detail.choice);
+    element.addEventListener("choice", onChoice);
+    return () => element.removeEventListener("choice", onChoice);
   }, []);
 
   return (
@@ -58,7 +59,7 @@ export default function App() {
       <canvas-panel
         ref={viewer}
         // choice-id={`https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-xray/full/max/0/default.jpg#opacity=0.5,https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-natural/full/max/0/default.jpg#opacity=0.25`}
-        iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRnByZXZpZXcuaWlpZi5pbyUyRmNvb2tib29rJTJGMzMzMy1jaG9pY2UlMkZyZWNpcGUlMkYwMDMzLWNob2ljZSUyRmNhbnZhcyUyRnAxJTIzeHl3aCUzRDgzNyUyQzkxMyUyQzc3MSUyQzMzNCUyMiUyQyUyMnR5cGUlMjIlM0ElMjJDYW52YXMlMjIlMkMlMjJwYXJ0T2YlMjIlM0ElNUIlN0IlMjJpZCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5paWlmLmlvJTJGY29va2Jvb2slMkYzMzMzLWNob2ljZSUyRnJlY2lwZSUyRjAwMzMtY2hvaWNlJTJGbWFuaWZlc3QuanNvbiUyMiUyQyUyMnR5cGUlMjIlM0ElMjJNYW5pZmVzdCUyMiU3RCU1RCU3RA"
+        iiif-content="JTdCJTIyaWQlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmlpaWYuaW8lMkZhcGklMkZjb29rYm9vayUyRnJlY2lwZSUyRjAwMzMtY2hvaWNlJTJGY2FudmFzJTJGcDElMjN4eXdoJTNEODM3JTJDOTEzJTJDNzcxJTJDMzM0JTIyJTJDJTIydHlwZSUyMiUzQSUyMkNhbnZhcyUyMiUyQyUyMnBhcnRPZiUyMiUzQSU1QiU3QiUyMmlkJTIyJTNBJTIyaHR0cHMlM0ElMkYlMkZpaWlmLmlvJTJGYXBpJTJGY29va2Jvb2slMkZyZWNpcGUlMkYwMDMzLWNob2ljZSUyRm1hbmlmZXN0Lmpzb24lMjIlMkMlMjJ0eXBlJTIyJTNBJTIyTWFuaWZlc3QlMjIlN0QlNUQlN0Q"
       />
     </div>
   );

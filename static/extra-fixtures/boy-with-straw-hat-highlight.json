@@ -2,11 +2,11 @@
   "type": "Annotation",
   "motivation": ["highlighting"],
   "target": {
-    "id": "https://iiifmediawiki.herokuapp.com/presentation/canvas/c208117.json#xywh=50,990,2100,1755",
+    "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/canvas/p1#xywh=50,990,2100,1755",
     "type": "Canvas",
     "partOf": [
       {
-        "id": "https://iiifmediawiki.herokuapp.com/presentation/File:Baigneurs_a_Asnieres.jpg",
+        "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json",
         "type": "Manifest"
       }
     ]

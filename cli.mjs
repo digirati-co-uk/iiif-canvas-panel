@@ -32,7 +32,7 @@ yargs(hideBin(process.argv))
       fs.mkdir(path.resolve(pathToProject, 'src')).then(() =>
         Promise.all([
           fs.writeFile(path.resolve(pathToProject, 'src', 'index.js'), [
-            `import '@digirati/canvas-panel-web-components';`,
+            `import '@digirati/canvas-panel-web-components/dist/index.iife.js';`,
             `import './styles.css';`
           ].join('\n') + '\n'),
           fs.writeFile(path.resolve(pathToProject, 'src', 'styles.css'), '')
